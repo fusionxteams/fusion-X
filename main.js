@@ -134,31 +134,37 @@ if (container && typeof THREE !== 'undefined') {
     ctx.font = 'bold 80px "Segoe UI", Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    // Draw text properly
     ctx.fillText('FUSION X', 256, 64);
     
     const bannerTexture = new THREE.CanvasTexture(bannerCanvas);
     bannerTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
     
-    const bannerGeo = new THREE.PlaneGeometry(3.5, 0.8, 30, 5);
-    // Translate origin to the right edge so it attaches to the plane properly
-    bannerGeo.translate(-1.75, 0, 0); 
+    const bannerGeo = new THREE.PlaneGeometry(4.0, 0.8, 30, 5);
+    // Translate origin to the LEFT edge. 
+    // Now local X goes from 0 to +4.0. Left edge (F) is at 0, Right edge (X) is at 4.0.
+    bannerGeo.translate(2.0, 0, 0); 
     
+    // IMPORTANT: Make it readable from both sides without mirroring if possible, 
+    // but a DoubleSide material will naturally mirror the back (like a real flag).
     const bannerMat = new THREE.MeshBasicMaterial({ 
         map: bannerTexture, 
         side: THREE.DoubleSide 
     });
     const banner = new THREE.Mesh(bannerGeo, bannerMat);
-    banner.position.set(0, 0, -1.5);
-    // Rotate so it trails behind and text faces the camera correctly
+    // Position at the tail of the plane
+    banner.position.set(0, 0, -1.3);
+    
+    // Rotate so local +X (the rest of the banner) points along World -Z (backward)
+    // Local +X pointing to World -Z requires rotation by Math.PI / 2 on Y axis.
     banner.rotation.y = Math.PI / 2; 
     planeGroup.add(banner);
 
+    // Rope connecting tail to banner
     const ropeGeo = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(0, 0, -1.0), 
-        new THREE.Vector3(0, 0, -1.5)
+        new THREE.Vector3(0, 0, -0.8), // Tail
+        new THREE.Vector3(0, 0, -1.3)  // Banner attachment point
     ]);
-    const ropeMat = new THREE.LineBasicMaterial({ color: 0xffffff });
+    const ropeMat = new THREE.LineBasicMaterial({ color: 0x555555 });
     const rope = new THREE.Line(ropeGeo, ropeMat);
     planeGroup.add(rope);
 
@@ -250,30 +256,26 @@ if (container && typeof THREE !== 'undefined') {
         const nextPosition = curve.getPointAt(nextT);
         planeGroup.lookAt(nextPosition);
 
-        // Banner Wave Animation
+        // Banner Wave Animation (Corrected for new local X axis)
         for (let i = 0; i < bannerPositions.count; i++) {
             const x = bannerInitialX[i];
-            // Wave intensity increases further from attachment point (origin)
-            const wave = Math.sin((x * 4) + (time * 0.4)) * (Math.abs(x) * 0.15);
-            bannerPositions.setZ(i, wave);
+            // Wave intensity increases further from attachment point (x=0)
+            const wave = Math.sin((x * 4) - (time * 0.4)) * (x * 0.15);
+            bannerPositions.setZ(i, wave); // Displace along local Z axis (flaps side to side)
         }
         bannerPositions.needsUpdate = true;
 
         // Update HTML Popups to hover over 3D coordinates
         popups.forEach(popup => {
-            // Project 3D coordinate to 2D screen coordinate
             const vector = popup.pos.clone();
             vector.project(camera);
             
-            // Convert to CSS pixels
             const x = (vector.x * .5 + .5) * container.clientWidth;
             const y = (vector.y * -.5 + .5) * container.clientHeight;
             
             popup.element.style.left = `${x}px`;
             popup.element.style.top = `${y}px`;
 
-            // Make popup visible when plane is near, or just leave it on
-            // Let's make them pop up one by one as the plane gets close!
             const dist = planeGroup.position.distanceTo(popup.pos);
             if (dist < 4.0) {
                 popup.element.classList.add('visible');
@@ -282,7 +284,6 @@ if (container && typeof THREE !== 'undefined') {
             }
         });
 
-        // Cinematic camera pan
         camera.position.x = Math.sin(time * 0.001) * 2;
         camera.position.z = 12 + Math.cos(time * 0.001) * 2;
         camera.lookAt(0, 0, 0);

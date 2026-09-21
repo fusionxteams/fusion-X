@@ -20,23 +20,46 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     const visibleHeight = 2 * Math.tan(vFov / 2) * cameraWeb.position.z;
     const visibleWidth = visibleHeight * cameraWeb.aspect;
 
-    // 1. Procedural 3D Spider Web (Hexagon Pattern)
-    const webMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
-    const webPoints = [];
-    const radials = 8; // 8 radials gives N, S, E, W, NE, NW, SE, SW perfectly
-    
-    // Ensure the web is always large enough to cover the corners of ANY monitor size
+    // Calculate exactly how wide the screen is in 3D units at Z=0
     const maxRadius = Math.max(visibleWidth, visibleHeight) * 1.5; 
-    const rings = Math.floor(maxRadius / 3); // Dynamic ring count to keep density perfect
+    const rings = Math.floor(maxRadius / 3); 
+    const radials = 8; 
 
-    // Radials (Straight lines from center to outer edge)
+    // 1. Procedural 3D Spider Web (True 3D Cylinders to fix WebGL line dropping bugs)
+    const webGroup = new THREE.Group();
+    const silkMat = new THREE.MeshStandardMaterial({ 
+        color: 0xff5722, 
+        roughness: 0.4, 
+        metalness: 0.8,
+        transparent: true,
+        opacity: 0.8
+    });
+
+    const silkThickness = 0.15; // True 3D thickness for the web threads
+
+    function createSilkLine(p1, p2) {
+        const distance = p1.distanceTo(p2);
+        const geo = new THREE.CylinderGeometry(silkThickness, silkThickness, distance, 4);
+        const mesh = new THREE.Mesh(geo, silkMat);
+        
+        // Position at midpoint
+        const mid = p1.clone().lerp(p2, 0.5);
+        mesh.position.copy(mid);
+        
+        // Orient cylinder from p1 to p2
+        mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), p2.clone().sub(p1).normalize());
+        return mesh;
+    }
+
+    // Radials
     for (let i = 0; i < radials; i++) {
         const angle = (i / radials) * Math.PI * 2;
-        webPoints.push(new THREE.Vector3(0, 0, 0));
-        webPoints.push(new THREE.Vector3(Math.cos(angle) * maxRadius, Math.sin(angle) * maxRadius, 0));
+        const p1 = new THREE.Vector3(0, 0, 0);
+        const p2 = new THREE.Vector3(Math.cos(angle) * maxRadius, Math.sin(angle) * maxRadius, 0);
+        webGroup.add(createSilkLine(p1, p2));
     }
     
-    // Concentric Rings (Straight lines connecting adjacent radials to form octagons)
+    // Concentric Rings
     for (let r = 1; r <= rings; r++) {
         const radius = Math.pow(r / rings, 1.2) * maxRadius; 
         
@@ -46,14 +69,11 @@ if (spiderContainer && typeof THREE !== 'undefined') {
             
             const p1 = new THREE.Vector3(Math.cos(angle1) * radius, Math.sin(angle1) * radius, 0);
             const p2 = new THREE.Vector3(Math.cos(angle2) * radius, Math.sin(angle2) * radius, 0);
-            
-            webPoints.push(p1);
-            webPoints.push(p2);
+            webGroup.add(createSilkLine(p1, p2));
         }
     }
-    const webGeo = new THREE.BufferGeometry().setFromPoints(webPoints);
-    const web = new THREE.LineSegments(webGeo, webMat);
-    sceneWeb.add(web);
+    
+    sceneWeb.add(webGroup);
 
     // 2. Load Actual FUSION X Logo (using base64 to avoid local CORS issues)
     const texLoader = new THREE.TextureLoader();

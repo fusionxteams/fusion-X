@@ -440,3 +440,5 @@ body {
     pointer-events: none; 
     user-select: none;
 }
+
+.seo-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(255, 87, 34, 0.15) !important; }

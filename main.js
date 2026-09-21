@@ -19,6 +19,13 @@ if (hamburger) {
             navLinks.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
         }
     });
+
+    // Fix: Clear inline styles if resizing back to desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            navLinks.removeAttribute('style');
+        }
+    });
 }
 
 // Smooth scrolling for anchor links

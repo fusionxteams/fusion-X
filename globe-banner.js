@@ -7,7 +7,14 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
     // Transparent background so it blends with the white section
     const aspect = spinGlobeContainer.clientWidth / spinGlobeContainer.clientHeight;
     const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-    camera.position.z = 26; // Pull back so the globe fits perfectly
+    
+    // Adjust camera distance based on mobile vs desktop
+    if (aspect < 1) {
+        camera.position.z = 45; // Pull back heavily on mobile
+    } else {
+        camera.position.z = 26; // Normal desktop distance
+    }
+
     
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(spinGlobeContainer.clientWidth, spinGlobeContainer.clientHeight);
@@ -110,7 +117,16 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
     // Handle Resize
     window.addEventListener('resize', () => {
         if (!spinGlobeContainer) return;
-        camera.aspect = spinGlobeContainer.clientWidth / spinGlobeContainer.clientHeight;
+        const newAspect = spinGlobeContainer.clientWidth / spinGlobeContainer.clientHeight;
+        camera.aspect = newAspect;
+        
+        // Update distance on resize
+        if (newAspect < 1) {
+            camera.position.z = 45;
+        } else {
+            camera.position.z = 26;
+        }
+        
         camera.updateProjectionMatrix();
         renderer.setSize(spinGlobeContainer.clientWidth, spinGlobeContainer.clientHeight);
     });

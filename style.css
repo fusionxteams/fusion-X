@@ -221,9 +221,13 @@ body {
 
 /* Services Section */
 .services-section {
-    padding: 80px 50px;
+    padding: 80px 0;
     background-color: var(--bg-white);
     text-align: center;
+}
+
+.section-title {
+    padding: 0 20px;
 }
 
 .section-title h2 {
@@ -315,19 +319,50 @@ body {
         display: block;
     }
     
+    .hero {
+        flex-direction: column-reverse;
+        padding: 100px 20px 40px;
+        text-align: center;
+    }
+    
     .hero-content h1 {
         font-size: 2.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
     }
     
     .navbar {
         padding: 15px 20px;
     }
     
-    .hero {
-        padding: 100px 20px 60px;
+    .services-section {
+        padding: 60px 0;
     }
     
-    .services-section {
-        padding: 60px 20px;
+    /* Resize 3D Containers for Mobile */
+    #globe-container {
+        height: 450px;
+        width: 100%;
+    }
+    
+    #spider-container {
+        height: 450px !important;
+    }
+    
+    /* Shrink HTML Popups */
+    .map-popup {
+        font-size: 11px;
+        padding: 6px 12px;
+    }
+    
+    .web-icon {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    .section-title h2 {
+        font-size: 2rem;
     }
 }

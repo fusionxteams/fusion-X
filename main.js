@@ -47,17 +47,22 @@ if (container && typeof THREE !== 'undefined') {
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // 1. A High-Quality Flat Map
+    // 1. A High-Quality Flat Map with 3D Mountains & Snow
     const textureLoader = new THREE.TextureLoader();
-    // Using a very dark and sharp earth texture so it pops beautifully
-    const texture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-dark.jpg');
+    // Using realistic blue marble (has snow, terrain, oceans)
+    const texture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
+    // Using a bump map to extrude actual 3D mountains
+    const bumpTexture = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_bump_1024.jpg');
     
-    const mapGeo = new THREE.PlaneGeometry(24, 12);
-    const mapMat = new THREE.MeshBasicMaterial({ 
-        color: 0xffffff, // White color so the texture colors show purely
+    // Increased segments (128x64) so the geometry has enough vertices to form 3D mountains
+    const mapGeo = new THREE.PlaneGeometry(24, 12, 128, 64);
+    const mapMat = new THREE.MeshStandardMaterial({ 
+        color: 0xffffff,
         map: texture,
-        transparent: true, 
-        opacity: 0.9,
+        displacementMap: bumpTexture,
+        displacementScale: 0.6, // Extrudes mountains out of the flat map!
+        roughness: 0.8,
+        metalness: 0.1,
         side: THREE.DoubleSide
     });
     const mapPlane = new THREE.Mesh(mapGeo, mapMat);
@@ -106,7 +111,6 @@ if (container && typeof THREE !== 'undefined') {
     const finGeo = new THREE.BoxGeometry(0.05, 0.6, 0.5);
     const fin = new THREE.Mesh(finGeo, planeMat);
     fin.position.set(0, 0.3, -0.8);
-    // Sweep fin back
     fin.geometry.computeBoundingBox();
     const positions = fin.geometry.attributes.position;
     for (let i = 0; i < positions.count; i++) {
@@ -117,98 +121,100 @@ if (container && typeof THREE !== 'undefined') {
     fin.geometry.computeVertexNormals();
     planeGroup.add(fin);
 
-    // 3. Fixed Cloth Banner
+    // 3. Fixed Cloth Banner (Larger & Readable on BOTH sides)
     const bannerCanvas = document.createElement('canvas');
-    bannerCanvas.width = 512;
-    bannerCanvas.height = 128;
+    bannerCanvas.width = 1024;
+    bannerCanvas.height = 256;
     const ctx = bannerCanvas.getContext('2d');
     ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, 512, 128);
+    ctx.fillRect(0, 0, 1024, 256);
     
-    // Add orange border to banner
     ctx.strokeStyle = '#ff5722';
-    ctx.lineWidth = 10;
-    ctx.strokeRect(0, 0, 512, 128);
+    ctx.lineWidth = 15;
+    ctx.strokeRect(0, 0, 1024, 256);
 
     ctx.fillStyle = '#ff5722';
-    ctx.font = 'bold 80px "Segoe UI", Arial, sans-serif';
+    ctx.font = 'bold 160px "Segoe UI", Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('FUSION X', 256, 64);
+    ctx.fillText('FUSION X', 512, 128);
     
     const bannerTexture = new THREE.CanvasTexture(bannerCanvas);
     bannerTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
     
-    const bannerGeo = new THREE.PlaneGeometry(4.0, 0.8, 30, 5);
-    // Translate origin to the LEFT edge. 
-    // Now local X goes from 0 to +4.0. Left edge (F) is at 0, Right edge (X) is at 4.0.
-    bannerGeo.translate(2.0, 0, 0); 
+    // Increased size significantly
+    const bannerGeo = new THREE.PlaneGeometry(6.0, 1.2, 40, 5);
+    bannerGeo.translate(3.0, 0, 0); 
     
-    // IMPORTANT: Make it readable from both sides without mirroring if possible, 
-    // but a DoubleSide material will naturally mirror the back (like a real flag).
-    const bannerMat = new THREE.MeshBasicMaterial({ 
-        map: bannerTexture, 
-        side: THREE.DoubleSide 
-    });
-    const banner = new THREE.Mesh(bannerGeo, bannerMat);
-    // Position at the tail of the plane
-    banner.position.set(0, 0, -1.3);
+    // FRONT Banner
+    const bannerMatFront = new THREE.MeshBasicMaterial({ map: bannerTexture, side: THREE.FrontSide });
+    const bannerFront = new THREE.Mesh(bannerGeo, bannerMatFront);
     
-    // Rotate so local +X (the rest of the banner) points along World -Z (backward)
-    // Local +X pointing to World -Z requires rotation by Math.PI / 2 on Y axis.
-    banner.rotation.y = Math.PI / 2; 
-    planeGroup.add(banner);
+    // BACK Banner (Flipped UVs so text isn't mirrored!)
+    const bannerGeoBack = bannerGeo.clone();
+    const uvs = bannerGeoBack.attributes.uv;
+    for (let i = 0; i < uvs.count; i++) {
+        uvs.setX(i, 1 - uvs.getX(i)); // Flip X coordinate
+    }
+    const bannerMatBack = new THREE.MeshBasicMaterial({ map: bannerTexture, side: THREE.BackSide });
+    const bannerBack = new THREE.Mesh(bannerGeoBack, bannerMatBack);
 
-    // Rope connecting tail to banner
+    const bannerGroup = new THREE.Group();
+    bannerGroup.add(bannerFront);
+    bannerGroup.add(bannerBack);
+    
+    bannerGroup.position.set(0, 0, -1.3);
+    bannerGroup.rotation.y = Math.PI / 2; 
+    planeGroup.add(bannerGroup);
+
     const ropeGeo = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(0, 0, -0.8), // Tail
-        new THREE.Vector3(0, 0, -1.3)  // Banner attachment point
+        new THREE.Vector3(0, 0, -0.8),
+        new THREE.Vector3(0, 0, -1.3)
     ]);
     const ropeMat = new THREE.LineBasicMaterial({ color: 0x555555 });
     const rope = new THREE.Line(ropeGeo, ropeMat);
     planeGroup.add(rope);
 
-    // Scale down the whole airplane group slightly for better proportions
     planeGroup.scale.set(0.6, 0.6, 0.6);
+    // Raise airplane slightly higher to clear the new 3D mountains
+    planeGroup.position.y = 1.0; 
     scene.add(planeGroup);
 
-    // 4. Pop-up Services (HTML overlay projected from 3D)
+    // 4. Pop-up Services
     const services = [
-        { name: 'Brand Consulting', pos: new THREE.Vector3(-6, 0.2, -2) },     // North America
-        { name: 'SEO & Content', pos: new THREE.Vector3(1.5, 0.2, -3) },       // Europe
-        { name: 'Web Development', pos: new THREE.Vector3(6, 0.2, -2.5) },     // Asia
-        { name: 'Shopify Stores', pos: new THREE.Vector3(8.5, 0.2, 2.5) },     // Australia
-        { name: 'AI Visible Sites', pos: new THREE.Vector3(-3.5, 0.2, 3) }     // South America
+        { name: 'Brand Consulting', pos: new THREE.Vector3(-6, 0.2, -2) },
+        { name: 'SEO & Content', pos: new THREE.Vector3(1.5, 0.2, -3) },
+        { name: 'Web Development', pos: new THREE.Vector3(6, 0.2, -2.5) },
+        { name: 'Shopify Stores', pos: new THREE.Vector3(8.5, 0.2, 2.5) },
+        { name: 'AI Visible Sites', pos: new THREE.Vector3(-3.5, 0.2, 3) }
     ];
 
     const popups = [];
     services.forEach(service => {
-        // Create HTML Element
         const el = document.createElement('div');
         el.className = 'map-popup';
         el.innerText = service.name;
         container.appendChild(el);
         popups.push({ element: el, pos: service.pos, active: false });
 
-        // Add a glowing dot on the map at this location
         const dotGeo = new THREE.CircleGeometry(0.2, 16);
         const dotMat = new THREE.MeshBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
         const dot = new THREE.Mesh(dotGeo, dotMat);
         dot.rotation.x = -Math.PI / 2;
         dot.position.copy(service.pos);
-        dot.position.y = 0.05; // Slightly above map
+        dot.position.y = 0.05;
         scene.add(dot);
     });
 
-    // 5. Flight Path
+    // 5. Flight Path (Raised to clear mountains)
     const continents = [
-        new THREE.Vector3(-6, 3, -2),  
-        new THREE.Vector3(1.5, 3, -3), 
-        new THREE.Vector3(6, 3, -2.5), 
-        new THREE.Vector3(8.5, 3, 2.5),
-        new THREE.Vector3(2, 3, 1),
-        new THREE.Vector3(-3.5, 3, 3), 
-        new THREE.Vector3(-6, 3, -2)   
+        new THREE.Vector3(-6, 4, -2),  
+        new THREE.Vector3(1.5, 4, -3), 
+        new THREE.Vector3(6, 4, -2.5), 
+        new THREE.Vector3(8.5, 4, 2.5),
+        new THREE.Vector3(2, 4, 1),
+        new THREE.Vector3(-3.5, 4, 3), 
+        new THREE.Vector3(-6, 4, -2)   
     ];
     
     const curve = new THREE.CatmullRomCurve3(continents);
@@ -228,20 +234,27 @@ if (container && typeof THREE !== 'undefined') {
     pathLine.computeLineDistances();
     scene.add(pathLine);
 
-    // Lighting
-    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+    // Lighting (Enhanced for 3D mountains)
+    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambient);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    dirLight.position.set(10, 15, 5);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(10, 20, 10);
+    // Add shadow properties if we ever enable shadows
     scene.add(dirLight);
+    
+    // Add a secondary light to illuminate the dark side of mountains
+    const fillLight = new THREE.DirectionalLight(0xabcdef, 0.5);
+    fillLight.position.set(-10, 5, -10);
+    scene.add(fillLight);
 
     // Animation
     let time = 0;
     const flightDuration = 2500;
-    const bannerPositions = banner.geometry.attributes.position;
+    const bannerPositionsFront = bannerGeo.attributes.position;
+    const bannerPositionsBack = bannerGeoBack.attributes.position;
     const bannerInitialX = [];
-    for (let i = 0; i < bannerPositions.count; i++) {
-        bannerInitialX.push(bannerPositions.getX(i));
+    for (let i = 0; i < bannerPositionsFront.count; i++) {
+        bannerInitialX.push(bannerPositionsFront.getX(i));
     }
 
     function animate() {
@@ -256,16 +269,17 @@ if (container && typeof THREE !== 'undefined') {
         const nextPosition = curve.getPointAt(nextT);
         planeGroup.lookAt(nextPosition);
 
-        // Banner Wave Animation (Corrected for new local X axis)
-        for (let i = 0; i < bannerPositions.count; i++) {
+        // Banner Wave Animation
+        for (let i = 0; i < bannerPositionsFront.count; i++) {
             const x = bannerInitialX[i];
-            // Wave intensity increases further from attachment point (x=0)
             const wave = Math.sin((x * 4) - (time * 0.4)) * (x * 0.15);
-            bannerPositions.setZ(i, wave); // Displace along local Z axis (flaps side to side)
+            bannerPositionsFront.setZ(i, wave);
+            bannerPositionsBack.setZ(i, wave); // Keep back synced
         }
-        bannerPositions.needsUpdate = true;
+        bannerPositionsFront.needsUpdate = true;
+        bannerPositionsBack.needsUpdate = true;
 
-        // Update HTML Popups to hover over 3D coordinates
+        // Update HTML Popups
         popups.forEach(popup => {
             const vector = popup.pos.clone();
             vector.project(camera);

@@ -24,9 +24,9 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     // 1. Procedural 3D Spider Web (Hexagon Pattern)
     const webMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
     const webPoints = [];
-    const radials = 6; // Exactly 6 radials makes a perfect HEXAGON
-    const rings = 14;   
-    const maxRadius = 30;
+    const radials = 6; 
+    const rings = 40;   // Increased drastically to fill entire screen
+    const maxRadius = 120; // Increased drastically to fill wide monitors
 
     // Radials (Straight lines from center to outer edge)
     for (let i = 0; i < radials; i++) {
@@ -43,7 +43,6 @@ if (spiderContainer && typeof THREE !== 'undefined') {
             const angle1 = (i / radials) * Math.PI * 2;
             const angle2 = ((i + 1) % radials) * Math.PI * 2;
             
-            // Strictly flat Z=0 so the hexagon shape is geometrically perfect from any angle
             const p1 = new THREE.Vector3(Math.cos(angle1) * radius, Math.sin(angle1) * radius, 0);
             const p2 = new THREE.Vector3(Math.cos(angle2) * radius, Math.sin(angle2) * radius, 0);
             
@@ -84,7 +83,7 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     centerLogo.position.z = 0.5;
     sceneWeb.add(centerLogo);
 
-    // 3. Digital Marketing Icons (HTML Emojis - Ensures full native color on Windows/Mac)
+    // 3. Digital Marketing Icons (HTML Emojis)
     const iconData = [
         { emoji: '🔍', title: 'SEO', pos: new THREE.Vector3(-10, 8, 1) },
         { emoji: '💻', title: 'Web Sites', pos: new THREE.Vector3(12, 6, -1) },
@@ -95,8 +94,6 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     ];
     
     const iconElements = [];
-    
-    // Global target. If null, spiders wander randomly.
     let currentTarget = null; 
 
     iconData.forEach(data => {
@@ -107,9 +104,8 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         
         iconElements.push({ element: el, pos: data.pos });
 
-        // Click an HTML icon to swarm the spiders
         el.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent clicking the background
+            e.stopPropagation(); 
             currentTarget = data.pos;
             pointWeb.position.copy(currentTarget);
             pointWeb.position.z += 5;
@@ -122,38 +118,29 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         const mat = new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.9, roughness: 0.1 });
         const glow = new THREE.MeshBasicMaterial({ color: 0xff5722 });
         
-        // Body (Abdomen + Head)
         const abdomen = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), mat);
         const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), mat);
-        head.position.set(0, 0.45, 0); // Head points forward along +Y
+        head.position.set(0, 0.45, 0); 
         spider.add(abdomen, head);
         
-        // Eyes
         const eye1 = new THREE.Mesh(new THREE.SphereGeometry(0.06), glow);
         eye1.position.set(-0.12, 0.6, 0.15);
         const eye2 = new THREE.Mesh(new THREE.SphereGeometry(0.06), glow);
         eye2.position.set(0.12, 0.6, 0.15);
         spider.add(eye1, eye2);
         
-        // 8 Legs
         const legs = [];
         for (let i = 0; i < 8; i++) {
             const side = i < 4 ? -1 : 1;
             const index = i % 4;
-            
             const leg = new THREE.Group();
-            
-            // Upper leg joint
             const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.8), mat);
             upper.position.set(side * 0.4, 0.4, (index - 1.5) * 0.25);
             upper.rotation.z = side * Math.PI / 4;
             upper.rotation.x = (index - 1.5) * 0.2;
-            
-            // Lower leg joint
             const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.01, 1.0), mat);
             lower.position.set(side * 0.8, 0.4, (index - 1.5) * 0.35);
             lower.rotation.z = side * -Math.PI / 6;
-            
             leg.add(upper, lower);
             spider.add(leg);
             legs.push(leg);
@@ -162,7 +149,7 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         spider.userData = { 
             legs: legs, 
             wanderTarget: new THREE.Vector3((Math.random()-0.5)*20, (Math.random()-0.5)*20, 0.5),
-            speed: 0.01 + Math.random() * 0.02 
+            speed: 0.002 + Math.random() * 0.004 // Slower spiders!
         };
         return spider;
     }
@@ -175,14 +162,12 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         spiders.push(spider);
     }
 
-    // Lights
     const ambientWeb = new THREE.AmbientLight(0xffffff, 0.8);
     sceneWeb.add(ambientWeb);
     const pointWeb = new THREE.PointLight(0xff5722, 1, 50);
     pointWeb.position.set(0, 0, 10);
     sceneWeb.add(pointWeb);
 
-    // Clicking empty space resets the swarm to random wandering
     spiderContainer.addEventListener('click', () => {
         currentTarget = null;
         pointWeb.position.set(0, 0, 10);
@@ -198,10 +183,9 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     let webTime = 0;
     function animateWeb() {
         requestAnimationFrame(animateWeb);
-        webTime += 1;
+        webTime += 0.5; // Slow down global time step
         orbitWeb.update();
 
-        // Update HTML Emojis positioning to stick to 3D coordinates
         iconElements.forEach(icon => {
             const vector = icon.pos.clone();
             vector.project(cameraWeb);
@@ -211,54 +195,42 @@ if (spiderContainer && typeof THREE !== 'undefined') {
             icon.element.style.top = `${y}px`;
         });
 
-        // Animate Spiders
         spiders.forEach((spider, sIndex) => {
             let targetPos;
-            
             if (currentTarget) {
-                // Swarm behavior: crowd around the current target icon
                 targetPos = currentTarget.clone().add(new THREE.Vector3(Math.sin(sIndex*1.5)*3, Math.cos(sIndex*1.5)*3, 0));
             } else {
-                // Random wander behavior
                 targetPos = spider.userData.wanderTarget;
-                
-                // If reached wander target, pick a new one
                 if (spider.position.distanceTo(targetPos) < 2) {
-                    spider.userData.wanderTarget.set((Math.random()-0.5)*30, (Math.random()-0.5)*30, 0.5);
+                    spider.userData.wanderTarget.set((Math.random()-0.5)*40, (Math.random()-0.5)*40, 0.5);
                 }
             }
             
-            // Move spider towards target
             spider.position.lerp(targetPos, spider.userData.speed);
             
-            // Look at target
             const dir = targetPos.clone().sub(spider.position).normalize();
             const angle = Math.atan2(dir.y, dir.x);
-            // Smoothly rotate towards angle
             let currentAngle = spider.rotation.z;
             let diff = angle - Math.PI / 2 - currentAngle;
-            // Normalize diff to -PI to PI
             while (diff < -Math.PI) diff += Math.PI * 2;
             while (diff > Math.PI) diff -= Math.PI * 2;
             spider.rotation.z += diff * 0.1;
 
-            // Wiggle legs to simulate walking if moving
             const dist = spider.position.distanceTo(targetPos);
             if (dist > 0.5) {
                 spider.userData.legs.forEach((leg, i) => {
-                    leg.rotation.x = Math.sin(webTime * 0.2 + i) * 0.4;
-                    leg.rotation.y = Math.cos(webTime * 0.2 + i) * 0.3;
+                    // Slower leg wiggling
+                    leg.rotation.x = Math.sin(webTime * 0.1 + i) * 0.4;
+                    leg.rotation.y = Math.cos(webTime * 0.1 + i) * 0.3;
                 });
             } else {
-                // Rest
                 spider.userData.legs.forEach((leg, i) => {
-                    leg.rotation.x = (i%4 - 1.5) * 0.2; // Return to default splayed position
+                    leg.rotation.x = (i%4 - 1.5) * 0.2; 
                     leg.rotation.y = 0;
                 });
             }
         });
 
-        // Gently rotate center logo
         centerLogo.rotation.z = Math.sin(webTime * 0.01) * 0.1;
 
         rendererWeb.render(sceneWeb, cameraWeb);

@@ -20,29 +20,37 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     orbitWeb.enableZoom = false;
     orbitWeb.maxPolarAngle = Math.PI / 1.5;
 
-    // 1. Procedural 3D Spider Web (Vibrant Orange on White)
-    const webMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.6 });
+    // 1. Procedural 3D Spider Web (Classic Orb-Weaver Pattern)
+    const webMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
     const webPoints = [];
-    const radials = 16;
-    const rings = 12;
-    const maxRadius = 25;
+    const radials = 10; // Exactly 10 radials like the reference image
+    const rings = 14;   // Lots of concentric rings
+    const maxRadius = 30;
 
-    // Radials
+    // Radials (Straight lines from center to outer edge)
     for (let i = 0; i < radials; i++) {
         const angle = (i / radials) * Math.PI * 2;
         webPoints.push(new THREE.Vector3(0, 0, 0));
-        webPoints.push(new THREE.Vector3(Math.cos(angle) * maxRadius, Math.sin(angle) * maxRadius, (Math.random() - 0.5) * 2));
+        webPoints.push(new THREE.Vector3(Math.cos(angle) * maxRadius, Math.sin(angle) * maxRadius, 0));
     }
-    // Rings
+    
+    // Concentric Rings (Straight lines connecting adjacent radials to form polygons)
     for (let r = 1; r <= rings; r++) {
-        const radius = (r / rings) * maxRadius;
+        // Exponential spacing makes rings closer together near the center
+        const radius = Math.pow(r / rings, 1.2) * maxRadius; 
+        
         for (let i = 0; i < radials; i++) {
             const angle1 = (i / radials) * Math.PI * 2;
             const angle2 = ((i + 1) % radials) * Math.PI * 2;
-            const sag1 = Math.sin(angle1 * 3) * 0.5;
-            const sag2 = Math.sin(angle2 * 3) * 0.5;
-            webPoints.push(new THREE.Vector3(Math.cos(angle1) * radius, Math.sin(angle1) * radius, sag1));
-            webPoints.push(new THREE.Vector3(Math.cos(angle2) * radius, Math.sin(angle2) * radius, sag2));
+            
+            // A slight Z-curve to give it 3D depth, pulling the center backwards slightly like a real web
+            const zDepth = (1 - (radius / maxRadius)) * -3; 
+
+            const p1 = new THREE.Vector3(Math.cos(angle1) * radius, Math.sin(angle1) * radius, zDepth);
+            const p2 = new THREE.Vector3(Math.cos(angle2) * radius, Math.sin(angle2) * radius, zDepth);
+            
+            webPoints.push(p1);
+            webPoints.push(p2);
         }
     }
     const webGeo = new THREE.BufferGeometry().setFromPoints(webPoints);

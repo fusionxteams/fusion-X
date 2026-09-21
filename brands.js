@@ -2,16 +2,12 @@ const brandsContainer = document.getElementById('brands-3d-container');
 
 if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 'undefined') {
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff); // Pure white background
-    
-    // Add very light fog to fade out the logos in the back of the ring
-    scene.fog = new THREE.FogExp2(0xffffff, 0.04);
+    scene.background = new THREE.Color(0xffffff); // Pure white
+    scene.fog = new THREE.FogExp2(0xffffff, 0.015); // Fog to hide logos popping in far away
     
     const aspect = brandsContainer.clientWidth / brandsContainer.clientHeight;
-    // Tilted slightly up for a dynamic angle
-    const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-    camera.position.set(0, 3, 24);
-    camera.lookAt(0, 0, 0);
+    const camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
+    camera.position.set(0, 0, 0); // Start at origin
     
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     renderer.setSize(brandsContainer.clientWidth, brandsContainer.clientHeight);
@@ -29,8 +25,8 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
         ctx.fillRect(0, 0, 512, 512);
         
         ctx.strokeStyle = '#ff5722';
-        ctx.lineWidth = 20; 
-        ctx.strokeRect(10, 10, 492, 492); 
+        ctx.lineWidth = 16; 
+        ctx.strokeRect(8, 8, 496, 496); 
         
         const tex = new THREE.CanvasTexture(canvas);
         tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
@@ -55,7 +51,7 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
                 ctx.drawImage(img, dx, dy, dw, dh);
                 
                 // Draw border on top
-                ctx.strokeRect(10, 10, 492, 492);
+                ctx.strokeRect(8, 8, 496, 496);
                 tex.needsUpdate = true;
             };
             img.src = b64;
@@ -63,60 +59,117 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
         return tex;
     }
 
-    const carouselGroup = new THREE.Group();
-    scene.add(carouselGroup);
+    const tunnelGroup = new THREE.Group();
+    scene.add(tunnelGroup);
     
     const numCards = brandTextures.length;
-    const radius = 11; // Size of the ring
+    const cards = [];
     
-    // Build the 3D Ring
+    // Tunnel Settings
+    const tunnelDepth = 150; // Total length of the tunnel
+    const zSpacing = tunnelDepth / numCards; // Space between each card
+    
+    // Build the Infinite Tunnel
     brandTextures.forEach((b64, i) => {
         const tex = b64 === '' ? createCleanTexture(null, 'Dr. Madhavi Anjimati') : createCleanTexture(b64);
-        const geometry = new THREE.PlaneGeometry(5, 5);
+        const geometry = new THREE.PlaneGeometry(6, 6);
         const material = new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide });
         const mesh = new THREE.Mesh(geometry, material);
         
-        const angle = (i / numCards) * Math.PI * 2;
-        mesh.position.x = Math.sin(angle) * radius;
-        mesh.position.z = Math.cos(angle) * radius;
-        mesh.rotation.y = angle; // Face outward
+        // Randomly place along the edges of a circle (forming a tube/tunnel shape)
+        const angle = Math.random() * Math.PI * 2;
+        const radius = 6 + Math.random() * 4; // Distance from center of tunnel
         
-        carouselGroup.add(mesh);
+        mesh.position.x = Math.cos(angle) * radius;
+        mesh.position.y = Math.sin(angle) * radius;
+        
+        // Stagger them deeply down the Z axis (into the screen)
+        mesh.position.z = - (i * zSpacing);
+        
+        // Random slight tilts
+        mesh.rotation.x = (Math.random() - 0.5) * 0.4;
+        mesh.rotation.y = (Math.random() - 0.5) * 0.4;
+        
+        // Save base data for infinite looping
+        mesh.userData = {
+            baseAngle: angle,
+            baseRadius: radius,
+            zOffset: -(i * zSpacing)
+        };
+        
+        tunnelGroup.add(mesh);
+        cards.push(mesh);
     });
 
-    // Tilt the entire ring slightly for a better 3D perspective
-    carouselGroup.rotation.x = 0.1;
+    // Add speed lines/stars to make the tunnel feel fast
+    const particleGeo = new THREE.BufferGeometry();
+    const particleCount = 200;
+    const posArray = new Float32Array(particleCount * 3);
+    for(let i=0; i < particleCount; i++) {
+        posArray[i*3] = (Math.random() - 0.5) * 40;
+        posArray[i*3+1] = (Math.random() - 0.5) * 40;
+        posArray[i*3+2] = -Math.random() * tunnelDepth;
+    }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particleMat = new THREE.PointsMaterial({ color: 0xff5722, size: 0.1, transparent: true, opacity: 0.5 });
+    const stars = new THREE.Points(particleGeo, particleMat);
+    scene.add(stars);
 
-    let targetRotation = 0;
-    let currentRotation = 0;
+    let targetCameraZ = 0;
+    let currentCameraZ = 0;
 
-    // Calculate rotation based on window scroll
+    // Calculate forward movement based strictly on window scroll
     window.addEventListener('scroll', () => {
-        // Multiplier controls how fast it spins when you scroll
-        targetRotation = window.scrollY * 0.003;
+        // As you scroll down, targetCameraZ becomes more negative (flying into the screen)
+        // Multiplier controls how fast you fly based on scrolling
+        targetCameraZ = -(window.scrollY * 0.08);
     });
 
     // Render loop
     function animate() {
         requestAnimationFrame(animate);
         
-        // Smoothly interpolate the rotation so it feels buttery, not rigid
-        currentRotation += (targetRotation - currentRotation) * 0.08;
+        // Smoothly interpolate the camera movement
+        currentCameraZ += (targetCameraZ - currentCameraZ) * 0.08;
+        camera.position.z = currentCameraZ;
         
-        // Apply the scroll rotation
-        carouselGroup.rotation.y = currentRotation;
-        
-        // Add a very slow, continuous auto-spin so it's not dead when not scrolling
-        targetRotation += 0.0015;
+        // Auto-spin the camera slightly as it flies for a barrel-roll effect
+        camera.rotation.z = currentCameraZ * 0.005;
+        camera.position.x = Math.sin(currentCameraZ * 0.02) * 2;
+        camera.position.y = Math.cos(currentCameraZ * 0.02) * 2;
+
+        // INFINITE LOOPING LOGIC
+        cards.forEach((card) => {
+            // If the camera flies PAST the card (card is behind the camera)
+            if (card.position.z > camera.position.z + 10) {
+                // Teleport the card to the very back of the tunnel
+                card.position.z -= tunnelDepth;
+            }
+            // If the user scrolls BACKWARDS (card is too far ahead)
+            else if (card.position.z < camera.position.z - tunnelDepth) {
+                // Teleport the card forward
+                card.position.z += tunnelDepth;
+            }
+        });
+
+        // Do the same for particles
+        const positions = stars.geometry.attributes.position.array;
+        for(let i=0; i<particleCount; i++) {
+            if (positions[i*3+2] > camera.position.z + 10) {
+                positions[i*3+2] -= tunnelDepth;
+            } else if (positions[i*3+2] < camera.position.z - tunnelDepth) {
+                positions[i*3+2] += tunnelDepth;
+            }
+        }
+        stars.geometry.attributes.position.needsUpdate = true;
 
         renderer.render(scene, camera);
     }
     animate();
 
-    // Remove the "Drag to explore" text since it's scroll-based now
     const dragText = brandsContainer.parentElement.querySelector('p');
     if (dragText) {
-        dragText.innerText = "Scroll to explore";
+        dragText.innerText = "Scroll to fly through";
     }
     brandsContainer.style.cursor = 'default';
 
@@ -125,13 +178,7 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
         if (!brandsContainer) return;
         const newAspect = brandsContainer.clientWidth / brandsContainer.clientHeight;
         camera.aspect = newAspect;
-        camera.position.z = newAspect < 1 ? 32 : 24;
         camera.updateProjectionMatrix();
         renderer.setSize(brandsContainer.clientWidth, brandsContainer.clientHeight);
     });
-    
-    if (aspect < 1) {
-        camera.position.z = 32;
-        camera.updateProjectionMatrix();
-    }
 }

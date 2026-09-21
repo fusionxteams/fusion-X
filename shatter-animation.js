@@ -7,145 +7,98 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     const scene = new THREE.Scene();
     
     const aspect = shatterContainer.clientWidth / shatterContainer.clientHeight;
+    // We use an Orthographic Camera or a pulled back Perspective to make the 2D plane look flat
     const camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
-    camera.position.set(0, 5, 20);
+    camera.position.set(0, 0, 25);
     
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(shatterContainer.clientWidth, shatterContainer.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     shatterContainer.appendChild(renderer.domElement);
 
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-    scene.add(ambientLight);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    dirLight.position.set(10, 20, 10);
-    scene.add(dirLight);
-
-    // --- Create the Platform ---
-    const platformGeo = new THREE.BoxGeometry(40, 1, 10);
-    const platformMat = new THREE.MeshBasicMaterial({ color: 0xeeeeee }); // Light grey platform
+    // --- Create the Platform Line ---
+    const platformGeo = new THREE.PlaneGeometry(60, 0.2);
+    const platformMat = new THREE.MeshBasicMaterial({ color: 0x000000 }); 
     const platform = new THREE.Mesh(platformGeo, platformMat);
-    platform.position.y = -0.5;
+    platform.position.y = -5;
     scene.add(platform);
 
-    // --- Create Procedural Shadow Samurai (Cartoon Style) ---
-    const blackMat = new THREE.MeshBasicMaterial({ color: 0x000000 }); // Pure shadow
-
-    const samurai = new THREE.Group();
+    // --- Load the User's Samurai Image ---
+    const textureLoader = new THREE.TextureLoader();
+    const samuraiTexture = textureLoader.load('assets/samurai.png');
     
-    // Body
-    const body = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2.5, 1), blackMat);
-    body.position.y = 2.5;
-    samurai.add(body);
-
-    // Head (with a small samurai hat)
-    const headGroup = new THREE.Group();
-    const head = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 1.2), blackMat);
-    const hat = new THREE.Mesh(new THREE.ConeGeometry(1.2, 0.5, 4), blackMat);
-    hat.position.y = 0.85;
-    hat.rotation.y = Math.PI / 4; // Square hat
-    headGroup.add(head);
-    headGroup.add(hat);
-    headGroup.position.y = 4.3;
-    samurai.add(headGroup);
-
-    // Arms
-    const rightArmPivot = new THREE.Group();
-    rightArmPivot.position.set(-1.0, 3.5, 0); // Shoulder joint
-    const rightArm = new THREE.Mesh(new THREE.BoxGeometry(0.5, 2, 0.5), blackMat);
-    rightArm.position.y = -1; // offset so it rotates from shoulder
-    rightArmPivot.add(rightArm);
+    // We use MultiplyBlending so the white background of the image becomes fully transparent
+    // against our white HTML background, leaving only the black silhouette!
+    const samuraiMat = new THREE.MeshBasicMaterial({ 
+        map: samuraiTexture,
+        transparent: true,
+        blending: THREE.MultiplyBlending 
+    });
     
-    // Sword
-    const sword = new THREE.Mesh(new THREE.BoxGeometry(0.2, 3, 0.4), blackMat);
-    sword.position.set(0, -1.5, 1);
-    sword.rotation.x = Math.PI / 2;
-    rightArmPivot.add(sword);
-    samurai.add(rightArmPivot);
-
-    const leftArmPivot = new THREE.Group();
-    leftArmPivot.position.set(1.0, 3.5, 0);
-    const leftArm = new THREE.Mesh(new THREE.BoxGeometry(0.5, 2, 0.5), blackMat);
-    leftArm.position.y = -1;
-    leftArmPivot.add(leftArm);
-    samurai.add(leftArmPivot);
-
-    // Legs
-    const rightLegPivot = new THREE.Group();
-    rightLegPivot.position.set(-0.5, 1.25, 0);
-    const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1.5, 0.6), blackMat);
-    rightLeg.position.y = -0.75;
-    rightLegPivot.add(rightLeg);
-    samurai.add(rightLegPivot);
-
-    const leftLegPivot = new THREE.Group();
-    leftLegPivot.position.set(0.5, 1.25, 0);
-    const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1.5, 0.6), blackMat);
-    leftLeg.position.y = -0.75;
-    leftLegPivot.add(leftLeg);
-    samurai.add(leftLegPivot);
-
+    const samuraiGeo = new THREE.PlaneGeometry(12, 12);
+    const samurai = new THREE.Mesh(samuraiGeo, samuraiMat);
+    // Align his feet with the platform
+    samurai.position.set(20, 0.5, 0); 
     scene.add(samurai);
 
     // --- The "X" Target ---
     const xGroup = new THREE.Group();
     const xMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
-    const bar1 = new THREE.Mesh(new THREE.BoxGeometry(0.5, 5, 1), xMat);
+    const bar1 = new THREE.Mesh(new THREE.BoxGeometry(0.5, 8, 1), xMat);
     bar1.rotation.z = Math.PI / 4;
-    const bar2 = new THREE.Mesh(new THREE.BoxGeometry(0.5, 5, 1), xMat);
+    const bar2 = new THREE.Mesh(new THREE.BoxGeometry(0.5, 8, 1), xMat);
     bar2.rotation.z = -Math.PI / 4;
     xGroup.add(bar1);
     xGroup.add(bar2);
-    xGroup.position.set(0, 2.5, 0);
+    xGroup.position.set(-2, 0, 0);
     scene.add(xGroup);
 
-    // --- Particles ---
+    // --- Particles for the Explosion ---
     const particles = [];
     const particleGroup = new THREE.Group();
     scene.add(particleGroup);
     const orangeMat = new THREE.MeshBasicMaterial({ color: 0xff5722 });
+    const blackParticleMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
 
     function explodeX() {
         xGroup.visible = false;
-        const partGeo = new THREE.BoxGeometry(0.4, 0.4, 0.4);
+        const partGeo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
         for(let i=0; i < 150; i++) {
-            const mat = Math.random() > 0.5 ? orangeMat : blackMat;
+            const mat = Math.random() > 0.5 ? orangeMat : blackParticleMat;
             const mesh = new THREE.Mesh(partGeo, mat);
             mesh.position.copy(xGroup.position);
-            mesh.position.x += (Math.random() - 0.5) * 2;
-            mesh.position.y += (Math.random() - 0.5) * 2;
+            mesh.position.x += (Math.random() - 0.5) * 4;
+            mesh.position.y += (Math.random() - 0.5) * 4;
             
             const velocity = new THREE.Vector3(
-                (Math.random() - 0.5) * 20,
-                (Math.random()) * 20, // Blast up and out
-                (Math.random() - 0.5) * 20 + 5
+                (Math.random() - 0.5) * 30,
+                (Math.random()) * 25, // Blast up and out
+                (Math.random() - 0.5) * 20 + 10
             );
             
+            const rotSpeed = new THREE.Vector3(
+                Math.random() * 0.2, Math.random() * 0.2, Math.random() * 0.2
+            );
+
             particleGroup.add(mesh);
-            particles.push({ mesh, velocity });
+            particles.push({ mesh, velocity, rotSpeed });
         }
     }
 
     // --- Animation State Machine ---
-    let state = 'waiting'; // waiting, running, slashing, exploding, falling, done
+    let state = 'waiting'; // waiting, dashing, slashing, exploding, falling, done
     let clock = new THREE.Clock();
     let timeInState = 0;
 
     function resetSequence() {
-        state = 'running';
+        state = 'dashing';
         timeInState = 0;
         
         // Reset Samurai
-        samurai.position.set(15, 0, 0); // Start far right
-        samurai.rotation.set(0, -Math.PI / 2, 0); // Face left
+        samurai.position.set(25, 0.5, 0); // Start far right
+        samurai.rotation.set(0, 0, 0); // Upright
+        samuraiMat.opacity = 1;
         
-        // Reset limbs
-        rightArmPivot.rotation.x = 0;
-        leftArmPivot.rotation.x = 0;
-        rightLegPivot.rotation.x = 0;
-        leftLegPivot.rotation.x = 0;
-
         // Reset X
         xGroup.visible = true;
         
@@ -161,42 +114,42 @@ if (shatterContainer && typeof THREE !== 'undefined') {
 
     triggerBtn.addEventListener('click', resetSequence);
 
+    // Anime-style visual effects
+    const dashLineGeo = new THREE.PlaneGeometry(30, 0.1);
+    const dashLineMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0 });
+    const dashLine = new THREE.Mesh(dashLineGeo, dashLineMat);
+    scene.add(dashLine);
+
     function animate() {
         requestAnimationFrame(animate);
         const dt = clock.getDelta();
         timeInState += dt;
 
-        if (state === 'running') {
-            // Move left
-            samurai.position.x -= 12 * dt;
+        if (state === 'dashing') {
+            // Anime Dash (super fast slide)
+            samurai.position.x -= 40 * dt;
             
-            // Procedural running animation using Sine waves
-            const runSpeed = 15;
-            rightLegPivot.rotation.x = Math.sin(timeInState * runSpeed) * 0.8;
-            leftLegPivot.rotation.x = -Math.sin(timeInState * runSpeed) * 0.8;
-            rightArmPivot.rotation.x = -Math.sin(timeInState * runSpeed) * 0.8;
-            leftArmPivot.rotation.x = Math.sin(timeInState * runSpeed) * 0.8;
+            // Add a dash line effect
+            dashLineMat.opacity = 0.2;
+            dashLine.position.copy(samurai.position);
+            dashLine.position.x += 15;
 
             // Stop when he reaches the center (near the X)
-            if (samurai.position.x <= 3) {
+            if (samurai.position.x <= 2) {
                 state = 'slashing';
                 timeInState = 0;
+                dashLineMat.opacity = 0;
             }
         } 
         else if (state === 'slashing') {
-            // Reset legs
-            rightLegPivot.rotation.x = 0;
-            leftLegPivot.rotation.x = 0;
-            leftArmPivot.rotation.x = 0;
-
-            // Animate sword slash
-            if (timeInState < 0.2) {
-                // Raise sword
-                rightArmPivot.rotation.x = Math.PI; 
-            } else if (timeInState < 0.3) {
-                // Slash down
-                rightArmPivot.rotation.x -= 20 * dt; 
+            // Anime Slash pop (slight tilt and scale up to emphasize impact)
+            if (timeInState < 0.1) {
+                samurai.scale.set(1.1, 1.1, 1);
+                samurai.rotation.z = 0.1;
             } else {
+                samurai.scale.set(1, 1, 1);
+                samurai.rotation.z = 0;
+                
                 // Slash finished
                 state = 'exploding';
                 timeInState = 0;
@@ -210,11 +163,13 @@ if (shatterContainer && typeof THREE !== 'undefined') {
             // Simulate particles
             particles.forEach(p => {
                 p.mesh.position.addScaledVector(p.velocity, dt);
-                p.velocity.y -= 25 * dt; // Gravity
+                p.mesh.rotation.x += p.rotSpeed.x;
+                p.mesh.rotation.y += p.rotSpeed.y;
+                p.velocity.y -= 30 * dt; // Gravity
             });
 
             // The word "FUSION" pushes him back
-            if (timeInState > 0.5) {
+            if (timeInState > 0.4) {
                 state = 'falling';
                 timeInState = 0;
             }
@@ -222,20 +177,27 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         else if (state === 'falling') {
             particles.forEach(p => {
                 p.mesh.position.addScaledVector(p.velocity, dt);
-                p.velocity.y -= 25 * dt; 
+                p.mesh.rotation.x += p.rotSpeed.x;
+                p.mesh.rotation.y += p.rotSpeed.y;
+                p.velocity.y -= 30 * dt; 
             });
 
             // Push Samurai back and knock him over
-            if (samurai.position.x < 10) {
-                samurai.position.x += 8 * dt; // slide right
-                samurai.position.y += 4 * dt; // knock up slightly
-            } else if (samurai.position.y > 0) {
-                samurai.position.y -= 10 * dt; // fall down
+            if (samurai.position.x < 15) {
+                samurai.position.x += 15 * dt; // slide right violently
+                samurai.position.y += 2 * dt; // knock up slightly
+            } else if (samurai.position.y > -3) {
+                samurai.position.y -= 15 * dt; // fall down off platform
             }
 
             // Rotate him flat on his back
             if (samurai.rotation.z > -Math.PI / 2) {
-                samurai.rotation.z -= 5 * dt; 
+                samurai.rotation.z -= 6 * dt; 
+            }
+
+            // Fade out
+            if (samuraiMat.opacity > 0) {
+                samuraiMat.opacity -= 1 * dt;
             }
 
             if (timeInState > 2.0) {

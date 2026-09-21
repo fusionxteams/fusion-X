@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+<canvas id="c" width="500" height="500"></canvas>
+<script>
+const bgCanvas = document.getElementById('c');
+const ctx = bgCanvas.getContext('2d');
+ctx.strokeStyle = 'rgba(255, 87, 34, 0.8)';
+ctx.lineWidth = 1.5;
+const cx = 250, cy = 250, radials = 6, maxRadius = 200, rings = 25;
+ctx.beginPath();
+for (let i = 0; i < radials; i++) {
+    const angle = (i / radials) * Math.PI * 2 + (Math.PI / 6);
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(angle) * maxRadius, cy + Math.sin(angle) * maxRadius);
+}
+for (let r = 1; r <= rings; r++) {
+    const radius = (r / rings) * maxRadius;
+    for (let i = 0; i < radials; i++) {
+        const angle1 = (i / radials) * Math.PI * 2 + (Math.PI / 6);
+        const angle2 = ((i + 1) % radials) * Math.PI * 2 + (Math.PI / 6);
+        if (i === 0) ctx.moveTo(cx + Math.cos(angle1) * radius, cy + Math.sin(angle1) * radius);
+        ctx.lineTo(cx + Math.cos(angle2) * radius, cy + Math.sin(angle2) * radius);
+    }
+}
+ctx.stroke();
+console.log('done');
+</script>
+</body>
+</html>

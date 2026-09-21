@@ -41,37 +41,44 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
         
         // 1. Draw Spider Web Background
-        ctx.strokeStyle = 'rgba(255, 87, 34, 0.8)'; // Increased opacity
-        ctx.lineWidth = 1.5; // Slightly thicker
+        ctx.strokeStyle = 'rgba(255, 87, 34, 0.8)'; 
+        ctx.lineWidth = 1.5; 
         
         const cx = bgCanvas.width / 2;
         const cy = bgCanvas.height / 2;
-        const radials = 6; // Perfect Hexagon
+        const radials = 6; 
         const maxRadius = Math.max(bgCanvas.width, bgCanvas.height) * 0.8;
         const rings = 25;
         
+        // Draw Radials
         ctx.beginPath();
-        
-        // Radials
         for (let i = 0; i < radials; i++) {
-            // Add an offset so the hexagon points straight up/down for a more symmetrical look
             const angle = (i / radials) * Math.PI * 2 + (Math.PI / 6);
             ctx.moveTo(cx, cy);
             ctx.lineTo(cx + Math.cos(angle) * maxRadius, cy + Math.sin(angle) * maxRadius);
         }
-        
-        // Rings layer by layer (perfectly even spacing)
-        for (let r = 1; r <= rings; r++) {
-            const radius = (r / rings) * maxRadius; // Perfectly even layers
-            for (let i = 0; i < radials; i++) {
-                const angle1 = (i / radials) * Math.PI * 2 + (Math.PI / 6);
-                const angle2 = ((i + 1) % radials) * Math.PI * 2 + (Math.PI / 6);
-                
-                if (i === 0) ctx.moveTo(cx + Math.cos(angle1) * radius, cy + Math.sin(angle1) * radius);
-                ctx.lineTo(cx + Math.cos(angle2) * radius, cy + Math.sin(angle2) * radius);
-            }
-        }
         ctx.stroke();
+        
+        // Draw Rings layer by layer (perfectly even spacing)
+        for (let r = 1; r <= rings; r++) {
+            const radius = (r / rings) * maxRadius;
+            ctx.beginPath();
+            
+            for (let i = 0; i < radials; i++) {
+                const angle = (i / radials) * Math.PI * 2 + (Math.PI / 6);
+                const px = cx + Math.cos(angle) * radius;
+                const py = cy + Math.sin(angle) * radius;
+                
+                if (i === 0) {
+                    ctx.moveTo(px, py);
+                } else {
+                    ctx.lineTo(px, py);
+                }
+            }
+            
+            ctx.closePath(); // Closes the hexagon perfectly back to the first point
+            ctx.stroke(); // Stroke each layer individually to guarantee rendering
+        }
     }
     
     draw2DWeb();

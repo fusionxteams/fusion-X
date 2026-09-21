@@ -71,6 +71,7 @@ if (container && typeof THREE !== 'undefined') {
 
     // 2. The Detailed Commercial Jet Airplane Model
     const planeGroup = new THREE.Group();
+    const jetModel = new THREE.Group(); // Subgroup for roll animation
     
     const planeMat = new THREE.MeshStandardMaterial({ 
         color: 0xffffff, 
@@ -87,21 +88,21 @@ if (container && typeof THREE !== 'undefined') {
     const bodyGeo = new THREE.CylinderGeometry(0.2, 0.2, 2.5, 32);
     bodyGeo.rotateX(Math.PI / 2); // Point forward along Z
     const body = new THREE.Mesh(bodyGeo, planeMat);
-    planeGroup.add(body);
+    jetModel.add(body);
     
     // Aerodynamic Nose
     const noseGeo = new THREE.SphereGeometry(0.2, 32, 32);
     const nose = new THREE.Mesh(noseGeo, planeMat);
     nose.scale.set(1, 1, 3); // Stretch into an aerodynamic cone
     nose.position.set(0, 0, 1.25);
-    planeGroup.add(nose);
+    jetModel.add(nose);
 
     // Tail Cone
     const tailConeGeo = new THREE.ConeGeometry(0.2, 0.8, 32);
     tailConeGeo.rotateX(-Math.PI / 2); // Point backward
     const tailCone = new THREE.Mesh(tailConeGeo, planeMat);
     tailCone.position.set(0, 0, -1.65);
-    planeGroup.add(tailCone);
+    jetModel.add(tailCone);
 
     // Cockpit Windshield (Glass)
     const cockpitGeo = new THREE.SphereGeometry(0.18, 32, 16, 0, Math.PI, 0, Math.PI / 2.5);
@@ -109,7 +110,7 @@ if (container && typeof THREE !== 'undefined') {
     const cockpit = new THREE.Mesh(cockpitGeo, windowMat);
     cockpit.scale.set(1, 0.6, 1.5);
     cockpit.position.set(0, 0.08, 1.35); // Placed perfectly on the upper nose
-    planeGroup.add(cockpit);
+    jetModel.add(cockpit);
 
     // Passenger Windows (Rows on both sides)
     for (let i = 0; i < 10; i++) {
@@ -118,13 +119,13 @@ if (container && typeof THREE !== 'undefined') {
         const winL = new THREE.Mesh(winGeo, windowMat);
         winL.position.set(-0.201, 0.05, 0.8 - (i * 0.18));
         winL.rotation.y = -Math.PI / 2;
-        planeGroup.add(winL);
+        jetModel.add(winL);
 
         // Right Window
         const winR = new THREE.Mesh(winGeo, windowMat);
         winR.position.set(0.201, 0.05, 0.8 - (i * 0.18));
         winR.rotation.y = Math.PI / 2;
-        planeGroup.add(winR);
+        jetModel.add(winR);
     }
 
     // Main Wings (Commercial swept-back wings)
@@ -142,7 +143,7 @@ if (container && typeof THREE !== 'undefined') {
     const wings = new THREE.Mesh(wingGeo, planeMat);
     wings.rotation.x = Math.PI / 2;
     wings.position.set(0, -0.05, 0.2); // Positioned slightly under fuselage
-    planeGroup.add(wings);
+    jetModel.add(wings);
     
     // Vertical Tail Fin
     const finGeo = new THREE.BoxGeometry(0.04, 0.7, 0.6);
@@ -157,7 +158,7 @@ if (container && typeof THREE !== 'undefined') {
         }
     }
     fin.geometry.computeVertexNormals();
-    planeGroup.add(fin);
+    jetModel.add(fin);
 
     // Horizontal Stabilizers (Rear small wings)
     const hStabShape = new THREE.Shape();
@@ -173,7 +174,9 @@ if (container && typeof THREE !== 'undefined') {
     const hStab = new THREE.Mesh(hStabGeo, planeMat);
     hStab.rotation.x = Math.PI / 2;
     hStab.position.set(0, 0.05, -1.4);
-    planeGroup.add(hStab);
+    jetModel.add(hStab);
+
+    planeGroup.add(jetModel); // Add jet model to main plane group
 
     // 3. Fixed Cloth Banner (Larger & Readable on BOTH sides)
     const bannerCanvas = document.createElement('canvas');
@@ -236,7 +239,7 @@ if (container && typeof THREE !== 'undefined') {
     planeGroup.position.y = 1.0; 
     scene.add(planeGroup);
 
-    // 4. Pop-up Services
+    // 4. Pop-up Services (Interactive)
     const services = [
         { name: 'Brand Consulting', pos: new THREE.Vector3(-6, 0.2, -2) },
         { name: 'SEO & Content', pos: new THREE.Vector3(1.5, 0.2, -3) },
@@ -250,6 +253,10 @@ if (container && typeof THREE !== 'undefined') {
         const el = document.createElement('div');
         el.className = 'map-popup';
         el.innerText = service.name;
+        // Scroll to services section when clicked
+        el.addEventListener('click', () => {
+            document.querySelector('#services').scrollIntoView({ behavior: 'smooth' });
+        });
         container.appendChild(el);
         popups.push({ element: el, pos: service.pos, active: false });
 
@@ -295,15 +302,50 @@ if (container && typeof THREE !== 'undefined') {
     scene.add(ambient);
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
     dirLight.position.set(10, 20, 10);
-    // Add shadow properties if we ever enable shadows
     scene.add(dirLight);
     
-    // Add a secondary light to illuminate the dark side of mountains
     const fillLight = new THREE.DirectionalLight(0xabcdef, 0.5);
     fillLight.position.set(-10, 5, -10);
     scene.add(fillLight);
 
-    // Animation
+    // --- INTERACTIVITY LOGIC ---
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let isRolling = false;
+    let rollAngle = 0;
+    
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    // Mouse Parallax Tracking
+    document.addEventListener('mousemove', (event) => {
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+        mouseX = (event.clientX - windowHalfX);
+        mouseY = (event.clientY - windowHalfY);
+        
+        // Raycaster mouse for clicking
+        if (container) {
+            const rect = container.getBoundingClientRect();
+            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        }
+    });
+
+    // Barrel Roll on Click
+    container.addEventListener('click', () => {
+        raycaster.setFromCamera(mouse, camera);
+        // Intersect against the jet model
+        const intersects = raycaster.intersectObject(jetModel, true);
+        if (intersects.length > 0 && !isRolling) {
+            isRolling = true;
+            rollAngle = 0;
+        }
+    });
+
+    // Animation Loop
     let time = 0;
     const flightDuration = 2500;
     const bannerPositionsFront = bannerGeo.attributes.position;
@@ -324,6 +366,16 @@ if (container && typeof THREE !== 'undefined') {
         const nextT = ((time + 1) % flightDuration) / flightDuration;
         const nextPosition = curve.getPointAt(nextT);
         planeGroup.lookAt(nextPosition);
+
+        // Barrel Roll Animation
+        if (isRolling) {
+            rollAngle += 0.15;
+            jetModel.rotation.z = rollAngle;
+            if (rollAngle >= Math.PI * 2) {
+                isRolling = false;
+                jetModel.rotation.z = 0;
+            }
+        }
 
         // Banner Wave Animation
         for (let i = 0; i < bannerPositionsFront.count; i++) {
@@ -354,8 +406,13 @@ if (container && typeof THREE !== 'undefined') {
             }
         });
 
-        camera.position.x = Math.sin(time * 0.001) * 2;
-        camera.position.z = 12 + Math.cos(time * 0.001) * 2;
+        // Interactive Mouse Parallax Camera
+        targetX = mouseX * 0.005;
+        targetY = mouseY * 0.005;
+        camera.position.x += (Math.sin(time * 0.001) * 2 + targetX - camera.position.x) * 0.05;
+        camera.position.z += (12 + Math.cos(time * 0.001) * 2 + targetY - camera.position.z) * 0.05;
+        // Add a slight vertical tilt based on mouse Y
+        camera.position.y += (14 - targetY - camera.position.y) * 0.05;
         camera.lookAt(0, 0, 0);
 
         renderer.render(scene, camera);

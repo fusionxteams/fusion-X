@@ -170,11 +170,12 @@ body {
     border-radius: 20px;
     font-size: 13px;
     font-weight: bold;
-    pointer-events: none;
+    cursor: pointer; /* Intractable */
+    pointer-events: auto; /* Allow clicking */
     transform: translate(-50%, -50%);
     box-shadow: 0 5px 15px rgba(255, 87, 34, 0.4);
     opacity: 0;
-    transition: opacity 0.5s ease, transform 0.3s ease;
+    transition: opacity 0.5s ease, transform 0.3s ease, background 0.3s ease;
     z-index: 10;
     white-space: nowrap;
 }
@@ -182,6 +183,12 @@ body {
 .map-popup.visible {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1.1);
+}
+
+.map-popup.visible:hover {
+    background: rgba(255, 255, 255, 0.95);
+    color: #ff5722;
+    transform: translate(-50%, -50%) scale(1.2);
 }
 
 /* Services Section */

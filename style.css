@@ -150,12 +150,36 @@ body {
     animation: fadeLeft 1s ease forwards;
     min-height: 400px;
     width: 100%;
+    position: relative; /* Important for absolute popups */
 }
 
 .hero-image canvas {
     max-width: 100%;
     outline: none;
-    filter: drop-shadow(0 20px 40px rgba(255, 87, 34, 0.2));
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+}
+
+/* 3D Map Popups */
+.map-popup {
+    position: absolute;
+    background: rgba(255, 87, 34, 0.9); /* Fusion X orange */
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.4);
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.3s ease;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+.map-popup.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
 }
 
 /* Services Section */

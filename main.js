@@ -24,26 +24,22 @@ if (hamburger) {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        
-        // Hide mobile menu on click
         if (window.innerWidth <= 768 && navLinks.style.display === 'flex') {
             navLinks.style.display = 'none';
         }
-
         document.querySelector(this.getAttribute('href')).scrollIntoView({
             behavior: 'smooth'
         });
     });
 });
 
-// --- Three.js: Flat World Map & Flight Banner ---
+// --- Three.js: Flat World Map, Perfect Airplane, & Popups ---
 const container = document.getElementById('globe-container');
 if (container && typeof THREE !== 'undefined') {
     const scene = new THREE.Scene();
     
-    // Camera setup for a cool isometric view of the flat map
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(0, 12, 16);
+    camera.position.set(0, 14, 12);
     camera.lookAt(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -51,127 +47,186 @@ if (container && typeof THREE !== 'undefined') {
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // 1. The Flat World Map
+    // 1. A High-Quality Flat Map
     const textureLoader = new THREE.TextureLoader();
-    // Load from CDN to avoid local file:// CORS issues
-    const texture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-topology.png');
+    // Using a very dark and sharp earth texture so it pops beautifully
+    const texture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-dark.jpg');
     
-    // Create the map plane (24x12 to match 2:1 equirectangular ratio)
     const mapGeo = new THREE.PlaneGeometry(24, 12);
     const mapMat = new THREE.MeshBasicMaterial({ 
-        color: 0xff5722, 
+        color: 0xffffff, // White color so the texture colors show purely
         map: texture,
         transparent: true, 
-        opacity: 0.5,
+        opacity: 0.9,
         side: THREE.DoubleSide
     });
     const mapPlane = new THREE.Mesh(mapGeo, mapMat);
     mapPlane.rotation.x = -Math.PI / 2; // Lay it flat
     scene.add(mapPlane);
 
-    // Add a subtle grid underneath for a digital tracking feel
-    const gridHelper = new THREE.GridHelper(24, 24, 0xdddddd, 0xeeeeee);
-    gridHelper.position.y = -0.1;
-    scene.add(gridHelper);
-
-    // 2. The Flight (Airplane)
+    // 2. The Perfect Sleek Airplane Model
     const planeGroup = new THREE.Group();
     
-    // Plane Body
-    const bodyGeo = new THREE.ConeGeometry(0.3, 1.8, 16);
-    bodyGeo.rotateX(Math.PI / 2); // Point forward along Z axis
-    const planeMat = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.3, roughness: 0.4 });
+    // Fuselage (Sleek body)
+    const bodyGeo = new THREE.CylinderGeometry(0.1, 0.3, 2, 16);
+    bodyGeo.rotateX(Math.PI / 2); // Point forward
+    const planeMat = new THREE.MeshStandardMaterial({ 
+        color: 0xffffff, 
+        metalness: 0.5, 
+        roughness: 0.1 
+    });
     const body = new THREE.Mesh(bodyGeo, planeMat);
     planeGroup.add(body);
     
-    // Wings
-    const wingGeo = new THREE.BoxGeometry(2.5, 0.05, 0.5);
+    // Nose Cone
+    const noseGeo = new THREE.ConeGeometry(0.1, 0.5, 16);
+    noseGeo.rotateX(Math.PI / 2);
+    const nose = new THREE.Mesh(noseGeo, planeMat);
+    nose.position.set(0, 0, 1.25);
+    planeGroup.add(nose);
+
+    // Delta Wings (swept back)
+    const shape = new THREE.Shape();
+    shape.moveTo(0, 0);
+    shape.lineTo(1.5, -0.8);
+    shape.lineTo(1.5, -1.0);
+    shape.lineTo(0, -0.2);
+    shape.lineTo(-1.5, -1.0);
+    shape.lineTo(-1.5, -0.8);
+    shape.lineTo(0, 0);
+    
+    const extrudeSettings = { depth: 0.05, bevelEnabled: true, bevelSegments: 2, steps: 1, bevelSize: 0.02, bevelThickness: 0.02 };
+    const wingGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
     const wings = new THREE.Mesh(wingGeo, planeMat);
-    wings.position.set(0, 0, 0.2);
+    wings.rotation.x = Math.PI / 2;
+    wings.position.set(0, 0, 0.5);
     planeGroup.add(wings);
     
-    // Tail Stabilizers
-    const tailGeo = new THREE.BoxGeometry(1, 0.05, 0.3);
-    const tail = new THREE.Mesh(tailGeo, planeMat);
-    tail.position.set(0, 0, -0.7);
-    planeGroup.add(tail);
-    
-    const finGeo = new THREE.BoxGeometry(0.05, 0.5, 0.4);
+    // Tail Stabilizer
+    const finGeo = new THREE.BoxGeometry(0.05, 0.6, 0.5);
     const fin = new THREE.Mesh(finGeo, planeMat);
-    fin.position.set(0, 0.25, -0.7);
+    fin.position.set(0, 0.3, -0.8);
+    // Sweep fin back
+    fin.geometry.computeBoundingBox();
+    const positions = fin.geometry.attributes.position;
+    for (let i = 0; i < positions.count; i++) {
+        if (positions.getY(i) > 0) {
+            positions.setZ(i, positions.getZ(i) - 0.2);
+        }
+    }
+    fin.geometry.computeVertexNormals();
     planeGroup.add(fin);
 
-    // 3. The Cloth Banner ("Fusion X")
+    // 3. Fixed Cloth Banner
     const bannerCanvas = document.createElement('canvas');
     bannerCanvas.width = 512;
     bannerCanvas.height = 128;
     const ctx = bannerCanvas.getContext('2d');
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, 512, 128);
+    
+    // Add orange border to banner
+    ctx.strokeStyle = '#ff5722';
+    ctx.lineWidth = 10;
+    ctx.strokeRect(0, 0, 512, 128);
+
     ctx.fillStyle = '#ff5722';
-    ctx.font = 'bold 70px "Segoe UI", Arial, sans-serif';
+    ctx.font = 'bold 80px "Segoe UI", Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+    // Draw text properly
     ctx.fillText('FUSION X', 256, 64);
     
     const bannerTexture = new THREE.CanvasTexture(bannerCanvas);
+    bannerTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
     
     const bannerGeo = new THREE.PlaneGeometry(3.5, 0.8, 30, 5);
-    bannerGeo.translate(1.75, 0, 0); // Translate so origin is at left edge
+    // Translate origin to the right edge so it attaches to the plane properly
+    bannerGeo.translate(-1.75, 0, 0); 
     
     const bannerMat = new THREE.MeshBasicMaterial({ 
         map: bannerTexture, 
         side: THREE.DoubleSide 
     });
     const banner = new THREE.Mesh(bannerGeo, bannerMat);
-    banner.position.set(0, 0, -1.2);
-    banner.rotation.y = -Math.PI / 2;
+    banner.position.set(0, 0, -1.5);
+    // Rotate so it trails behind and text faces the camera correctly
+    banner.rotation.y = Math.PI / 2; 
     planeGroup.add(banner);
 
-    // Rope
     const ropeGeo = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(0, 0, -0.9), 
-        new THREE.Vector3(0, 0, -1.2)
+        new THREE.Vector3(0, 0, -1.0), 
+        new THREE.Vector3(0, 0, -1.5)
     ]);
-    const ropeMat = new THREE.LineBasicMaterial({ color: 0x333333 });
+    const ropeMat = new THREE.LineBasicMaterial({ color: 0xffffff });
     const rope = new THREE.Line(ropeGeo, ropeMat);
     planeGroup.add(rope);
 
+    // Scale down the whole airplane group slightly for better proportions
+    planeGroup.scale.set(0.6, 0.6, 0.6);
     scene.add(planeGroup);
 
-    // 4. Flight Path
+    // 4. Pop-up Services (HTML overlay projected from 3D)
+    const services = [
+        { name: 'Brand Consulting', pos: new THREE.Vector3(-6, 0.2, -2) },     // North America
+        { name: 'SEO & Content', pos: new THREE.Vector3(1.5, 0.2, -3) },       // Europe
+        { name: 'Web Development', pos: new THREE.Vector3(6, 0.2, -2.5) },     // Asia
+        { name: 'Shopify Stores', pos: new THREE.Vector3(8.5, 0.2, 2.5) },     // Australia
+        { name: 'AI Visible Sites', pos: new THREE.Vector3(-3.5, 0.2, 3) }     // South America
+    ];
+
+    const popups = [];
+    services.forEach(service => {
+        // Create HTML Element
+        const el = document.createElement('div');
+        el.className = 'map-popup';
+        el.innerText = service.name;
+        container.appendChild(el);
+        popups.push({ element: el, pos: service.pos, active: false });
+
+        // Add a glowing dot on the map at this location
+        const dotGeo = new THREE.CircleGeometry(0.2, 16);
+        const dotMat = new THREE.MeshBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
+        const dot = new THREE.Mesh(dotGeo, dotMat);
+        dot.rotation.x = -Math.PI / 2;
+        dot.position.copy(service.pos);
+        dot.position.y = 0.05; // Slightly above map
+        scene.add(dot);
+    });
+
+    // 5. Flight Path
     const continents = [
-        new THREE.Vector3(-7, 2.5, -3),
-        new THREE.Vector3(1, 2.5, -4),
-        new THREE.Vector3(7, 2.5, -2),
-        new THREE.Vector3(9, 2.5, 3),
-        new THREE.Vector3(2, 2.5, 1.5),
-        new THREE.Vector3(-4, 2.5, 3),
-        new THREE.Vector3(-7, 2.5, -3)
+        new THREE.Vector3(-6, 3, -2),  
+        new THREE.Vector3(1.5, 3, -3), 
+        new THREE.Vector3(6, 3, -2.5), 
+        new THREE.Vector3(8.5, 3, 2.5),
+        new THREE.Vector3(2, 3, 1),
+        new THREE.Vector3(-3.5, 3, 3), 
+        new THREE.Vector3(-6, 3, -2)   
     ];
     
     const curve = new THREE.CatmullRomCurve3(continents);
     curve.closed = true;
 
-    const pathPoints = curve.getPoints(150);
+    const pathPoints = curve.getPoints(200);
     const pathGeo = new THREE.BufferGeometry().setFromPoints(pathPoints);
     const pathMat = new THREE.LineDashedMaterial({ 
         color: 0xff9800, 
-        dashSize: 0.3, 
-        gapSize: 0.2, 
-        linewidth: 2,
+        dashSize: 0.2, 
+        gapSize: 0.1, 
+        linewidth: 1,
         transparent: true,
-        opacity: 0.6
+        opacity: 0.5
     });
     const pathLine = new THREE.Line(pathGeo, pathMat);
     pathLine.computeLineDistances();
     scene.add(pathLine);
 
     // Lighting
-    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambient);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-    dirLight.position.set(5, 10, 5);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    dirLight.position.set(10, 15, 5);
     scene.add(dirLight);
 
     // Animation
@@ -195,15 +250,41 @@ if (container && typeof THREE !== 'undefined') {
         const nextPosition = curve.getPointAt(nextT);
         planeGroup.lookAt(nextPosition);
 
+        // Banner Wave Animation
         for (let i = 0; i < bannerPositions.count; i++) {
             const x = bannerInitialX[i];
-            const wave = Math.sin((x * 4) - (time * 0.3)) * (x * 0.15);
+            // Wave intensity increases further from attachment point (origin)
+            const wave = Math.sin((x * 4) + (time * 0.4)) * (Math.abs(x) * 0.15);
             bannerPositions.setZ(i, wave);
         }
         bannerPositions.needsUpdate = true;
 
-        camera.position.x = Math.sin(time * 0.001) * 3;
-        camera.position.z = 16 + Math.cos(time * 0.001) * 2;
+        // Update HTML Popups to hover over 3D coordinates
+        popups.forEach(popup => {
+            // Project 3D coordinate to 2D screen coordinate
+            const vector = popup.pos.clone();
+            vector.project(camera);
+            
+            // Convert to CSS pixels
+            const x = (vector.x * .5 + .5) * container.clientWidth;
+            const y = (vector.y * -.5 + .5) * container.clientHeight;
+            
+            popup.element.style.left = `${x}px`;
+            popup.element.style.top = `${y}px`;
+
+            // Make popup visible when plane is near, or just leave it on
+            // Let's make them pop up one by one as the plane gets close!
+            const dist = planeGroup.position.distanceTo(popup.pos);
+            if (dist < 4.0) {
+                popup.element.classList.add('visible');
+            } else {
+                popup.element.classList.remove('visible');
+            }
+        });
+
+        // Cinematic camera pan
+        camera.position.x = Math.sin(time * 0.001) * 2;
+        camera.position.z = 12 + Math.cos(time * 0.001) * 2;
         camera.lookAt(0, 0, 0);
 
         renderer.render(scene, camera);
@@ -211,7 +292,6 @@ if (container && typeof THREE !== 'undefined') {
     
     animate();
 
-    // Handle Resize
     window.addEventListener('resize', () => {
         if (!container) return;
         camera.aspect = container.clientWidth / container.clientHeight;

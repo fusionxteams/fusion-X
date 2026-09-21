@@ -18,6 +18,18 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     rendererWeb.domElement.style.zIndex = '3';
     spiderContainer.appendChild(rendererWeb.domElement);
 
+    let centerLogo = { rotation: { z: 0 } };
+
+    // 3. Digital Marketing Icons (HTML Emojis)
+    const iconData = [
+        { emoji: '🔍', title: 'SEO', pos: new THREE.Vector3(-10, 8, 1) },
+        { emoji: '💻', title: 'Web Sites', pos: new THREE.Vector3(12, 6, -1) },
+        { emoji: '🤖', title: 'AI Future', pos: new THREE.Vector3(-12, -6, 2) },
+        { emoji: '📱', title: 'Social', pos: new THREE.Vector3(10, -9, 0) },
+        { emoji: '📈', title: 'Analytics', pos: new THREE.Vector3(0, -12, 1) },
+        { emoji: '🎯', title: 'Ads', pos: new THREE.Vector3(0, 12, -2) }
+    ];
+
     // 1. Pure 2D HTML Canvas Spider Web (100% bug-free, perfect 360 degrees)
     const bgCanvas = document.getElementById('web-bg-canvas');
     const ctx = bgCanvas.getContext('2d');
@@ -29,8 +41,8 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
         
         // 1. Draw Spider Web Background
-        ctx.strokeStyle = 'rgba(255, 87, 34, 0.3)'; // Slightly fainter for background
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(255, 87, 34, 0.8)'; // Increased opacity
+        ctx.lineWidth = 1.5; // Slightly thicker
         
         const cx = bgCanvas.width / 2;
         const cy = bgCanvas.height / 2;
@@ -59,7 +71,7 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         ctx.stroke();
 
         // 2. Draw Bold Network Links connecting all Icons to Center and Each Other
-        ctx.strokeStyle = 'rgba(255, 87, 34, 0.8)';
+        ctx.strokeStyle = 'rgba(255, 87, 34, 1.0)';
         ctx.lineWidth = 3;
         ctx.beginPath();
         
@@ -85,19 +97,8 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         
         ctx.stroke();
     }
+    
     draw2DWeb();
-
-    let centerLogo = { rotation: { z: 0 } };
-
-    // 3. Digital Marketing Icons (HTML Emojis)
-    const iconData = [
-        { emoji: '🔍', title: 'SEO', pos: new THREE.Vector3(-10, 8, 1) },
-        { emoji: '💻', title: 'Web Sites', pos: new THREE.Vector3(12, 6, -1) },
-        { emoji: '🤖', title: 'AI Future', pos: new THREE.Vector3(-12, -6, 2) },
-        { emoji: '📱', title: 'Social', pos: new THREE.Vector3(10, -9, 0) },
-        { emoji: '📈', title: 'Analytics', pos: new THREE.Vector3(0, -12, 1) },
-        { emoji: '🎯', title: 'Ads', pos: new THREE.Vector3(0, 12, -2) }
-    ];
     
     const iconElements = [];
     let currentTarget = null; 

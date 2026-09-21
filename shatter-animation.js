@@ -150,8 +150,12 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         timeInState += dt;
 
         if (state === 'dashing') {
-            // Anime Dash (super fast slide)
-            samurai.position.x -= 40 * dt;
+            // Slower movement so the user can clearly see him run in
+            samurai.position.x -= 12 * dt;
+            
+            // Add a bounding/bobbing effect to simulate "running" with a static image
+            // Math.abs(Math.sin) creates a bouncing curve
+            samurai.position.y = 0.5 + Math.abs(Math.sin(timeInState * 12)) * 0.8;
             
             // Add a dash line effect
             dashLineMat.opacity = 0.2;
@@ -163,8 +167,10 @@ if (shatterContainer && typeof THREE !== 'undefined') {
                 state = 'slashing';
                 timeInState = 0;
                 dashLineMat.opacity = 0;
+                samurai.position.y = 0.5; // Plant feet firmly
             }
         } 
+
         else if (state === 'slashing') {
             // Anime Slash pop (slight tilt and scale up to emphasize impact)
             if (timeInState < 0.1) {

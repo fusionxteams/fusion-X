@@ -69,57 +69,111 @@ if (container && typeof THREE !== 'undefined') {
     mapPlane.rotation.x = -Math.PI / 2; // Lay it flat
     scene.add(mapPlane);
 
-    // 2. The Perfect Sleek Airplane Model
+    // 2. The Detailed Commercial Jet Airplane Model
     const planeGroup = new THREE.Group();
     
-    // Fuselage (Sleek body)
-    const bodyGeo = new THREE.CylinderGeometry(0.1, 0.3, 2, 16);
-    bodyGeo.rotateX(Math.PI / 2); // Point forward
     const planeMat = new THREE.MeshStandardMaterial({ 
         color: 0xffffff, 
-        metalness: 0.5, 
-        roughness: 0.1 
+        metalness: 0.3, 
+        roughness: 0.2 
     });
+    const windowMat = new THREE.MeshStandardMaterial({
+        color: 0x112233, // Dark glass
+        metalness: 0.9,
+        roughness: 0.1
+    });
+
+    // Fuselage (Straight body for a commercial jet look)
+    const bodyGeo = new THREE.CylinderGeometry(0.2, 0.2, 2.5, 32);
+    bodyGeo.rotateX(Math.PI / 2); // Point forward along Z
     const body = new THREE.Mesh(bodyGeo, planeMat);
     planeGroup.add(body);
     
-    // Nose Cone
-    const noseGeo = new THREE.ConeGeometry(0.1, 0.5, 16);
-    noseGeo.rotateX(Math.PI / 2);
+    // Aerodynamic Nose
+    const noseGeo = new THREE.SphereGeometry(0.2, 32, 32);
     const nose = new THREE.Mesh(noseGeo, planeMat);
+    nose.scale.set(1, 1, 3); // Stretch into an aerodynamic cone
     nose.position.set(0, 0, 1.25);
     planeGroup.add(nose);
 
-    // Delta Wings (swept back)
+    // Tail Cone
+    const tailConeGeo = new THREE.ConeGeometry(0.2, 0.8, 32);
+    tailConeGeo.rotateX(-Math.PI / 2); // Point backward
+    const tailCone = new THREE.Mesh(tailConeGeo, planeMat);
+    tailCone.position.set(0, 0, -1.65);
+    planeGroup.add(tailCone);
+
+    // Cockpit Windshield (Glass)
+    const cockpitGeo = new THREE.SphereGeometry(0.18, 32, 16, 0, Math.PI, 0, Math.PI / 2.5);
+    cockpitGeo.rotateX(Math.PI / 2.2);
+    const cockpit = new THREE.Mesh(cockpitGeo, windowMat);
+    cockpit.scale.set(1, 0.6, 1.5);
+    cockpit.position.set(0, 0.08, 1.35); // Placed perfectly on the upper nose
+    planeGroup.add(cockpit);
+
+    // Passenger Windows (Rows on both sides)
+    for (let i = 0; i < 10; i++) {
+        // Left Window
+        const winGeo = new THREE.CircleGeometry(0.025, 16);
+        const winL = new THREE.Mesh(winGeo, windowMat);
+        winL.position.set(-0.201, 0.05, 0.8 - (i * 0.18));
+        winL.rotation.y = -Math.PI / 2;
+        planeGroup.add(winL);
+
+        // Right Window
+        const winR = new THREE.Mesh(winGeo, windowMat);
+        winR.position.set(0.201, 0.05, 0.8 - (i * 0.18));
+        winR.rotation.y = Math.PI / 2;
+        planeGroup.add(winR);
+    }
+
+    // Main Wings (Commercial swept-back wings)
     const shape = new THREE.Shape();
     shape.moveTo(0, 0);
-    shape.lineTo(1.5, -0.8);
-    shape.lineTo(1.5, -1.0);
-    shape.lineTo(0, -0.2);
-    shape.lineTo(-1.5, -1.0);
-    shape.lineTo(-1.5, -0.8);
+    shape.lineTo(2.2, -0.6);
+    shape.lineTo(2.2, -1.0);
+    shape.lineTo(0, 0.2);
+    shape.lineTo(-2.2, -1.0);
+    shape.lineTo(-2.2, -0.6);
     shape.lineTo(0, 0);
     
-    const extrudeSettings = { depth: 0.05, bevelEnabled: true, bevelSegments: 2, steps: 1, bevelSize: 0.02, bevelThickness: 0.02 };
+    const extrudeSettings = { depth: 0.06, bevelEnabled: true, bevelSegments: 2, steps: 1, bevelSize: 0.02, bevelThickness: 0.02 };
     const wingGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
     const wings = new THREE.Mesh(wingGeo, planeMat);
     wings.rotation.x = Math.PI / 2;
-    wings.position.set(0, 0, 0.5);
+    wings.position.set(0, -0.05, 0.2); // Positioned slightly under fuselage
     planeGroup.add(wings);
     
-    // Tail Stabilizer
-    const finGeo = new THREE.BoxGeometry(0.05, 0.6, 0.5);
+    // Vertical Tail Fin
+    const finGeo = new THREE.BoxGeometry(0.04, 0.7, 0.6);
     const fin = new THREE.Mesh(finGeo, planeMat);
-    fin.position.set(0, 0.3, -0.8);
+    fin.position.set(0, 0.35, -1.4);
+    // Sweep fin back via vertex manipulation
     fin.geometry.computeBoundingBox();
     const positions = fin.geometry.attributes.position;
     for (let i = 0; i < positions.count; i++) {
         if (positions.getY(i) > 0) {
-            positions.setZ(i, positions.getZ(i) - 0.2);
+            positions.setZ(i, positions.getZ(i) - 0.4);
         }
     }
     fin.geometry.computeVertexNormals();
     planeGroup.add(fin);
+
+    // Horizontal Stabilizers (Rear small wings)
+    const hStabShape = new THREE.Shape();
+    hStabShape.moveTo(0, 0);
+    hStabShape.lineTo(0.8, -0.3);
+    hStabShape.lineTo(0.8, -0.5);
+    hStabShape.lineTo(0, 0.1);
+    hStabShape.lineTo(-0.8, -0.5);
+    hStabShape.lineTo(-0.8, -0.3);
+    hStabShape.lineTo(0, 0);
+    
+    const hStabGeo = new THREE.ExtrudeGeometry(hStabShape, extrudeSettings);
+    const hStab = new THREE.Mesh(hStabGeo, planeMat);
+    hStab.rotation.x = Math.PI / 2;
+    hStab.position.set(0, 0.05, -1.4);
+    planeGroup.add(hStab);
 
     // 3. Fixed Cloth Banner (Larger & Readable on BOTH sides)
     const bannerCanvas = document.createElement('canvas');

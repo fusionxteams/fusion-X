@@ -156,7 +156,7 @@ if (spiderContainer) {
             // Draw Realistic Spider
             ctx.save();
             ctx.translate(spider.x, spider.y);
-            ctx.rotate(angle - Math.PI / 2); // Rotate so head faces direction of travel
+            ctx.rotate(angle + Math.PI / 2); // Rotate so head faces direction of travel
             
             // Draw Legs
             ctx.strokeStyle = '#222222';

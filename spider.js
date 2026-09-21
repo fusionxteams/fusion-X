@@ -15,12 +15,19 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     rendererWeb.setPixelRatio(window.devicePixelRatio);
     spiderContainer.appendChild(rendererWeb.domElement);
 
+    // Calculate exactly how wide the screen is in 3D units at Z=0
+    const vFov = (cameraWeb.fov * Math.PI) / 180;
+    const visibleHeight = 2 * Math.tan(vFov / 2) * cameraWeb.position.z;
+    const visibleWidth = visibleHeight * cameraWeb.aspect;
+
     // 1. Procedural 3D Spider Web (Hexagon Pattern)
     const webMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
     const webPoints = [];
     const radials = 6; 
-    const rings = 40;   // Increased drastically to fill entire screen
-    const maxRadius = 120; // Increased drastically to fill wide monitors
+    
+    // Ensure the web is always large enough to cover the corners of ANY monitor size
+    const maxRadius = Math.max(visibleWidth, visibleHeight) * 1.5; 
+    const rings = Math.floor(maxRadius / 3); // Dynamic ring count to keep density perfect
 
     // Radials (Straight lines from center to outer edge)
     for (let i = 0; i < radials; i++) {

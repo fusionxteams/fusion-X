@@ -6,7 +6,8 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     sceneWeb.fog = new THREE.FogExp2(0xffffff, 0.015);
 
     const cameraWeb = new THREE.PerspectiveCamera(45, spiderContainer.clientWidth / spiderContainer.clientHeight, 0.1, 1000);
-    cameraWeb.position.set(0, -15, 25);
+    // Looking directly down at the flat web to perfectly see the geometric hexagon pattern
+    cameraWeb.position.set(0, 0, 45); 
     cameraWeb.lookAt(0, 0, 0);
 
     const rendererWeb = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -20,11 +21,11 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     orbitWeb.enableZoom = false;
     orbitWeb.maxPolarAngle = Math.PI / 1.5;
 
-    // 1. Procedural 3D Spider Web (Classic Orb-Weaver Pattern)
+    // 1. Procedural 3D Spider Web (Hexagon Pattern)
     const webMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
     const webPoints = [];
-    const radials = 10; // Exactly 10 radials like the reference image
-    const rings = 14;   // Lots of concentric rings
+    const radials = 6; // Exactly 6 radials makes a perfect HEXAGON
+    const rings = 14;   
     const maxRadius = 30;
 
     // Radials (Straight lines from center to outer edge)
@@ -34,20 +35,17 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         webPoints.push(new THREE.Vector3(Math.cos(angle) * maxRadius, Math.sin(angle) * maxRadius, 0));
     }
     
-    // Concentric Rings (Straight lines connecting adjacent radials to form polygons)
+    // Concentric Rings (Straight lines connecting adjacent radials to form hexagons)
     for (let r = 1; r <= rings; r++) {
-        // Exponential spacing makes rings closer together near the center
         const radius = Math.pow(r / rings, 1.2) * maxRadius; 
         
         for (let i = 0; i < radials; i++) {
             const angle1 = (i / radials) * Math.PI * 2;
             const angle2 = ((i + 1) % radials) * Math.PI * 2;
             
-            // A slight Z-curve to give it 3D depth, pulling the center backwards slightly like a real web
-            const zDepth = (1 - (radius / maxRadius)) * -3; 
-
-            const p1 = new THREE.Vector3(Math.cos(angle1) * radius, Math.sin(angle1) * radius, zDepth);
-            const p2 = new THREE.Vector3(Math.cos(angle2) * radius, Math.sin(angle2) * radius, zDepth);
+            // Strictly flat Z=0 so the hexagon shape is geometrically perfect from any angle
+            const p1 = new THREE.Vector3(Math.cos(angle1) * radius, Math.sin(angle1) * radius, 0);
+            const p2 = new THREE.Vector3(Math.cos(angle2) * radius, Math.sin(angle2) * radius, 0);
             
             webPoints.push(p1);
             webPoints.push(p2);
@@ -86,49 +84,36 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     centerLogo.position.z = 0.5;
     sceneWeb.add(centerLogo);
 
-    // 3. Digital Marketing Icons (Solid Orange with White Text)
+    // 3. Digital Marketing Icons (HTML Emojis - Ensures full native color on Windows/Mac)
     const iconData = [
-        { emoji: 'SEO', title: 'Search', pos: new THREE.Vector3(-10, 8, 1) },
-        { emoji: 'DEV', title: 'Web Sites', pos: new THREE.Vector3(12, 6, -1) },
-        { emoji: 'AI', title: 'Future', pos: new THREE.Vector3(-12, -6, 2) },
-        { emoji: 'ADS', title: 'Social', pos: new THREE.Vector3(10, -9, 0) },
-        { emoji: 'ROI', title: 'Analytics', pos: new THREE.Vector3(0, -12, 1) },
-        { emoji: 'BRAND', title: 'Identity', pos: new THREE.Vector3(0, 12, -2) }
+        { emoji: '🔍', title: 'SEO', pos: new THREE.Vector3(-10, 8, 1) },
+        { emoji: '💻', title: 'Web Sites', pos: new THREE.Vector3(12, 6, -1) },
+        { emoji: '🤖', title: 'AI Future', pos: new THREE.Vector3(-12, -6, 2) },
+        { emoji: '📱', title: 'Social', pos: new THREE.Vector3(10, -9, 0) },
+        { emoji: '📈', title: 'Analytics', pos: new THREE.Vector3(0, -12, 1) },
+        { emoji: '🎯', title: 'Ads', pos: new THREE.Vector3(0, 12, -2) }
     ];
     
-    const iconMeshes = [];
+    const iconElements = [];
+    
+    // Global target. If null, spiders wander randomly.
+    let currentTarget = null; 
+
     iconData.forEach(data => {
-        const canvas = document.createElement('canvas');
-        canvas.width = 256; canvas.height = 256;
-        const ctx = canvas.getContext('2d');
+        const el = document.createElement('div');
+        el.className = 'web-icon';
+        el.innerHTML = `<span>${data.emoji}</span> ${data.title}`;
+        spiderContainer.appendChild(el);
         
-        // Solid Orange Circle
-        ctx.fillStyle = '#ff5722';
-        ctx.beginPath();
-        ctx.arc(128, 128, 120, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 10;
-        ctx.stroke();
+        iconElements.push({ element: el, pos: data.pos });
 
-        // White Text (using letters instead of emojis so it ALWAYS renders correctly)
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 50px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(data.emoji, 128, 100);
-
-        ctx.font = 'bold 24px Arial';
-        ctx.fillText(data.title, 128, 170);
-
-        const tex = new THREE.CanvasTexture(canvas);
-        const geo = new THREE.PlaneGeometry(5, 5);
-        const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true });
-        const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.copy(data.pos);
-        mesh.userData = { isIcon: true, targetPos: data.pos.clone() };
-        sceneWeb.add(mesh);
-        iconMeshes.push(mesh);
+        // Click an HTML icon to swarm the spiders
+        el.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent clicking the background
+            currentTarget = data.pos;
+            pointWeb.position.copy(currentTarget);
+            pointWeb.position.z += 5;
+        });
     });
 
     // 4. Detailed 3D Spiders
@@ -197,44 +182,10 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     pointWeb.position.set(0, 0, 10);
     sceneWeb.add(pointWeb);
 
-    // Interaction (Raycaster)
-    const raycasterWeb = new THREE.Raycaster();
-    const mouseWeb = new THREE.Vector2();
-    
-    // Global target. If null, spiders wander randomly.
-    let currentTarget = null; 
-
-    spiderContainer.addEventListener('mousemove', (e) => {
-        const rect = spiderContainer.getBoundingClientRect();
-        mouseWeb.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-        mouseWeb.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-        
-        raycasterWeb.setFromCamera(mouseWeb, cameraWeb);
-        const intersects = raycasterWeb.intersectObjects(iconMeshes);
-        
-        iconMeshes.forEach(mesh => mesh.scale.set(1, 1, 1));
-        if (intersects.length > 0) {
-            spiderContainer.style.cursor = 'pointer';
-            intersects[0].object.scale.set(1.2, 1.2, 1.2); // Hover effect
-        } else {
-            spiderContainer.style.cursor = 'default';
-        }
-    });
-
-    spiderContainer.addEventListener('click', (e) => {
-        raycasterWeb.setFromCamera(mouseWeb, cameraWeb);
-        const intersects = raycasterWeb.intersectObjects(iconMeshes);
-        
-        if (intersects.length > 0) {
-            // Swarm to the clicked icon
-            currentTarget = intersects[0].object.userData.targetPos;
-            pointWeb.position.copy(currentTarget);
-            pointWeb.position.z += 5;
-        } else {
-            // Click empty space: release the swarm back to random wandering
-            currentTarget = null;
-            pointWeb.position.set(0, 0, 10);
-        }
+    // Clicking empty space resets the swarm to random wandering
+    spiderContainer.addEventListener('click', () => {
+        currentTarget = null;
+        pointWeb.position.set(0, 0, 10);
     });
 
     window.addEventListener('resize', () => {
@@ -249,6 +200,16 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         requestAnimationFrame(animateWeb);
         webTime += 1;
         orbitWeb.update();
+
+        // Update HTML Emojis positioning to stick to 3D coordinates
+        iconElements.forEach(icon => {
+            const vector = icon.pos.clone();
+            vector.project(cameraWeb);
+            const x = (vector.x * .5 + .5) * spiderContainer.clientWidth;
+            const y = (vector.y * -.5 + .5) * spiderContainer.clientHeight;
+            icon.element.style.left = `${x}px`;
+            icon.element.style.top = `${y}px`;
+        });
 
         // Animate Spiders
         spiders.forEach((spider, sIndex) => {

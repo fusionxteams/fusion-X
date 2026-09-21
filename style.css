@@ -191,6 +191,34 @@ body {
     transform: translate(-50%, -50%) scale(1.2);
 }
 
+/* Spider Web HTML Icons (Emojis) */
+.web-icon {
+    position: absolute;
+    background: white;
+    color: #ff5722;
+    border: 3px solid #ff5722;
+    padding: 10px 15px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.2);
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.web-icon:hover {
+    background: #ff5722;
+    color: white;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
 /* Services Section */
 .services-section {
     padding: 80px 50px;

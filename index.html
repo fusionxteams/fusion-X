@@ -64,37 +64,20 @@
         </div>
     </section>
 
-    <!-- OUR TRUSTED BRANDS 3D CAROUSEL -->
-    <section id="brands" class="brands-section" style="padding: 80px 0; background-color: #ffffff; overflow: hidden;">
-        <div class="section-title">
-            <h2 style="text-align: center; margin-bottom: 20px;">Our Trusted Brands</h2>
-            <p style="text-align: center; color: #666; margin-bottom: 50px;">Drag to spin the 3D carousel</p>
+    <!-- OUR TRUSTED BRANDS 3D WEBGL -->
+    <section id="brands" class="brands-section" style="padding: 0; background-color: #ffffff; position: relative; overflow: hidden;">
+        <div class="section-title" style="position: absolute; top: 40px; width: 100%; z-index: 10; pointer-events: none;">
+            <h2 style="text-align: center; margin-bottom: 10px;">Our Trusted Brands</h2>
+            <p style="text-align: center; color: #ff5722;">Drag to explore</p>
         </div>
-        
-        <div class="brands-scene">
-            <div class="brands-carousel" id="html-3d-carousel">
-                <div class="brand-card"><img src="bhawani.png" alt="Bhawani Corner Glassware"></div>
-                <div class="brand-card"><img src="truly.jpg" alt="Truly Yours"></div>
-                <div class="brand-card"><img src="energy.png" alt="The Energy Bags"></div>
-                <div class="brand-card"><img src="bikerz.jpg" alt="Bikerzmodule"></div>
-                <div class="brand-card"><img src="meeras.webp" alt="Meeras Beauty Parlour"></div>
-                <div class="brand-card"><img src="offhuman.jpg" alt="Offhuman"></div>
-                <div class="brand-card"><img src="sridhar.webp" alt="Sridhar Food House"></div>
-                <div class="brand-card">
-                    <div style="text-align: center; color: #ff5722; font-weight: bold; font-size: 1rem; line-height: 1.2;">
-                        <i class="fas fa-user-md" style="font-size: 2rem; margin-bottom: 5px;"></i><br>
-                        Dr. Madhavi<br>Anjimati
-                    </div>
-                </div>
-                <div class="brand-card"><img src="nilaro.png" alt="Nilaro"></div>
-            </div>
-        </div>
+        <div id="brands-3d-container" style="width: 100%; height: 600px; cursor: grab;"></div>
     </section>
 
     <!-- Scripts -->
     <script src="main.js"></script>
     <script src="logo_b64.js"></script>
     <script src="spider.js"></script>
-    <script src="carousel.js"></script>
+    <script src="brands_b64.js"></script>
+    <script src="brands.js"></script>
 </body>
 </html>

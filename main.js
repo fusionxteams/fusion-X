@@ -9,12 +9,13 @@ if (hamburger) {
         } else {
             navLinks.style.display = 'flex';
             navLinks.style.flexDirection = 'column';
+            navLinks.style.alignItems = 'center'; // Center the links!
             navLinks.style.position = 'absolute';
             navLinks.style.top = '70px';
             navLinks.style.left = '0';
             navLinks.style.width = '100%';
             navLinks.style.background = 'white';
-            navLinks.style.padding = '20px 0';
+            navLinks.style.padding = '30px 0'; // A bit more padding
             navLinks.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
         }
     });

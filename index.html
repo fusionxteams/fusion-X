@@ -45,6 +45,13 @@
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
             transform-origin: top center;
         }
+
+        @media (max-width: 768px) {
+            .charm-string {
+                display: none !important;
+            }
+        }
+
         @keyframes swing {
             0% { transform: rotate(12deg); }
             100% { transform: rotate(-12deg); }

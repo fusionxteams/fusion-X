@@ -104,4 +104,16 @@ document.addEventListener("DOMContentLoaded", () => {
     charmElement.addEventListener('touchstart', startDrag, { passive: false });
     window.addEventListener('touchmove', drag, { passive: false });
     window.addEventListener('touchend', endDrag);
+
+    // Fade out charm when scrolling down
+    stringElement.style.transition = 'opacity 0.3s ease';
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            stringElement.style.opacity = '0';
+            stringElement.style.pointerEvents = 'none';
+        } else {
+            stringElement.style.opacity = '1';
+            stringElement.style.pointerEvents = 'auto';
+        }
+    });
 });

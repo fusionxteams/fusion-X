@@ -46,10 +46,10 @@ if (container && typeof THREE !== 'undefined') {
         const currentAspect = container.clientWidth / container.clientHeight;
         if (currentAspect < 1) {
             // Mobile (tall screen) - pull camera back so the 24-width map fits
-            camera.position.set(0, 24, 18);
+            camera.position.set(0, 32, 24);
         } else {
-            // Desktop (wide screen)
-            camera.position.set(0, 14, 12);
+            // Desktop (wide screen) - Zoomed out to show full map with breathing room
+            camera.position.set(0, 18, 17);
         }
         camera.lookAt(0, 0, 0);
     }

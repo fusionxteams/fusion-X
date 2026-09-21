@@ -89,8 +89,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 120px 50px 80px;
-    min-height: 80vh;
+    padding: 160px 50px 80px;
+    min-height: 100vh;
     background: linear-gradient(135deg, #ffffff 0%, #fff3e0 100%);
     box-sizing: border-box;
 }
@@ -102,7 +102,7 @@ body {
 }
 
 .hero-content h1 {
-    font-size: 3.5rem;
+    font-size: 4rem;
     line-height: 1.2;
     margin-bottom: 20px;
     color: var(--text-dark);
@@ -113,7 +113,7 @@ body {
 }
 
 .hero-content p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.6;
     color: var(--text-light);
     margin-bottom: 40px;
@@ -137,25 +137,24 @@ body {
 
 .btn-primary {
     background-color: var(--primary-orange);
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-orange-dark);
     transform: translateY(-2px);
-    color: #fff;
+    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.6);
 }
 
 .btn-secondary {
     background-color: transparent;
     color: var(--primary-orange);
-    border: 2px solid var(--primary-orange);
+    border: 1px solid var(--primary-orange);
 }
 
 .btn-secondary:hover {
-    background-color: rgba(255, 87, 34, 0.1);
-    transform: translateY(-2px);
+    background-color: var(--primary-orange);
+    color: white;
 }
 
 .hero-image {
@@ -164,7 +163,7 @@ body {
     justify-content: center;
     align-items: center;
     animation: fadeLeft 1s ease forwards;
-    min-height: 400px;
+    min-height: 650px;
     width: 100%;
     position: relative; /* Important for absolute popups */
 }

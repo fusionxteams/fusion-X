@@ -116,7 +116,7 @@ function startSequence() {
     triggerBtn.style.opacity = '0';
     samuraiImg.style.transition = 'none';
     samuraiImg.style.transform = 'translateX(100vw)';
-    samuraiImg.classList.remove('is-slashing', 'is-done');
+    samuraiImg.classList.remove('is-slashing', 'is-done', 'is-leaning');
     samuraiImg.classList.add('is-running'); // Start moving his legs
     
     dashLine.style.transition = 'none';
@@ -168,22 +168,14 @@ function startSequence() {
                 subText.style.opacity = '1';
             }, 600);
             
-            // Push Samurai away
+            // Samurai falls back and leans on the text
             setTimeout(() => {
                 samuraiImg.classList.remove('is-slashing');
-                samuraiImg.classList.add('is-done');
-                samuraiImg.style.transition = 'transform 1s ease, opacity 0.5s ease';
-                samuraiImg.style.transform = 'translateX(-150vw)';
-                samuraiImg.style.opacity = '0';
+                samuraiImg.classList.add('is-leaning');
                 
                 setTimeout(() => {
                     triggerBtn.style.opacity = '1';
                     isAnimating = false;
-                    // Reset opacity for next run without showing him move back
-                    setTimeout(() => {
-                        samuraiImg.style.transition = 'none';
-                        samuraiImg.style.opacity = '1';
-                    }, 500);
                 }, 1000);
             }, 800);
             

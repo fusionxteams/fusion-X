@@ -64,10 +64,19 @@ body {
     color: var(--primary-orange);
 }
 
+.nav-links a.active,
+.nav-links li a.active {
+    color: var(--primary-orange);
+    text-shadow: 0 0 12px rgba(255, 87, 34, 0.4);
+    font-weight: 600;
+}
+
 .hamburger {
     display: none;
-    font-size: 24px;
+    font-size: 1.8rem;
     cursor: pointer;
+    color: var(--primary-orange);
+    z-index: 1001;
 }
 
 /* Hero Section */
@@ -351,6 +360,10 @@ body {
         height: 450px !important;
     }
     
+    #center-logo-html {
+        width: 140px !important; /* Scale logo down drastically to fit mobile */
+    }
+    
     /* Shrink HTML Popups */
     .map-popup {
         font-size: 11px;
@@ -358,8 +371,9 @@ body {
     }
     
     .web-icon {
-        font-size: 12px;
-        padding: 8px 12px;
+        font-size: 10px;
+        padding: 4px 8px;
+        border-radius: 12px;
     }
     
     .section-title h2 {

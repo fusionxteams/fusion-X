@@ -261,33 +261,31 @@ if (container && typeof THREE !== 'undefined') {
     planeGroup.position.y = 1.0; 
     scene.add(planeGroup);
 
-    // 4. Pop-up Services (Interactive)
-    const services = [
-        { name: 'Brand Consulting', pos: new THREE.Vector3(-6, 0.2, -2) },
-        { name: 'SEO & Content', pos: new THREE.Vector3(1.5, 0.2, -3) },
-        { name: 'Web Development', pos: new THREE.Vector3(6, 0.2, -2.5) },
-        { name: 'Shopify Stores', pos: new THREE.Vector3(8.5, 0.2, 2.5) },
-        { name: 'AI Visible Sites', pos: new THREE.Vector3(-3.5, 0.2, 3) }
+    // 4. City Locations on the Map (matching the dot locations roughly)
+    const locations = [
+        { name: 'New York, USA', pos: new THREE.Vector3(-6, 0.2, -2) },
+        { name: 'London, UK', pos: new THREE.Vector3(1.5, 0.2, -3) },
+        { name: 'Dubai, UAE', pos: new THREE.Vector3(6, 0.2, -2.5) },
+        { name: 'Sydney, AUS', pos: new THREE.Vector3(8.5, 0.2, 2.5) },
+        { name: 'São Paulo, BR', pos: new THREE.Vector3(-3.5, 0.2, 3) }
     ];
 
     const popups = [];
-    services.forEach(service => {
+    locations.forEach(location => {
         const el = document.createElement('div');
         el.className = 'map-popup';
-        el.innerText = service.name;
-        // Scroll to services section when clicked
-        el.addEventListener('click', () => {
-            document.querySelector('#services').scrollIntoView({ behavior: 'smooth' });
-        });
+        // Add a small location pin icon before the text
+        el.innerHTML = `<i class="fas fa-map-marker-alt" style="margin-right: 5px; color: #ff5722;"></i> ${location.name}`;
+        
         container.appendChild(el);
-        popups.push({ element: el, pos: service.pos, active: false });
+        popups.push({ element: el, pos: location.pos, active: false });
 
         const dotGeo = new THREE.CircleGeometry(0.2, 16);
         const dotMat = new THREE.MeshBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
         const dot = new THREE.Mesh(dotGeo, dotMat);
         dot.rotation.x = -Math.PI / 2;
-        dot.position.copy(service.pos);
-        dot.position.y = 0.05;
+        dot.position.copy(location.pos);
+        dot.position.y = 0.05; // slightly above map
         scene.add(dot);
     });
 

@@ -89,8 +89,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 160px 50px 80px;
-    min-height: 100vh;
+    padding: 130px 50px 60px;
+    min-height: 85vh;
     background: linear-gradient(135deg, #ffffff 0%, #fff3e0 100%);
     box-sizing: border-box;
 }
@@ -163,7 +163,7 @@ body {
     justify-content: center;
     align-items: center;
     animation: fadeLeft 1s ease forwards;
-    min-height: 650px;
+    min-height: 550px;
     width: 100%;
     position: relative; /* Important for absolute popups */
 }

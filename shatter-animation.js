@@ -2,7 +2,6 @@
 const shatterContainer = document.getElementById('shatter-canvas-container');
 const triggerBtn = document.getElementById('trigger-shatter-btn');
 const revealText = document.getElementById('fusion-reveal-text');
-const subText = document.getElementById('fusion-subtext');
 const samuraiImg = document.getElementById('html-samurai');
 const xGlow = document.getElementById('x-glow');
 
@@ -44,7 +43,7 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         }
         
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        const material = new THREE.LineBasicMaterial({ color: 0x00d4ff, linewidth: 2 });
+        const material = new THREE.LineBasicMaterial({ color: 0x00d4ff, linewidth: 2, transparent: true });
         return new THREE.Line(geometry, material);
     }
 
@@ -120,7 +119,6 @@ function startSequence() {
     
     revealText.style.opacity = '0';
     revealText.style.transform = 'scale(0.5)';
-    subText.style.opacity = '0';
     xGlow.style.opacity = '0';
     
     // Force DOM Reflow
@@ -154,11 +152,6 @@ function startSequence() {
             setTimeout(() => {
                 xGlow.style.opacity = '1';
             }, 300);
-
-            // "UNLEASHED" text
-            setTimeout(() => {
-                subText.style.opacity = '1';
-            }, 600);
             
             // Samurai falls back and leans on the text
             setTimeout(() => {

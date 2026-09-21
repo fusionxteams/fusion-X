@@ -217,15 +217,17 @@ if (container && typeof THREE !== 'undefined') {
     bannerGroup.add(bannerFront);
     bannerGroup.add(bannerBack);
     
-    bannerGroup.position.set(0, 0, -1.3);
+    // Position the banner significantly behind the longer jet model (Tail ends at z = -2.05)
+    bannerGroup.position.set(0, 0, -3.5);
     bannerGroup.rotation.y = Math.PI / 2; 
     planeGroup.add(bannerGroup);
 
+    // Tow rope connecting the very tip of the tail cone to the front of the banner
     const ropeGeo = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(0, 0, -0.8),
-        new THREE.Vector3(0, 0, -1.3)
+        new THREE.Vector3(0, 0, -2.05), // Tip of the tail cone
+        new THREE.Vector3(0, 0, -3.5)   // Front edge of the banner
     ]);
-    const ropeMat = new THREE.LineBasicMaterial({ color: 0x555555 });
+    const ropeMat = new THREE.LineBasicMaterial({ color: 0x222222, linewidth: 2 });
     const rope = new THREE.Line(ropeGeo, ropeMat);
     planeGroup.add(rope);
 

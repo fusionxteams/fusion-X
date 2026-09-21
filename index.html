@@ -49,28 +49,65 @@
     </header>
 
     <!-- IMPACT & STATS SECTION -->
-    <section id="impact" style="padding: 100px 20px; background: linear-gradient(145deg, #111111, #1a1a1a); color: #ffffff; text-align: center; border-bottom: 5px solid #ff5722;">
+    <section id="impact" style="padding: 100px 20px; background-color: #ffffff; color: #333; text-align: center; border-bottom: 2px solid #f0f0f0; overflow: hidden;">
         <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 style="font-size: 2.8rem; margin-bottom: 25px; font-weight: 800; line-height: 1.2;">
+            <h2 style="font-size: 2.8rem; margin-bottom: 25px; font-weight: 800; line-height: 1.2; color: #111;">
                 Boost Your <span style="color: #ff5722;">Digital Presence</span> Throughout All Digital Space
             </h2>
-            <p style="font-size: 1.15rem; color: #cccccc; max-width: 850px; margin: 0 auto 60px auto; line-height: 1.7;">
+            <p style="font-size: 1.15rem; color: #555; max-width: 850px; margin: 0 auto 60px auto; line-height: 1.7;">
                 As a fast-growing <strong>digital marketing agency</strong>, we don't just build websites—we engineer complete digital ecosystems. Through advanced <strong>search engine optimization (SEO)</strong> and strategic brand positioning, we ensure your brand dominates the digital space, driving high-intent organic traffic, aggressive lead generation, and sustainable digital growth.
             </p>
             
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px;">
+            <div class="impact-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
                 <!-- Stat 1 -->
-                <div style="background: rgba(255, 255, 255, 0.03); padding: 50px 30px; border-radius: 16px; border: 1px solid rgba(255, 87, 34, 0.15); flex: 1; min-width: 300px; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="font-size: 4rem; font-weight: 900; color: #ff5722; margin-bottom: 15px; text-shadow: 0 0 20px rgba(255, 87, 34, 0.4);">2+</div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 15px; font-weight: 700;">Years of Agency Experience</h3>
-                    <p style="color: #aaaaaa; font-size: 1rem; line-height: 1.5;">Proven expertise operating as a full-suite digital agency, consistently delivering explosive scaling and ROI for our clients globally.</p>
+                <div class="impact-card" style="background: #fafafa; padding: 40px 30px; border-radius: 16px; border: 1px solid #eaeaea; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; transform: translateY(50px) scale(0.9);">
+                    <i class="fas fa-calendar-alt" style="font-size: 3rem; color: #ff5722; margin-bottom: 15px; opacity: 0.8;"></i>
+                    <div style="font-size: 3.5rem; font-weight: 900; color: #111; margin-bottom: 10px; line-height: 1;">
+                        <span class="count-up" data-target="2">0</span>+
+                    </div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Years of Agency Experience</h3>
+                    <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">Proven expertise operating as a full-suite digital agency, consistently delivering explosive scaling and ROI for our clients globally.</p>
                 </div>
                 
                 <!-- Stat 2 -->
-                <div style="background: rgba(255, 255, 255, 0.03); padding: 50px 30px; border-radius: 16px; border: 1px solid rgba(255, 87, 34, 0.15); flex: 1; min-width: 300px; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="font-size: 4rem; font-weight: 900; color: #ff5722; margin-bottom: 15px; text-shadow: 0 0 20px rgba(255, 87, 34, 0.4);">900+</div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 15px; font-weight: 700;">Inbound Calls Generated</h3>
-                    <p style="color: #aaaaaa; font-size: 1rem; line-height: 1.5;">Successfully drove over 900 qualified calls entirely through AI search suggestions and advanced SEO for a single brand in just 3 months.</p>
+                <div class="impact-card" style="background: #fafafa; padding: 40px 30px; border-radius: 16px; border: 1px solid #eaeaea; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); transition-delay: 0.1s; opacity: 0; transform: translateY(50px) scale(0.9);">
+                    <i class="fas fa-phone-volume" style="font-size: 3rem; color: #ff5722; margin-bottom: 15px; opacity: 0.8;"></i>
+                    <div style="font-size: 3.5rem; font-weight: 900; color: #111; margin-bottom: 10px; line-height: 1;">
+                        <span class="count-up" data-target="900">0</span>+
+                    </div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Inbound Calls Generated</h3>
+                    <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">Successfully drove over 900 qualified calls exclusively through AI search suggestions and advanced SEO for a single brand in just 3 months.</p>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="impact-card" style="background: #fafafa; padding: 40px 30px; border-radius: 16px; border: 1px solid #eaeaea; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); transition-delay: 0.2s; opacity: 0; transform: translateY(50px) scale(0.9);">
+                    <i class="fas fa-smile-beam" style="font-size: 3rem; color: #ff5722; margin-bottom: 15px; opacity: 0.8;"></i>
+                    <div style="font-size: 3.5rem; font-weight: 900; color: #111; margin-bottom: 10px; line-height: 1;">
+                        <span class="count-up" data-target="10">0</span>+
+                    </div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Happy Clients</h3>
+                    <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">Empowering over 10+ growing businesses with bespoke digital solutions, maximizing their digital footprint and brand authority.</p>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="impact-card" style="background: #fafafa; padding: 40px 30px; border-radius: 16px; border: 1px solid #eaeaea; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); transition-delay: 0.3s; opacity: 0; transform: translateY(50px) scale(0.9);">
+                    <i class="fab fa-shopify" style="font-size: 3rem; color: #ff5722; margin-bottom: 15px; opacity: 0.8;"></i>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 15px; font-weight: 700; color: #111;">Fully Optimized Shopify</h3>
+                    <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">We build blazing fast, <strong>fully optimized Shopify</strong> storefronts designed to convert visitors into loyal buyers and skyrocket your eCommerce revenue.</p>
+                </div>
+
+                <!-- Stat 5 -->
+                <div class="impact-card" style="background: #fafafa; padding: 40px 30px; border-radius: 16px; border: 1px solid #eaeaea; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); transition-delay: 0.4s; opacity: 0; transform: translateY(50px) scale(0.9);">
+                    <i class="fas fa-file-code" style="font-size: 3rem; color: #ff5722; margin-bottom: 15px; opacity: 0.8;"></i>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 15px; font-weight: 700; color: #111;">Fully Customizable Code</h3>
+                    <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">Need something unique? We deliver <strong>fully customizable code</strong> and custom web applications tailored precisely to your complex business requirements.</p>
+                </div>
+
+                <!-- Stat 6 -->
+                <div class="impact-card" style="background: #fafafa; padding: 40px 30px; border-radius: 16px; border: 1px solid #eaeaea; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); transition-delay: 0.5s; opacity: 0; transform: translateY(50px) scale(0.9);">
+                    <i class="fab fa-wordpress" style="font-size: 3rem; color: #ff5722; margin-bottom: 15px; opacity: 0.8;"></i>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 15px; font-weight: 700; color: #111;">WordPress Development</h3>
+                    <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">Empower your content strategy with scalable, SEO-friendly <strong>WordPress development</strong>, combining beautiful UI with an intuitive backend experience.</p>
                 </div>
             </div>
         </div>
@@ -181,6 +218,7 @@
     <script src="spider.js"></script>
     <script src="brands_b64.js"></script>
     <script src="seo-cards.js"></script>
+    <script src="impact-animation.js"></script>
     <script src="brands.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ const shatterContainer = document.getElementById('shatter-canvas-container');
 const triggerBtn = document.getElementById('trigger-shatter-btn');
 const revealText = document.getElementById('fusion-reveal-text');
 const xGlow = document.getElementById('x-glow');
+const abstractSlash = document.getElementById('abstract-slash');
 
 let triggerSequence = () => {};
 let isAnimating = false;
@@ -17,43 +18,6 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     renderer.setSize(shatterContainer.clientWidth, shatterContainer.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     shatterContainer.appendChild(renderer.domElement);
-
-    // Lights for the metal Shuriken
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    dirLight.position.set(5, 5, 10);
-    scene.add(dirLight);
-
-    // Shuriken Geometry (Ninja Star)
-    const starShape = new THREE.Shape();
-    starShape.moveTo(0, 2);
-    starShape.lineTo(0.3, 0.3);
-    starShape.lineTo(2, 0);
-    starShape.lineTo(0.3, -0.3);
-    starShape.lineTo(0, -2);
-    starShape.lineTo(-0.3, -0.3);
-    starShape.lineTo(-2, 0);
-    starShape.lineTo(-0.3, 0.3);
-    starShape.lineTo(0, 2);
-
-    const extrudeSettings = { depth: 0.2, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.1, bevelSegments: 2 };
-    const shurikenGeo = new THREE.ExtrudeGeometry(starShape, extrudeSettings);
-    // Center geometry
-    shurikenGeo.computeBoundingBox();
-    const centerOffset = -0.5 * (shurikenGeo.boundingBox.max.z - shurikenGeo.boundingBox.min.z);
-    shurikenGeo.translate(0, 0, centerOffset);
-
-    const shurikenMat = new THREE.MeshStandardMaterial({ 
-        color: 0x333333, 
-        metalness: 0.9, 
-        roughness: 0.1 
-    });
-    
-    const shuriken = new THREE.Mesh(shurikenGeo, shurikenMat);
-    shuriken.position.set(-25, 0, 0); // Start far left
-    shuriken.scale.set(0.1, 0.1, 0.1); // Hide initially
-    scene.add(shuriken);
 
     // Lightning Group
     const lightningGroup = new THREE.Group();
@@ -79,8 +43,7 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     }
 
     const lightningBolts = [];
-    
-    let state = 'IDLE'; // IDLE, FLYING, EXPLODING
+    let isExploding = false;
     let clock = new THREE.Clock();
 
     triggerSequence = () => {
@@ -93,34 +56,27 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         revealText.style.transform = 'scale(0.5)';
         xGlow.style.opacity = '0';
         
-        // Reset Shuriken
-        shuriken.position.set(-20, -5, 0); 
-        shuriken.scale.set(1.5, 1.5, 1.5);
-        shuriken.rotation.set(0, 0, 0);
+        abstractSlash.style.transition = 'none';
+        abstractSlash.style.opacity = '0';
+        abstractSlash.style.transform = 'scaleX(0) rotate(-15deg)';
         
         // Clear old lightning
         while(lightningGroup.children.length > 0) lightningGroup.remove(lightningGroup.children[0]);
         lightningBolts.length = 0;
 
-        state = 'FLYING';
-    };
-
-    function animateBg() {
-        requestAnimationFrame(animateBg);
-        const dt = clock.getDelta();
-
-        if (state === 'FLYING') {
-            // Spin incredibly fast
-            shuriken.rotation.z -= 25 * dt;
-            // Arc towards center
-            shuriken.position.x += 18 * dt;
-            shuriken.position.y += (0 - shuriken.position.y) * 2 * dt; // Ease to center Y
+        // 1. The abstract cut
+        setTimeout(() => {
+            abstractSlash.style.opacity = '1';
+            abstractSlash.style.transition = 'transform 0.1s ease-out';
+            abstractSlash.style.transform = 'scaleX(1) rotate(-15deg)';
             
-            // If it hits the center (X > 0)
-            if (shuriken.position.x >= 0) {
-                state = 'EXPLODING';
+            // 2. The Explosion
+            setTimeout(() => {
+                abstractSlash.style.transition = 'opacity 0.2s ease-out';
+                abstractSlash.style.opacity = '0';
                 
-                // Explode Lightning
+                isExploding = true;
+                
                 for(let i=0; i < 20; i++) {
                     const angle = (i / 20) * Math.PI * 2 + (Math.random() * 0.5);
                     const bolt = createLightningBolt(0, 0, angle); 
@@ -128,19 +84,26 @@ if (shatterContainer && typeof THREE !== 'undefined') {
                     lightningBolts.push(bolt);
                 }
                 
-                // Show FUSION X Text!
+                // Show FUSION X Text
                 revealText.style.opacity = '1';
                 revealText.style.transform = 'scale(1)';
                 setTimeout(() => { xGlow.style.opacity = '1'; }, 300);
-            }
-        } 
-        else if (state === 'EXPLODING') {
-            // Keep shuriken spinning but fly off to the right
-            shuriken.rotation.z -= 25 * dt;
-            shuriken.position.x += 15 * dt;
-            shuriken.position.y += 10 * dt; // Arc upwards
+                
+                setTimeout(() => {
+                    triggerBtn.style.opacity = '1';
+                    isAnimating = false;
+                }, 1500);
+                
+            }, 100);
             
-            // Fade lightning
+        }, 300);
+    };
+
+    function animateBg() {
+        requestAnimationFrame(animateBg);
+        const dt = clock.getDelta();
+
+        if (isExploding) {
             let allDead = true;
             lightningBolts.forEach(bolt => {
                 if (bolt.material.opacity > 0) {
@@ -156,15 +119,7 @@ if (shatterContainer && typeof THREE !== 'undefined') {
                     bolt.geometry.attributes.position.needsUpdate = true;
                 }
             });
-            
-            if (shuriken.position.x > 25) {
-                state = 'IDLE';
-                shuriken.scale.set(0,0,0);
-                setTimeout(() => {
-                    triggerBtn.style.opacity = '1';
-                    isAnimating = false;
-                }, 1000);
-            }
+            if (allDead) isExploding = false;
         }
 
         renderer.render(scene, camera);

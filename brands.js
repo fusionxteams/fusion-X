@@ -3,13 +3,26 @@ const brandsContainer = document.getElementById('brands-3d-container');
 if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 'undefined') {
     const scene = new THREE.Scene();
     const aspect = brandsContainer.clientWidth / brandsContainer.clientHeight;
-    const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+    // Wider FOV for a more dramatic, spacious look
+    const camera = new THREE.PerspectiveCamera(55, aspect, 0.1, 1000);
     camera.position.set(0, 0, 18);
     
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(brandsContainer.clientWidth, brandsContainer.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     brandsContainer.appendChild(renderer.domElement);
+    
+    // --- Dynamic Lighting for the 3D Cubes ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+    
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    dirLight.position.set(10, 20, 15);
+    scene.add(dirLight);
+
+    const pointLight = new THREE.PointLight(0xff5722, 1.5, 50);
+    pointLight.position.set(-5, -5, 10);
+    scene.add(pointLight);
     
     // Function to generate the 1:1 texture with an orange border via 2D Canvas
     function createBrandTexture(b64, textName = null) {
@@ -18,22 +31,18 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
         canvas.height = 512;
         const ctx = canvas.getContext('2d');
         
-        // Fill white background
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, 512, 512);
         
-        // Draw crisp 10px inner orange border (20px stroke centered on edge)
         ctx.strokeStyle = '#ff5722';
-        ctx.lineWidth = 20; 
+        ctx.lineWidth = 24; 
         ctx.strokeRect(0, 0, 512, 512);
         
         const tex = new THREE.CanvasTexture(canvas);
-        // Optimize texture quality
         tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
         tex.minFilter = THREE.LinearMipmapLinearFilter;
         
         if (textName) {
-            // Draw placeholder for Dr. Madhavi Anjimati
             ctx.fillStyle = '#ff5722';
             ctx.font = 'bold 50px "Segoe UI", sans-serif';
             ctx.textAlign = 'center';
@@ -44,20 +53,15 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
         } else if (b64) {
             const img = new Image();
             img.onload = () => {
-                // object-fit: contain simulation
                 const imgAspect = img.width / img.height;
-                let dw = 420, dh = 420; // 46px padding on each side
-                if (imgAspect > 1) {
-                    dh = dw / imgAspect;
-                } else {
-                    dw = dh * imgAspect;
-                }
+                let dw = 400, dh = 400; // 56px padding
+                if (imgAspect > 1) { dh = dw / imgAspect; } 
+                else { dw = dh * imgAspect; }
                 
                 const dx = (512 - dw) / 2;
                 const dy = (512 - dh) / 2;
                 ctx.drawImage(img, dx, dy, dw, dh);
                 
-                // Redraw border on top in case image spills slightly
                 ctx.strokeRect(0, 0, 512, 512);
                 tex.needsUpdate = true;
             };
@@ -66,117 +70,121 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
         return tex;
     }
 
-    const carousel = new THREE.Group();
-    scene.add(carousel);
+    // Cluster group to hold all cubes
+    const cluster = new THREE.Group();
+    scene.add(cluster);
     
-    const numCards = brandTextures.length; // 9
-    const radius = 7.5;
-    const cards = [];
+    const cubes = [];
     
-    // Create 3D planes for all 9 brands
+    // Create 3D Cubes (Totally Different Style)
     brandTextures.forEach((b64, i) => {
         const tex = b64 === '' ? createBrandTexture(null, 'Dr. Madhavi Anjimati') : createBrandTexture(b64);
         
-        const geometry = new THREE.PlaneGeometry(4, 4); // Perfect 1:1 square
-        const material = new THREE.MeshBasicMaterial({ 
+        // 3D Box instead of a flat plane
+        const geometry = new THREE.BoxGeometry(3.5, 3.5, 3.5); 
+        // Standard material reacts beautifully to the lights
+        const material = new THREE.MeshStandardMaterial({ 
             map: tex,
-            side: THREE.DoubleSide
+            roughness: 0.3,
+            metalness: 0.1
         });
         
         const mesh = new THREE.Mesh(geometry, material);
         
-        // Arrange in a cylinder
-        const angle = (i / numCards) * Math.PI * 2;
-        mesh.position.x = Math.sin(angle) * radius;
-        mesh.position.z = Math.cos(angle) * radius;
-        mesh.rotation.y = angle; // Face outward
+        // Arrange in an explosive 3x3 staggered grid
+        const row = Math.floor(i / 3);
+        const col = i % 3;
         
-        // Hide initially for entrance animation
+        const spacing = 5;
+        const startX = (col - 1) * spacing;
+        const startY = (row - 1) * -spacing;
+        const startZ = (Math.random() - 0.5) * 6; // Pushed randomly in/out of the screen
+        
+        mesh.position.set(startX, startY, startZ);
+        
+        // Random initial tumbles
+        mesh.rotation.x = Math.random() * Math.PI;
+        mesh.rotation.y = Math.random() * Math.PI;
+        
+        // Unique animation speeds for each cube
+        mesh.userData = {
+            rotSpeedX: (Math.random() - 0.5) * 0.015,
+            rotSpeedY: (Math.random() - 0.5) * 0.015,
+            rotSpeedZ: (Math.random() - 0.5) * 0.015,
+            bobSpeed: 1 + Math.random() * 2,
+            bobOffset: Math.random() * Math.PI * 2,
+            baseY: startY
+        };
+        
         mesh.scale.set(0, 0, 0); 
         
-        carousel.add(mesh);
-        cards.push(mesh);
+        cluster.add(mesh);
+        cubes.push(mesh);
     });
     
-    // Stunning 3D floating particles background effect
-    const particleGeo = new THREE.BufferGeometry();
-    const particleCount = 200;
-    const posArray = new Float32Array(particleCount * 3);
-    for(let i=0; i < particleCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 40; // Spread wide
-    }
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const particleMat = new THREE.PointsMaterial({
-        size: 0.15,
-        color: 0xff5722,
-        transparent: true,
-        opacity: 0.6
-    });
-    const particles = new THREE.Points(particleGeo, particleMat);
-    scene.add(particles);
-
     // Interaction variables
-    let targetRotation = 0;
-    let currentRotation = 0;
+    let targetRotX = 0;
+    let targetRotY = 0;
+    let currentRotX = 0;
+    let currentRotY = 0;
     let isDragging = false;
-    let previousMouseX = 0;
+    let previousMouse = { x: 0, y: 0 };
     
     let entranceProgress = 0;
     let hasEntered = false;
 
-    // Intersection Observer to trigger the stunning entrance when scrolled into view
+    // Trigger entrance animation
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && !hasEntered) {
             hasEntered = true;
         }
-    }, { threshold: 0.3 });
+    }, { threshold: 0.2 });
     observer.observe(brandsContainer);
 
     // Render loop
     function animate() {
         requestAnimationFrame(animate);
         
-        // 1. Staggered Pop-in Entrance Animation
-        if (hasEntered && entranceProgress < 1.5) {
-            entranceProgress += 0.02;
+        // Smoothly rotate the entire cluster (Parallax + Drag)
+        currentRotX += (targetRotX - currentRotX) * 0.05;
+        currentRotY += (targetRotY - currentRotY) * 0.05;
+        cluster.rotation.x = currentRotX;
+        cluster.rotation.y = currentRotY;
+
+        // Entrance Animation
+        if (hasEntered && entranceProgress < 1) {
+            entranceProgress += 0.015;
             
-            cards.forEach((c, i) => {
-                const delay = i * 0.1;
-                // Calculate progress per card (clamped between 0 and 1)
-                const p = Math.max(0, Math.min(1, (entranceProgress - delay) * 2));
-                // Cubic easing
-                const scale = 1 - Math.pow(1 - p, 4);
-                c.scale.set(scale, scale, scale);
+            cubes.forEach((cube, i) => {
+                const delay = i * 0.08;
+                const p = Math.max(0, Math.min(1, (entranceProgress - delay) * 2.5));
+                const scale = 1 - Math.pow(1 - p, 4); // Elastic cubic out
+                cube.scale.set(scale, scale, scale);
             });
-            
-            // Initial spin flourish
-            const ease = 1 - Math.pow(1 - Math.min(1, entranceProgress), 3);
-            carousel.rotation.y = (1 - ease) * Math.PI * 2;
         }
 
-        // 2. Auto-spin
-        if (!isDragging && hasEntered && entranceProgress >= 1) {
-            targetRotation -= 0.002;
+        // Idle Tumbling & Bobbing Animation
+        if (hasEntered) {
+            const time = Date.now() * 0.001;
+            cubes.forEach(cube => {
+                // Tumble on all axes
+                cube.rotation.x += cube.userData.rotSpeedX;
+                cube.rotation.y += cube.userData.rotSpeedY;
+                cube.rotation.z += cube.userData.rotSpeedZ;
+                
+                // Graceful gravity bobbing
+                cube.position.y = cube.userData.baseY + Math.sin(time * cube.userData.bobSpeed + cube.userData.bobOffset) * 0.4;
+            });
         }
-        
-        // 3. Smooth inertia application
-        if (hasEntered && entranceProgress >= 1) {
-            currentRotation += (targetRotation - currentRotation) * 0.1;
-            carousel.rotation.y = currentRotation;
-        }
-        
-        // 4. Slowly rotate particles
-        particles.rotation.y += 0.001;
-        particles.rotation.x += 0.0005;
         
         renderer.render(scene, camera);
     }
     animate();
 
-    // Mouse / Touch Dragging Logic
+    // Multidirectional Dragging Logic
     brandsContainer.addEventListener('mousedown', (e) => {
         isDragging = true;
-        previousMouseX = e.clientX;
+        previousMouse = { x: e.clientX, y: e.clientY };
         brandsContainer.style.cursor = 'grabbing';
     });
     
@@ -186,15 +194,25 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
     });
     
     window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        const delta = e.clientX - previousMouseX;
-        targetRotation += delta * 0.005; // Adjust sensitivity
-        previousMouseX = e.clientX;
+        if (isDragging) {
+            // Drag rotates the entire cluster in 3D
+            const deltaX = e.clientX - previousMouse.x;
+            const deltaY = e.clientY - previousMouse.y;
+            targetRotY += deltaX * 0.005;
+            targetRotX += deltaY * 0.005;
+            previousMouse = { x: e.clientX, y: e.clientY };
+        } else {
+            // Parallax effect: cluster tracks mouse softly when just hovering
+            const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            const mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+            targetRotY = mouseX * 0.3; // Gentle tilt
+            targetRotX = -mouseY * 0.3;
+        }
     });
 
     brandsContainer.addEventListener('touchstart', (e) => {
         isDragging = true;
-        previousMouseX = e.touches[0].clientX;
+        previousMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     }, {passive: true});
     
     window.addEventListener('touchend', () => {
@@ -203,9 +221,11 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
     
     window.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
-        const delta = e.touches[0].clientX - previousMouseX;
-        targetRotation += delta * 0.005;
-        previousMouseX = e.touches[0].clientX;
+        const deltaX = e.touches[0].clientX - previousMouse.x;
+        const deltaY = e.touches[0].clientY - previousMouse.y;
+        targetRotY += deltaX * 0.006;
+        targetRotX += deltaY * 0.006;
+        previousMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     }, {passive: true});
 
     // Handle Mobile Sizing
@@ -213,14 +233,13 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
         if (!brandsContainer) return;
         const newAspect = brandsContainer.clientWidth / brandsContainer.clientHeight;
         camera.aspect = newAspect;
-        camera.position.z = newAspect < 1 ? 28 : 18; // Pull back camera on tall mobile screens
+        camera.position.z = newAspect < 1 ? 32 : 18; // Pull camera way back on mobile so all cubes fit
         camera.updateProjectionMatrix();
         renderer.setSize(brandsContainer.clientWidth, brandsContainer.clientHeight);
     });
     
-    // Initial scaling check for mobile
     if (aspect < 1) {
-        camera.position.z = 28;
+        camera.position.z = 32;
         camera.updateProjectionMatrix();
     }
 }

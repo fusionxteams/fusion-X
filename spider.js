@@ -1,53 +1,83 @@
-// --- SPIDER WEB 3D SCENE ---
 const spiderContainer = document.getElementById('spider-container');
-if (spiderContainer && typeof THREE !== 'undefined') {
-    const sceneWeb = new THREE.Scene();
-    // Removed background and fog to allow transparency so the 2D HTML web and logo are visible underneath
-
-    const cameraWeb = new THREE.PerspectiveCamera(45, spiderContainer.clientWidth / spiderContainer.clientHeight, 0.1, 1000);
-    // Looking directly down at the flat web to perfectly see the geometric hexagon pattern
-    cameraWeb.position.set(0, 0, 50); 
-    cameraWeb.lookAt(0, 0, 0);
-
-    const rendererWeb = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    rendererWeb.setSize(spiderContainer.clientWidth, spiderContainer.clientHeight);
-    rendererWeb.setPixelRatio(window.devicePixelRatio);
-    rendererWeb.domElement.style.position = 'absolute';
-    rendererWeb.domElement.style.top = '0';
-    rendererWeb.domElement.style.left = '0';
-    rendererWeb.domElement.style.zIndex = '3';
-    spiderContainer.appendChild(rendererWeb.domElement);
-
-    let centerLogo = { rotation: { z: 0 } };
-
-    // 3. Digital Marketing Icons (HTML Emojis)
+if (spiderContainer) {
+    // 1. Digital Marketing Icons (HTML Emojis) - Pure 2D Percentages
     const iconData = [
-        { emoji: '🔍', title: 'SEO', pos: new THREE.Vector3(-10, 8, 1) },
-        { emoji: '💻', title: 'Web Sites', pos: new THREE.Vector3(12, 6, -1) },
-        { emoji: '🤖', title: 'AI Future', pos: new THREE.Vector3(-12, -6, 2) },
-        { emoji: '📱', title: 'Social', pos: new THREE.Vector3(10, -9, 0) },
-        { emoji: '📈', title: 'Analytics', pos: new THREE.Vector3(0, -12, 1) },
-        { emoji: '🎯', title: 'Ads', pos: new THREE.Vector3(0, 12, -2) },
-        { emoji: '✍️', title: 'Content', pos: new THREE.Vector3(-18, 0, 0) },
-        { emoji: '📧', title: 'Email', pos: new THREE.Vector3(18, 0, 1) },
-        { emoji: '✨', title: 'Branding', pos: new THREE.Vector3(-15, 13, -1) },
-        { emoji: '🛒', title: 'E-commerce', pos: new THREE.Vector3(15, -13, 2) },
-        { emoji: '🎥', title: 'Video', pos: new THREE.Vector3(16, 12, 0) },
-        { emoji: '📢', title: 'PR', pos: new THREE.Vector3(-16, -14, -2) }
+        { emoji: '🔍', title: 'SEO', x: 25, y: 20 },
+        { emoji: '💻', title: 'Web Sites', x: 75, y: 25 },
+        { emoji: '🤖', title: 'AI Future', x: 20, y: 70 },
+        { emoji: '📱', title: 'Social', x: 80, y: 75 },
+        { emoji: '📈', title: 'Analytics', x: 50, y: 90 },
+        { emoji: '🎯', title: 'Ads', x: 50, y: 10 },
+        { emoji: '✍️', title: 'Content', x: 10, y: 45 },
+        { emoji: '📧', title: 'Email', x: 90, y: 50 },
+        { emoji: '✨', title: 'Branding', x: 35, y: 25 },
+        { emoji: '🛒', title: 'E-commerce', x: 65, y: 85 },
+        { emoji: '🎥', title: 'Video', x: 70, y: 15 },
+        { emoji: '📢', title: 'PR', x: 30, y: 80 }
     ];
 
-    // 1. Pure 2D HTML Canvas Spider Web (100% bug-free, perfect 360 degrees)
+    const iconElements = [];
+    let currentTarget = null;
+
+    iconData.forEach(data => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'web-icon';
+        wrapper.innerHTML = `<span>${data.emoji}</span> <strong>${data.title}</strong>`;
+        wrapper.style.position = 'absolute';
+        wrapper.style.left = `${data.x}%`;
+        wrapper.style.top = `${data.y}%`;
+        wrapper.style.transform = 'translate(-50%, -50%)';
+        wrapper.style.zIndex = '10';
+        wrapper.style.cursor = 'pointer';
+        
+        // Add click listener directly to the HTML element
+        wrapper.addEventListener('click', () => {
+            // Calculate absolute pixel coordinates for the spiders to target
+            const rect = wrapper.getBoundingClientRect();
+            const containerRect = spiderContainer.getBoundingClientRect();
+            currentTarget = {
+                x: rect.left - containerRect.left + rect.width / 2,
+                y: rect.top - containerRect.top + rect.height / 2
+            };
+            
+            // Pop animation
+            wrapper.style.transform = 'translate(-50%, -50%) scale(1.2)';
+            setTimeout(() => {
+                wrapper.style.transform = 'translate(-50%, -50%) scale(1)';
+            }, 200);
+        });
+        
+        spiderContainer.appendChild(wrapper);
+        iconElements.push(wrapper);
+    });
+
+    // 2. Pure 2D HTML Canvas Setup
     const bgCanvas = document.getElementById('web-bg-canvas');
     const ctx = bgCanvas.getContext('2d');
     
+    // 3. Initialize 2D Spiders
+    const spiders2D = [];
+    for(let i = 0; i < 20; i++) {
+        spiders2D.push({
+            x: Math.random() * spiderContainer.clientWidth,
+            y: Math.random() * spiderContainer.clientHeight,
+            vx: 0,
+            vy: 0,
+            targetX: Math.random() * spiderContainer.clientWidth,
+            targetY: Math.random() * spiderContainer.clientHeight,
+            legTime: Math.random() * 10,
+            speed: 1 + Math.random() * 2
+        });
+    }
+
     function draw2DWeb() {
         bgCanvas.width = spiderContainer.clientWidth;
         bgCanvas.height = spiderContainer.clientHeight;
         
         ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
         
-        // 1. Draw Spider Web Background
-        ctx.strokeStyle = 'rgba(255, 87, 34, 0.8)'; 
+        // Draw Spider Web Background
+        ctx.strokeStyle = 'rgba(255, 87, 34, 0.5)'; 
         ctx.lineWidth = 1.5; 
         
         const cx = bgCanvas.width / 2;
@@ -56,7 +86,7 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         const maxRadius = Math.max(bgCanvas.width, bgCanvas.height) * 0.8;
         const rings = 25;
         
-        // Draw Radials
+        // Radials
         ctx.beginPath();
         for (let i = 0; i < radials; i++) {
             const angle = (i / radials) * Math.PI * 2 + (Math.PI / 6);
@@ -65,172 +95,107 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         }
         ctx.stroke();
         
-        // Draw Rings layer by layer (perfectly even spacing)
+        // Rings
         for (let r = 1; r <= rings; r++) {
             const radius = (r / rings) * maxRadius;
             ctx.beginPath();
-            
             for (let i = 0; i < radials; i++) {
                 const angle = (i / radials) * Math.PI * 2 + (Math.PI / 6);
                 const px = cx + Math.cos(angle) * radius;
                 const py = cy + Math.sin(angle) * radius;
-                
-                if (i === 0) {
-                    ctx.moveTo(px, py);
-                } else {
-                    ctx.lineTo(px, py);
-                }
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
             }
-            
-            ctx.closePath(); // Closes the hexagon perfectly back to the first point
-            ctx.stroke(); // Stroke each layer individually to guarantee rendering
+            ctx.closePath();
+            ctx.stroke();
         }
     }
-    
-    draw2DWeb();
-    
-    const iconElements = [];
-    let currentTarget = null; 
 
-    iconData.forEach(data => {
-        const el = document.createElement('div');
-        el.className = 'web-icon';
-        el.innerHTML = `<span>${data.emoji}</span> ${data.title}`;
-        spiderContainer.appendChild(el);
-        
-        iconElements.push({ element: el, pos: data.pos });
-
-        el.addEventListener('click', (e) => {
-            e.stopPropagation(); 
-            currentTarget = data.pos;
-            pointWeb.position.copy(currentTarget);
-            pointWeb.position.z += 5;
-        });
-    });
-
-    // 4. Detailed 3D Spiders
-    function createSpider() {
-        const spider = new THREE.Group();
-        const mat = new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.9, roughness: 0.1 });
-        const glow = new THREE.MeshBasicMaterial({ color: 0xff5722 });
-        
-        const abdomen = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), mat);
-        const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), mat);
-        head.position.set(0, 0.45, 0); 
-        spider.add(abdomen, head);
-        
-        const eye1 = new THREE.Mesh(new THREE.SphereGeometry(0.06), glow);
-        eye1.position.set(-0.12, 0.6, 0.15);
-        const eye2 = new THREE.Mesh(new THREE.SphereGeometry(0.06), glow);
-        eye2.position.set(0.12, 0.6, 0.15);
-        spider.add(eye1, eye2);
-        
-        const legs = [];
-        for (let i = 0; i < 8; i++) {
-            const side = i < 4 ? -1 : 1;
-            const index = i % 4;
-            const leg = new THREE.Group();
-            const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.8), mat);
-            upper.position.set(side * 0.4, 0.4, (index - 1.5) * 0.25);
-            upper.rotation.z = side * Math.PI / 4;
-            upper.rotation.x = (index - 1.5) * 0.2;
-            const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.01, 1.0), mat);
-            lower.position.set(side * 0.8, 0.4, (index - 1.5) * 0.35);
-            lower.rotation.z = side * -Math.PI / 6;
-            leg.add(upper, lower);
-            spider.add(leg);
-            legs.push(leg);
-        }
-        
-        spider.userData = { 
-            legs: legs, 
-            wanderTarget: new THREE.Vector3((Math.random()-0.5)*20, (Math.random()-0.5)*20, 0.5),
-            speed: 0.002 + Math.random() * 0.004 // Slower spiders!
-        };
-        return spider;
-    }
-
-    const spiders = [];
-    for (let i = 0; i < 10; i++) {
-        const spider = createSpider();
-        spider.position.set((Math.random() - 0.5) * 25, (Math.random() - 0.5) * 25, 0.5);
-        sceneWeb.add(spider);
-        spiders.push(spider);
-    }
-
-    const ambientWeb = new THREE.AmbientLight(0xffffff, 0.8);
-    sceneWeb.add(ambientWeb);
-    const pointWeb = new THREE.PointLight(0xff5722, 1, 50);
-    pointWeb.position.set(0, 0, 10);
-    sceneWeb.add(pointWeb);
-
-    spiderContainer.addEventListener('click', () => {
-        currentTarget = null;
-        pointWeb.position.set(0, 0, 10);
-    });
-
-    window.addEventListener('resize', () => {
-        if (!spiderContainer) return;
-        cameraWeb.aspect = spiderContainer.clientWidth / spiderContainer.clientHeight;
-        cameraWeb.updateProjectionMatrix();
-        rendererWeb.setSize(spiderContainer.clientWidth, spiderContainer.clientHeight);
-        draw2DWeb();
-    });
-
-    let webTime = 0;
+    // 4. Animate 2D Spiders
     function animateWeb() {
         requestAnimationFrame(animateWeb);
-        webTime += 0.5; // Slow down global time step
-
-        iconElements.forEach(icon => {
-            const vector = icon.pos.clone();
-            vector.project(cameraWeb);
-            const x = (vector.x * .5 + .5) * spiderContainer.clientWidth;
-            const y = (vector.y * -.5 + .5) * spiderContainer.clientHeight;
-            icon.element.style.left = `${x}px`;
-            icon.element.style.top = `${y}px`;
-        });
-
-        spiders.forEach((spider, sIndex) => {
-            let targetPos;
+        
+        // Redraw web background every frame so we can draw spiders on top
+        draw2DWeb();
+        
+        // Draw Spiders
+        ctx.fillStyle = '#333333';
+        ctx.strokeStyle = '#333333';
+        ctx.lineWidth = 2;
+        
+        spiders2D.forEach(spider => {
+            // Movement logic
+            let tx = spider.targetX;
+            let ty = spider.targetY;
+            
             if (currentTarget) {
-                targetPos = currentTarget.clone().add(new THREE.Vector3(Math.sin(sIndex*1.5)*3, Math.cos(sIndex*1.5)*3, 0));
-            } else {
-                targetPos = spider.userData.wanderTarget;
-                if (spider.position.distanceTo(targetPos) < 2) {
-                    spider.userData.wanderTarget.set((Math.random()-0.5)*40, (Math.random()-0.5)*40, 0.5);
-                }
+                tx = currentTarget.x;
+                ty = currentTarget.y;
             }
             
-            spider.position.lerp(targetPos, spider.userData.speed);
+            const dx = tx - spider.x;
+            const dy = ty - spider.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
             
-            const dir = targetPos.clone().sub(spider.position).normalize();
-            const angle = Math.atan2(dir.y, dir.x);
-            let currentAngle = spider.rotation.z;
-            let diff = angle - Math.PI / 2 - currentAngle;
-            while (diff < -Math.PI) diff += Math.PI * 2;
-            while (diff > Math.PI) diff -= Math.PI * 2;
-            spider.rotation.z += diff * 0.1;
-
-            const dist = spider.position.distanceTo(targetPos);
-            if (dist > 0.5) {
-                spider.userData.legs.forEach((leg, i) => {
-                    // Slower leg wiggling
-                    leg.rotation.x = Math.sin(webTime * 0.1 + i) * 0.4;
-                    leg.rotation.y = Math.cos(webTime * 0.1 + i) * 0.3;
-                });
-            } else {
-                spider.userData.legs.forEach((leg, i) => {
-                    leg.rotation.x = (i%4 - 1.5) * 0.2; 
-                    leg.rotation.y = 0;
-                });
+            if (dist < 5 && !currentTarget) {
+                // Pick new random target if wandering
+                spider.targetX = Math.random() * bgCanvas.width;
+                spider.targetY = Math.random() * bgCanvas.height;
+            } else if (dist > 5) {
+                // Move towards target
+                spider.vx = (dx / dist) * spider.speed;
+                spider.vy = (dy / dist) * spider.speed;
+                spider.x += spider.vx;
+                spider.y += spider.vy;
+                spider.legTime += 0.3; // Animate legs when moving
             }
+            
+            const angle = Math.atan2(dy, dx);
+            
+            // Draw Spider
+            ctx.save();
+            ctx.translate(spider.x, spider.y);
+            ctx.rotate(angle - Math.PI / 2); // Rotate so head faces direction of travel
+            
+            // Draw 8 Legs
+            for (let i = 0; i < 4; i++) {
+                const legWiggle = Math.sin(spider.legTime + i) * 5;
+                
+                // Left legs
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(-10 + legWiggle, -10 - i * 4);
+                ctx.lineTo(-15 + legWiggle, -15 - i * 4);
+                ctx.stroke();
+                
+                // Right legs
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(10 - legWiggle, -10 - i * 4);
+                ctx.lineTo(15 - legWiggle, -15 - i * 4);
+                ctx.stroke();
+            }
+            
+            // Draw Body
+            ctx.beginPath();
+            ctx.arc(0, -5, 6, 0, Math.PI * 2); // Abdomen
+            ctx.arc(0, 2, 4, 0, Math.PI * 2);  // Head
+            ctx.fill();
+            
+            // Draw Eyes (Red dots)
+            ctx.fillStyle = '#ff5722';
+            ctx.beginPath();
+            ctx.arc(-1.5, 4, 1, 0, Math.PI * 2);
+            ctx.arc(1.5, 4, 1, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.restore();
         });
-
-        centerLogo.rotation.z = Math.sin(webTime * 0.01) * 0.1;
-
-        rendererWeb.render(sceneWeb, cameraWeb);
     }
-    
+
     animateWeb();
+
+    window.addEventListener('resize', () => {
+        draw2DWeb();
+    });
 }

@@ -309,35 +309,31 @@ if (container && typeof THREE !== 'undefined') {
     scene.add(fillLight);
 
     // --- INTERACTIVITY LOGIC ---
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetX = 0;
-    let targetY = 0;
     let isRolling = false;
     let rollAngle = 0;
     
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
-    // Mouse Parallax Tracking
-    document.addEventListener('mousemove', (event) => {
-        const windowHalfX = window.innerWidth / 2;
-        const windowHalfY = window.innerHeight / 2;
-        mouseX = (event.clientX - windowHalfX);
-        mouseY = (event.clientY - windowHalfY);
-        
-        // Raycaster mouse for clicking
-        if (container) {
-            const rect = container.getBoundingClientRect();
-            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-        }
+    // Orbit Controls for Dragging the Map
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enableZoom = true;
+    controls.minDistance = 5;
+    controls.maxDistance = 25;
+    controls.maxPolarAngle = Math.PI / 2 - 0.1; // Prevent going underneath the map
+
+    // Raycaster mouse for clicking
+    container.addEventListener('mousemove', (event) => {
+        const rect = container.getBoundingClientRect();
+        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     });
 
     // Barrel Roll on Click
     container.addEventListener('click', () => {
         raycaster.setFromCamera(mouse, camera);
-        // Intersect against the jet model
         const intersects = raycaster.intersectObject(jetModel, true);
         if (intersects.length > 0 && !isRolling) {
             isRolling = true;
@@ -358,6 +354,7 @@ if (container && typeof THREE !== 'undefined') {
     function animate() {
         requestAnimationFrame(animate);
         time += 1;
+        controls.update(); // Required for damping
 
         const t = (time % flightDuration) / flightDuration;
         const position = curve.getPointAt(t);
@@ -382,7 +379,7 @@ if (container && typeof THREE !== 'undefined') {
             const x = bannerInitialX[i];
             const wave = Math.sin((x * 4) - (time * 0.4)) * (x * 0.15);
             bannerPositionsFront.setZ(i, wave);
-            bannerPositionsBack.setZ(i, wave); // Keep back synced
+            bannerPositionsBack.setZ(i, wave);
         }
         bannerPositionsFront.needsUpdate = true;
         bannerPositionsBack.needsUpdate = true;
@@ -406,14 +403,8 @@ if (container && typeof THREE !== 'undefined') {
             }
         });
 
-        // Interactive Mouse Parallax Camera
-        targetX = mouseX * 0.005;
-        targetY = mouseY * 0.005;
-        camera.position.x += (Math.sin(time * 0.001) * 2 + targetX - camera.position.x) * 0.05;
-        camera.position.z += (12 + Math.cos(time * 0.001) * 2 + targetY - camera.position.z) * 0.05;
-        // Add a slight vertical tilt based on mouse Y
-        camera.position.y += (14 - targetY - camera.position.y) * 0.05;
-        camera.lookAt(0, 0, 0);
+        // Slow cinematic rotation if user isn't actively dragging
+        // To do this properly without fighting OrbitControls, we can just let the user control the camera fully.
 
         renderer.render(scene, camera);
     }

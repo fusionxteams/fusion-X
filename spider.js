@@ -46,55 +46,31 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         
         const cx = bgCanvas.width / 2;
         const cy = bgCanvas.height / 2;
-        const radials = 8;
+        const radials = 6; // Perfect Hexagon
         const maxRadius = Math.max(bgCanvas.width, bgCanvas.height) * 0.8;
         const rings = 25;
         
         ctx.beginPath();
         
+        // Radials
         for (let i = 0; i < radials; i++) {
-            const angle = (i / radials) * Math.PI * 2;
+            // Add an offset so the hexagon points straight up/down for a more symmetrical look
+            const angle = (i / radials) * Math.PI * 2 + (Math.PI / 6);
             ctx.moveTo(cx, cy);
             ctx.lineTo(cx + Math.cos(angle) * maxRadius, cy + Math.sin(angle) * maxRadius);
         }
         
+        // Rings layer by layer (perfectly even spacing)
         for (let r = 1; r <= rings; r++) {
-            const radius = Math.pow(r / rings, 1.2) * maxRadius;
+            const radius = (r / rings) * maxRadius; // Perfectly even layers
             for (let i = 0; i < radials; i++) {
-                const angle1 = (i / radials) * Math.PI * 2;
-                const angle2 = ((i + 1) % radials) * Math.PI * 2;
+                const angle1 = (i / radials) * Math.PI * 2 + (Math.PI / 6);
+                const angle2 = ((i + 1) % radials) * Math.PI * 2 + (Math.PI / 6);
                 
                 if (i === 0) ctx.moveTo(cx + Math.cos(angle1) * radius, cy + Math.sin(angle1) * radius);
                 ctx.lineTo(cx + Math.cos(angle2) * radius, cy + Math.sin(angle2) * radius);
             }
         }
-        ctx.stroke();
-
-        // 2. Draw Bold Network Links connecting all Icons to Center and Each Other
-        ctx.strokeStyle = 'rgba(255, 87, 34, 1.0)';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        
-        const iconCoords = iconData.map(data => {
-            const vector = data.pos.clone();
-            vector.project(cameraWeb);
-            return {
-                x: (vector.x * .5 + .5) * spiderContainer.clientWidth,
-                y: (vector.y * -.5 + .5) * spiderContainer.clientHeight
-            };
-        });
-
-        iconCoords.forEach((coord, index) => {
-            // Link icon to center
-            ctx.moveTo(cx, cy);
-            ctx.lineTo(coord.x, coord.y);
-            
-            // Link icon to next icon (connect each other)
-            const nextCoord = iconCoords[(index + 1) % iconCoords.length];
-            ctx.moveTo(coord.x, coord.y);
-            ctx.lineTo(nextCoord.x, nextCoord.y);
-        });
-        
         ctx.stroke();
     }
     

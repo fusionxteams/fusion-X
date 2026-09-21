@@ -4,7 +4,6 @@ const triggerBtn = document.getElementById('trigger-shatter-btn');
 const revealText = document.getElementById('fusion-reveal-text');
 const subText = document.getElementById('fusion-subtext');
 const samuraiImg = document.getElementById('html-samurai');
-const dashLine = document.getElementById('html-dashline');
 const xGlow = document.getElementById('x-glow');
 
 // --- THREE.JS BACKGROUND LIGHTNING ---
@@ -119,8 +118,6 @@ function startSequence() {
     samuraiImg.classList.remove('is-slashing', 'is-done', 'is-leaning');
     samuraiImg.classList.add('is-running'); // Start moving his legs
     
-    dashLine.style.transition = 'none';
-    dashLine.style.opacity = '0';
     revealText.style.opacity = '0';
     revealText.style.transform = 'scale(0.5)';
     subText.style.opacity = '0';
@@ -133,14 +130,9 @@ function startSequence() {
     // Slower (2.5s) so you can enjoy the running animation
     samuraiImg.style.transition = 'transform 2.5s linear';
     samuraiImg.style.transform = 'translateX(-50%)'; // Move to center
-    
-    // Speed lines
-    dashLine.style.transition = 'opacity 0.2s';
-    dashLine.style.opacity = '0.3';
 
     // 2. The Strike
     setTimeout(() => {
-        dashLine.style.opacity = '0';
         samuraiImg.classList.remove('is-running');
         samuraiImg.classList.add('is-slashing'); // This rotates the arm
         

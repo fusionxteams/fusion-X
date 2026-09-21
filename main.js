@@ -36,108 +36,96 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// --- Three.js Globe with Orbiting Ball and Trail ---
+// --- Three.js: Physical & Digital Infinity Knot ---
 const container = document.getElementById('globe-container');
 if (container && typeof THREE !== 'undefined') {
-    // Setup
+    // Setup Scene
     const scene = new THREE.Scene();
     
-    // Make camera aspect ratio match the container
+    // Camera
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.z = 18;
+    camera.position.z = 15;
 
+    // Renderer
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // 1. The Globe (Wireframe to look like digital network)
-    const globeGeometry = new THREE.SphereGeometry(6, 32, 32);
-    
-    // Inner solid sphere to hide backfaces (makes it look cleaner)
-    const innerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const innerGlobe = new THREE.Mesh(globeGeometry, innerMaterial);
-    
-    // Outer wireframe
-    const wireframeMaterial = new THREE.MeshBasicMaterial({ 
+    // Group to hold our infinity shape
+    const infinityGroup = new THREE.Group();
+    scene.add(infinityGroup);
+
+    // 1. The Physical World (Solid, Metallic Inner Core)
+    const knotGeometry = new THREE.TorusKnotGeometry(3, 0.8, 100, 16);
+    const physicalMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0xffffff,
+        metalness: 0.9,
+        roughness: 0.2
+    });
+    const physicalKnot = new THREE.Mesh(knotGeometry, physicalMaterial);
+    infinityGroup.add(physicalKnot);
+
+    // 2. The Digital World (Glowing, Wireframe Outer Shell)
+    const digitalMaterial = new THREE.MeshBasicMaterial({ 
         color: 0xff5722, 
         wireframe: true,
         transparent: true,
-        opacity: 0.15
+        opacity: 0.3
     });
-    const globe = new THREE.Mesh(globeGeometry, wireframeMaterial);
+    const digitalKnot = new THREE.Mesh(knotGeometry, digitalMaterial);
+    digitalKnot.scale.set(1.15, 1.15, 1.15); // Slightly larger to envelop the physical core
+    infinityGroup.add(digitalKnot);
+
+    // 3. Digital Data Particles (Floating around)
+    const particleCount = 400;
+    const particleGeometry = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
     
-    const globeGroup = new THREE.Group();
-    globeGroup.add(innerGlobe);
-    globeGroup.add(globe);
-    
-    // Tilt the globe slightly
-    globeGroup.rotation.z = 0.4;
-    scene.add(globeGroup);
-
-    // 2. The Orbiting Ball (Satellite)
-    const ballGeometry = new THREE.SphereGeometry(0.3, 16, 16);
-    const ballMaterial = new THREE.MeshBasicMaterial({ color: 0xff5722 });
-    const orb = new THREE.Mesh(ballGeometry, ballMaterial);
-    scene.add(orb);
-
-    // 3. The Trail
-    const trailLength = 50;
-    const trailPositions = new Float32Array(trailLength * 3);
-    const trailGeometry = new THREE.BufferGeometry();
-    trailGeometry.setAttribute('position', new THREE.BufferAttribute(trailPositions, 3));
-    const trailMaterial = new THREE.LineBasicMaterial({ 
-        color: 0xff5722, 
-        transparent: true, 
-        opacity: 0.5,
-        linewidth: 2
-    });
-    const trail = new THREE.Line(trailGeometry, trailMaterial);
-    scene.add(trail);
-
-    let time = 0;
-    const orbitRadius = 6.5; // Slightly larger than the globe
-
-    // Initialize trail positions to the start point so it doesn't streak from 0,0,0
-    const startX = Math.cos(0) * orbitRadius;
-    const startY = Math.sin(0) * (orbitRadius * 0.8);
-    const startZ = Math.sin(0) * orbitRadius;
-    const positions = trail.geometry.attributes.position.array;
-    for(let i=0; i<trailLength*3; i+=3) {
-        positions[i] = startX;
-        positions[i+1] = startY;
-        positions[i+2] = startZ;
+    for(let i = 0; i < particleCount * 3; i++) {
+        // Random spread of particles
+        particlePositions[i] = (Math.random() - 0.5) * 20;
     }
+    
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    const particleMaterial = new THREE.PointsMaterial({
+        color: 0xff5722,
+        size: 0.1,
+        transparent: true,
+        opacity: 0.6
+    });
+    const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particleSystem);
+
+    // 4. Lighting (Crucial for the metallic physical core)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(10, 10, 10);
+    scene.add(pointLight);
+    
+    const orangeLight = new THREE.PointLight(0xff5722, 1.5);
+    orangeLight.position.set(-10, -10, 10);
+    scene.add(orangeLight);
 
     // Animation Loop
+    let time = 0;
     function animate() {
         requestAnimationFrame(animate);
-        time += 0.02;
+        time += 0.01;
 
-        // Rotate the globe
-        globeGroup.rotation.y += 0.005;
+        // Rotate the infinity knot to show all angles
+        infinityGroup.rotation.x += 0.005;
+        infinityGroup.rotation.y += 0.01;
 
-        // Calculate orbit position (Lissajous curve to make it go all over the globe)
-        const x = Math.cos(time) * orbitRadius;
-        const y = Math.sin(time * 1.5) * (orbitRadius * 0.8);
-        const z = Math.sin(time) * orbitRadius;
-        
-        orb.position.set(x, y, z);
+        // Pulse the digital wireframe scale slightly
+        const pulse = 1.15 + Math.sin(time * 2) * 0.05;
+        digitalKnot.scale.set(pulse, pulse, pulse);
 
-        // Update Trail
-        const posArray = trail.geometry.attributes.position.array;
-        
-        // Shift old positions back
-        for (let i = posArray.length - 1; i >= 3; i--) {
-            posArray[i] = posArray[i - 3];
-        }
-        
-        // Set new head position
-        posArray[0] = x;
-        posArray[1] = y;
-        posArray[2] = z;
-        
-        trail.geometry.attributes.position.needsUpdate = true;
+        // Slowly rotate the particle system
+        particleSystem.rotation.y -= 0.002;
+        particleSystem.rotation.z += 0.001;
 
         renderer.render(scene, camera);
     }

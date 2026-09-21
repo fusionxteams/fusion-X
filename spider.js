@@ -40,6 +40,11 @@ if (spiderContainer) {
                 y: rect.top - containerRect.top + rect.height / 2
             };
             
+            // Make spiders RUN! (Sprint speed)
+            spiders2D.forEach(spider => {
+                spider.speed = 3 + Math.random() * 2; 
+            });
+            
             // Pop animation
             wrapper.style.transform = 'translate(-50%, -50%) scale(1.2)';
             setTimeout(() => {
@@ -50,6 +55,31 @@ if (spiderContainer) {
         spiderContainer.appendChild(wrapper);
         iconElements.push(wrapper);
     });
+
+    // Make Center Logo Clickable to Release Spiders
+    const centerLogoImg = document.getElementById('center-logo-html');
+    if (centerLogoImg) {
+        centerLogoImg.style.pointerEvents = 'auto';
+        centerLogoImg.style.cursor = 'pointer';
+        centerLogoImg.style.transition = 'transform 0.2s';
+        
+        centerLogoImg.addEventListener('click', () => {
+            currentTarget = null; // Release spiders
+            
+            // Return to slow creepy wander speed
+            spiders2D.forEach(spider => {
+                spider.speed = 0.2 + Math.random() * 0.4;
+                spider.targetX = Math.random() * spiderContainer.clientWidth;
+                spider.targetY = Math.random() * spiderContainer.clientHeight;
+            });
+            
+            // Pop animation on logo
+            centerLogoImg.style.transform = 'translate(-50%, -50%) scale(1.1)';
+            setTimeout(() => {
+                centerLogoImg.style.transform = 'translate(-50%, -50%) scale(1)';
+            }, 200);
+        });
+    }
 
     // 2. Pure 2D HTML Canvas Setup
     const bgCanvas = document.getElementById('web-bg-canvas');

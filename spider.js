@@ -27,7 +27,9 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         bgCanvas.height = spiderContainer.clientHeight;
         
         ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-        ctx.strokeStyle = 'rgba(255, 87, 34, 0.5)'; // Orange with slight transparency
+        
+        // 1. Draw Spider Web Background
+        ctx.strokeStyle = 'rgba(255, 87, 34, 0.3)'; // Slightly fainter for background
         ctx.lineWidth = 1;
         
         const cx = bgCanvas.width / 2;
@@ -38,14 +40,12 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         
         ctx.beginPath();
         
-        // Radials
         for (let i = 0; i < radials; i++) {
             const angle = (i / radials) * Math.PI * 2;
             ctx.moveTo(cx, cy);
             ctx.lineTo(cx + Math.cos(angle) * maxRadius, cy + Math.sin(angle) * maxRadius);
         }
         
-        // Rings
         for (let r = 1; r <= rings; r++) {
             const radius = Math.pow(r / rings, 1.2) * maxRadius;
             for (let i = 0; i < radials; i++) {
@@ -56,6 +56,32 @@ if (spiderContainer && typeof THREE !== 'undefined') {
                 ctx.lineTo(cx + Math.cos(angle2) * radius, cy + Math.sin(angle2) * radius);
             }
         }
+        ctx.stroke();
+
+        // 2. Draw Bold Network Links connecting all Icons to Center and Each Other
+        ctx.strokeStyle = 'rgba(255, 87, 34, 0.8)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        
+        const iconCoords = iconData.map(data => {
+            const vector = data.pos.clone();
+            vector.project(cameraWeb);
+            return {
+                x: (vector.x * .5 + .5) * spiderContainer.clientWidth,
+                y: (vector.y * -.5 + .5) * spiderContainer.clientHeight
+            };
+        });
+
+        iconCoords.forEach((coord, index) => {
+            // Link icon to center
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(coord.x, coord.y);
+            
+            // Link icon to next icon (connect each other)
+            const nextCoord = iconCoords[(index + 1) % iconCoords.length];
+            ctx.moveTo(coord.x, coord.y);
+            ctx.lineTo(nextCoord.x, nextCoord.y);
+        });
         
         ctx.stroke();
     }

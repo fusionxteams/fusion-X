@@ -2,190 +2,142 @@
 const brandsContainer = document.getElementById('brands-3d-container');
 
 if (brandsContainer && typeof brandTextures !== 'undefined') {
-    // 1. Setup the high-end minimalist container
+    // 1. Setup the clean white container
     brandsContainer.innerHTML = '';
     brandsContainer.style.width = '100%';
-    brandsContainer.style.minHeight = '600px'; // Give it plenty of room
-    brandsContainer.style.background = '#0a0a0a'; // Ultra dark sleek background
+    brandsContainer.style.background = '#ffffff'; // Pure white background
     brandsContainer.style.position = 'relative';
     brandsContainer.style.display = 'flex';
-    brandsContainer.style.alignItems = 'center';
-    brandsContainer.style.justifyContent = 'center';
-    brandsContainer.style.padding = '40px 20px';
+    brandsContainer.style.flexDirection = 'column';
+    brandsContainer.style.gap = '40px';
+    brandsContainer.style.padding = '40px 0 80px 0';
     brandsContainer.style.overflow = 'hidden';
 
-    // Change title text to match dark theme
+    // Fix the title text styling
     const titleContainer = brandsContainer.parentElement.querySelector('.section-title');
     if (titleContainer) {
         titleContainer.style.position = 'relative';
         titleContainer.style.top = '0';
         titleContainer.style.paddingTop = '60px';
         titleContainer.style.paddingBottom = '20px';
-        titleContainer.parentElement.style.background = '#0a0a0a';
+        titleContainer.parentElement.style.background = '#ffffff';
         
         const h2 = titleContainer.querySelector('h2');
-        if (h2) h2.style.color = '#ffffff';
+        if (h2) h2.style.color = '#111111';
         
         const p = titleContainer.querySelector('p');
-        if (p) p.innerText = 'Hover to reveal';
+        if (p) p.innerText = 'Trusted by industry leaders';
     }
 
-    // 2. Global Spotlight that follows cursor
-    const spotlight = document.createElement('div');
-    spotlight.style.position = 'absolute';
-    spotlight.style.width = '600px';
-    spotlight.style.height = '600px';
-    spotlight.style.background = 'radial-gradient(circle, rgba(255,87,34,0.15) 0%, rgba(10,10,10,0) 70%)';
-    spotlight.style.borderRadius = '50%';
-    spotlight.style.pointerEvents = 'none'; // Don't block hovers
-    spotlight.style.transform = 'translate(-50%, -50%)';
-    spotlight.style.transition = 'opacity 0.3s ease';
-    spotlight.style.opacity = '0';
-    spotlight.style.zIndex = '1';
-    brandsContainer.appendChild(spotlight);
-
-    // 3. Create the CSS Grid
-    const grid = document.createElement('div');
-    grid.style.display = 'grid';
-    grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(220px, 1fr))';
-    grid.style.gap = '30px';
-    grid.style.width = '100%';
-    grid.style.maxWidth = '1000px';
-    grid.style.zIndex = '2';
-    grid.style.perspective = '1000px'; // For the 3D tilt
-    brandsContainer.appendChild(grid);
-
-    // 4. Create the Interactive Cards
-    const cards = [];
-    brandTextures.forEach((b64, index) => {
-        const card = document.createElement('div');
-        card.style.position = 'relative';
-        card.style.width = '100%';
-        card.style.aspectRatio = '1 / 1'; // Perfect square
-        card.style.background = '#111111'; // Dark card background
-        card.style.border = '1px solid #222222';
-        card.style.borderRadius = '15px';
-        card.style.display = 'flex';
-        card.style.alignItems = 'center';
-        card.style.justifyContent = 'center';
-        card.style.overflow = 'hidden';
-        card.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        card.style.transformStyle = 'preserve-3d';
-        card.style.cursor = 'crosshair';
-
-        // Add the Image (Hidden initially)
-        const imgContainer = document.createElement('div');
-        imgContainer.style.position = 'absolute';
-        imgContainer.style.inset = '10px';
-        imgContainer.style.background = '#ffffff';
-        imgContainer.style.borderRadius = '10px';
-        imgContainer.style.border = '3px solid transparent'; // Will become orange on hover
-        imgContainer.style.display = 'flex';
-        imgContainer.style.alignItems = 'center';
-        imgContainer.style.justifyContent = 'center';
-        imgContainer.style.opacity = '0.05'; // Barely visible silhouette
-        imgContainer.style.transition = 'all 0.4s ease';
-        imgContainer.style.transform = 'translateZ(30px)'; // Pops out in 3D
+    // 2. Helper function to create clean logo images
+    function createLogoImg(b64) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'brand-logo-wrapper';
+        wrapper.style.width = '180px';
+        wrapper.style.height = '180px';
+        wrapper.style.flexShrink = '0';
+        wrapper.style.display = 'flex';
+        wrapper.style.alignItems = 'center';
+        wrapper.style.justifyContent = 'center';
+        wrapper.style.background = '#ffffff';
+        wrapper.style.borderRadius = '12px';
+        wrapper.style.border = '2px solid #eeeeee';
+        wrapper.style.boxShadow = '0 4px 15px rgba(0,0,0,0.03)';
+        wrapper.style.transition = 'all 0.3s ease';
+        wrapper.style.cursor = 'pointer';
+        wrapper.style.filter = 'grayscale(100%) opacity(70%)'; // Grayscale by default
+        wrapper.style.padding = '15px';
+        wrapper.style.boxSizing = 'border-box';
 
         if (b64 === '') {
-            imgContainer.innerText = 'Dr. Madhavi';
-            imgContainer.style.fontWeight = 'bold';
-            imgContainer.style.fontSize = '20px';
-            imgContainer.style.color = '#111';
-            imgContainer.style.textAlign = 'center';
+            const placeholder = document.createElement('div');
+            placeholder.innerText = 'Dr. Madhavi';
+            placeholder.style.fontWeight = 'bold';
+            placeholder.style.fontSize = '20px';
+            placeholder.style.color = '#111';
+            placeholder.style.textAlign = 'center';
+            wrapper.appendChild(placeholder);
         } else {
             const img = document.createElement('img');
             img.src = b64;
-            img.style.width = '80%';
-            img.style.height = '80%';
+            img.style.width = '100%';
+            img.style.height = '100%';
             img.style.objectFit = 'contain';
-            imgContainer.appendChild(img);
+            wrapper.appendChild(img);
         }
 
-        // Add a subtle tech grid overlay pattern inside the dark card
-        const techPattern = document.createElement('div');
-        techPattern.style.position = 'absolute';
-        techPattern.style.inset = '0';
-        techPattern.style.backgroundImage = 'radial-gradient(#333 1px, transparent 1px)';
-        techPattern.style.backgroundSize = '15px 15px';
-        techPattern.style.opacity = '0.3';
-        techPattern.style.transition = 'opacity 0.4s ease';
-        card.appendChild(techPattern);
+        // Hover effect for individual logo
+        wrapper.addEventListener('mouseenter', () => {
+            wrapper.style.filter = 'grayscale(0%) opacity(100%)';
+            wrapper.style.border = '2px solid #ff5722';
+            wrapper.style.transform = 'scale(1.05)';
+            wrapper.style.boxShadow = '0 10px 25px rgba(255,87,34,0.15)';
+        });
+        wrapper.addEventListener('mouseleave', () => {
+            wrapper.style.filter = 'grayscale(100%) opacity(70%)';
+            wrapper.style.border = '2px solid #eeeeee';
+            wrapper.style.transform = 'scale(1)';
+            wrapper.style.boxShadow = '0 4px 15px rgba(0,0,0,0.03)';
+        });
 
-        card.appendChild(imgContainer);
-        grid.appendChild(card);
-        cards.push({ card, imgContainer, techPattern });
-    });
+        return wrapper;
+    }
 
-    // 5. Advanced Mouse Tracking & 3D Tilt Logic
-    let bounds = brandsContainer.getBoundingClientRect();
-    window.addEventListener('resize', () => { bounds = brandsContainer.getBoundingClientRect(); });
-    window.addEventListener('scroll', () => { bounds = brandsContainer.getBoundingClientRect(); });
+    // Split brands into two halves for two rows
+    const half = Math.ceil(brandTextures.length / 2);
+    const firstHalf = brandTextures.slice(0, half);
+    const secondHalf = brandTextures.slice(half);
 
+    // 3. Create Row 1 (Scrolls Left)
+    const track1 = document.createElement('div');
+    track1.style.display = 'flex';
+    track1.style.gap = '40px';
+    track1.style.width = 'max-content';
+    track1.style.animation = 'scrollMarqueeLeft 30s linear infinite';
+    
+    // Append 3 times for seamless endless loop
+    for(let i=0; i<3; i++) {
+        firstHalf.forEach(b64 => track1.appendChild(createLogoImg(b64)));
+    }
+
+    // 4. Create Row 2 (Scrolls Right)
+    const track2 = document.createElement('div');
+    track2.style.display = 'flex';
+    track2.style.gap = '40px';
+    track2.style.width = 'max-content';
+    track2.style.animation = 'scrollMarqueeRight 30s linear infinite';
+    // Offset start position so it doesn't look identical to row 1
+    track2.style.transform = 'translateX(-33.33%)'; 
+    
+    // Append 3 times for seamless endless loop
+    for(let i=0; i<3; i++) {
+        secondHalf.forEach(b64 => track2.appendChild(createLogoImg(b64)));
+    }
+
+    // Add pause on hover logic to both tracks
     brandsContainer.addEventListener('mouseenter', () => {
-        spotlight.style.opacity = '1';
+        track1.style.animationPlayState = 'paused';
+        track2.style.animationPlayState = 'paused';
     });
-
     brandsContainer.addEventListener('mouseleave', () => {
-        spotlight.style.opacity = '0';
-        // Reset all cards softly
-        cards.forEach(({ card, imgContainer, techPattern }) => {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-            card.style.border = '1px solid #222222';
-            card.style.boxShadow = 'none';
-            imgContainer.style.opacity = '0.05';
-            imgContainer.style.borderColor = 'transparent';
-            techPattern.style.opacity = '0.3';
-        });
+        track1.style.animationPlayState = 'running';
+        track2.style.animationPlayState = 'running';
     });
 
-    brandsContainer.addEventListener('mousemove', (e) => {
-        // Update Spotlight position
-        const mouseX = e.clientX - bounds.left;
-        const mouseY = e.clientY - bounds.top;
-        spotlight.style.left = `${mouseX}px`;
-        spotlight.style.top = `${mouseY}px`;
+    brandsContainer.appendChild(track1);
+    brandsContainer.appendChild(track2);
 
-        // Calculate proximity and tilt for each card
-        cards.forEach(({ card, imgContainer, techPattern }) => {
-            const cardRect = card.getBoundingClientRect();
-            const cardCenterX = cardRect.left - bounds.left + cardRect.width / 2;
-            const cardCenterY = cardRect.top - bounds.top + cardRect.height / 2;
-            
-            const deltaX = mouseX - cardCenterX;
-            const deltaY = mouseY - cardCenterY;
-            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            
-            // Interaction Radius (How close mouse needs to be to affect the card)
-            const radius = 250; 
-
-            if (distance < radius) {
-                // Inside radius: Calculate 3D Tilt based on mouse position relative to card center
-                const tiltX = (deltaY / (cardRect.height / 2)) * -15; // Max 15 deg
-                const tiltY = (deltaX / (cardRect.width / 2)) * 15;
-                
-                // Calculate intensity based on closeness (1 = dead center, 0 = edge of radius)
-                const intensity = 1 - (distance / radius);
-
-                card.style.transform = `perspective(1000px) rotateX(${tiltX * intensity}deg) rotateY(${tiltY * intensity}deg) scale(${1 + (0.05 * intensity)})`;
-                card.style.border = `1px solid rgba(255, 87, 34, ${intensity * 0.5})`;
-                card.style.boxShadow = `0 15px 30px rgba(255,87,34, ${intensity * 0.15})`;
-                
-                // Reveal the brand image
-                imgContainer.style.opacity = 0.05 + (0.95 * Math.pow(intensity, 2)); // Exponential curve for dramatic snap
-                imgContainer.style.borderColor = `rgba(255, 87, 34, ${intensity})`;
-                
-                // Fade out tech pattern as image reveals
-                techPattern.style.opacity = 0.3 * (1 - intensity);
-            } else {
-                // Outside radius: Reset smoothly
-                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-                card.style.border = '1px solid #222222';
-                card.style.boxShadow = 'none';
-                imgContainer.style.opacity = '0.05';
-                imgContainer.style.borderColor = 'transparent';
-                techPattern.style.opacity = '0.3';
-            }
-        });
-    });
+    // 5. Inject Keyframes
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes scrollMarqueeLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-33.333% - 13px)); }
+        }
+        @keyframes scrollMarqueeRight {
+            0% { transform: translateX(calc(-33.333% - 13px)); }
+            100% { transform: translateX(0); }
+        }
+    `;
+    document.head.appendChild(style);
 }

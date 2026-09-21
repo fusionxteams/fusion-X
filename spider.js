@@ -7,19 +7,13 @@ if (spiderContainer && typeof THREE !== 'undefined') {
 
     const cameraWeb = new THREE.PerspectiveCamera(45, spiderContainer.clientWidth / spiderContainer.clientHeight, 0.1, 1000);
     // Looking directly down at the flat web to perfectly see the geometric hexagon pattern
-    cameraWeb.position.set(0, 0, 45); 
+    cameraWeb.position.set(0, 0, 50); 
     cameraWeb.lookAt(0, 0, 0);
 
     const rendererWeb = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     rendererWeb.setSize(spiderContainer.clientWidth, spiderContainer.clientHeight);
     rendererWeb.setPixelRatio(window.devicePixelRatio);
     spiderContainer.appendChild(rendererWeb.domElement);
-
-    const orbitWeb = new THREE.OrbitControls(cameraWeb, rendererWeb.domElement);
-    orbitWeb.enableDamping = true;
-    orbitWeb.dampingFactor = 0.05;
-    orbitWeb.enableZoom = false;
-    orbitWeb.maxPolarAngle = Math.PI / 1.5;
 
     // 1. Procedural 3D Spider Web (Hexagon Pattern)
     const webMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
@@ -184,7 +178,6 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     function animateWeb() {
         requestAnimationFrame(animateWeb);
         webTime += 0.5; // Slow down global time step
-        orbitWeb.update();
 
         iconElements.forEach(icon => {
             const vector = icon.pos.clone();

@@ -1,15 +1,15 @@
-const container = document.getElementById('brands-3d-container');
+const brandsContainer = document.getElementById('brands-3d-container');
 
-if (container && typeof THREE !== 'undefined' && typeof brandTextures !== 'undefined') {
+if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 'undefined') {
     const scene = new THREE.Scene();
-    const aspect = container.clientWidth / container.clientHeight;
+    const aspect = brandsContainer.clientWidth / brandsContainer.clientHeight;
     const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
     camera.position.set(0, 0, 18);
     
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setSize(brandsContainer.clientWidth, brandsContainer.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    container.appendChild(renderer.domElement);
+    brandsContainer.appendChild(renderer.domElement);
     
     // Function to generate the 1:1 texture with an orange border via 2D Canvas
     function createBrandTexture(b64, textName = null) {
@@ -130,7 +130,7 @@ if (container && typeof THREE !== 'undefined' && typeof brandTextures !== 'undef
             hasEntered = true;
         }
     }, { threshold: 0.3 });
-    observer.observe(container);
+    observer.observe(brandsContainer);
 
     // Render loop
     function animate() {
@@ -174,15 +174,15 @@ if (container && typeof THREE !== 'undefined' && typeof brandTextures !== 'undef
     animate();
 
     // Mouse / Touch Dragging Logic
-    container.addEventListener('mousedown', (e) => {
+    brandsContainer.addEventListener('mousedown', (e) => {
         isDragging = true;
         previousMouseX = e.clientX;
-        container.style.cursor = 'grabbing';
+        brandsContainer.style.cursor = 'grabbing';
     });
     
     window.addEventListener('mouseup', () => {
         isDragging = false;
-        container.style.cursor = 'grab';
+        brandsContainer.style.cursor = 'grab';
     });
     
     window.addEventListener('mousemove', (e) => {
@@ -192,7 +192,7 @@ if (container && typeof THREE !== 'undefined' && typeof brandTextures !== 'undef
         previousMouseX = e.clientX;
     });
 
-    container.addEventListener('touchstart', (e) => {
+    brandsContainer.addEventListener('touchstart', (e) => {
         isDragging = true;
         previousMouseX = e.touches[0].clientX;
     }, {passive: true});
@@ -210,12 +210,12 @@ if (container && typeof THREE !== 'undefined' && typeof brandTextures !== 'undef
 
     // Handle Mobile Sizing
     window.addEventListener('resize', () => {
-        if (!container) return;
-        const newAspect = container.clientWidth / container.clientHeight;
+        if (!brandsContainer) return;
+        const newAspect = brandsContainer.clientWidth / brandsContainer.clientHeight;
         camera.aspect = newAspect;
         camera.position.z = newAspect < 1 ? 28 : 18; // Pull back camera on tall mobile screens
         camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setSize(brandsContainer.clientWidth, brandsContainer.clientHeight);
     });
     
     // Initial scaling check for mobile

@@ -27,7 +27,13 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         { emoji: '🤖', title: 'AI Future', pos: new THREE.Vector3(-12, -6, 2) },
         { emoji: '📱', title: 'Social', pos: new THREE.Vector3(10, -9, 0) },
         { emoji: '📈', title: 'Analytics', pos: new THREE.Vector3(0, -12, 1) },
-        { emoji: '🎯', title: 'Ads', pos: new THREE.Vector3(0, 12, -2) }
+        { emoji: '🎯', title: 'Ads', pos: new THREE.Vector3(0, 12, -2) },
+        { emoji: '✍️', title: 'Content', pos: new THREE.Vector3(-18, 0, 0) },
+        { emoji: '📧', title: 'Email', pos: new THREE.Vector3(18, 0, 1) },
+        { emoji: '✨', title: 'Branding', pos: new THREE.Vector3(-15, 13, -1) },
+        { emoji: '🛒', title: 'E-commerce', pos: new THREE.Vector3(15, -13, 2) },
+        { emoji: '🎥', title: 'Video', pos: new THREE.Vector3(16, 12, 0) },
+        { emoji: '📢', title: 'PR', pos: new THREE.Vector3(-16, -14, -2) }
     ];
 
     // 1. Pure 2D HTML Canvas Spider Web (100% bug-free, perfect 360 degrees)

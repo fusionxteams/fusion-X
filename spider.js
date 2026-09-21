@@ -23,7 +23,7 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     // 1. Procedural 3D Spider Web (Hexagon Pattern)
     const webMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
     const webPoints = [];
-    const radials = 6; 
+    const radials = 8; // 8 radials gives N, S, E, W, NE, NW, SE, SW perfectly
     
     // Ensure the web is always large enough to cover the corners of ANY monitor size
     const maxRadius = Math.max(visibleWidth, visibleHeight) * 1.5; 
@@ -36,7 +36,7 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         webPoints.push(new THREE.Vector3(Math.cos(angle) * maxRadius, Math.sin(angle) * maxRadius, 0));
     }
     
-    // Concentric Rings (Straight lines connecting adjacent radials to form hexagons)
+    // Concentric Rings (Straight lines connecting adjacent radials to form octagons)
     for (let r = 1; r <= rings; r++) {
         const radius = Math.pow(r / rings, 1.2) * maxRadius; 
         
@@ -55,34 +55,21 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     const web = new THREE.LineSegments(webGeo, webMat);
     sceneWeb.add(web);
 
-    // 2. Fusion X Logo Stuck in Center (Dynamically drawn to avoid CORS errors)
-    const centerCanvas = document.createElement('canvas');
-    centerCanvas.width = 512;
-    centerCanvas.height = 512;
-    const centerCtx = centerCanvas.getContext('2d');
-    
-    // Draw solid white circle with orange border
-    centerCtx.fillStyle = '#ffffff';
-    centerCtx.beginPath();
-    centerCtx.arc(256, 256, 240, 0, Math.PI * 2);
-    centerCtx.fill();
-    centerCtx.strokeStyle = '#ff5722';
-    centerCtx.lineWidth = 20;
-    centerCtx.stroke();
-    
-    // Draw "FUSION X"
-    centerCtx.fillStyle = '#ff5722';
-    centerCtx.font = 'bold 70px Arial';
-    centerCtx.textAlign = 'center';
-    centerCtx.textBaseline = 'middle';
-    centerCtx.fillText('FUSION X', 256, 256);
-
-    const logoTex = new THREE.CanvasTexture(centerCanvas);
-    const logoGeo = new THREE.PlaneGeometry(8, 8);
-    const logoMat = new THREE.MeshBasicMaterial({ map: logoTex, transparent: true, side: THREE.DoubleSide });
-    const centerLogo = new THREE.Mesh(logoGeo, logoMat);
-    centerLogo.position.z = 0.5;
-    sceneWeb.add(centerLogo);
+    // 2. Load Actual FUSION X Logo (using base64 to avoid local CORS issues)
+    const texLoader = new THREE.TextureLoader();
+    let centerLogo = new THREE.Mesh();
+    texLoader.load(logoBase64, (texture) => {
+        const aspect = texture.image.width / texture.image.height;
+        const width = 12; // Adjust size
+        const height = width / aspect;
+        
+        const logoGeo = new THREE.PlaneGeometry(width, height);
+        const logoMat = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.DoubleSide });
+        centerLogo.geometry = logoGeo;
+        centerLogo.material = logoMat;
+        centerLogo.position.z = 0.5;
+        sceneWeb.add(centerLogo);
+    });
 
     // 3. Digital Marketing Icons (HTML Emojis)
     const iconData = [

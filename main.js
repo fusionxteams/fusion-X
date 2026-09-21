@@ -36,152 +36,192 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// --- Three.js: Digital Marketing Growth Hologram ---
+// --- Three.js: Flat World Map & Flight Banner ---
 const container = document.getElementById('globe-container');
 if (container && typeof THREE !== 'undefined') {
-    // Setup Scene
     const scene = new THREE.Scene();
     
-    // Camera
+    // Camera setup for a cool isometric view of the flat map
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(0, 5, 12);
+    camera.position.set(0, 12, 16);
     camera.lookAt(0, 0, 0);
 
-    // Renderer
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    const group = new THREE.Group();
-    scene.add(group);
-
-    // 1. The Physical World: A Sleek Smartphone/Tablet Device
-    const phoneGeo = new THREE.BoxGeometry(4, 0.2, 7);
-    const phoneMat = new THREE.MeshStandardMaterial({ 
-        color: 0x333333,
-        metalness: 0.8,
-        roughness: 0.2
-    });
-    const phone = new THREE.Mesh(phoneGeo, phoneMat);
-    phone.rotation.x = Math.PI / 2; // Lay it flat
-    group.add(phone);
-
-    // Phone Screen (Glowing base)
-    const screenGeo = new THREE.PlaneGeometry(3.6, 6.6);
-    const screenMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
-    const screen = new THREE.Mesh(screenGeo, screenMat);
-    screen.rotation.x = -Math.PI / 2;
-    screen.position.y = 0.11;
-    group.add(screen);
-
-    // 2. The Digital World: Holographic Growth Chart (Marketing ROI)
-    const chartGroup = new THREE.Group();
-    chartGroup.position.y = 0.15;
-    group.add(chartGroup);
-
-    // Create 5 bars representing data growth
-    const bars = [];
-    const barGeo = new THREE.BoxGeometry(0.4, 1, 0.4);
-    const barMat = new THREE.MeshBasicMaterial({ 
-        color: 0xff5722, 
-        transparent: true, 
-        opacity: 0.85,
-        wireframe: true // Gives it a digital/hologram feel
-    });
-
-    const targetHeights = [1, 2, 3.5, 5, 7];
-    for(let i=0; i<5; i++) {
-        const bar = new THREE.Mesh(barGeo, barMat);
-        bar.position.set(-1.2 + (i * 0.6), 0, 1.5 - (i * 0.75));
-        // Start them at scale 0 for animation
-        bar.scale.y = 0.01;
-        bar.userData = { targetHeight: targetHeights[i] };
-        chartGroup.add(bar);
-        bars.push(bar);
-    }
-
-    // A glowing Arrow pointing UP (Representing Marketing Success/Traffic)
-    const arrowGroup = new THREE.Group();
-    
-    const lineGeo = new THREE.CylinderGeometry(0.05, 0.05, 7, 8);
-    const arrowMat = new THREE.MeshBasicMaterial({ color: 0xff9800 });
-    const line = new THREE.Mesh(lineGeo, arrowMat);
-    line.rotation.z = -Math.PI / 4;
-    line.rotation.x = Math.PI / 6;
-    arrowGroup.add(line);
-
-    const headGeo = new THREE.ConeGeometry(0.3, 0.8, 8);
-    const head = new THREE.Mesh(headGeo, arrowMat);
-    head.position.set(2.5, 2.5, -1.5);
-    head.rotation.z = -Math.PI / 4;
-    head.rotation.x = Math.PI / 6;
-    arrowGroup.add(head);
-
-    arrowGroup.position.set(-1, 0, 1);
-    chartGroup.add(arrowGroup);
-
-    // 3. Floating Traffic/Data Particles pulling into the phone
-    const particleCount = 150;
-    const particleGeo = new THREE.BufferGeometry();
-    const particlePos = new Float32Array(particleCount * 3);
-    for(let i=0; i<particleCount*3; i++) {
-        particlePos[i] = (Math.random() - 0.5) * 15;
-    }
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
-    const particleMat = new THREE.PointsMaterial({
-        color: 0xff5722,
-        size: 0.15,
-        transparent: true,
-        opacity: 0.6
-    });
-    const particles = new THREE.Points(particleGeo, particleMat);
-    scene.add(particles);
-
-    // Lighting
-    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
-    scene.add(ambient);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(5, 10, 5);
-    scene.add(directionalLight);
-
-    // Animation Loop
-    let time = 0;
-    function animate() {
-        requestAnimationFrame(animate);
-        time += 0.015;
-
-        // Gently float and rotate the entire phone setup
-        group.rotation.y = Math.sin(time * 0.5) * 0.3 - 0.5;
-        group.rotation.x = Math.cos(time * 0.5) * 0.1 + 0.2;
-        group.position.y = Math.sin(time) * 0.3;
-
-        // Animate the bars growing (Marketing ROI)
-        bars.forEach((bar, index) => {
-            // Growth animation with a slight bounce
-            const height = Math.min(bar.userData.targetHeight, bar.scale.y + 0.05);
-            bar.scale.y = height + Math.sin(time * 3 + index) * 0.1;
-            // Adjust position so they grow upwards, not from center
-            bar.position.y = bar.scale.y / 2;
+    // 1. The Flat World Map
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load('world_map.png', (texture) => {
+        // Create the map plane (24x12 to match 2:1 equirectangular ratio)
+        const mapGeo = new THREE.PlaneGeometry(24, 12);
+        const mapMat = new THREE.MeshBasicMaterial({ 
+            color: 0xff5722, 
+            map: texture,
+            transparent: true, 
+            opacity: 0.5,
+            side: THREE.DoubleSide
         });
+        const mapPlane = new THREE.Mesh(mapGeo, mapMat);
+        mapPlane.rotation.x = -Math.PI / 2; // Lay it flat
+        scene.add(mapPlane);
 
-        // Float the arrow
-        arrowGroup.position.y = Math.sin(time * 2) * 0.2;
+        // Add a subtle grid underneath for a digital tracking feel
+        const gridHelper = new THREE.GridHelper(24, 24, 0xdddddd, 0xeeeeee);
+        gridHelper.position.y = -0.1;
+        scene.add(gridHelper);
 
-        // Animate particles flowing downwards into the phone (Organic Traffic)
-        const positions = particles.geometry.attributes.position.array;
-        for(let i=1; i<particleCount*3; i+=3) {
-            positions[i] -= 0.05; // Fall down
-            if (positions[i] < -5) {
-                positions[i] = 10; // Reset to top
-            }
+        // 2. The Flight (Airplane)
+        const planeGroup = new THREE.Group();
+        
+        // Plane Body
+        const bodyGeo = new THREE.ConeGeometry(0.3, 1.8, 16);
+        bodyGeo.rotateX(Math.PI / 2); // Point forward along Z axis
+        const planeMat = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.3, roughness: 0.4 });
+        const body = new THREE.Mesh(bodyGeo, planeMat);
+        planeGroup.add(body);
+        
+        // Wings
+        const wingGeo = new THREE.BoxGeometry(2.5, 0.05, 0.5);
+        const wings = new THREE.Mesh(wingGeo, planeMat);
+        wings.position.set(0, 0, 0.2);
+        planeGroup.add(wings);
+        
+        // Tail Stabilizers
+        const tailGeo = new THREE.BoxGeometry(1, 0.05, 0.3);
+        const tail = new THREE.Mesh(tailGeo, planeMat);
+        tail.position.set(0, 0, -0.7);
+        planeGroup.add(tail);
+        
+        const finGeo = new THREE.BoxGeometry(0.05, 0.5, 0.4);
+        const fin = new THREE.Mesh(finGeo, planeMat);
+        fin.position.set(0, 0.25, -0.7);
+        planeGroup.add(fin);
+
+        // 3. The Cloth Banner ("Fusion X")
+        // Create a canvas for the banner text
+        const bannerCanvas = document.createElement('canvas');
+        bannerCanvas.width = 512;
+        bannerCanvas.height = 128;
+        const ctx = bannerCanvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, 512, 128);
+        ctx.fillStyle = '#ff5722';
+        ctx.font = 'bold 70px "Segoe UI", Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('FUSION X', 256, 64);
+        
+        const bannerTexture = new THREE.CanvasTexture(bannerCanvas);
+        
+        // PlaneGeometry with many segments for cloth simulation
+        const bannerGeo = new THREE.PlaneGeometry(3.5, 0.8, 30, 5);
+        bannerGeo.translate(1.75, 0, 0); // Translate so origin is at the left edge for attachment
+        
+        const bannerMat = new THREE.MeshBasicMaterial({ 
+            map: bannerTexture, 
+            side: THREE.DoubleSide 
+        });
+        const banner = new THREE.Mesh(bannerGeo, bannerMat);
+        
+        // Position banner behind the plane
+        banner.position.set(0, 0, -1.2);
+        // Rotate it so it trails behind (aligns with negative Z axis)
+        banner.rotation.y = -Math.PI / 2;
+        planeGroup.add(banner);
+
+        // Rope connecting tail to banner
+        const ropeGeo = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(0, 0, -0.9), // Tail of plane
+            new THREE.Vector3(0, 0, -1.2)   // Front of banner
+        ]);
+        const ropeMat = new THREE.LineBasicMaterial({ color: 0x333333 });
+        const rope = new THREE.Line(ropeGeo, ropeMat);
+        planeGroup.add(rope);
+
+        scene.add(planeGroup);
+
+        // 4. Flight Path (Continent to Continent)
+        // Coordinates mapped to the flat 24x12 map
+        const continents = [
+            new THREE.Vector3(-7, 2.5, -3),  // North America
+            new THREE.Vector3(1, 2.5, -4),   // Europe
+            new THREE.Vector3(7, 2.5, -2),   // Asia
+            new THREE.Vector3(9, 2.5, 3),    // Australia
+            new THREE.Vector3(2, 2.5, 1.5),  // Africa
+            new THREE.Vector3(-4, 2.5, 3),   // South America
+            new THREE.Vector3(-7, 2.5, -3)   // Loop back
+        ];
+        
+        // Create a smooth curve
+        const curve = new THREE.CatmullRomCurve3(continents);
+        curve.closed = true;
+
+        // Add a line to visualize the flight path
+        const pathPoints = curve.getPoints(150);
+        const pathGeo = new THREE.BufferGeometry().setFromPoints(pathPoints);
+        const pathMat = new THREE.LineDashedMaterial({ 
+            color: 0xff9800, 
+            dashSize: 0.3, 
+            gapSize: 0.2, 
+            linewidth: 2,
+            transparent: true,
+            opacity: 0.6
+        });
+        const pathLine = new THREE.Line(pathGeo, pathMat);
+        pathLine.computeLineDistances(); // Required for dashed material
+        scene.add(pathLine);
+
+        // Lighting for the airplane
+        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambient);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight.position.set(5, 10, 5);
+        scene.add(dirLight);
+
+        // Animation
+        let time = 0;
+        const flightDuration = 2500; // frames for one full loop
+        const bannerPositions = banner.geometry.attributes.position;
+        const bannerInitialX = [];
+        for (let i = 0; i < bannerPositions.count; i++) {
+            bannerInitialX.push(bannerPositions.getX(i));
         }
-        particles.geometry.attributes.position.needsUpdate = true;
 
-        renderer.render(scene, camera);
-    }
-    
-    animate();
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 1;
+
+            // Animate Plane along the curve
+            const t = (time % flightDuration) / flightDuration;
+            const position = curve.getPointAt(t);
+            planeGroup.position.copy(position);
+            
+            // Look at the next point on the curve to steer
+            const nextT = ((time + 1) % flightDuration) / flightDuration;
+            const nextPosition = curve.getPointAt(nextT);
+            planeGroup.lookAt(nextPosition);
+
+            // Animate the cloth banner (waving in the wind)
+            for (let i = 0; i < bannerPositions.count; i++) {
+                const x = bannerInitialX[i];
+                // The cloth waves more intensely further away from the plane attachment point
+                const wave = Math.sin((x * 4) - (time * 0.3)) * (x * 0.15);
+                bannerPositions.setZ(i, wave);
+            }
+            bannerPositions.needsUpdate = true;
+
+            // Slowly pan the camera slightly for a dynamic cinematic view
+            camera.position.x = Math.sin(time * 0.001) * 3;
+            camera.position.z = 16 + Math.cos(time * 0.001) * 2;
+            camera.lookAt(0, 0, 0);
+
+            renderer.render(scene, camera);
+        }
+        
+        animate();
+    });
 
     // Handle Resize
     window.addEventListener('resize', () => {

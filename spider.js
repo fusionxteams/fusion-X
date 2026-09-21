@@ -2,8 +2,7 @@
 const spiderContainer = document.getElementById('spider-container');
 if (spiderContainer && typeof THREE !== 'undefined') {
     const sceneWeb = new THREE.Scene();
-    sceneWeb.background = new THREE.Color(0xffffff); // White Background
-    sceneWeb.fog = new THREE.FogExp2(0xffffff, 0.015);
+    // Removed background and fog to allow transparency so the 2D HTML web and logo are visible underneath
 
     const cameraWeb = new THREE.PerspectiveCamera(45, spiderContainer.clientWidth / spiderContainer.clientHeight, 0.1, 1000);
     // Looking directly down at the flat web to perfectly see the geometric hexagon pattern
@@ -13,7 +12,9 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     const rendererWeb = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     rendererWeb.setSize(spiderContainer.clientWidth, spiderContainer.clientHeight);
     rendererWeb.setPixelRatio(window.devicePixelRatio);
-    rendererWeb.domElement.style.position = 'relative';
+    rendererWeb.domElement.style.position = 'absolute';
+    rendererWeb.domElement.style.top = '0';
+    rendererWeb.domElement.style.left = '0';
     rendererWeb.domElement.style.zIndex = '3';
     spiderContainer.appendChild(rendererWeb.domElement);
 

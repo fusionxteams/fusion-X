@@ -1,8 +1,12 @@
 // shatter-animation.js
+const shatterSect = document.getElementById('fusion-shatter');
 const shatterContainer = document.getElementById('shatter-canvas-container');
 const triggerBtn = document.getElementById('trigger-shatter-btn');
 const revealText = document.getElementById('fusion-reveal-text');
 const samuraiImg = document.getElementById('html-samurai');
+const slashLine = document.getElementById('slash-line');
+const textFusion = document.getElementById('html-fusion');
+const textX = document.getElementById('html-x');
 const xGlow = document.getElementById('x-glow');
 
 // --- THREE.JS BACKGROUND LIGHTNING ---
@@ -23,7 +27,7 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     
     // Background flash
     const flashGeo = new THREE.PlaneGeometry(200, 200);
-    const flashMat = new THREE.MeshBasicMaterial({ color: 0x00aaff, transparent: true, opacity: 0 });
+    const flashMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 }); // White flash
     const flash = new THREE.Mesh(flashGeo, flashMat);
     flash.position.z = -10;
     scene.add(flash);
@@ -43,7 +47,7 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         }
         
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        const material = new THREE.LineBasicMaterial({ color: 0x00d4ff, linewidth: 2, transparent: true });
+        const material = new THREE.LineBasicMaterial({ color: 0x00d4ff, linewidth: 3, transparent: true });
         return new THREE.Line(geometry, material);
     }
 
@@ -53,13 +57,13 @@ if (shatterContainer && typeof THREE !== 'undefined') {
 
     triggerLightning = () => {
         isExploding = true;
-        flashMat.opacity = 0.8;
+        flashMat.opacity = 1.0;
         
         while(lightningGroup.children.length > 0) lightningGroup.remove(lightningGroup.children[0]);
         lightningBolts.length = 0;
 
-        for(let i=0; i < 15; i++) {
-            const angle = (i / 15) * Math.PI * 2 + (Math.random() * 0.5);
+        for(let i=0; i < 20; i++) {
+            const angle = (i / 20) * Math.PI * 2 + (Math.random() * 0.5);
             const bolt = createLightningBolt(0, 0, angle); 
             lightningGroup.add(bolt);
             lightningBolts.push(bolt);
@@ -71,14 +75,14 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         const dt = clock.getDelta();
 
         if (isExploding) {
-            if (flashMat.opacity > 0) flashMat.opacity -= 2 * dt;
+            if (flashMat.opacity > 0) flashMat.opacity -= 3 * dt;
             
             let allDead = true;
             lightningBolts.forEach(bolt => {
                 if (bolt.material.opacity > 0) {
                     allDead = false;
-                    bolt.material.opacity -= 3 * dt;
-                    bolt.scale.addScalar(5 * dt);
+                    bolt.material.opacity -= 2 * dt;
+                    bolt.scale.addScalar(8 * dt);
                     
                     const positions = bolt.geometry.attributes.position.array;
                     for(let i = 3; i < positions.length; i += 3) {
@@ -103,90 +107,96 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     });
 }
 
-// --- HTML/CSS ANIMATION ORCHESTRATOR ---
+// --- CINEMATIC ANIMATION ORCHESTRATOR ---
 let isAnimating = false;
 
-function startSequence() {
+function startCinematicSequence() {
     if (isAnimating) return;
     isAnimating = true;
     
-    // Reset Everything
+    // 0. Reset State (Samurai on Left, Text Normal)
     triggerBtn.style.opacity = '0';
+    shatterSect.style.background = '#ffffff';
     samuraiImg.style.transition = 'none';
-    samuraiImg.style.transform = 'translateX(100vw)';
-    samuraiImg.classList.remove('is-slashing', 'is-done', 'is-leaning');
-    samuraiImg.classList.add('is-running'); // Start moving his legs
+    samuraiImg.style.opacity = '1';
+    samuraiImg.style.left = '5%';
+    samuraiImg.style.right = 'auto';
+    samuraiImg.style.transform = 'scaleX(1)'; // Facing right
+    samuraiImg.style.mixBlendMode = 'multiply';
     
-    revealText.style.opacity = '0';
-    revealText.style.transform = 'scale(0.5)';
-    xGlow.style.opacity = '0';
+    slashLine.style.transition = 'none';
+    slashLine.style.transform = 'scaleX(0)';
+    slashLine.style.opacity = '0';
     
-    // Force DOM Reflow
-    void samuraiImg.offsetWidth;
+    textFusion.classList.remove('text-dim');
+    textX.classList.remove('text-dim');
+    xGlow.style.opacity = '1';
     
-    // 1. Dash In
-    // Slower (2.5s) so you can enjoy the running animation
-    samuraiImg.style.transition = 'transform 2.5s linear';
-    samuraiImg.style.transform = 'translateX(-50%)'; // Move to center
-
-    // 2. The Jump and Strike
+    // 1. The Tension (Lights out)
     setTimeout(() => {
-        samuraiImg.classList.remove('is-running');
+        shatterSect.style.background = '#111111';
+        textFusion.classList.add('text-dim');
+        textX.classList.add('text-dim');
+        xGlow.style.opacity = '0.2';
+        // Make image normal blend so the white background is visible in the dark (simulating an aura) or keep multiply.
+        samuraiImg.style.mixBlendMode = 'normal'; 
         
-        // Jump UP
-        samuraiImg.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
-        samuraiImg.style.transform = 'translateX(-50%) translateY(-150px)';
-        
-        // First Slash
+        // 2. The Flash Step Teleport
         setTimeout(() => {
-            samuraiImg.classList.add('is-slashing-1');
+            // Disappear
+            samuraiImg.style.opacity = '0';
             
-            // Pull back sword
+            // Slash effect across screen
+            slashLine.style.opacity = '1';
+            slashLine.style.transition = 'transform 0.1s ease-out';
+            slashLine.style.transform = 'scaleX(1)';
+            
+            // Reappear on Right, flipped
             setTimeout(() => {
-                samuraiImg.classList.remove('is-slashing-1');
+                samuraiImg.style.left = 'auto';
+                samuraiImg.style.right = '5%';
+                samuraiImg.style.transform = 'scaleX(-1)'; // Facing left (away)
+                samuraiImg.style.opacity = '1';
                 
-                // Second Slash
+                // 3. The Dramatic Pause
                 setTimeout(() => {
-                    samuraiImg.classList.add('is-slashing-2');
+                    slashLine.style.transition = 'opacity 0.2s';
+                    slashLine.style.opacity = '0';
                     
-                    // 3. The Explosion (Triggered on second slash)
+                    // 4. The Sheath & Explosion
+                    // Lights come back on instantly
+                    shatterSect.style.background = '#ffffff';
+                    textFusion.classList.remove('text-dim');
+                    textX.classList.remove('text-dim');
+                    xGlow.style.opacity = '1';
+                    samuraiImg.style.mixBlendMode = 'multiply'; // Remove aura
+                    
+                    // Trigger the 3D Lightning
                     triggerLightning();
-                    revealText.style.opacity = '1';
-                    revealText.style.transform = 'scale(1)';
-                    setTimeout(() => { xGlow.style.opacity = '1'; }, 300);
-
-                    // Land DOWN
+                    
                     setTimeout(() => {
-                        samuraiImg.style.transition = 'transform 0.4s cubic-bezier(0.5, 0, 0.75, 0)'; // gravity curve
-                        samuraiImg.style.transform = 'translateX(-50%) translateY(0px)';
-                        
-                        // Lean after landing
-                        setTimeout(() => {
-                            samuraiImg.classList.remove('is-slashing-2');
-                            samuraiImg.classList.add('is-leaning');
-                            
-                            setTimeout(() => {
-                                triggerBtn.style.opacity = '1';
-                                isAnimating = false;
-                            }, 1000);
-                        }, 400); // Wait for land
-                    }, 200); // Wait after 2nd slash
-                }, 150); // Wait between slashes
-            }, 150); // Duration of first slash
-        }, 200); // Wait to reach apex of jump
+                        triggerBtn.style.opacity = '1';
+                        triggerBtn.innerText = 'Replay Scene';
+                        isAnimating = false;
+                    }, 1000);
+                    
+                }, 1000); // Wait for the dramatically sheathed sword
+                
+            }, 100); // Duration of the slash
+            
+        }, 1500); // 1.5s tension pause
         
-    }, 2500); // Wait for the 2.5s dash to finish
+    }, 100); 
 }
 
 if (triggerBtn) {
-    triggerBtn.addEventListener('click', startSequence);
+    triggerBtn.addEventListener('click', startCinematicSequence);
 }
 
-const shatterSect = document.getElementById('fusion-shatter');
 if (shatterSect) {
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && !isAnimating) {
-            setTimeout(startSequence, 300);
+            setTimeout(startCinematicSequence, 500);
         }
     }, { threshold: 0.5 });
     observer.observe(shatterSect);

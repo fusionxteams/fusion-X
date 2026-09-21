@@ -38,14 +38,36 @@ const container = document.getElementById('globe-container');
 if (container && typeof THREE !== 'undefined') {
     const scene = new THREE.Scene();
     
-    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(0, 14, 12);
-    camera.lookAt(0, 0, 0);
+    const aspect = container.clientWidth / container.clientHeight;
+    const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+    
+    // Dynamic camera scaling to fix mobile view
+    function updateCameraPosition() {
+        const currentAspect = container.clientWidth / container.clientHeight;
+        if (currentAspect < 1) {
+            // Mobile (tall screen) - pull camera back so the 24-width map fits
+            camera.position.set(0, 24, 18);
+        } else {
+            // Desktop (wide screen)
+            camera.position.set(0, 14, 12);
+        }
+        camera.lookAt(0, 0, 0);
+    }
+    updateCameraPosition();
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
+
+    // Handle Resize
+    window.addEventListener('resize', () => {
+        if (!container) return;
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        updateCameraPosition();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    });
 
     // 1. A High-Quality Flat Map with 3D Mountains & Snow
     const textureLoader = new THREE.TextureLoader();

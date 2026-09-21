@@ -129,42 +129,51 @@ function startSequence() {
     samuraiImg.style.transition = 'transform 2.5s linear';
     samuraiImg.style.transform = 'translateX(-50%)'; // Move to center
 
-    // 2. The Strike
+    // 2. The Jump and Strike
     setTimeout(() => {
         samuraiImg.classList.remove('is-running');
-        samuraiImg.classList.add('is-slashing'); // This rotates the arm
         
-        // Slight pop for impact
-        samuraiImg.style.transition = 'transform 0.1s ease';
-        samuraiImg.style.transform = 'translateX(-50%) scale(1.05)';
+        // Jump UP
+        samuraiImg.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+        samuraiImg.style.transform = 'translateX(-50%) translateY(-150px)';
         
+        // First Slash
         setTimeout(() => {
-            samuraiImg.style.transform = 'translateX(-50%) scale(1)';
+            samuraiImg.classList.add('is-slashing-1');
             
-            // 3. The Explosion
-            triggerLightning();
-            
-            // FUSION X Reveal
-            revealText.style.opacity = '1';
-            revealText.style.transform = 'scale(1)';
-            
-            // Blue glow inside the X
+            // Pull back sword
             setTimeout(() => {
-                xGlow.style.opacity = '1';
-            }, 300);
-            
-            // Samurai falls back and leans on the text
-            setTimeout(() => {
-                samuraiImg.classList.remove('is-slashing');
-                samuraiImg.classList.add('is-leaning');
+                samuraiImg.classList.remove('is-slashing-1');
                 
+                // Second Slash
                 setTimeout(() => {
-                    triggerBtn.style.opacity = '1';
-                    isAnimating = false;
-                }, 1000);
-            }, 800);
-            
-        }, 100);
+                    samuraiImg.classList.add('is-slashing-2');
+                    
+                    // 3. The Explosion (Triggered on second slash)
+                    triggerLightning();
+                    revealText.style.opacity = '1';
+                    revealText.style.transform = 'scale(1)';
+                    setTimeout(() => { xGlow.style.opacity = '1'; }, 300);
+
+                    // Land DOWN
+                    setTimeout(() => {
+                        samuraiImg.style.transition = 'transform 0.4s cubic-bezier(0.5, 0, 0.75, 0)'; // gravity curve
+                        samuraiImg.style.transform = 'translateX(-50%) translateY(0px)';
+                        
+                        // Lean after landing
+                        setTimeout(() => {
+                            samuraiImg.classList.remove('is-slashing-2');
+                            samuraiImg.classList.add('is-leaning');
+                            
+                            setTimeout(() => {
+                                triggerBtn.style.opacity = '1';
+                                isAnimating = false;
+                            }, 1000);
+                        }, 400); // Wait for land
+                    }, 200); // Wait after 2nd slash
+                }, 150); // Wait between slashes
+            }, 150); // Duration of first slash
+        }, 200); // Wait to reach apex of jump
         
     }, 2500); // Wait for the 2.5s dash to finish
 }

@@ -130,8 +130,8 @@ function startSequence() {
     void samuraiImg.offsetWidth;
     
     // 1. Dash In
-    // We make it slower (1.5s) so you can enjoy the running animation
-    samuraiImg.style.transition = 'transform 1.5s linear';
+    // Slower (2.5s) so you can enjoy the running animation
+    samuraiImg.style.transition = 'transform 2.5s linear';
     samuraiImg.style.transform = 'translateX(-50%)'; // Move to center
     
     // Speed lines
@@ -189,7 +189,7 @@ function startSequence() {
             
         }, 100);
         
-    }, 1500); // Wait for the 1.5s dash to finish
+    }, 2500); // Wait for the 2.5s dash to finish
 }
 
 if (triggerBtn) {

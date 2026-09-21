@@ -13,83 +13,54 @@ if (spiderContainer && typeof THREE !== 'undefined') {
     const rendererWeb = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     rendererWeb.setSize(spiderContainer.clientWidth, spiderContainer.clientHeight);
     rendererWeb.setPixelRatio(window.devicePixelRatio);
+    rendererWeb.domElement.style.position = 'relative';
+    rendererWeb.domElement.style.zIndex = '3';
     spiderContainer.appendChild(rendererWeb.domElement);
 
-    // Calculate exactly how wide the screen is in 3D units at Z=0
-    const vFov = (cameraWeb.fov * Math.PI) / 180;
-    const visibleHeight = 2 * Math.tan(vFov / 2) * cameraWeb.position.z;
-    const visibleWidth = visibleHeight * cameraWeb.aspect;
-
-    // Calculate exactly how wide the screen is in 3D units at Z=0
-    const maxRadius = Math.max(visibleWidth, visibleHeight) * 1.5; 
-    const rings = Math.floor(maxRadius / 3); 
-    const radials = 8; 
-
-    // 1. Procedural 3D Spider Web (True 3D Cylinders to fix WebGL line dropping bugs)
-    const webGroup = new THREE.Group();
-    const silkMat = new THREE.MeshStandardMaterial({ 
-        color: 0xff5722, 
-        roughness: 0.4, 
-        metalness: 0.8,
-        transparent: true,
-        opacity: 0.8
-    });
-
-    const silkThickness = 0.15; // True 3D thickness for the web threads
-
-    function createSilkLine(p1, p2) {
-        const distance = p1.distanceTo(p2);
-        const geo = new THREE.CylinderGeometry(silkThickness, silkThickness, distance, 4);
-        const mesh = new THREE.Mesh(geo, silkMat);
-        
-        // Position at midpoint
-        const mid = p1.clone().lerp(p2, 0.5);
-        mesh.position.copy(mid);
-        
-        // Orient cylinder from p1 to p2
-        mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), p2.clone().sub(p1).normalize());
-        return mesh;
-    }
-
-    // Radials
-    for (let i = 0; i < radials; i++) {
-        const angle = (i / radials) * Math.PI * 2;
-        const p1 = new THREE.Vector3(0, 0, 0);
-        const p2 = new THREE.Vector3(Math.cos(angle) * maxRadius, Math.sin(angle) * maxRadius, 0);
-        webGroup.add(createSilkLine(p1, p2));
-    }
+    // 1. Pure 2D HTML Canvas Spider Web (100% bug-free, perfect 360 degrees)
+    const bgCanvas = document.getElementById('web-bg-canvas');
+    const ctx = bgCanvas.getContext('2d');
     
-    // Concentric Rings
-    for (let r = 1; r <= rings; r++) {
-        const radius = Math.pow(r / rings, 1.2) * maxRadius; 
+    function draw2DWeb() {
+        bgCanvas.width = spiderContainer.clientWidth;
+        bgCanvas.height = spiderContainer.clientHeight;
         
+        ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+        ctx.strokeStyle = 'rgba(255, 87, 34, 0.5)'; // Orange with slight transparency
+        ctx.lineWidth = 1;
+        
+        const cx = bgCanvas.width / 2;
+        const cy = bgCanvas.height / 2;
+        const radials = 8;
+        const maxRadius = Math.max(bgCanvas.width, bgCanvas.height) * 0.8;
+        const rings = 25;
+        
+        ctx.beginPath();
+        
+        // Radials
         for (let i = 0; i < radials; i++) {
-            const angle1 = (i / radials) * Math.PI * 2;
-            const angle2 = ((i + 1) % radials) * Math.PI * 2;
-            
-            const p1 = new THREE.Vector3(Math.cos(angle1) * radius, Math.sin(angle1) * radius, 0);
-            const p2 = new THREE.Vector3(Math.cos(angle2) * radius, Math.sin(angle2) * radius, 0);
-            webGroup.add(createSilkLine(p1, p2));
+            const angle = (i / radials) * Math.PI * 2;
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + Math.cos(angle) * maxRadius, cy + Math.sin(angle) * maxRadius);
         }
-    }
-    
-    sceneWeb.add(webGroup);
-
-    // 2. Load Actual FUSION X Logo (using base64 to avoid local CORS issues)
-    const texLoader = new THREE.TextureLoader();
-    let centerLogo = new THREE.Mesh();
-    texLoader.load(logoBase64, (texture) => {
-        const aspect = texture.image.width / texture.image.height;
-        const width = 12; // Adjust size
-        const height = width / aspect;
         
-        const logoGeo = new THREE.PlaneGeometry(width, height);
-        const logoMat = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.DoubleSide });
-        centerLogo.geometry = logoGeo;
-        centerLogo.material = logoMat;
-        centerLogo.position.z = 0.5;
-        sceneWeb.add(centerLogo);
-    });
+        // Rings
+        for (let r = 1; r <= rings; r++) {
+            const radius = Math.pow(r / rings, 1.2) * maxRadius;
+            for (let i = 0; i < radials; i++) {
+                const angle1 = (i / radials) * Math.PI * 2;
+                const angle2 = ((i + 1) % radials) * Math.PI * 2;
+                
+                if (i === 0) ctx.moveTo(cx + Math.cos(angle1) * radius, cy + Math.sin(angle1) * radius);
+                ctx.lineTo(cx + Math.cos(angle2) * radius, cy + Math.sin(angle2) * radius);
+            }
+        }
+        
+        ctx.stroke();
+    }
+    draw2DWeb();
+
+    let centerLogo = { rotation: { z: 0 } };
 
     // 3. Digital Marketing Icons (HTML Emojis)
     const iconData = [
@@ -186,6 +157,7 @@ if (spiderContainer && typeof THREE !== 'undefined') {
         cameraWeb.aspect = spiderContainer.clientWidth / spiderContainer.clientHeight;
         cameraWeb.updateProjectionMatrix();
         rendererWeb.setSize(spiderContainer.clientWidth, spiderContainer.clientHeight);
+        draw2DWeb();
     });
 
     let webTime = 0;

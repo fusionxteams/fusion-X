@@ -116,6 +116,9 @@ function startSequence() {
     triggerBtn.style.opacity = '0';
     samuraiImg.style.transition = 'none';
     samuraiImg.style.transform = 'translateX(100vw)';
+    samuraiImg.classList.remove('is-slashing', 'is-done');
+    samuraiImg.classList.add('is-running'); // Start moving his legs
+    
     dashLine.style.transition = 'none';
     dashLine.style.opacity = '0';
     revealText.style.opacity = '0';
@@ -127,7 +130,8 @@ function startSequence() {
     void samuraiImg.offsetWidth;
     
     // 1. Dash In
-    samuraiImg.style.transition = 'transform 0.6s cubic-bezier(0.1, 0.9, 0.2, 1)';
+    // We make it slower (1.5s) so you can enjoy the running animation
+    samuraiImg.style.transition = 'transform 1.5s linear';
     samuraiImg.style.transform = 'translateX(-50%)'; // Move to center
     
     // Speed lines
@@ -137,6 +141,8 @@ function startSequence() {
     // 2. The Strike
     setTimeout(() => {
         dashLine.style.opacity = '0';
+        samuraiImg.classList.remove('is-running');
+        samuraiImg.classList.add('is-slashing'); // This rotates the arm
         
         // Slight pop for impact
         samuraiImg.style.transition = 'transform 0.1s ease';
@@ -164,6 +170,8 @@ function startSequence() {
             
             // Push Samurai away
             setTimeout(() => {
+                samuraiImg.classList.remove('is-slashing');
+                samuraiImg.classList.add('is-done');
                 samuraiImg.style.transition = 'transform 1s ease, opacity 0.5s ease';
                 samuraiImg.style.transform = 'translateX(-150vw)';
                 samuraiImg.style.opacity = '0';
@@ -181,7 +189,7 @@ function startSequence() {
             
         }, 100);
         
-    }, 600); // Wait for dash to finish
+    }, 1500); // Wait for the 1.5s dash to finish
 }
 
 if (triggerBtn) {

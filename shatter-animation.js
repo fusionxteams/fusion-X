@@ -1,10 +1,10 @@
 // shatter-animation.js
 const shatterSect = document.getElementById('fusion-shatter');
 const shatterContainer = document.getElementById('shatter-canvas-container');
-const triggerBtn = document.getElementById('trigger-shatter-btn');
 const revealText = document.getElementById('fusion-reveal-text');
 const xGlow = document.getElementById('x-glow');
 const abstractSlash = document.getElementById('abstract-slash');
+const ctaReveal = document.getElementById('cta-reveal-container');
 
 let triggerSequence = () => {};
 let isAnimating = false;
@@ -51,14 +51,21 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         isAnimating = true;
         
         // Reset DOM
-        triggerBtn.style.opacity = '0';
-        revealText.style.opacity = '0';
-        revealText.style.transform = 'scale(0.5)';
-        xGlow.style.opacity = '0';
+        if (revealText) {
+            revealText.style.opacity = '0';
+            revealText.style.transform = 'scale(0.5)';
+        }
+        if (xGlow) xGlow.style.opacity = '0';
+        if (ctaReveal) {
+            ctaReveal.style.opacity = '0';
+            ctaReveal.style.transform = 'translateY(20px)';
+        }
         
-        abstractSlash.style.transition = 'none';
-        abstractSlash.style.opacity = '0';
-        abstractSlash.style.transform = 'scaleX(0) rotate(-15deg)';
+        if (abstractSlash) {
+            abstractSlash.style.transition = 'none';
+            abstractSlash.style.opacity = '0';
+            abstractSlash.style.transform = 'scaleX(0) rotate(-15deg)';
+        }
         
         // Clear old lightning
         while(lightningGroup.children.length > 0) lightningGroup.remove(lightningGroup.children[0]);
@@ -66,14 +73,18 @@ if (shatterContainer && typeof THREE !== 'undefined') {
 
         // 1. The abstract cut
         setTimeout(() => {
-            abstractSlash.style.opacity = '1';
-            abstractSlash.style.transition = 'transform 0.1s ease-out';
-            abstractSlash.style.transform = 'scaleX(1) rotate(-15deg)';
+            if (abstractSlash) {
+                abstractSlash.style.opacity = '1';
+                abstractSlash.style.transition = 'transform 0.1s ease-out';
+                abstractSlash.style.transform = 'scaleX(1) rotate(-15deg)';
+            }
             
             // 2. The Explosion
             setTimeout(() => {
-                abstractSlash.style.transition = 'opacity 0.2s ease-out';
-                abstractSlash.style.opacity = '0';
+                if (abstractSlash) {
+                    abstractSlash.style.transition = 'opacity 0.2s ease-out';
+                    abstractSlash.style.opacity = '0';
+                }
                 
                 isExploding = true;
                 
@@ -85,14 +96,20 @@ if (shatterContainer && typeof THREE !== 'undefined') {
                 }
                 
                 // Show FUSION X Text
-                revealText.style.opacity = '1';
-                revealText.style.transform = 'scale(1)';
-                setTimeout(() => { xGlow.style.opacity = '1'; }, 300);
+                if (revealText) {
+                    revealText.style.opacity = '1';
+                    revealText.style.transform = 'scale(1)';
+                }
+                setTimeout(() => { if (xGlow) xGlow.style.opacity = '1'; }, 300);
                 
-                setTimeout(() => {
-                    triggerBtn.style.opacity = '1';
-                    isAnimating = false;
-                }, 1500);
+                // Show CTA
+                if (ctaReveal) {
+                    ctaReveal.style.opacity = '1';
+                    ctaReveal.style.transform = 'translateY(0)';
+                }
+                
+                // Allow re-triggering later if they scroll back up
+                setTimeout(() => { isAnimating = false; }, 2000);
                 
             }, 100);
             
@@ -135,15 +152,12 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     });
 }
 
-if (triggerBtn) {
-    triggerBtn.addEventListener('click', triggerSequence);
-}
-
 if (shatterSect) {
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && !isAnimating) {
-            setTimeout(triggerSequence, 500);
+            // Trigger animation immediately upon scrolling into view
+            triggerSequence();
         }
-    }, { threshold: 0.5 });
+    }, { threshold: 0.3 }); // Trigger when 30% of the section is visible
     observer.observe(shatterSect);
 }

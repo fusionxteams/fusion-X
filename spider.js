@@ -66,7 +66,7 @@ if (spiderContainer) {
             targetX: Math.random() * spiderContainer.clientWidth,
             targetY: Math.random() * spiderContainer.clientHeight,
             legTime: Math.random() * 10,
-            speed: 1 + Math.random() * 2
+            speed: 0.2 + Math.random() * 0.4 // Much slower and creepier!
         });
     }
 
@@ -111,17 +111,18 @@ if (spiderContainer) {
         }
     }
 
+    // Realistic Spider Leg Positions
+    const leftLegTips = [{x: -10, y: -12}, {x: -15, y: -4}, {x: -14, y: 6}, {x: -9, y: 14}];
+    const rightLegTips = [{x: 10, y: -12}, {x: 15, y: -4}, {x: 14, y: 6}, {x: 9, y: 14}];
+    const leftLegJoints = [{x: -6, y: -8}, {x: -8, y: -2}, {x: -7, y: 3}, {x: -5, y: 8}];
+    const rightLegJoints = [{x: 6, y: -8}, {x: 8, y: -2}, {x: 7, y: 3}, {x: 5, y: 8}];
+
     // 4. Animate 2D Spiders
     function animateWeb() {
         requestAnimationFrame(animateWeb);
         
         // Redraw web background every frame so we can draw spiders on top
         draw2DWeb();
-        
-        // Draw Spiders
-        ctx.fillStyle = '#333333';
-        ctx.strokeStyle = '#333333';
-        ctx.lineWidth = 2;
         
         spiders2D.forEach(spider => {
             // Movement logic
@@ -147,46 +148,65 @@ if (spiderContainer) {
                 spider.vy = (dy / dist) * spider.speed;
                 spider.x += spider.vx;
                 spider.y += spider.vy;
-                spider.legTime += 0.3; // Animate legs when moving
+                spider.legTime += 0.2; // Animate legs when moving
             }
             
             const angle = Math.atan2(dy, dx);
             
-            // Draw Spider
+            // Draw Realistic Spider
             ctx.save();
             ctx.translate(spider.x, spider.y);
             ctx.rotate(angle - Math.PI / 2); // Rotate so head faces direction of travel
             
-            // Draw 8 Legs
+            // Draw Legs
+            ctx.strokeStyle = '#222222';
+            ctx.lineWidth = 1.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
             for (let i = 0; i < 4; i++) {
-                const legWiggle = Math.sin(spider.legTime + i) * 5;
+                // Alternate legs wiggle in opposite directions to simulate creepy crawling
+                const wiggle = Math.sin(spider.legTime + (i % 2) * Math.PI) * 3;
                 
                 // Left legs
                 ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(-10 + legWiggle, -10 - i * 4);
-                ctx.lineTo(-15 + legWiggle, -15 - i * 4);
+                ctx.moveTo(0, -2); // Thorax
+                ctx.quadraticCurveTo(leftLegJoints[i].x, leftLegJoints[i].y + wiggle, leftLegTips[i].x + wiggle, leftLegTips[i].y + wiggle);
                 ctx.stroke();
-                
+
                 // Right legs
                 ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(10 - legWiggle, -10 - i * 4);
-                ctx.lineTo(15 - legWiggle, -15 - i * 4);
+                ctx.moveTo(0, -2);
+                ctx.quadraticCurveTo(rightLegJoints[i].x, rightLegJoints[i].y - wiggle, rightLegTips[i].x - wiggle, rightLegTips[i].y - wiggle);
                 ctx.stroke();
             }
             
             // Draw Body
+            ctx.fillStyle = '#111111'; // Pitch black
+            
+            // Abdomen (rear oval)
             ctx.beginPath();
-            ctx.arc(0, -5, 6, 0, Math.PI * 2); // Abdomen
-            ctx.arc(0, 2, 4, 0, Math.PI * 2);  // Head
+            ctx.ellipse(0, 6, 4, 6, 0, 0, Math.PI * 2);
             ctx.fill();
             
-            // Draw Eyes (Red dots)
-            ctx.fillStyle = '#ff5722';
+            // Cephalothorax (front circle)
             ctx.beginPath();
-            ctx.arc(-1.5, 4, 1, 0, Math.PI * 2);
-            ctx.arc(1.5, 4, 1, 0, Math.PI * 2);
+            ctx.arc(0, -2, 3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Red Hourglass mark on back
+            ctx.fillStyle = '#ff0000';
+            ctx.beginPath();
+            ctx.moveTo(-1.5, 4);
+            ctx.lineTo(1.5, 4);
+            ctx.lineTo(-1.5, 8);
+            ctx.lineTo(1.5, 8);
+            ctx.fill();
+            
+            // Beady Red Eyes
+            ctx.beginPath();
+            ctx.arc(-1, -4, 0.5, 0, Math.PI * 2);
+            ctx.arc(1, -4, 0.5, 0, Math.PI * 2);
             ctx.fill();
             
             ctx.restore();

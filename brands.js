@@ -2,82 +2,42 @@ const brandsContainer = document.getElementById('brands-3d-container');
 
 if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 'undefined') {
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0xffffff, 0.025); // Digital fog fading into the white background
+    scene.background = new THREE.Color(0xffffff); // Pure white background
+    scene.fog = new THREE.FogExp2(0xffffff, 0.04); // White fog for depth
     
     const aspect = brandsContainer.clientWidth / brandsContainer.clientHeight;
-    // Command Center perspective
-    const camera = new THREE.PerspectiveCamera(55, aspect, 0.1, 1000);
-    camera.position.set(0, 4, 20);
+    const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+    camera.position.set(0, 0, 25);
     
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     renderer.setSize(brandsContainer.clientWidth, brandsContainer.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // optimize performance
     brandsContainer.appendChild(renderer.domElement);
     
-    // --- Digital World Architecture ---
-    
-    // 1. Tron-style Floor Grid (Orange neon)
-    const gridHelper = new THREE.GridHelper(150, 60, 0xff5722, 0xff5722);
-    gridHelper.position.y = -6;
-    gridHelper.material.opacity = 0.15;
-    gridHelper.material.transparent = true;
-    scene.add(gridHelper);
+    // Ambient Light
+    scene.add(new THREE.AmbientLight(0xffffff, 1));
 
-    // 2. Rising Digital Data Streams (Particles moving strictly upwards)
-    const particleGeo = new THREE.BufferGeometry();
-    const particleCount = 250;
-    const posArray = new Float32Array(particleCount * 3);
-    const speedArray = new Float32Array(particleCount);
-    for(let i=0; i < particleCount; i++) {
-        posArray[i*3] = (Math.random() - 0.5) * 50;     // x
-        posArray[i*3+1] = (Math.random() - 0.5) * 20;   // y
-        posArray[i*3+2] = (Math.random() - 0.5) * 40;   // z
-        speedArray[i] = 0.05 + Math.random() * 0.1;     // upward speed
-    }
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    particleGeo.setAttribute('speed', new THREE.BufferAttribute(speedArray, 1));
-    
-    const particleMat = new THREE.PointsMaterial({
-        size: 0.2,
-        color: 0xff5722,
-        transparent: true,
-        opacity: 0.6,
-        blending: THREE.AdditiveBlending
-    });
-    const dataStream = new THREE.Points(particleGeo, particleMat);
-    scene.add(dataStream);
-
-    // Function to generate Holographic HUD Texture with Scanlines
-    function createDigitalTexture(b64, textName = null) {
+    // Function to generate crisp 1:1 Texture with Orange Border
+    function createCleanTexture(b64, textName = null) {
         const canvas = document.createElement('canvas');
         canvas.width = 512;
         canvas.height = 512;
         const ctx = canvas.getContext('2d');
         
-        // Base white background
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, 512, 512);
         
-        // Glowing Neon Border
-        ctx.shadowColor = '#ff5722';
-        ctx.shadowBlur = 15;
+        // Crisp Orange Border
         ctx.strokeStyle = '#ff5722';
-        ctx.lineWidth = 12; 
-        ctx.strokeRect(6, 6, 500, 500); 
-        ctx.shadowBlur = 0; // reset
-        
-        // Background Digital Scanlines
-        ctx.fillStyle = 'rgba(255, 87, 34, 0.04)';
-        for(let y = 0; y < 512; y += 8) {
-            ctx.fillRect(0, y, 512, 2);
-        }
+        ctx.lineWidth = 16; 
+        ctx.strokeRect(8, 8, 496, 496); 
         
         const tex = new THREE.CanvasTexture(canvas);
         tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
         
         if (textName) {
-            ctx.fillStyle = '#ff5722';
-            ctx.font = 'bold 50px "Courier New", monospace'; // Digital font look
+            ctx.fillStyle = '#111111';
+            ctx.font = 'bold 55px "Segoe UI", sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText("Dr. Madhavi", 256, 220);
@@ -94,17 +54,8 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
                 const dy = (512 - dh) / 2;
                 ctx.drawImage(img, dx, dy, dw, dh);
                 
-                // Foreground Scanlines (Hologram Overlay)
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-                for(let y = 0; y < dh; y += 5) {
-                    ctx.fillRect(dx, dy + y, dw, 1);
-                }
-                
-                // Redraw crisp neon border on top
-                ctx.shadowColor = '#ff5722';
-                ctx.shadowBlur = 15;
-                ctx.strokeRect(6, 6, 500, 500);
-                
+                // Redraw border on top
+                ctx.strokeRect(8, 8, 496, 496);
                 tex.needsUpdate = true;
             };
             img.src = b64;
@@ -112,16 +63,17 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
         return tex;
     }
 
-    // 3. Central HUD Network Array
-    const arrayGroup = new THREE.Group();
-    scene.add(arrayGroup);
+    const cardsGroup = new THREE.Group();
+    scene.add(cardsGroup);
     
     const numCards = brandTextures.length;
+    const cards = [];
     
+    // Create Floating Cards
     brandTextures.forEach((b64, i) => {
-        const tex = b64 === '' ? createDigitalTexture(null, 'Dr. Madhavi Anjimati') : createDigitalTexture(b64);
+        const tex = b64 === '' ? createCleanTexture(null, 'Dr. Madhavi Anjimati') : createCleanTexture(b64);
         
-        const geometry = new THREE.PlaneGeometry(4, 4);
+        const geometry = new THREE.PlaneGeometry(5, 5);
         const material = new THREE.MeshBasicMaterial({ 
             map: tex, 
             transparent: true,
@@ -130,184 +82,152 @@ if (brandsContainer && typeof THREE !== 'undefined' && typeof brandTextures !== 
         
         const mesh = new THREE.Mesh(geometry, material);
         
-        // Digital Floating Cylindrical Array
-        const angle = (i / numCards) * Math.PI * 2;
-        const radius = 9.5;
+        // Random starting positions in a 3D box
+        const startX = (Math.random() - 0.5) * 30;
+        const startY = (Math.random() - 0.5) * 15;
+        const startZ = (Math.random() - 0.5) * 15 - 5;
         
-        mesh.position.x = Math.sin(angle) * radius;
-        mesh.position.z = Math.cos(angle) * radius;
+        mesh.position.set(startX, startY, startZ);
         
-        // Tilt the screens slightly upwards towards the user like an Iron Man HUD
-        mesh.rotation.y = angle;
-        mesh.rotation.x = -0.15; 
+        // Random rotations
+        mesh.rotation.x = (Math.random() - 0.5) * 0.5;
+        mesh.rotation.y = (Math.random() - 0.5) * 0.5;
         
-        // Unique hovering physics
+        // Zero-gravity physics properties
         mesh.userData = {
-            baseY: (Math.random() - 0.5) * 3, // Stagger heights drastically
-            bobSpeed: 1 + Math.random(),
-            bobOffset: Math.random() * Math.PI * 2
+            velocity: new THREE.Vector3(
+                (Math.random() - 0.5) * 0.02,
+                (Math.random() - 0.5) * 0.02,
+                (Math.random() - 0.5) * 0.02
+            ),
+            rotVelocity: new THREE.Vector3(
+                (Math.random() - 0.5) * 0.005,
+                (Math.random() - 0.5) * 0.005,
+                0
+            ),
+            originalScale: 1,
+            targetPosition: new THREE.Vector3(),
+            targetRotation: new THREE.Euler(),
+            isHovered: false
         };
         
-        mesh.position.y = mesh.userData.baseY;
-        mesh.scale.set(0, 0, 0); 
-        
-        arrayGroup.add(mesh);
+        cardsGroup.add(mesh);
+        cards.push(mesh);
     });
 
-    // 4. Glowing Neural Network Lines
-    const lineMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.35 });
-    const linesGeo = new THREE.BufferGeometry();
-    const lineMesh = new THREE.LineSegments(linesGeo, lineMat);
-    arrayGroup.add(lineMesh); // Spins with the screens
-
-    // 5. Central Data Core (Spinning Wireframe Octahedron)
-    const coreGeo = new THREE.OctahedronGeometry(1.8, 0);
-    const coreMat = new THREE.MeshBasicMaterial({ color: 0xff5722, wireframe: true, transparent: true, opacity: 0.8 });
-    const dataCore = new THREE.Mesh(coreGeo, coreMat);
-    dataCore.position.y = -1;
-    arrayGroup.add(dataCore);
-
-    function updateNetworkLines() {
-        const positions = [];
-        // Connect each screen to its neighbors to form a glowing digital ring
-        // and connect every screen to the central Data Core
-        for(let i = 0; i < numCards; i++) {
-            const p1 = arrayGroup.children[i].position;
-            const p2 = arrayGroup.children[(i + 1) % numCards].position;
-            
-            // Ring connections
-            positions.push(p1.x, p1.y, p1.z);
-            positions.push(p2.x, p2.y, p2.z);
-            
-            // Core connections
-            positions.push(p1.x, p1.y, p1.z);
-            positions.push(dataCore.position.x, dataCore.position.y, dataCore.position.z); 
-        }
-        linesGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    // Add floating particles in the background
+    const particleGeo = new THREE.BufferGeometry();
+    const particleCount = 100;
+    const posArray = new Float32Array(particleCount * 3);
+    for(let i=0; i < particleCount; i++) {
+        posArray[i*3] = (Math.random() - 0.5) * 50;
+        posArray[i*3+1] = (Math.random() - 0.5) * 30;
+        posArray[i*3+2] = (Math.random() - 0.5) * 30 - 10;
     }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particleMat = new THREE.PointsMaterial({
+        size: 0.2,
+        color: 0xff5722,
+        transparent: true,
+        opacity: 0.4
+    });
+    const particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
 
-    let targetRotY = 0;
-    let currentRotY = 0;
-    let isDragging = false;
-    let previousMouseX = 0;
-    
-    let entranceProgress = 0;
-    let hasEntered = false;
+    // Interaction setup
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let hoveredCard = null;
 
-    const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && !hasEntered) {
-            hasEntered = true;
+    brandsContainer.addEventListener('mousemove', (event) => {
+        const rect = brandsContainer.getBoundingClientRect();
+        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(cards);
+
+        if (intersects.length > 0) {
+            if (hoveredCard !== intersects[0].object) {
+                hoveredCard = intersects[0].object;
+                brandsContainer.style.cursor = 'pointer';
+            }
+        } else {
+            hoveredCard = null;
+            brandsContainer.style.cursor = 'default';
         }
-    }, { threshold: 0.2 });
-    observer.observe(brandsContainer);
+    });
+
+    let autoSpinAngle = 0;
 
     // Render loop
     function animate() {
         requestAnimationFrame(animate);
-        const time = Date.now() * 0.001;
+        
+        // Slowly rotate the entire background particle field
+        particles.rotation.y += 0.001;
+        particles.rotation.x += 0.0005;
+        
+        // Slowly pan the camera in a tiny circle
+        autoSpinAngle += 0.002;
+        camera.position.x = Math.sin(autoSpinAngle) * 3;
+        camera.position.y = Math.cos(autoSpinAngle) * 1.5;
+        camera.lookAt(0, 0, 0);
 
-        if (hasEntered && entranceProgress < 1) {
-            entranceProgress += 0.012; // Slower, more dramatic entrance
-            const ease = 1 - Math.pow(1 - entranceProgress, 4);
+        cards.forEach((card) => {
+            const data = card.userData;
             
-            arrayGroup.children.forEach((child, i) => {
-                if (child.isMesh && child !== dataCore) { // HUD Screens
-                    const delay = i * 0.06;
-                    const p = Math.max(0, Math.min(1, (entranceProgress - delay) * 3));
-                    const scale = 1 - Math.pow(1 - p, 4);
-                    child.scale.set(scale, scale, scale);
+            if (hoveredCard === card) {
+                // Pull hovered card to the very front center
+                const targetPos = new THREE.Vector3(camera.position.x, camera.position.y, 10);
+                card.position.lerp(targetPos, 0.08);
+                
+                // Snap rotation to face camera perfectly
+                const targetRot = new THREE.Euler(0, 0, 0);
+                card.rotation.x += (targetRot.x - card.rotation.x) * 0.1;
+                card.rotation.y += (targetRot.y - card.rotation.y) * 0.1;
+                
+                // Scale up
+                const targetScale = 1.6;
+                card.scale.setScalar(card.scale.x + (targetScale - card.scale.x) * 0.1);
+                
+                // Full opacity
+                card.material.color.setRGB(1, 1, 1);
+                card.material.opacity = 1;
+            } else {
+                // Zero-Gravity Free Float
+                card.position.add(data.velocity);
+                card.rotation.x += data.rotVelocity.x;
+                card.rotation.y += data.rotVelocity.y;
+                
+                // Bounce off invisible walls
+                if (card.position.x > 18 || card.position.x < -18) data.velocity.x *= -1;
+                if (card.position.y > 10 || card.position.y < -10) data.velocity.y *= -1;
+                if (card.position.z > 5 || card.position.z < -15) data.velocity.z *= -1;
+                
+                // Scale back to normal
+                const targetScale = 1.0;
+                card.scale.setScalar(card.scale.x + (targetScale - card.scale.x) * 0.05);
+
+                // If something else is hovered, fade this one into the background (depth of field effect)
+                if (hoveredCard) {
+                    card.material.color.setRGB(0.6, 0.6, 0.6); // Darken
+                } else {
+                    card.material.color.setRGB(1, 1, 1); // Normal
                 }
-            });
-            dataCore.scale.set(ease, ease, ease);
-        }
-
-        if (hasEntered) {
-            // Idle Bobbing for HUD Screens
-            arrayGroup.children.forEach((child) => {
-                if (child.isMesh && child !== dataCore) {
-                    child.position.y = child.userData.baseY + Math.sin(time * child.userData.bobSpeed + child.userData.bobOffset) * 0.6;
-                }
-            });
-            
-            // The laser lines dynamically stretch as the screens bob up and down
-            updateNetworkLines();
-            
-            // Spin data core wildly
-            dataCore.rotation.y = time * 0.8;
-            dataCore.rotation.x = time * 0.4;
-        }
-
-        // Animate Rising Data Streams (Matrix effect)
-        const positions = dataStream.geometry.attributes.position.array;
-        const speeds = dataStream.geometry.attributes.speed.array;
-        for(let i=0; i<particleCount; i++) {
-            positions[i*3+1] += speeds[i]; // Move Y up
-            if (positions[i*3+1] > 20) {
-                positions[i*3+1] = -10; // Reset to bottom
             }
-        }
-        dataStream.geometry.attributes.position.needsUpdate = true;
-
-        // Smooth rotation dragging
-        currentRotY += (targetRotY - currentRotY) * 0.05;
-        arrayGroup.rotation.y = currentRotY;
-
-        // Auto spin if not dragging
-        if (!isDragging && hasEntered) {
-            targetRotY -= 0.0025;
-        }
+        });
 
         renderer.render(scene, camera);
     }
     animate();
-
-    // Interaction Logic
-    brandsContainer.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        previousMouseX = e.clientX;
-        brandsContainer.style.cursor = 'grabbing';
-    });
-    
-    window.addEventListener('mouseup', () => {
-        isDragging = false;
-        brandsContainer.style.cursor = 'grab';
-    });
-    
-    window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        const deltaX = e.clientX - previousMouseX;
-        targetRotY += deltaX * 0.005;
-        previousMouseX = e.clientX;
-    });
-
-    brandsContainer.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        previousMouseX = e.touches[0].clientX;
-    }, {passive: true});
-    
-    window.addEventListener('touchend', () => {
-        isDragging = false;
-    });
-    
-    window.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        const deltaX = e.touches[0].clientX - previousMouseX;
-        targetRotY += deltaX * 0.006;
-        previousMouseX = e.touches[0].clientX;
-    }, {passive: true});
 
     // Handle Mobile Sizing
     window.addEventListener('resize', () => {
         if (!brandsContainer) return;
         const newAspect = brandsContainer.clientWidth / brandsContainer.clientHeight;
         camera.aspect = newAspect;
-        camera.position.z = newAspect < 1 ? 30 : 20; // Pull back for massive HUD array
         camera.updateProjectionMatrix();
         renderer.setSize(brandsContainer.clientWidth, brandsContainer.clientHeight);
     });
-    
-    if (aspect < 1) {
-        camera.position.z = 30;
-        camera.updateProjectionMatrix();
-    }
 }

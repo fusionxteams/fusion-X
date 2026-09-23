@@ -372,12 +372,11 @@ if (container && typeof THREE !== 'undefined') {
     const hour = new Date().getHours();
     const isNight = (hour >= 18 || hour < 6);
     
-    // Update the background color of the hero section based on time
-    const heroSection = document.querySelector('.hero');
-    if (heroSection) {
-        heroSection.style.background = isNight 
-            ? 'linear-gradient(135deg, #050510 0%, #1a1a2e 100%)' 
-            : 'linear-gradient(135deg, #ffffff 0%, #fff3e0 100%)';
+    // Update the background color of ONLY the 3D map scene (not the whole HTML page)
+    if (isNight) {
+        scene.background = new THREE.Color(0x050510); // Space black for the map area
+    } else {
+        scene.background = null; // Transparent so the original page gradient shows through
     }
 
     // Dynamic Lighting

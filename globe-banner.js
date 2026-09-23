@@ -8,21 +8,19 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
     const aspect = spinGlobeContainer.clientWidth / spinGlobeContainer.clientHeight;
     const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
     
-    // Adjust camera distance based on mobile vs desktop
     if (aspect < 1) {
-        camera.position.z = 45; // Pull back heavily on mobile
+        camera.position.z = 45; // Mobile
     } else {
-        camera.position.z = 26; // Normal desktop distance
+        camera.position.z = 28; // Desktop
     }
 
-    
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(spinGlobeContainer.clientWidth, spinGlobeContainer.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     spinGlobeContainer.appendChild(renderer.domElement);
 
     // Add High-Quality Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Soft white light
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambientLight);
     
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
@@ -30,13 +28,11 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
     scene.add(directionalLight);
 
     // Create the 3D Sphere (Globe)
-    const geometry = new THREE.SphereGeometry(10, 64, 64);
+    const globeRadius = 10;
+    const geometry = new THREE.SphereGeometry(globeRadius, 64, 64);
     
-    // Load high-resolution political earth map so all countries are visible
     const textureLoader = new THREE.TextureLoader();
-    // Political map showing all countries clearly
     const mapTexture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
-    // Bump map for 3D mountains
     const bumpTexture = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_bump_1024.jpg');
     
     const material = new THREE.MeshStandardMaterial({ 
@@ -48,9 +44,119 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
     });
     
     const globe = new THREE.Mesh(geometry, material);
-    // Tilt the earth slightly on its axis
     globe.rotation.z = 0.2;
     scene.add(globe);
+
+    // --- ADDING DIGITAL MARKETING VISUALS ---
+
+    // 1. Orbiting Digital Data Rings
+    const ringGroup = new THREE.Group();
+    globe.add(ringGroup); // Attach to globe so it spins with it
+    
+    for(let i=0; i<3; i++) {
+        const ringGeo = new THREE.TorusGeometry(globeRadius + 1.5 + (i * 0.8), 0.05, 8, 100);
+        const ringMat = new THREE.MeshBasicMaterial({ 
+            color: 0xff5722, 
+            transparent: true, 
+            opacity: 0.6 - (i * 0.1) 
+        });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = Math.PI / 2 + (Math.random() * 0.5 - 0.25);
+        ring.rotation.y = (Math.random() * 0.5 - 0.25);
+        
+        // Add random data nodes on the ring
+        for(let j=0; j<10; j++) {
+            const nodeGeo = new THREE.SphereGeometry(0.2, 8, 8);
+            const nodeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const node = new THREE.Mesh(nodeGeo, nodeMat);
+            const angle = Math.random() * Math.PI * 2;
+            node.position.set(Math.cos(angle) * (globeRadius + 1.5 + (i * 0.8)), Math.sin(angle) * (globeRadius + 1.5 + (i * 0.8)), 0);
+            ring.add(node);
+        }
+        ringGroup.add(ring);
+    }
+
+    // 2. Fusion X HQ Beacon & Global Arcs
+    const arcsGroup = new THREE.Group();
+    globe.add(arcsGroup);
+    
+    // Helper to convert Lat/Lon to 3D Cartesian coords
+    function getPosFromLatLon(lat, lon, radius) {
+        var phi = (90 - lat) * (Math.PI / 180);
+        var theta = (lon + 180) * (Math.PI / 180);
+        
+        return new THREE.Vector3(
+            -(radius * Math.sin(phi) * Math.cos(theta)),
+            radius * Math.cos(phi),
+            radius * Math.sin(phi) * Math.sin(theta)
+        );
+    }
+
+    // Fusion X HQ (let's say London or New York)
+    const hqPos = getPosFromLatLon(51.5, -0.1, globeRadius);
+    
+    // Target Cities worldwide
+    const targets = [
+        getPosFromLatLon(40.7, -74.0, globeRadius),   // NY
+        getPosFromLatLon(35.6, 139.6, globeRadius),   // Tokyo
+        getPosFromLatLon(-33.8, 151.2, globeRadius),  // Sydney
+        getPosFromLatLon(25.2, 55.2, globeRadius),    // Dubai
+        getPosFromLatLon(-23.5, -46.6, globeRadius),  // Sao Paulo
+        getPosFromLatLon(1.3, 103.8, globeRadius)     // Singapore
+    ];
+
+    // Create arcs from HQ to targets
+    const arcLines = [];
+    targets.forEach(targetPos => {
+        // Find midpoint and raise it up to create an arc
+        const midPoint = hqPos.clone().lerp(targetPos, 0.5);
+        midPoint.normalize().multiplyScalar(globeRadius + 3); // Height of arc
+        
+        const curve = new THREE.QuadraticBezierCurve3(hqPos, midPoint, targetPos);
+        const points = curve.getPoints(50);
+        const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
+        const arcMat = new THREE.LineBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.8, linewidth: 2 });
+        
+        const arc = new THREE.Line(arcGeo, arcMat);
+        
+        // Add a pulsing dot moving along the curve
+        const dotGeo = new THREE.SphereGeometry(0.3, 8, 8);
+        const dotMat = new THREE.MeshBasicMaterial({ color: 0xff5722 }); // Orange data packet
+        const dot = new THREE.Mesh(dotGeo, dotMat);
+        
+        arcsGroup.add(arc);
+        arcsGroup.add(dot);
+        
+        arcLines.push({ curve, dot, progress: Math.random() });
+    });
+
+    // 3. Floating Digital Marketing Text Nodes
+    const textSprites = ['SEO', 'ADS', 'SOCIAL', 'BRAND', 'DATA'];
+    const canvas = document.createElement('canvas');
+    canvas.width = 128; canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    
+    textSprites.forEach((text) => {
+        ctx.clearRect(0,0,128,64);
+        ctx.fillStyle = '#ff5722';
+        ctx.font = 'bold 30px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, 64, 32);
+        
+        const tex = new THREE.CanvasTexture(canvas);
+        const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.9 });
+        const sprite = new THREE.Sprite(mat);
+        
+        sprite.scale.set(3, 1.5, 1);
+        
+        // Place them floating randomly slightly above the surface
+        const randLat = (Math.random() - 0.5) * 120;
+        const randLon = (Math.random() - 0.5) * 360;
+        const pos = getPosFromLatLon(randLat, randLon, globeRadius + 2.5);
+        sprite.position.copy(pos);
+        globe.add(sprite);
+    });
 
     // Mouse Dragging Logic
     let isDragging = false;
@@ -69,65 +175,56 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
     window.addEventListener('mousemove', (e) => {
         if (isDragging) {
             const deltaMove = {
-                x: e.clientX - previousMousePosition.x,
-                y: e.clientY - previousMousePosition.y
+                x: e.offsetX - previousMousePosition.x,
+                y: e.offsetY - previousMousePosition.y
             };
             
-            globe.rotation.y += (deltaMove.x * 0.005);
-            globe.rotation.x += (deltaMove.y * 0.005);
+            globe.rotation.y += deltaMove.x * 0.01;
+            globe.rotation.x += deltaMove.y * 0.01;
         }
-        previousMousePosition = { x: e.clientX, y: e.clientY };
+        previousMousePosition = {
+            x: e.offsetX,
+            y: e.offsetY
+        };
     });
 
-    // Touch events for mobile dragging
-    spinGlobeContainer.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    }, {passive: true});
-    
-    window.addEventListener('touchend', () => {
-        isDragging = false;
-    });
-    
-    window.addEventListener('touchmove', (e) => {
-        if (isDragging) {
-            const deltaMove = {
-                x: e.touches[0].clientX - previousMousePosition.x,
-                y: e.touches[0].clientY - previousMousePosition.y
-            };
-            globe.rotation.y += (deltaMove.x * 0.008);
-            globe.rotation.x += (deltaMove.y * 0.008);
-        }
-        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    }, {passive: true});
-
-    // Render loop
-    function animate() {
-        requestAnimationFrame(animate);
+    // Handle Resize
+    window.addEventListener('resize', () => {
+        const newAspect = spinGlobeContainer.clientWidth / spinGlobeContainer.clientHeight;
+        camera.aspect = newAspect;
+        camera.updateProjectionMatrix();
+        renderer.setSize(spinGlobeContainer.clientWidth, spinGlobeContainer.clientHeight);
         
-        // Auto-spin globe if not being dragged
+        if (newAspect < 1) {
+            camera.position.z = 45;
+        } else {
+            camera.position.z = 28;
+        }
+    });
+
+    // Animation Loop
+    function animateGlobe() {
+        requestAnimationFrame(animateGlobe);
+        
         if (!isDragging) {
             globe.rotation.y += 0.002;
         }
         
+        // Spin the data rings slightly faster
+        ringGroup.children.forEach(ring => {
+            ring.rotation.z += 0.005;
+        });
+
+        // Animate data packets along the arcs
+        arcLines.forEach(item => {
+            item.progress += 0.005;
+            if (item.progress > 1) item.progress = 0;
+            const pt = item.curve.getPoint(item.progress);
+            item.dot.position.copy(pt);
+        });
+
         renderer.render(scene, camera);
     }
-    animate();
-
-    // Handle Resize
-    window.addEventListener('resize', () => {
-        if (!spinGlobeContainer) return;
-        const newAspect = spinGlobeContainer.clientWidth / spinGlobeContainer.clientHeight;
-        camera.aspect = newAspect;
-        
-        // Update distance on resize
-        if (newAspect < 1) {
-            camera.position.z = 45;
-        } else {
-            camera.position.z = 26;
-        }
-        
-        camera.updateProjectionMatrix();
-        renderer.setSize(spinGlobeContainer.clientWidth, spinGlobeContainer.clientHeight);
-    });
+    
+    animateGlobe();
 }

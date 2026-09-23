@@ -2,7 +2,6 @@
 const shatterSect = document.getElementById('fusion-shatter');
 const shatterContainer = document.getElementById('shatter-canvas-container');
 const elegantElements = document.querySelectorAll('.elegant-reveal');
-const xGlow = document.getElementById('x-glow');
 
 let isAnimating = false;
 
@@ -52,7 +51,7 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     // Custom shader material for particles to scale dynamically based on the 'scale' attribute
     const material = new THREE.ShaderMaterial({
         uniforms: {
-            color: { value: new THREE.Color(0xff5722) }, // Orange theme
+            color: { value: new THREE.Color(0xd5d5d5) }, // Subtle light silver/grey theme
         },
         vertexShader: `
             attribute float scale;
@@ -187,10 +186,6 @@ function triggerElegantReveal() {
     elegantElements.forEach(el => {
         el.classList.add('is-visible');
     });
-
-    if (xGlow) {
-        xGlow.style.opacity = '1';
-    }
 }
 
 if (shatterSect) {
@@ -202,7 +197,6 @@ if (shatterSect) {
             elegantElements.forEach(el => {
                 el.classList.remove('is-visible');
             });
-            if (xGlow) xGlow.style.opacity = '0';
         }
     }, { threshold: 0.3 });
     observer.observe(shatterSect);

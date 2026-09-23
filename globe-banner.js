@@ -139,14 +139,27 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
     
     function createTooltipSprite(text) {
         const canvas = document.createElement('canvas');
-        canvas.width = 256; 
-        canvas.height = 100;
         const ctx = canvas.getContext('2d');
         
-        // Draw Pill Background (White with slight transparency)
+        // Measure text first to determine canvas size
+        ctx.font = 'bold 36px Arial';
+        const textWidth = ctx.measureText(text).width;
+        
+        // Dynamically size canvas based on text length + heavy padding
+        const padding = 50;
+        canvas.width = textWidth + (padding * 2); 
+        canvas.height = 100;
+        
+        // Re-apply font because resizing the canvas resets the context
+        ctx.font = 'bold 36px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Draw Pill Background
         ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
         ctx.beginPath();
-        ctx.roundRect(10, 10, 236, 80, 40); // x, y, width, height, radii
+        // Leave 6px margin for the stroke so it doesn't clip on the edges
+        ctx.roundRect(6, 10, canvas.width - 12, 80, 40); 
         ctx.fill();
         
         // Draw Orange Border
@@ -154,17 +167,19 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
         ctx.lineWidth = 6;
         ctx.stroke();
 
-        // Draw Text
+        // Draw Text perfectly centered
         ctx.fillStyle = '#ff5722';
-        ctx.font = 'bold 36px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(text, 128, 50);
+        ctx.fillText(text, canvas.width / 2, 50);
         
         const tex = new THREE.CanvasTexture(canvas);
         const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 1.0 });
         const sprite = new THREE.Sprite(mat);
-        sprite.scale.set(4, 1.5, 1); // Scale appropriately for the 256x100 canvas ratio
+        
+        // Scale the 3D sprite proportionally so long words aren't squished
+        const spriteHeight = 1.5;
+        const spriteWidth = (canvas.width / canvas.height) * spriteHeight;
+        sprite.scale.set(spriteWidth, spriteHeight, 1); 
+        
         return sprite;
     }
 

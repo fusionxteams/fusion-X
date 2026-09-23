@@ -9,139 +9,147 @@ let isAnimating = false;
 // --- 3D DIGITAL NETWORK BACKGROUND ---
 if (shatterContainer && typeof THREE !== 'undefined') {
     const scene = new THREE.Scene();
-    // Cyberpunk dark void fog
-    scene.fog = new THREE.FogExp2(0x05000a, 0.035);
+    scene.fog = new THREE.FogExp2(0xffffff, 0.02); // White fog for depth
 
-    const camera = new THREE.PerspectiveCamera(60, shatterContainer.clientWidth / shatterContainer.clientHeight, 0.1, 1000);
-    camera.position.z = 25;
+    const camera = new THREE.PerspectiveCamera(50, shatterContainer.clientWidth / shatterContainer.clientHeight, 0.1, 1000);
+    camera.position.z = 35;
     
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(shatterContainer.clientWidth, shatterContainer.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     shatterContainer.appendChild(renderer.domElement);
 
+    // Add 3D Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+    dirLight.position.set(10, 20, 10);
+    scene.add(dirLight);
+
     const networkGroup = new THREE.Group();
     scene.add(networkGroup);
 
-    // Helper to create a texture from an icon/text drawn on an HTML canvas
-    function createIconTexture(iconType) {
+    const orangeColor = 0xff5722;
+    const baseMaterial = new THREE.MeshStandardMaterial({ 
+        color: orangeColor,
+        roughness: 0.3,
+        metalness: 0.2
+    });
+
+    // Helper to create 3D Laptop
+    function createLaptop() {
+        const group = new THREE.Group();
+        const baseGeo = new THREE.BoxGeometry(4, 0.2, 3);
+        const screenGeo = new THREE.BoxGeometry(4, 2.5, 0.2);
+        
+        const base = new THREE.Mesh(baseGeo, baseMaterial);
+        const screen = new THREE.Mesh(screenGeo, baseMaterial);
+        
+        screen.position.set(0, 1.25, -1.4);
+        screen.rotation.x = -0.2; // Open screen angle
+        
+        group.add(base);
+        group.add(screen);
+        return group;
+    }
+
+    // Helper to create Text Texture for 3D Tiles
+    function createTextMaterial(text) {
         const canvas = document.createElement('canvas');
-        canvas.width = 128;
-        canvas.height = 128;
+        canvas.width = 256;
+        canvas.height = 256;
         const ctx = canvas.getContext('2d');
         
-        // Cyberpunk Neon Colors
-        const neonCyan = '#00ffff';
-        const neonMagenta = '#ff00ff';
+        // Orange background for the tile
+        ctx.fillStyle = '#ff5722';
+        ctx.fillRect(0, 0, 256, 256);
         
+        // White text
+        ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
+        ctx.font = 'bold 120px Arial';
+        ctx.fillText(text, 128, 128);
         
-        if (iconType === 'laptop') {
-            ctx.fillStyle = neonMagenta;
-            ctx.shadowColor = neonMagenta;
-            ctx.shadowBlur = 10;
-            ctx.fillRect(34, 34, 60, 40);
-            ctx.fillStyle = '#111';
-            ctx.fillRect(38, 38, 52, 32);
-            ctx.fillStyle = neonMagenta;
-            ctx.fillRect(24, 78, 80, 10);
-        } else if (iconType === 'google') {
-            ctx.fillStyle = neonCyan;
-            ctx.shadowColor = neonCyan;
-            ctx.shadowBlur = 15;
-            ctx.font = 'bold 80px Arial';
-            ctx.fillText('G', 64, 64);
-        } else if (iconType === 'meta') {
-            ctx.fillStyle = neonCyan;
-            ctx.shadowColor = neonCyan;
-            ctx.shadowBlur = 15;
-            ctx.font = 'bold 80px Arial';
-            ctx.fillText('M', 64, 64);
-        } else if (iconType === 'ads') {
-            ctx.fillStyle = neonMagenta;
-            ctx.shadowColor = neonMagenta;
-            ctx.shadowBlur = 15;
-            ctx.font = 'bold 45px Arial';
-            ctx.fillText('ADS', 64, 64);
-        } else {
-            // Generic node
-            ctx.fillStyle = neonCyan;
-            ctx.shadowColor = neonCyan;
-            ctx.shadowBlur = 10;
-            ctx.beginPath();
-            ctx.arc(64, 64, 15, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
         const texture = new THREE.CanvasTexture(canvas);
-        return texture;
+        return new THREE.MeshStandardMaterial({ map: texture, roughness: 0.4 });
     }
 
     // Node configuration
-    const nodeCount = 60; // Increased density slightly
+    const nodeCount = 50;
     const nodes = [];
-    const iconTypes = ['laptop', 'google', 'meta', 'ads'];
+    const iconTypes = ['laptop', 'G', 'M', 'ADS'];
+    const textMaterials = {
+        'G': createTextMaterial('G'),
+        'M': createTextMaterial('M'),
+        'ADS': createTextMaterial('ADS')
+    };
 
-    // Create Nodes
+    // Create 3D Nodes
     for (let i = 0; i < nodeCount; i++) {
-        // Decide if this node is an icon or a generic dot
-        const isIcon = i < 16; 
-        const type = isIcon ? iconTypes[i % iconTypes.length] : 'dot';
+        let nodeMesh;
+        const isIcon = i < 15; 
         
-        const texture = createIconTexture(type);
-        const material = new THREE.SpriteMaterial({ map: texture, color: 0xffffff, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending });
-        const sprite = new THREE.Sprite(material);
+        if (isIcon) {
+            const type = iconTypes[i % iconTypes.length];
+            if (type === 'laptop') {
+                nodeMesh = createLaptop();
+            } else {
+                // A 3D floating tile for G, M, ADS
+                const boxGeo = new THREE.BoxGeometry(3, 3, 0.5);
+                nodeMesh = new THREE.Mesh(boxGeo, textMaterials[type]);
+            }
+        } else {
+            // Generic connection nodes (3D Icosahedrons for a tech look)
+            const icoGeo = new THREE.IcosahedronGeometry(0.8, 0);
+            nodeMesh = new THREE.Mesh(icoGeo, baseMaterial);
+        }
         
-        // Random 3D position
-        sprite.position.set(
-            (Math.random() - 0.5) * 60,
+        // Random 3D position in a wide sphere/cylinder
+        nodeMesh.position.set(
+            (Math.random() - 0.5) * 80,
             (Math.random() - 0.5) * 40,
-            (Math.random() - 0.5) * 40
+            (Math.random() - 0.5) * 30 - 5
         );
         
-        // Scale icons larger than dots
-        if (isIcon) {
-            sprite.scale.set(4, 4, 1);
-        } else {
-            sprite.scale.set(1.5, 1.5, 1);
-        }
+        // Give them random rotations
+        nodeMesh.rotation.set(
+            Math.random() * Math.PI,
+            Math.random() * Math.PI,
+            0
+        );
 
-        networkGroup.add(sprite);
-        nodes.push(sprite.position);
+        networkGroup.add(nodeMesh);
+        // Store reference for line connections and animation
+        nodes.push({
+            mesh: nodeMesh,
+            rotSpeed: {
+                x: (Math.random() - 0.5) * 0.02,
+                y: (Math.random() - 0.5) * 0.02
+            }
+        });
     }
 
     // Create Dotted Lines connecting nodes
-    const maxDistance = 16;
+    const maxDistance = 20;
     const lineMaterial = new THREE.LineDashedMaterial({
-        color: 0xff00ff, // Neon Pink Lines
+        color: orangeColor,
         linewidth: 1,
         scale: 1,
-        dashSize: 0.8,
-        gapSize: 0.8,
+        dashSize: 1,
+        gapSize: 1,
         transparent: true,
-        opacity: 0.5,
-        blending: THREE.AdditiveBlending
+        opacity: 0.6
     });
 
+    // We use a dynamic buffer geometry so lines move perfectly with rotating network
     const lineGeometry = new THREE.BufferGeometry();
-    const positions = [];
+    // Pre-allocate large array (maximum possible connections)
+    const maxLines = nodeCount * nodeCount;
+    const positions = new Float32Array(maxLines * 6);
+    lineGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     
-    // Simple exhaustive connection check (O(N^2) but N=60 is tiny)
-    for (let i = 0; i < nodeCount; i++) {
-        for (let j = i + 1; j < nodeCount; j++) {
-            if (nodes[i].distanceTo(nodes[j]) < maxDistance) {
-                positions.push(
-                    nodes[i].x, nodes[i].y, nodes[i].z,
-                    nodes[j].x, nodes[j].y, nodes[j].z
-                );
-            }
-        }
-    }
-    
-    lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-    lines.computeLineDistances(); // Required for dashed lines to render properly!
     networkGroup.add(lines);
 
     // Animation Loop
@@ -151,9 +159,38 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         requestAnimationFrame(animateNetwork);
         const dt = clock.getDelta();
         
-        // Slowly rotate the entire network
-        networkGroup.rotation.y += 0.08 * dt;
-        networkGroup.rotation.x += 0.04 * dt;
+        // Rotate entire network slowly
+        networkGroup.rotation.y += 0.05 * dt;
+        networkGroup.rotation.z += 0.02 * dt;
+
+        // Spin individual 3D objects
+        let lineIndex = 0;
+        for (let i = 0; i < nodeCount; i++) {
+            nodes[i].mesh.rotation.x += nodes[i].rotSpeed.x;
+            nodes[i].mesh.rotation.y += nodes[i].rotSpeed.y;
+            
+            // Recompute lines based on distance
+            const posA = nodes[i].mesh.position;
+            for (let j = i + 1; j < nodeCount; j++) {
+                const posB = nodes[j].mesh.position;
+                if (posA.distanceTo(posB) < maxDistance) {
+                    positions[lineIndex++] = posA.x;
+                    positions[lineIndex++] = posA.y;
+                    positions[lineIndex++] = posA.z;
+                    positions[lineIndex++] = posB.x;
+                    positions[lineIndex++] = posB.y;
+                    positions[lineIndex++] = posB.z;
+                }
+            }
+        }
+        
+        // Hide unused line segments
+        for (let i = lineIndex; i < maxLines * 6; i++) {
+            positions[i] = 0;
+        }
+        
+        lines.geometry.attributes.position.needsUpdate = true;
+        lines.computeLineDistances(); // Update dashes
 
         renderer.render(scene, camera);
     }
@@ -181,7 +218,6 @@ function triggerElegantReveal() {
         el.classList.add('is-visible');
     });
 
-    // Ignite the blue X glow after a short delay
     if (xGlow) {
         xGlow.style.opacity = '1';
     }

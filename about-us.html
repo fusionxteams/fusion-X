@@ -3,215 +3,530 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Fusion X | Top Digital Marketing & SEO Experts</title>
-    <meta name="description" content="Fusion X analyzes your brand, compares competitors, and builds a strategy to grow from local to global. Partnering with small to international brands.">
-    <meta name="keywords" content="digital marketing agency, competitor analysis, global brand visibility, SEO, Meta Ads, custom website developer, Fusion X team">
+
+    <!-- ===== PRIMARY SEO TAGS ===== -->
+    <title>Best Digital Marketing Agency in India | Fusion X Chennai</title>
+    <meta name="description" content="Fusion X is the best digital marketing agency in India and Chennai. Our expert team includes India's top SEO experts, React & Angular certified web developers, Meta Ads specialists, and Google Ads experts — all under one roof.">
+    <meta name="keywords" content="best digital marketing agency in India, best digital marketing agency in Chennai, best digital marketing agency, best SEO expert in India, best website developer in Chennai, best digital marketing expert, best web developer India, digital marketing company Chennai, SEO specialist India, brand growth agency, social media marketing agency India, Google Ads expert India, Meta Ads specialist, React developer India, Angular developer, Shopify developer India, WordPress developer">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Best Digital Marketing Agency in India | Fusion X">
+    <meta property="og:description" content="From local brands to global enterprises — Fusion X delivers the best digital marketing, SEO, and web development in India.">
+    <meta property="og:type" content="website">
+
     <link rel="icon" type="image/png" href="logo_transparent.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
     <style>
-        /* Specific Styles for About Page */
-        body, html {
-            margin: 0; padding: 0; overflow-x: hidden;
-            background-color: #fcfcfc;
+        :root {
+            --orange: #ff5722;
+            --orange-light: #ff8a65;
+            --dark: #111111;
+            --mid: #333333;
+            --grey: #888888;
+            --white: #ffffff;
+            --off-white: #f8f9fa;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--white);
+            color: var(--dark);
+            overflow-x: hidden;
         }
 
-        /* ---------------- HERO & 3D SECTION ---------------- */
-        .about-hero-section {
-            padding-top: 120px; /* offset navbar */
-            position: relative;
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            background: linear-gradient(135deg, #fff, #f8f9fa);
-            overflow: hidden;
-        }
+        /* ===== SECTION DEFAULTS ===== */
+        section { position: relative; overflow: hidden; }
 
-        /* 3D Canvas Container */
-        #marketing-3d-canvas {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
-        }
-
-        .hero-text-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            max-width: 900px;
-            margin: 80px auto 40px;
-            padding: 0 20px;
-        }
-
-        .hero-text-content h1 {
-            font-size: 4rem;
-            color: #111;
-            margin-bottom: 20px;
-            line-height: 1.1;
-            font-weight: 900;
-        }
-        .hero-text-content h1 span { color: #ff5722; }
-
-        /* ---------------- STRATEGY / PROCESS ---------------- */
-        .strategy-container {
-            position: relative;
-            z-index: 2;
-            max-width: 1200px;
-            margin: 0 auto 100px;
-            padding: 0 20px;
-        }
-
-        .strategy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .strategy-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-            border-top: 4px solid #ff5722;
-            transition: transform 0.3s;
-        }
-        
-        .strategy-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .strategy-card i {
-            font-size: 2.5rem;
-            color: #ff5722;
-            margin-bottom: 20px;
-        }
-
-        .strategy-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #111;
-        }
-
-        .strategy-card p {
-            color: #555;
-            line-height: 1.6;
-            font-size: 1.05rem;
-        }
-
-        .global-vision-banner {
-            background: #111;
-            color: #fff;
-            padding: 60px 40px;
-            border-radius: 20px;
-            text-align: center;
-            margin-top: 50px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(255,87,34,0.2);
-        }
-        
-        .global-vision-banner::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle at center, rgba(255,87,34,0.2) 0%, transparent 60%);
-            z-index: 0; pointer-events: none;
-        }
-
-        .global-vision-banner h2, .global-vision-banner p { position: relative; z-index: 1; }
-        .global-vision-banner h2 { font-size: 2.5rem; margin-bottom: 15px; color: #ff5722; }
-        .global-vision-banner p { font-size: 1.2rem; max-width: 800px; margin: 0 auto; line-height: 1.6; }
-
-
-        /* ---------------- TEAM SECTION ---------------- */
-        .team-container {
+        .section-inner {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 80px 5%;
+            padding: 0 5%;
         }
 
-        .team-section-title {
+        /* ===== HERO ===== */
+        #about-hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            margin-bottom: 60px;
+            background: var(--white);
+            position: relative;
         }
-        .team-section-title h2 { font-size: 3rem; color: #111; margin-bottom: 15px; }
+
+        #about-hero-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 20px;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            background: rgba(255,87,34,0.1);
+            color: var(--orange);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,87,34,0.3);
+            margin-bottom: 28px;
+        }
+
+        .hero-h1 {
+            font-size: clamp(2.8rem, 6vw, 5.5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            color: var(--dark);
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+        }
+
+        .hero-h1 .highlight { color: var(--orange); }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--grey);
+            max-width: 650px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .scroll-down {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--orange);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-down i { font-size: 1.4rem; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(8px); }
+        }
+
+        /* ===== WHO WE ARE ===== */
+        #about-who {
+            padding: 130px 0;
+            background: var(--dark);
+            color: var(--white);
+        }
+
+        .who-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .who-text .section-tag {
+            color: var(--orange);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .who-text h2 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .who-text h2 span { color: var(--orange); }
+
+        .who-text p {
+            color: #aaaaaa;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .who-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,87,34,0.2);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .stat-num {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--orange);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-label { font-size: 0.9rem; color: #888; }
+
+        #about-who-canvas {
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        /* ===== PROCESS ===== */
+        #about-process {
+            padding: 130px 0;
+            background: var(--white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header .tag {
+            color: var(--orange);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            color: var(--dark);
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            color: var(--grey);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .process-card {
+            background: var(--white);
+            border: 1px solid #eeeeee;
+            border-radius: 24px;
+            padding: 48px 36px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            opacity: 0;
+            transform: translateY(60px);
+        }
+
+        .process-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .process-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 60px rgba(255,87,34,0.12);
+            border-color: var(--orange);
+        }
+
+        .process-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: var(--orange);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: left;
+        }
+
+        .process-card:hover::before { transform: scaleX(1); }
+
+        .process-num {
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(255,87,34,0.08);
+            line-height: 1;
+            margin-bottom: 16px;
+            letter-spacing: -4px;
+        }
+
+        .process-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,87,34,0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--orange);
+            margin-bottom: 24px;
+        }
+
+        .process-card h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 16px;
+        }
+
+        .process-card p {
+            color: var(--grey);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* ===== TEAM ===== */
+        #about-team {
+            padding: 130px 0;
+            background: var(--off-white);
+        }
 
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
+            gap: 32px;
         }
 
         .team-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px 32px;
+            border: 1px solid #eeeeee;
+            transition: all 0.4s ease;
             position: relative;
-            border: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .team-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .team-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(255, 87, 34, 0.15);
-            border-color: #ff5722;
+            box-shadow: 0 25px 50px rgba(255,87,34,0.1);
+            border-color: var(--orange);
         }
 
+        .team-card-accent {
+            width: 50px;
+            height: 4px;
+            background: var(--orange);
+            border-radius: 2px;
+            margin-bottom: 24px;
+            transition: width 0.4s ease;
+        }
+
+        .team-card:hover .team-card-accent { width: 100%; }
+
         .team-role {
-            color: #ff5722;
+            font-size: 0.8rem;
             font-weight: 700;
+            color: var(--orange);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
+            letter-spacing: 2px;
             margin-bottom: 10px;
         }
 
         .team-name {
-            font-size: 1.8rem;
-            color: #111;
-            margin-bottom: 15px;
+            font-size: 1.7rem;
             font-weight: 900;
+            color: var(--dark);
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
         }
 
         .team-desc {
-            color: #555;
-            line-height: 1.6;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            flex-grow: 1;
+            color: var(--grey);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
         }
 
-        .tech-tags {
+        .team-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 15px;
         }
 
-        .tech-tag {
-            background: #fff0eb;
-            color: #ff5722;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+        .team-tag {
+            background: rgba(255,87,34,0.07);
+            color: var(--orange);
+            font-size: 0.78rem;
             font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,87,34,0.15);
         }
-        
-        /* FOOTER */
-        footer {
-            background-color: #111; color: white; text-align: center; padding: 60px 20px;
+
+        .team-trainer {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #f0f0f0;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .team-trainer strong { color: var(--dark); }
+
+        /* ===== STATS ===== */
+        #about-stats {
+            padding: 100px 0;
+            background: var(--orange);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item { color: var(--white); }
+
+        .stat-counter {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-item p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== CTA ===== */
+        #about-cta {
+            padding: 150px 0;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .cta-tag {
+            color: var(--orange);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .cta-h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            color: var(--white);
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .cta-h2 span { color: var(--orange); }
+
+        .cta-p {
+            color: #888;
+            font-size: 1.1rem;
+            max-width: 550px;
+            margin: 0 auto 48px;
+            line-height: 1.7;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--orange);
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 18px 48px;
+            border-radius: 50px;
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 30px rgba(255,87,34,0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(255,87,34,0.5);
+        }
+
+        /* ===== FLOATING KEYWORD CLOUD ===== */
+        .keyword-float {
+            position: absolute;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: rgba(255,87,34,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            pointer-events: none;
+            animation: floatKw 6s ease-in-out infinite;
+        }
+
+        @keyframes floatKw {
+            0%, 100% { transform: translateY(0px) rotate(-2deg); }
+            50%       { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .who-grid { grid-template-columns: 1fr; }
+            #about-who-canvas { height: 280px; }
+            .process-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+        }
+
+        @media (max-width: 600px) {
+            .who-stats { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .hero-h1 { letter-spacing: -1px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR (Exact match to screenshot) -->
-            <nav class="navbar">
+<!-- ===== NAVBAR (exact copy from index.html) ===== -->
+    <nav class="navbar">
         <div class="logo-container">
             <a href="index.html">
                 <img src="logo_transparent.png" alt="Fusion X Logo - Best Digital Marketing Agency" class="logo">
@@ -240,118 +555,263 @@
         </div>
     </nav>
 
-    <!-- HERO & 3D SECTION -->
-    <section class="about-hero-section">
-        <!-- 3D Canvas Background injected here via JS -->
-        <div id="marketing-3d-canvas"></div>
+<!-- ============================================================
+     SECTION 1 · HERO
+     Primary KW: Best Digital Marketing Agency in India / Chennai
+================================================================ -->
+<section id="about-hero" aria-label="Best Digital Marketing Agency in India">
+    <div id="about-hero-canvas"></div>
 
-        <div class="hero-text-content">
-            <h1>Engineering <span>Global Growth</span></h1>
-            <p style="font-size: 1.2rem; color: #555;">We don't just run campaigns. We architect complete digital dominance for your brand.</p>
-        </div>
+    <div class="hero-content">
+        <span class="hero-eyebrow">Chennai · India · Global</span>
+        <h1 class="hero-h1">
+            Best Digital Marketing<br>
+            Agency in <span class="highlight">India</span>
+        </h1>
+        <p class="hero-sub">
+            Fusion X is Chennai's fastest-growing digital marketing agency — driving brands from local visibility to global dominance through SEO, paid media, and custom web development.
+        </p>
+        <a class="scroll-down" href="#about-who" aria-label="Scroll to learn more">
+            <span>Scroll</span>
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </div>
 
-        <div class="strategy-container">
-            <div class="strategy-grid">
-                <!-- Step 1 -->
-                <div class="strategy-card">
-                    <i class="fas fa-search-chart"></i>
-                    <h3>1. Deep Analysis & Comparison</h3>
-                    <p>Whether you are an established enterprise or starting a new brand, we begin by deeply analyzing your brand against top competitors in your domain. We reverse-engineer their successes and map out exactly what they did good and bad.</p>
-                </div>
-                <!-- Step 2 -->
-                <div class="strategy-card">
-                    <i class="fas fa-tools"></i>
-                    <h3>2. Identify & Correct</h3>
-                    <p>We see exactly what your current digital presence lacks. We correct critical mistakes in architecture, messaging, and funnel design, ensuring a flawless foundation before scaling traffic.</p>
-                </div>
-                <!-- Step 3 -->
-                <div class="strategy-card">
-                    <i class="fas fa-lightbulb"></i>
-                    <h3>3. Innovate & Grow</h3>
-                    <p>We don't copy. We inject our own high-converting, innovative ideas tailored specifically to your niche, bridging the gap between local presence and global market domination.</p>
+    <!-- Floating SEO keyword decorations -->
+    <span class="keyword-float" style="top:18%;left:8%;animation-delay:0s">SEO</span>
+    <span class="keyword-float" style="top:72%;left:5%;animation-delay:1.2s">Meta Ads</span>
+    <span class="keyword-float" style="top:25%;right:7%;animation-delay:0.6s">Google Ads</span>
+    <span class="keyword-float" style="top:65%;right:6%;animation-delay:1.8s">Shopify</span>
+    <span class="keyword-float" style="top:45%;left:3%;animation-delay:2.1s">React</span>
+    <span class="keyword-float" style="top:50%;right:3%;animation-delay:0.3s">Branding</span>
+</section>
+
+<!-- ============================================================
+     SECTION 2 · WHO WE ARE
+     Secondary KW: brand growth strategy, digital agency leadership
+================================================================ -->
+<section id="about-who" aria-label="Best digital marketing agency team in Chennai">
+    <div class="section-inner">
+        <div class="who-grid">
+            <div class="who-text">
+                <p class="section-tag">Who We Are</p>
+                <h2>India's Premier <span>Digital Growth</span> Partner</h2>
+                <p>
+                    Fusion X is more than a <strong>digital marketing agency in Chennai</strong> — we are a full-stack brand growth engine. We work with everyone from ambitious startups launching their first brand, to established international corporations seeking to reclaim digital market share.
+                </p>
+                <p>
+                    Our approach is built on three pillars: <strong>deep competitor analysis</strong>, identifying and correcting digital weaknesses, and deploying innovative, high-converting strategies that are uniquely tailored to your domain. We don't copy. We create.
+                </p>
+                <p>
+                    From <strong>organic SEO and AEO</strong> to paid media campaigns, custom React or Angular web platforms, and viral social content — every service we offer is engineered for one outcome: making your brand undeniably visible worldwide.
+                </p>
+                <div class="who-stats">
+                    <div class="stat-box">
+                        <div class="stat-num" data-target="100">0</div>
+                        <div class="stat-label">Brands Scaled</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num" data-target="5">0</div>
+                        <div class="stat-label">Elite Specialists</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num" data-target="30">0</div>
+                        <div class="stat-label">Cities Reached</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num" data-target="360">0</div>
+                        <div class="stat-label">Degree Digital Coverage</div>
+                    </div>
                 </div>
             </div>
-
-            <div class="global-vision-banner">
-                <h2>Local to Global</h2>
-                <p>We are willing to work with everyone—from ambitious startups looking to launch their first brand, to massive international corporations. If you have the drive to grow your brand, Fusion X is the engine that will take you worldwide.</p>
+            <div>
+                <canvas id="about-who-canvas" aria-hidden="true"></canvas>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- TEAM SECTION -->
-    <section class="team-container">
-        <div class="team-section-title">
-            <h2>The Fusion X Experts</h2>
-            <p>Unified design. Elite execution.</p>
+<!-- ============================================================
+     SECTION 3 · PROCESS
+     KW: competitor analysis, brand growth, conversion optimization
+================================================================ -->
+<section id="about-process" aria-label="Our digital marketing process">
+    <div class="section-inner">
+        <div class="section-header">
+            <p class="tag">Our Proven Process</p>
+            <h2>How We Grow Your Brand</h2>
+            <p>Every engagement starts the same way — by fully understanding your brand, your market, and your competitors before a single rupee is spent.</p>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-card">
+                <div class="process-num">01</div>
+                <div class="process-icon"><i class="fas fa-search"></i></div>
+                <h3>Deep Analysis & Competitor Audit</h3>
+                <p>We reverse-engineer your top competitors in your exact domain. We map what they did brilliantly, where they failed, and what whitespace exists for your brand to dominate — organically and through paid channels.</p>
+            </div>
+            <div class="process-card" style="transition-delay:0.15s">
+                <div class="process-num">02</div>
+                <div class="process-icon"><i class="fas fa-tools"></i></div>
+                <h3>Identify Gaps & Correct Mistakes</h3>
+                <p>We audit your current digital presence — technical SEO health, content quality, page speed, UX, funnel architecture — and systematically correct every critical mistake blocking your organic growth and conversion rate.</p>
+            </div>
+            <div class="process-card" style="transition-delay:0.3s">
+                <div class="process-num">03</div>
+                <div class="process-icon"><i class="fas fa-rocket"></i></div>
+                <h3>Innovate, Execute & Scale</h3>
+                <p>We inject our own original, data-driven ideas — from AI-optimized content and EEAT frameworks to aggressive paid campaigns — and scale your brand from local presence to global market leadership.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SECTION 4 · TEAM
+     KW: best SEO expert India, best web developer Chennai, etc.
+================================================================ -->
+<section id="about-team" aria-label="Meet the best digital marketing experts">
+    <div class="section-inner">
+        <div class="section-header">
+            <p class="tag">The Experts Behind Fusion X</p>
+            <h2>Meet Our Elite Team</h2>
+            <p>A unified group of India's best digital specialists — each a proven expert in their domain, working together to architect your brand's global success.</p>
         </div>
 
         <div class="team-grid">
-            
+
             <!-- Jaiharan K -->
-            <div class="team-card">
-                <span class="team-role">Chief Executive Officer</span>
-                <h3 class="team-name">Jaiharan K</h3>
-                <p class="team-desc">As the CEO and Best Business Operations & Client Manager, Jaiharan drives the core strategic vision of Fusion X. He oversees operations to guarantee that every brand we partner with scales successfully.</p>
-                <div class="tech-tags">
-                    <span class="tech-tag">Business Operations</span>
-                    <span class="tech-tag">Client Management</span>
+            <div class="team-card" itemscope itemtype="https://schema.org/Person">
+                <div class="team-card-accent"></div>
+                <div class="team-role" itemprop="jobTitle">CEO & Best Business Operations Manager</div>
+                <h3 class="team-name" itemprop="name">Jaiharan K</h3>
+                <p class="team-desc" itemprop="description">
+                    As the Chief Executive Officer of the <strong>best digital marketing agency in Chennai</strong>, Jaiharan leads Fusion X's core business operations and client strategy. His leadership ensures every brand partnership is executed with precision, from onboarding to global scaling.
+                </p>
+                <div class="team-tags">
+                    <span class="team-tag">Brand Strategy</span>
+                    <span class="team-tag">Business Operations</span>
+                    <span class="team-tag">Client Growth</span>
+                    <span class="team-tag">Agency Leadership</span>
                 </div>
             </div>
 
             <!-- Kamalesh J -->
-            <div class="team-card">
-                <span class="team-role">Best Digital Marketing Expert</span>
-                <h3 class="team-name">Kamalesh J</h3>
-                <p class="team-desc">A powerhouse in digital marketing. Kamalesh leverages deep global algorithms, paid scaling, and strategic growth to make brands undeniably visible.</p>
-                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
-                    <strong style="font-size: 0.85rem; color: #111;">Trained at Digital Scholar by:</strong>
-                    <div style="font-size: 0.85rem; color: #666; margin-top: 5px; line-height: 1.5;">
-                        Karthik Maruthai (SEO), Sorav Jain (Growth), Rishi Jain (Meta Ads), Eugene Samuel (Google Ads)
-                    </div>
+            <div class="team-card" itemscope itemtype="https://schema.org/Person">
+                <div class="team-card-accent"></div>
+                <div class="team-role" itemprop="jobTitle">Best Digital Marketing Expert in India</div>
+                <h3 class="team-name" itemprop="name">Kamalesh J</h3>
+                <p class="team-desc" itemprop="description">
+                    India's best digital marketing expert, trained at <strong>Digital Scholar</strong> under mentors Karthik Maruthai (SEO), Sorav Jain (Growth), Rishi Jain (Meta Ads), and Eugene Samuel (Google Ads). Kamalesh engineers multi-channel paid and organic strategies that make brands globally visible.
+                </p>
+                <div class="team-tags">
+                    <span class="team-tag">Meta Ads</span>
+                    <span class="team-tag">Google Ads</span>
+                    <span class="team-tag">Social Media Marketing</span>
+                    <span class="team-tag">Brand Visibility</span>
+                    <span class="team-tag">Lead Generation</span>
+                </div>
+                <div class="team-trainer">
+                    Trained at <strong>Digital Scholar</strong> — India's #1 Digital Marketing Institute
                 </div>
             </div>
 
             <!-- Kannan Js -->
-            <div class="team-card">
-                <span class="team-role">Best Website Developer</span>
-                <h3 class="team-name">Kannan Js</h3>
-                <p class="team-desc">A master of modern web architecture. Kannan builds the robust, high-performance foundations that power Fusion X's digital experiences, specializing in completely custom-coded platforms.</p>
-                <div class="tech-tags">
-                    <span class="tech-tag">Certified React Dev</span>
-                    <span class="tech-tag">Shopify</span>
-                    <span class="tech-tag">WordPress</span>
+            <div class="team-card" itemscope itemtype="https://schema.org/Person">
+                <div class="team-card-accent"></div>
+                <div class="team-role" itemprop="jobTitle">Best Website Developer in Chennai</div>
+                <h3 class="team-name" itemprop="name">Kannan Js</h3>
+                <p class="team-desc" itemprop="description">
+                    A <strong>certified React developer</strong> and one of the best website developers in Chennai, Kannan builds lightning-fast, SEO-optimized, fully custom-coded platforms. Whether it's a Shopify store, a WordPress site, or a bespoke React application — he engineers it to rank and convert.
+                </p>
+                <div class="team-tags">
+                    <span class="team-tag">React Certified</span>
+                    <span class="team-tag">Shopify Expert</span>
+                    <span class="team-tag">WordPress Developer</span>
+                    <span class="team-tag">Custom Web Dev</span>
+                    <span class="team-tag">SEO-First Architecture</span>
                 </div>
             </div>
 
             <!-- Saravana Sanjhay.M -->
-            <div class="team-card">
-                <span class="team-role">Best SEO Expert</span>
-                <h3 class="team-name">Saravana Sanjhay.M</h3>
-                <p class="team-desc">An SEO genius with deep software development expertise. Saravana perfectly bridges the gap between high-ranking organic search optimization and flawless technical execution.</p>
-                <div class="tech-tags">
-                    <span class="tech-tag">Certified Angular Dev</span>
-                    <span class="tech-tag">Shopify</span>
-                    <span class="tech-tag">WordPress</span>
+            <div class="team-card" itemscope itemtype="https://schema.org/Person">
+                <div class="team-card-accent"></div>
+                <div class="team-role" itemprop="jobTitle">Best SEO Expert in India</div>
+                <h3 class="team-name" itemprop="name">Saravana Sanjhay.M</h3>
+                <p class="team-desc" itemprop="description">
+                    Among India's best SEO experts with a rare combination of deep technical development skills. A <strong>certified Angular developer</strong> who masters both Shopify and WordPress, Saravana engineers AI-visible, EEAT-optimized content architectures and technical SEO strategies that dominate SERPs.
+                </p>
+                <div class="team-tags">
+                    <span class="team-tag">Angular Certified</span>
+                    <span class="team-tag">Technical SEO</span>
+                    <span class="team-tag">On-Page SEO</span>
+                    <span class="team-tag">Shopify SEO</span>
+                    <span class="team-tag">AEO & GEO</span>
                 </div>
             </div>
 
             <!-- Jabakumar -->
-            <div class="team-card">
-                <span class="team-role">Best Editor</span>
-                <h3 class="team-name">Jabakumar</h3>
-                <p class="team-desc">The creative eye behind the visuals. Jabakumar ensures that every piece of content, video, and visual asset outputted by Fusion X is edited to absolute perfection for viral engagement.</p>
-                <div class="tech-tags">
-                    <span class="tech-tag">Video Editing</span>
-                    <span class="tech-tag">Visual Storytelling</span>
+            <div class="team-card" itemscope itemtype="https://schema.org/Person">
+                <div class="team-card-accent"></div>
+                <div class="team-role" itemprop="jobTitle">Best Content Editor & Video Producer</div>
+                <h3 class="team-name" itemprop="name">Jabakumar</h3>
+                <p class="team-desc" itemprop="description">
+                    The creative force behind Fusion X's visual storytelling. Jabakumar edits every piece of content — video, reels, and static assets — to absolute perfection, maximizing audience retention and social media engagement for every brand we represent.
+                </p>
+                <div class="team-tags">
+                    <span class="team-tag">Video Editing</span>
+                    <span class="team-tag">Reels & Shorts</span>
+                    <span class="team-tag">Visual Branding</span>
+                    <span class="team-tag">Content Strategy</span>
                 </div>
             </div>
 
         </div>
-    </section>
-    
-    <!-- FOOTER -->
-            <footer style="background-color:#111;color:white;text-align:center;padding:60px 20px;font-family:'Inter',sans-serif;">
+    </div>
+</section>
+
+<!-- ============================================================
+     SECTION 5 · STATS BAR
+================================================================ -->
+<section id="about-stats" aria-label="Fusion X digital marketing results">
+    <div class="section-inner">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-counter" data-target="100">0</div>
+                <p>Brands Scaled</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-counter" data-target="5">0</div>
+                <p>Elite Experts</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-counter" data-target="15">0</div>
+                <p>Industries Served</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-counter" data-target="360">0</div>
+                <p>Degree Marketing Coverage</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SECTION 6 · CTA
+================================================================ -->
+<section id="about-cta" aria-label="Contact best digital marketing agency in India">
+    <div class="section-inner" style="text-align:center;">
+        <p class="cta-tag">Ready to Dominate?</p>
+        <h2 class="cta-h2">Take Your Brand<br><span>Worldwide</span></h2>
+        <p class="cta-p">Whether you are a local Chennai startup or an international enterprise — Fusion X, India's best digital marketing agency, is ready to architect your global success.</p>
+        <a href="index.html#contact" class="cta-btn">Let's Connect &rarr;</a>
+    </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+================================================================ -->
+    <footer style="background-color:#111;color:white;text-align:center;padding:60px 20px;font-family:'Segoe UI',sans-serif;">
         <h2 style="font-size:2.5rem;margin-bottom:10px;color:white;">FUSION X</h2>
         <p style="color:#ff5722;font-weight:bold;letter-spacing:2px;margin:0;">TAKE YOUR BRAND WORLDWIDE</p>
         <div style="margin:30px 0;">
@@ -363,10 +823,170 @@
         <p style="color:#666;font-size:0.9rem;margin-top:30px;">© 2026 Fusion X. All Rights Reserved.</p>
     </footer>
 
-    <!-- Scripts -->
-    
-    <script src="about-marketing-3d.js"></script>
-    <script src="charm-physics.js"></script>
-<script src="components.js"></script>
+<!-- ===== SCHEMA.ORG JSON-LD ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Fusion X",
+  "description": "Best digital marketing agency in India and Chennai offering SEO, Meta Ads, Google Ads, and custom web development.",
+  "url": "https://fusionx.in",
+  "areaServed": ["India", "Chennai", "Tamil Nadu", "Global"],
+  "knowsAbout": ["Digital Marketing", "SEO", "Meta Ads", "Google Ads", "Web Development", "Shopify", "WordPress", "React", "Angular"],
+  "employee": [
+    { "@type": "Person", "name": "Jaiharan K", "jobTitle": "CEO" },
+    { "@type": "Person", "name": "Kamalesh J", "jobTitle": "Digital Marketing Expert" },
+    { "@type": "Person", "name": "Kannan Js", "jobTitle": "Website Developer" },
+    { "@type": "Person", "name": "Saravana Sanjhay M", "jobTitle": "SEO Expert" },
+    { "@type": "Person", "name": "Jabakumar", "jobTitle": "Content Editor" }
+  ]
+}
+</script>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Process cards stagger in
+    gsap.utils.toArray('.process-card').forEach((card, i) => {
+        gsap.fromTo(card,
+            { opacity: 0, y: 70 },
+            { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: i * 0.18,
+              scrollTrigger: { trigger: card, start: 'top 82%' }
+            }
+        );
+    });
+
+    // 2. Team cards stagger in
+    gsap.utils.toArray('.team-card').forEach((card, i) => {
+        gsap.fromTo(card,
+            { opacity: 0, y: 60 },
+            { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: i * 0.12,
+              scrollTrigger: { trigger: card, start: 'top 85%' }
+            }
+        );
+    });
+
+    // 3. Who-we-are text slides in from left
+    gsap.fromTo('.who-text',
+        { opacity: 0, x: -80 },
+        { opacity: 1, x: 0, duration: 1.1, ease: 'power3.out',
+          scrollTrigger: { trigger: '#about-who', start: 'top 70%' }
+        }
+    );
+
+    // 4. Counter animation
+    function animateCounter(el) {
+        const target = +el.dataset.target;
+        let current = 0;
+        const step = Math.ceil(target / 60);
+        const interval = setInterval(() => {
+            current = Math.min(current + step, target);
+            el.textContent = current + (target >= 100 ? '+' : target === 360 ? '°' : '+');
+            if (current >= target) clearInterval(interval);
+        }, 28);
+    }
+
+    // Trigger counters on scroll
+    const counterSections = document.querySelectorAll('[data-target]');
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                animateCounter(e.target);
+                counterObserver.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    counterSections.forEach(el => counterObserver.observe(el));
+
+    // 5. Hamburger menu
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu   = document.querySelector('.nav-links');
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            const open = navMenu.style.display === 'flex' && navMenu.style.flexDirection === 'column';
+            if (open) {
+                navMenu.style.display = 'none';
+            } else {
+                Object.assign(navMenu.style, {
+                    display: 'flex', flexDirection: 'column',
+                    position: 'absolute', top: '70px', left: '0',
+                    width: '100%', background: '#fff',
+                    padding: '20px 0', boxShadow: '0 5px 15px rgba(0,0,0,0.1)', zIndex: '999'
+                });
+            }
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                navMenu.removeAttribute('style');
+            }
+        });
+    }
+</script>
+
+<!-- Three.js WHO section floating word cloud -->
+<script>
+(function(){
+    const canvas = document.getElementById('about-who-canvas');
+    if (!canvas || typeof THREE === 'undefined') return;
+    const W = canvas.clientWidth, H = canvas.clientHeight;
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, W/H, 0.1, 500);
+    camera.position.z = 120;
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(W, H);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+
+    // Rotating torus knot as "digital growth" visual
+    const geo1 = new THREE.TorusKnotGeometry(28, 6, 160, 24);
+    const mat1 = new THREE.MeshPhongMaterial({
+        color: 0xff5722, wireframe: true, transparent: true, opacity: 0.55
+    });
+    const knot = new THREE.Mesh(geo1, mat1);
+    scene.add(knot);
+
+    // Inner solid torus
+    const geo2 = new THREE.TorusKnotGeometry(28, 6, 80, 12);
+    const mat2 = new THREE.MeshPhongMaterial({ color: 0xff8a65, transparent: true, opacity: 0.08 });
+    scene.add(new THREE.Mesh(geo2, mat2));
+
+    // Orbiting particles
+    const pg = new THREE.BufferGeometry();
+    const pp = new Float32Array(500*3);
+    for(let i=0;i<500;i++){
+        const th=Math.random()*Math.PI*2, ph=Math.random()*Math.PI;
+        const r=55+Math.random()*25;
+        pp[i*3]=r*Math.sin(ph)*Math.cos(th);
+        pp[i*3+1]=r*Math.sin(ph)*Math.sin(th);
+        pp[i*3+2]=r*Math.cos(ph);
+    }
+    pg.setAttribute('position', new THREE.BufferAttribute(pp,3));
+    scene.add(new THREE.Points(pg, new THREE.PointsMaterial({ color:0xff5722, size:1.5, transparent:true, opacity:0.7 })));
+
+    // Lights
+    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+    const dl = new THREE.DirectionalLight(0xff5722, 1.5);
+    dl.position.set(1,1,1); scene.add(dl);
+
+    let t=0;
+    function loop(){
+        requestAnimationFrame(loop);
+        t+=0.008;
+        knot.rotation.x=t*0.4;
+        knot.rotation.y=t*0.6;
+        renderer.render(scene,camera);
+    }
+    loop();
+    window.addEventListener('resize',()=>{
+        const nW=canvas.clientWidth, nH=canvas.clientHeight;
+        camera.aspect=nW/nH;
+        camera.updateProjectionMatrix();
+        renderer.setSize(nW,nH);
+    });
+})();
+</script>
+
+<script src="about-3d-hero.js"></script>
+<script src="charm-physics.js"></script>
 </body>
 </html>

@@ -25,3 +25,10 @@ If you are reading this codebase to assist MM Sanjay (or any other developer), y
     * Adjusted airplane flight path to weave perfectly over the new 2.0 height mountain ranges.
     * Fixed shadow camera bounds to prevent artifacting.
 
+
+* **2026-09-23** - Implemented interactive UI components and responsive fixes.
+    * Replaced basic shatter animation with a high-impact Kinetic Slam text animation (pure CSS).
+    * Upgraded the nav bar charm from CSS keyframes to a full interactive Javascript Pendulum Physics Engine.
+    * Fixed a critical mobile menu bug where inline `display: none` overrode desktop CSS on resize.
+    * Styled "Let's Connect" nav link into a distinctive orange pill button.
+    * Removed white background from the logo using a PIL python script.

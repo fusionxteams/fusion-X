@@ -9,8 +9,8 @@ let isAnimating = false;
 // --- 3D DIGITAL NETWORK BACKGROUND ---
 if (shatterContainer && typeof THREE !== 'undefined') {
     const scene = new THREE.Scene();
-    // Soft fog to blend the edges of the network into the white background
-    scene.fog = new THREE.FogExp2(0xffffff, 0.03);
+    // Cyberpunk dark void fog
+    scene.fog = new THREE.FogExp2(0x05000a, 0.035);
 
     const camera = new THREE.PerspectiveCamera(60, shatterContainer.clientWidth / shatterContainer.clientHeight, 0.1, 1000);
     camera.position.z = 25;
@@ -30,30 +30,47 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         canvas.height = 128;
         const ctx = canvas.getContext('2d');
         
-        ctx.fillStyle = '#ff5722'; // Orange theme
+        // Cyberpunk Neon Colors
+        const neonCyan = '#00ffff';
+        const neonMagenta = '#ff00ff';
+        
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
         if (iconType === 'laptop') {
-            // Draw a simple laptop shape
+            ctx.fillStyle = neonMagenta;
+            ctx.shadowColor = neonMagenta;
+            ctx.shadowBlur = 10;
             ctx.fillRect(34, 34, 60, 40);
-            ctx.fillStyle = '#fff';
+            ctx.fillStyle = '#111';
             ctx.fillRect(38, 38, 52, 32);
-            ctx.fillStyle = '#ff5722';
+            ctx.fillStyle = neonMagenta;
             ctx.fillRect(24, 78, 80, 10);
         } else if (iconType === 'google') {
+            ctx.fillStyle = neonCyan;
+            ctx.shadowColor = neonCyan;
+            ctx.shadowBlur = 15;
             ctx.font = 'bold 80px Arial';
             ctx.fillText('G', 64, 64);
         } else if (iconType === 'meta') {
+            ctx.fillStyle = neonCyan;
+            ctx.shadowColor = neonCyan;
+            ctx.shadowBlur = 15;
             ctx.font = 'bold 80px Arial';
             ctx.fillText('M', 64, 64);
         } else if (iconType === 'ads') {
-            ctx.font = 'bold 50px Arial';
+            ctx.fillStyle = neonMagenta;
+            ctx.shadowColor = neonMagenta;
+            ctx.shadowBlur = 15;
+            ctx.font = 'bold 45px Arial';
             ctx.fillText('ADS', 64, 64);
         } else {
             // Generic node
+            ctx.fillStyle = neonCyan;
+            ctx.shadowColor = neonCyan;
+            ctx.shadowBlur = 10;
             ctx.beginPath();
-            ctx.arc(64, 64, 20, 0, Math.PI * 2);
+            ctx.arc(64, 64, 15, 0, Math.PI * 2);
             ctx.fill();
         }
 
@@ -62,18 +79,18 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     }
 
     // Node configuration
-    const nodeCount = 50;
+    const nodeCount = 60; // Increased density slightly
     const nodes = [];
     const iconTypes = ['laptop', 'google', 'meta', 'ads'];
 
     // Create Nodes
     for (let i = 0; i < nodeCount; i++) {
         // Decide if this node is an icon or a generic dot
-        const isIcon = i < 15; // 15 icons, 35 dots
+        const isIcon = i < 16; 
         const type = isIcon ? iconTypes[i % iconTypes.length] : 'dot';
         
         const texture = createIconTexture(type);
-        const material = new THREE.SpriteMaterial({ map: texture, color: 0xffffff, transparent: true, opacity: 0.8 });
+        const material = new THREE.SpriteMaterial({ map: texture, color: 0xffffff, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending });
         const sprite = new THREE.Sprite(material);
         
         // Random 3D position
@@ -95,21 +112,22 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     }
 
     // Create Dotted Lines connecting nodes
-    const maxDistance = 15;
+    const maxDistance = 16;
     const lineMaterial = new THREE.LineDashedMaterial({
-        color: 0x00d4ff, // Blue theme for lines
+        color: 0xff00ff, // Neon Pink Lines
         linewidth: 1,
         scale: 1,
-        dashSize: 0.5,
-        gapSize: 0.5,
+        dashSize: 0.8,
+        gapSize: 0.8,
         transparent: true,
-        opacity: 0.4
+        opacity: 0.5,
+        blending: THREE.AdditiveBlending
     });
 
     const lineGeometry = new THREE.BufferGeometry();
     const positions = [];
     
-    // Simple exhaustive connection check (O(N^2) but N=50 is tiny)
+    // Simple exhaustive connection check (O(N^2) but N=60 is tiny)
     for (let i = 0; i < nodeCount; i++) {
         for (let j = i + 1; j < nodeCount; j++) {
             if (nodes[i].distanceTo(nodes[j]) < maxDistance) {
@@ -134,8 +152,8 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         const dt = clock.getDelta();
         
         // Slowly rotate the entire network
-        networkGroup.rotation.y += 0.1 * dt;
-        networkGroup.rotation.x += 0.05 * dt;
+        networkGroup.rotation.y += 0.08 * dt;
+        networkGroup.rotation.x += 0.04 * dt;
 
         renderer.render(scene, camera);
     }

@@ -5,7 +5,17 @@ const navLinks = document.querySelector('.nav-links');
 if (hamburger) {
     hamburger.addEventListener('click', () => {
         if (navLinks.style.display === 'flex') {
-            navLinks.style.display = 'none';
+            navLinks.style.display = '';
+            navLinks.style.flexDirection = '';
+            navLinks.style.alignItems = '';
+            navLinks.style.position = '';
+            navLinks.style.top = '';
+            navLinks.style.left = '';
+            navLinks.style.width = '';
+            navLinks.style.background = '';
+            navLinks.style.padding = '';
+            navLinks.style.boxShadow = '';
+            navLinks.style.zIndex = '';
         } else {
             navLinks.style.display = 'flex';
             navLinks.style.flexDirection = 'column';
@@ -17,6 +27,7 @@ if (hamburger) {
             navLinks.style.background = 'white';
             navLinks.style.padding = '30px 0'; // A bit more padding
             navLinks.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
+            navLinks.style.zIndex = '1000'; // Ensure it's on top
         }
     });
 

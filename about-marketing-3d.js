@@ -1,120 +1,160 @@
 // about-marketing-3d.js
-const container = document.getElementById('marketing-3d-canvas');
+// Relevant 3D Digital Marketing Ecosystem — interconnected channel nodes
+(function () {
+    const canvas = document.getElementById('about-who-canvas');
+    if (!canvas || typeof THREE === 'undefined') return;
 
-if (container && typeof THREE !== 'undefined') {
+    const W = canvas.clientWidth, H = canvas.clientHeight;
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xfcfcfc);
-    
-    // Add soft fog for depth blending
-    scene.fog = new THREE.Fog(0xfcfcfc, 50, 300);
+    const camera = new THREE.PerspectiveCamera(55, W / H, 0.1, 500);
+    camera.position.set(0, 10, 130);
 
-    const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 1, 1000);
-    // Position camera looking down at a 3D growth chart
-    camera.position.set(0, 50, 150);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(W, H);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    container.appendChild(renderer.domElement);
+    // Lighting
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const dirL = new THREE.DirectionalLight(0xff5722, 2.0);
+    dirL.position.set(2, 3, 2);
+    scene.add(dirL);
+    const backL = new THREE.DirectionalLight(0xffffff, 0.4);
+    backL.position.set(-2, -1, -2);
+    scene.add(backL);
 
-    // --- LIGHTING ---
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
+    const root = new THREE.Group();
+    scene.add(root);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    dirLight.position.set(50, 100, 50);
-    scene.add(dirLight);
-    
-    const orangeLight = new THREE.PointLight(0xff5722, 1.5, 200);
-    orangeLight.position.set(-50, 20, 0);
-    scene.add(orangeLight);
+    // ── Channel data ──────────────────────────────────────────
+    const channels = [
+        { label: 'SEO',       color: 0xff5722, pos: [0, 0, 0],      size: 9,  ring: true  },
+        { label: 'Google Ads',color: 0xff7043, pos: [45, 18, 0],     size: 5.5 },
+        { label: 'Meta Ads',  color: 0xff8a65, pos: [-42, 20, 8],    size: 5.5 },
+        { label: 'Social',    color: 0xffab91, pos: [28, -35, 10],   size: 5   },
+        { label: 'Web Dev',   color: 0xd4511f, pos: [-30, -30, 5],   size: 5   },
+        { label: 'Email',     color: 0xff6e40, pos: [50, -10, -15],  size: 4   },
+        { label: 'Analytics', color: 0xbf360c, pos: [-50, -5, -12],  size: 4   },
+        { label: 'Content',   color: 0xff9e80, pos: [10, 45, -10],   size: 4.5 },
+        { label: 'Branding',  color: 0xe64a19, pos: [-15, 42, 5],    size: 4.5 },
+    ];
 
-    // --- 3D DIGITAL MARKETING REPRESENTATION ---
-    const group = new THREE.Group();
-    scene.add(group);
+    const nodes = [];
 
-    // 1. Animated Growth Bars (SEO / Traffic Growth)
-    const barCount = 12;
-    const bars = [];
-    const barMaterial = new THREE.MeshPhongMaterial({ 
-        color: 0xff5722, 
-        transparent: true,
-        opacity: 0.85,
-        shininess: 100
-    });
-    const barMaterialGrey = new THREE.MeshPhongMaterial({ 
-        color: 0xe0e0e0,
-        shininess: 50
-    });
-
-    for(let i=0; i<barCount; i++) {
-        // Curve the bars in an arc
-        const angle = (i / (barCount-1)) * Math.PI - (Math.PI / 2);
-        const radius = 80;
-        
-        const x = Math.sin(angle) * radius;
-        const z = Math.cos(angle) * radius - 100;
-        
-        // Competitors (Grey) vs Fusion X (Orange)
-        const isFusionX = i > barCount/2;
-        const mat = isFusionX ? barMaterial : barMaterialGrey;
-        
-        const maxH = isFusionX ? 40 + (i * 10) : 20 + Math.random() * 20;
-
-        const geometry = new THREE.BoxGeometry(8, 1, 8);
-        geometry.translate(0, 0.5, 0); // Pivot at bottom
-
-        const mesh = new THREE.Mesh(geometry, mat);
-        mesh.position.set(x, -20, z);
-        
-        group.add(mesh);
-        bars.push({ mesh, maxH, speed: 0.02 + Math.random() * 0.03, phase: Math.random() * Math.PI * 2 });
-    }
-
-    // 2. Data Nodes / Network (Brand Connectivity)
-    const nodeCount = 100;
-    const nodeGeo = new THREE.BufferGeometry();
-    const nodePos = new Float32Array(nodeCount * 3);
-    for(let i=0; i<nodeCount; i++){
-        nodePos[i*3] = (Math.random() - 0.5) * 300;
-        nodePos[i*3+1] = Math.random() * 100 - 20;
-        nodePos[i*3+2] = (Math.random() - 0.5) * 200 - 50;
-    }
-    nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePos, 3));
-    const nodeMat = new THREE.PointsMaterial({ color: 0xff5722, size: 2, transparent: true, opacity: 0.6 });
-    const nodes = new THREE.Points(nodeGeo, nodeMat);
-    group.add(nodes);
-
-
-    // --- ANIMATION LOOP ---
-    let time = 0;
-    function animate() {
-        requestAnimationFrame(animate);
-        time += 0.01;
-
-        // Smoothly rotate the whole group
-        group.rotation.y = Math.sin(time * 0.5) * 0.2;
-
-        // Animate the growth bars scaling up and down
-        bars.forEach((bar, index) => {
-            // Give Fusion X bars a massive upward trend
-            const scaleY = (Math.sin(time * 2 + bar.phase) * 0.5 + 0.5) * bar.maxH + 2;
-            bar.mesh.scale.y = scaleY;
+    // ── Build nodes ───────────────────────────────────────────
+    channels.forEach(ch => {
+        const geo = new THREE.SphereGeometry(ch.size, 32, 32);
+        const mat = new THREE.MeshPhongMaterial({
+            color: ch.color,
+            shininess: 120,
+            transparent: true,
+            opacity: 0.92
         });
-        
-        // Very slow parallax for nodes
-        nodes.rotation.y -= 0.001;
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(...ch.pos);
+        root.add(mesh);
+
+        // Glow halo ring around each node
+        const ringGeo = new THREE.RingGeometry(ch.size + 1.5, ch.size + 3.5, 64);
+        const ringMat = new THREE.MeshBasicMaterial({
+            color: ch.color,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.18
+        });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.lookAt(camera.position);
+        mesh.add(ring);
+
+        // Orbit ring for the central SEO node
+        if (ch.ring) {
+            const orbitGeo = new THREE.TorusGeometry(22, 0.5, 8, 80);
+            const orbitMat = new THREE.MeshBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.25 });
+            const orbit = new THREE.Mesh(orbitGeo, orbitMat);
+            orbit.rotation.x = Math.PI / 2.5;
+            root.add(orbit);
+
+            const orbit2Geo = new THREE.TorusGeometry(30, 0.35, 8, 80);
+            const orbit2 = new THREE.Mesh(orbit2Geo, new THREE.MeshBasicMaterial({ color: 0xff8a65, transparent: true, opacity: 0.15 }));
+            orbit2.rotation.x = Math.PI / 4;
+            orbit2.rotation.z = 0.5;
+            root.add(orbit2);
+        }
+
+        // Label sprite
+        const lc = document.createElement('canvas');
+        lc.width = 256; lc.height = 80;
+        const ctx = lc.getContext('2d');
+        ctx.fillStyle = 'rgba(255,87,34,0.85)';
+        ctx.roundRect(8, 20, 240, 45, 12);
+        ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 24px Segoe UI';
+        ctx.textAlign = 'center';
+        ctx.fillText(ch.label, 128, 50);
+        const tex = new THREE.CanvasTexture(lc);
+        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true }));
+        sprite.position.set(0, ch.size + 9, 0);
+        sprite.scale.set(24, 7, 1);
+        mesh.add(sprite);
+
+        nodes.push({ mesh, baseY: ch.pos[1], phase: Math.random() * Math.PI * 2 });
+    });
+
+    // ── Draw connection lines between nodes ───────────────────
+    const lineMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.22 });
+    const center = new THREE.Vector3(0, 0, 0);
+    nodes.slice(1).forEach(n => {
+        const pts = [center, n.mesh.position.clone()];
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(pts);
+        root.add(new THREE.Line(lineGeo, lineMat));
+    });
+
+    // Cross-links between satellite nodes (every other pair)
+    for (let i = 1; i < nodes.length - 1; i += 2) {
+        const pts = [nodes[i].mesh.position.clone(), nodes[i + 1].mesh.position.clone()];
+        const lg = new THREE.BufferGeometry().setFromPoints(pts);
+        root.add(new THREE.Line(lg, new THREE.LineBasicMaterial({ color: 0xffccbc, transparent: true, opacity: 0.12 })));
+    }
+
+    // ── Orbiting data packets (small spheres moving along lines) ──
+    const packets = [];
+    nodes.slice(1, 5).forEach(n => {
+        const pg = new THREE.SphereGeometry(1.2, 8, 8);
+        const pm = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const packet = new THREE.Mesh(pg, pm);
+        root.add(packet);
+        packets.push({ mesh: packet, target: n.mesh.position.clone(), phase: Math.random() * Math.PI * 2 });
+    });
+
+    // ── Animate ───────────────────────────────────────────────
+    let t = 0;
+    function loop() {
+        requestAnimationFrame(loop);
+        t += 0.008;
+
+        // Slow auto-rotation
+        root.rotation.y += 0.005;
+        root.rotation.x = Math.sin(t * 0.3) * 0.15;
+
+        // Float nodes gently
+        nodes.forEach(n => {
+            n.mesh.position.y = n.baseY + Math.sin(t + n.phase) * 2.5;
+        });
+
+        // Animate data packets along lines
+        packets.forEach((p, i) => {
+            const progress = (Math.sin(t * 1.2 + p.phase) + 1) / 2;
+            p.mesh.position.lerpVectors(center, p.target, progress);
+        });
 
         renderer.render(scene, camera);
     }
-    
-    animate();
+    loop();
 
-    // Handle Resize
     window.addEventListener('resize', () => {
-        if (!container) return;
-        camera.aspect = container.clientWidth / container.clientHeight;
+        const nW = canvas.clientWidth, nH = canvas.clientHeight;
+        camera.aspect = nW / nH;
         camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setSize(nW, nH);
     });
-}
+})();

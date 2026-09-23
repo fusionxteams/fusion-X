@@ -534,7 +534,7 @@
         </div>
         <ul class="nav-links">
             <li><a href="index.html#home">HOME</a></li>
-            <li><a href="about-us.html">ABOUT US</a></li>
+            <li><a href="about-us.html" class="active">ABOUT US</a></li>
             <li><a href="index.html#services">SERVICES</a></li>
             <li><a href="index.html#brands">BRANDS</a></li>
             <li><a href="index.html#team">OUR TEAM</a></li>
@@ -924,67 +924,7 @@
     }
 </script>
 
-<!-- Three.js WHO section floating word cloud -->
-<script>
-(function(){
-    const canvas = document.getElementById('about-who-canvas');
-    if (!canvas || typeof THREE === 'undefined') return;
-    const W = canvas.clientWidth, H = canvas.clientHeight;
-    const scene  = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, W/H, 0.1, 500);
-    camera.position.z = 120;
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setSize(W, H);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-
-    // Rotating torus knot as "digital growth" visual
-    const geo1 = new THREE.TorusKnotGeometry(28, 6, 160, 24);
-    const mat1 = new THREE.MeshPhongMaterial({
-        color: 0xff5722, wireframe: true, transparent: true, opacity: 0.55
-    });
-    const knot = new THREE.Mesh(geo1, mat1);
-    scene.add(knot);
-
-    // Inner solid torus
-    const geo2 = new THREE.TorusKnotGeometry(28, 6, 80, 12);
-    const mat2 = new THREE.MeshPhongMaterial({ color: 0xff8a65, transparent: true, opacity: 0.08 });
-    scene.add(new THREE.Mesh(geo2, mat2));
-
-    // Orbiting particles
-    const pg = new THREE.BufferGeometry();
-    const pp = new Float32Array(500*3);
-    for(let i=0;i<500;i++){
-        const th=Math.random()*Math.PI*2, ph=Math.random()*Math.PI;
-        const r=55+Math.random()*25;
-        pp[i*3]=r*Math.sin(ph)*Math.cos(th);
-        pp[i*3+1]=r*Math.sin(ph)*Math.sin(th);
-        pp[i*3+2]=r*Math.cos(ph);
-    }
-    pg.setAttribute('position', new THREE.BufferAttribute(pp,3));
-    scene.add(new THREE.Points(pg, new THREE.PointsMaterial({ color:0xff5722, size:1.5, transparent:true, opacity:0.7 })));
-
-    // Lights
-    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-    const dl = new THREE.DirectionalLight(0xff5722, 1.5);
-    dl.position.set(1,1,1); scene.add(dl);
-
-    let t=0;
-    function loop(){
-        requestAnimationFrame(loop);
-        t+=0.008;
-        knot.rotation.x=t*0.4;
-        knot.rotation.y=t*0.6;
-        renderer.render(scene,camera);
-    }
-    loop();
-    window.addEventListener('resize',()=>{
-        const nW=canvas.clientWidth, nH=canvas.clientHeight;
-        camera.aspect=nW/nH;
-        camera.updateProjectionMatrix();
-        renderer.setSize(nW,nH);
-    });
-})();
-</script>
+<script src="about-marketing-3d.js"></script>
 
 <script src="about-3d-hero.js"></script>
 <script src="charm-physics.js"></script>

@@ -2,192 +2,217 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-width=1.0">
-    <title>About Us - Fusion X</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Fusion X | Top Digital Marketing & SEO Experts</title>
+    <meta name="description" content="Meet the team behind Fusion X, the best digital marketing and SEO agency. We specialize in global brand visibility, SEO, Meta Ads, Google Ads, and custom Web Development.">
+    <meta name="keywords" content="digital marketing agency, best SEO expert, Meta Ads, Google Ads, custom website developer, Shopify, WordPress, React, Angular, global brand visibility, Fusion X team">
     <link rel="icon" type="image/png" href="logo_transparent.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
     <style>
-        body, html {
-            margin: 0; padding: 0; overflow-x: hidden;
-            background-color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        /* Fixed 3D Canvas */
-        #about-3d-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .content-layer {
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Hero Section */
-        .about-hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        /* Specific Styles for About Page */
+        .about-hero-section {
+            padding: 150px 5% 80px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             text-align: center;
-            background: transparent;
-            pointer-events: none;
         }
-        
-        .about-hero h1 {
-            font-size: 6rem;
+
+        .about-hero-section h1 {
+            font-size: 3.5rem;
             color: #111;
             margin-bottom: 20px;
-            font-weight: 900;
-            letter-spacing: -2px;
+            line-height: 1.2;
         }
 
-        .about-hero p {
-            font-size: 1.5rem;
+        .about-hero-section h1 span {
             color: #ff5722;
-            max-width: 800px;
-            line-height: 1.6;
-            font-weight: 700;
         }
 
-        /* Team Section */
+        .about-hero-section p {
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
         .team-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 100px 20px;
+            padding: 80px 5%;
         }
 
-        .team-member {
+        .team-section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .team-section-title h2 {
+            font-size: 2.5rem;
+            color: #111;
+            margin-bottom: 15px;
+        }
+
+        .team-section-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .team-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border: 1px solid #eee;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 87, 34, 0.1);
+            border-color: #ff5722;
+        }
+
+        .team-card.ceo-card {
+            grid-column: 1 / -1;
             display: flex;
             align-items: center;
-            gap: 60px;
-            margin-bottom: 120px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 60px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.03);
-            border: 1px solid rgba(255, 87, 34, 0.1);
-            backdrop-filter: blur(20px);
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
+            gap: 40px;
+            background: linear-gradient(135deg, #fff, #fff3f0);
+            border-left: 5px solid #ff5722;
         }
 
-        .team-member.visible {
-            opacity: 1;
-            transform: translateY(0);
+        @media (max-width: 768px) {
+            .team-card.ceo-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
         }
 
-        .team-member.reverse {
-            flex-direction: row-reverse;
-        }
-
-        .member-info {
-            flex: 1;
-        }
-
-        .member-role {
-            color: #ff5722;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 1rem;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-
-        .member-name {
-            font-size: 3rem;
-            color: #111;
-            margin-bottom: 20px;
-            font-weight: 900;
-            letter-spacing: -1px;
-        }
-
-        .member-desc {
-            font-size: 1.1rem;
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .mentor-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .mentor-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 4px solid #ff5722;
-        }
-
-        .mentor-card h4 {
-            margin: 0 0 5px 0;
-            color: #111;
-            font-size: 1.1rem;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .mentor-card h4 a {
-            color: #ff5722;
-        }
-
-        .mentor-card .role {
-            font-size: 0.85rem;
+        .team-role {
             color: #ff5722;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
             margin-bottom: 10px;
+            display: block;
         }
 
-        .mentor-card p {
+        .team-name {
+            font-size: 1.8rem;
+            color: #111;
+            margin-bottom: 15px;
+        }
+
+        .team-desc {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        /* Mentors Section for Kamalesh */
+        .mentors-wrapper {
+            margin-top: 25px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .mentors-title {
+            font-size: 1rem;
+            color: #111;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .mentor-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mentor-icon {
+            color: #ff5722;
+            margin-top: 3px;
+        }
+
+        .mentor-info h4 {
+            margin: 0 0 5px 0;
+            font-size: 0.95rem;
+            color: #333;
+        }
+        
+        .mentor-info h4 a {
+            color: #ff5722;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .mentor-info p {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #666;
             line-height: 1.4;
         }
 
-        .tech-stack {
+        .tech-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
+            margin-top: 20px;
         }
 
-        .tech-badge {
-            background: #fff;
-            color: #111;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        .tech-tag {
+            background: #f8f9fa;
+            color: #333;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
             border: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        }
+        
+        .tech-tag i {
+            color: #ff5722;
+            margin-right: 5px;
         }
 
-        .tech-badge i {
-            color: #ff5722;
-            font-size: 1.2rem;
+        /* Nav specific overrides to ensure it matches exactly */
+        .navbar {
+            background: #ffffff !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
+        
+        .dangling-container { position: relative; }
+        .charm-string {
+            position: absolute; top: 25px; left: 50%; width: 2px; height: 70px;
+            background: repeating-linear-gradient(to bottom, #ff5722, #ff5722 5px, #c24015 5px, #c24015 10px);
+            transform-origin: top center; z-index: 100; pointer-events: none;
+            animation: swing 3s ease-in-out infinite alternate;
+        }
+        .charm-object {
+            position: absolute; top: 70px; left: -25px; width: 50px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); transform-origin: top center;
+        }
+        @keyframes swing { 0% { transform: rotate(12deg); } 100% { transform: rotate(-12deg); } }
+        @media (max-width: 768px) { .charm-string { display: none !important; } }
     </style>
 </head>
 <body>
 
-    <!-- EXACT NAVBAR FROM INDEX.HTML (with updated links) -->
-    <nav class="navbar" style="background: white;">
+    <!-- EXACT NAVBAR STRUCTURE FROM INDEX.HTML -->
+    <nav class="navbar">
         <div class="logo-container">
             <a href="index.html">
                 <img src="logo_transparent.png" alt="Fusion X Logo - Best Digital Marketing Agency" class="logo">
@@ -195,142 +220,182 @@
         </div>
         <ul class="nav-links">
             <li><a href="index.html#home">Home</a></li>
-            <li><a href="about-us.html" class="active" style="color: #ff5722; font-weight: bold;">About us</a></li>
+            <li><a href="about-us.html" class="active">About us</a></li>
             <li><a href="index.html#services">Services</a></li>
             <li><a href="index.html#brands">Brands</a></li>
             <li><a href="index.html#team">Our team</a></li>
             <li><a href="index.html#works">Our works</a></li>
             <li class="dangling-container">
-            <a href="index.html#contact" class="nav-cta-btn">Let's Connect</a>
-            <div class="charm-string">
-                <img src="logo_transparent.png" class="charm-object" alt="Fusion X Charm">
-            </div>
+                <a href="index.html#contact" class="nav-cta-btn">Let's Connect</a>
+                <div class="charm-string">
+                    <img src="logo_transparent.png" class="charm-object" alt="Fusion X Charm">
+                </div>
             </li>
         </ul>
+        <div class="hamburger">
+            <svg viewBox="0 0 100 80" width="30" height="30">
+                <rect width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="30" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="60" width="100" height="15" rx="8" fill="#ff5722"></rect>
+            </svg>
+        </div>
     </nav>
 
-    <!-- 3D BACKGROUND CANVAS -->
-    <div id="about-3d-bg"></div>
+    <!-- HERO SECTION -->
+    <section class="about-hero-section">
+        <h1>Welcome to <span>Fusion X</span></h1>
+        <p>We are a premier digital marketing and web development agency committed to making brands visible globally. Through data-driven SEO, elite paid media campaigns, and custom-coded platforms, we engineer absolute digital dominance.</p>
+    </section>
 
-    <!-- CONTENT -->
-    <main class="content-layer">
-        
-        <section class="about-hero">
-            <h1>FUSION <span style="color: #ff5722;">X</span></h1>
-            <p>Making brands visible globally through digital media.</p>
-        </section>
+    <!-- TEAM SECTION -->
+    <section class="team-container">
+        <div class="team-section-title">
+            <h2>Our Elite Team</h2>
+            <p>Industry-leading experts executing global digital strategies.</p>
+        </div>
 
-        <section class="team-container">
+        <div class="team-grid">
             
-            <!-- Jaiharan K -->
-            <div class="team-member scroll-reveal">
-                <div class="member-info">
-                    <span class="member-role">CEO & Business Operations</span>
-                    <h2 class="member-name">Jaiharan K</h2>
-                    <p class="member-desc">As the CEO and Chief Client Manager, Jaiharan drives the core business operations and ensures flawless relationships. He oversees the global vision of Fusion X, ensuring every brand we touch scales successfully and achieves absolute worldwide visibility.</p>
+            <!-- Jaiharan K - CEO -->
+            <div class="team-card ceo-card">
+                <div style="flex: 1;">
+                    <span class="team-role">Chief Executive Officer</span>
+                    <h3 class="team-name">Jaiharan K</h3>
+                    <p class="team-desc">As the CEO and Best Business Operations & Client Manager, Jaiharan drives the core strategic vision of Fusion X. He ensures flawless client relationships and oversees operations to guarantee that every brand we partner with achieves worldwide visibility and scaled success.</p>
                 </div>
             </div>
 
             <!-- Kamalesh J -->
-            <div class="team-member reverse scroll-reveal">
-                <div class="member-info">
-                    <span class="member-role">Best Digital Marketing Expert</span>
-                    <h2 class="member-name">Kamalesh J</h2>
-                    <p class="member-desc">A powerhouse in digital marketing, Kamalesh was intensely trained at Digital Scholar under the industry's most elite minds. His deep understanding of global algorithms and paid scaling makes him unparalleled.</p>
+            <div class="team-card">
+                <span class="team-role">Best Digital Marketing Expert</span>
+                <h3 class="team-name">Kamalesh J</h3>
+                <p class="team-desc">A powerhouse in digital marketing, Kamalesh was intensely trained at Digital Scholar under the industry's most elite minds. His expertise in global algorithms, paid scaling, and strategic growth makes him unparalleled.</p>
+                
+                <div class="mentors-wrapper">
+                    <div class="mentors-title">Elite Training & Mentorship:</div>
                     
-                    <div class="mentor-grid">
-                        <div class="mentor-card">
-                            <h4>Karthik Maruthai <a href="https://www.linkedin.com/in/karthikmaruthai/"><i class="fab fa-linkedin"></i></a></h4>
-                            <div class="role">SEO Specialist</div>
-                            <p>Mentored in elite SEO, page speed architecture, and competitive ranking strategies.</p>
+                    <div class="mentor-item">
+                        <i class="fas fa-search mentor-icon"></i>
+                        <div class="mentor-info">
+                            <h4>Karthik Maruthai <a href="https://www.linkedin.com/in/karthikmaruthai/" target="_blank"><i class="fab fa-linkedin"></i></a></h4>
+                            <p>SEO Specialist. Mentored in search engine optimization, page speed architecture, and ranking strategies.</p>
                         </div>
-                        <div class="mentor-card">
-                            <h4>Sorav Jain <a href="https://www.linkedin.com/in/soravjain/"><i class="fab fa-linkedin"></i></a></h4>
-                            <div class="role">Founder, Digital Scholar</div>
-                            <p>Trained in social media marketing, personal branding, and agency growth operations.</p>
+                    </div>
+                    
+                    <div class="mentor-item">
+                        <i class="fas fa-users mentor-icon"></i>
+                        <div class="mentor-info">
+                            <h4>Sorav Jain <a href="https://www.linkedin.com/in/soravjain/" target="_blank"><i class="fab fa-linkedin"></i></a></h4>
+                            <p>Founder, Digital Scholar. Trained in social media marketing, personal branding, and agency growth operations.</p>
                         </div>
-                        <div class="mentor-card">
-                            <h4>Rishi Jain <a href="https://www.linkedin.com/in/rishijain-ds/"><i class="fab fa-linkedin"></i></a></h4>
-                            <div class="role">Co-Founder, Digital Scholar</div>
-                            <p>Trained in high-conversion Meta Ads, paid social channels, and campaign automation.</p>
+                    </div>
+
+                    <div class="mentor-item">
+                        <i class="fas fa-bullhorn mentor-icon"></i>
+                        <div class="mentor-info">
+                            <h4>Rishi Jain <a href="https://www.linkedin.com/in/rishijain-ds/" target="_blank"><i class="fab fa-linkedin"></i></a></h4>
+                            <p>Co-Founder, Digital Scholar. Trained in Meta Ads, paid social media channels, and campaign automation.</p>
                         </div>
-                        <div class="mentor-card">
-                            <h4>Eugene Samuel <a href="https://www.linkedin.com/in/eugenesamuel/"><i class="fab fa-linkedin"></i></a></h4>
-                            <div class="role">Google Ads Expert</div>
-                            <p>Mentored in Google Ads, Search Engine Marketing (SEM), and lead generation campaigns.</p>
+                    </div>
+
+                    <div class="mentor-item">
+                        <i class="fas fa-chart-bar mentor-icon"></i>
+                        <div class="mentor-info">
+                            <h4>Eugene Samuel <a href="https://www.linkedin.com/in/eugenesamuel/" target="_blank"><i class="fab fa-linkedin"></i></a></h4>
+                            <p>Google Ads Expert. Mentored in Google Ads, Search Engine Marketing (SEM), and lead generation campaigns.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Kannan Js -->
-            <div class="team-member scroll-reveal">
-                <div class="member-info">
-                    <span class="member-role">Best Website Developer</span>
-                    <h2 class="member-name">Kannan Js</h2>
-                    <p class="member-desc">A master of modern web architecture. Kannan builds the robust, high-performance foundations that power Fusion X's digital experiences, specializing in completely custom-coded platforms.</p>
-                    <div class="tech-stack">
-                        <span class="tech-badge"><i class="fab fa-react"></i> Certified React Dev</span>
-                        <span class="tech-badge"><i class="fab fa-shopify"></i> Shopify Expert</span>
-                        <span class="tech-badge"><i class="fab fa-wordpress"></i> WordPress Dev</span>
-                        <span class="tech-badge"><i class="fas fa-code"></i> Custom Coded</span>
-                    </div>
+            <div class="team-card">
+                <span class="team-role">Best Website Developer</span>
+                <h3 class="team-name">Kannan Js</h3>
+                <p class="team-desc">A master of modern web architecture. Kannan builds the robust, high-performance foundations that power Fusion X's digital experiences, specializing in completely custom-coded platforms that dominate search engines.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag"><i class="fab fa-react"></i> React Certified</span>
+                    <span class="tech-tag"><i class="fab fa-shopify"></i> Shopify</span>
+                    <span class="tech-tag"><i class="fab fa-wordpress"></i> WordPress</span>
+                    <span class="tech-tag"><i class="fas fa-code"></i> Custom Coding</span>
                 </div>
             </div>
 
             <!-- Saravana Sanjhay.M -->
-            <div class="team-member reverse scroll-reveal">
-                <div class="member-info">
-                    <span class="member-role">Best SEO Expert & Developer</span>
-                    <h2 class="member-name">Saravana Sanjhay.M</h2>
-                    <p class="member-desc">An SEO genius with deep software development expertise. Saravana perfectly bridges the gap between high-ranking search optimization and flawless technical execution.</p>
-                    <div class="tech-stack">
-                        <span class="tech-badge"><i class="fab fa-angular"></i> Certified Angular Dev</span>
-                        <span class="tech-badge"><i class="fab fa-shopify"></i> Shopify Expert</span>
-                        <span class="tech-badge"><i class="fab fa-wordpress"></i> WordPress Dev</span>
-                        <span class="tech-badge"><i class="fas fa-code"></i> Custom Coded</span>
-                    </div>
+            <div class="team-card">
+                <span class="team-role">Best SEO Expert</span>
+                <h3 class="team-name">Saravana Sanjhay.M</h3>
+                <p class="team-desc">An SEO genius with deep software development expertise. Saravana perfectly bridges the gap between high-ranking organic search optimization and flawless technical execution to deliver AI-visible sites.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag"><i class="fab fa-angular"></i> Angular Certified</span>
+                    <span class="tech-tag"><i class="fab fa-shopify"></i> Shopify</span>
+                    <span class="tech-tag"><i class="fab fa-wordpress"></i> WordPress</span>
+                    <span class="tech-tag"><i class="fas fa-code"></i> Custom Coding</span>
                 </div>
             </div>
 
             <!-- Jabakumar -->
-            <div class="team-member scroll-reveal">
-                <div class="member-info">
-                    <span class="member-role">Best Editor</span>
-                    <h2 class="member-name">Jabakumar</h2>
-                    <p class="member-desc">The creative eye behind the visuals. Jabakumar ensures that every piece of content, video, and visual asset outputted by Fusion X is edited to absolute perfection for maximum audience retention and engagement.</p>
-                    <div class="tech-stack">
-                        <span class="tech-badge"><i class="fas fa-video"></i> Video Editing</span>
-                        <span class="tech-badge"><i class="fas fa-paint-brush"></i> Visual Storytelling</span>
-                        <span class="tech-badge"><i class="fas fa-film"></i> Content Mastery</span>
-                    </div>
+            <div class="team-card">
+                <span class="team-role">Best Editor</span>
+                <h3 class="team-name">Jabakumar</h3>
+                <p class="team-desc">The creative eye behind the visuals. Jabakumar ensures that every piece of content, video, and visual asset outputted by Fusion X is edited to absolute perfection for maximum audience retention and viral engagement.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag"><i class="fas fa-video"></i> Video Editing</span>
+                    <span class="tech-tag"><i class="fas fa-paint-brush"></i> Visual Effects</span>
+                    <span class="tech-tag"><i class="fas fa-film"></i> Content Mastery</span>
                 </div>
             </div>
 
-        </section>
-        
-        <!-- FOOTER -->
-        <footer style="background-color: #111; color: white; text-align: center; padding: 60px 20px;">
-            <h2 style="font-size: 3rem; margin-bottom: 10px;">FUSION X</h2>
-            <p style="color: #ff5722; font-weight: bold; letter-spacing: 2px;">TAKE YOUR BRAND WORLDWIDE</p>
-        </footer>
+        </div>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer style="background-color: #111; color: white; text-align: center; padding: 60px 20px;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 10px;">FUSION X</h2>
+        <p style="color: #ff5722; font-weight: bold; letter-spacing: 2px;">TAKE YOUR BRAND WORLDWIDE</p>
+        <p style="color: #666; font-size: 0.9rem; margin-top: 30px;">© 2024 Fusion X. All Rights Reserved.</p>
+    </footer>
 
-    </main>
-
-    <!-- Simple Scroll Reveal Script -->
+    <!-- Scripts -->
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        // Hamburger Menu Logic (Matches main.js logic for mobile menu)
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                if (navLinks.style.display === 'flex') {
+                    navLinks.style.display = 'none';
+                } else {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '80px';
+                    navLinks.style.left = '0';
+                    navLinks.style.width = '100%';
+                    navLinks.style.background = '#ffffff';
+                    navLinks.style.padding = '20px 0';
+                    navLinks.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+                    navLinks.style.zIndex = '999';
                 }
             });
-        }, { threshold: 0.1 });
+        }
 
-        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+        // Fix inline display on resize to match main.js behavior
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.style.display = '';
+                navLinks.style.flexDirection = '';
+                navLinks.style.position = '';
+                navLinks.style.top = '';
+                navLinks.style.left = '';
+                navLinks.style.width = '';
+                navLinks.style.background = '';
+                navLinks.style.padding = '';
+                navLinks.style.boxShadow = '';
+            }
+        });
     </script>
-    
-    <script src="about-3d.js"></script>
     <script src="charm-physics.js"></script>
 </body>
 </html>

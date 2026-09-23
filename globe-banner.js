@@ -9,9 +9,9 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
     const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
     
     if (aspect < 1) {
-        camera.position.z = 45; // Mobile
+        camera.position.z = 52; // Mobile - zoom out more to fit tooltips
     } else {
-        camera.position.z = 28; // Desktop
+        camera.position.z = 32; // Desktop - zoom out to fit tooltips
     }
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -198,10 +198,11 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
         globe.add(sprite);
     });
 
-    // Mouse Dragging Logic
+    // Mouse & Touch Dragging Logic
     let isDragging = false;
     let previousMousePosition = { x: 0, y: 0 };
     
+    // Mouse Events
     spinGlobeContainer.addEventListener('mousedown', (e) => {
         isDragging = true;
         spinGlobeContainer.style.cursor = 'grabbing';
@@ -222,11 +223,40 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
             globe.rotation.y += deltaMove.x * 0.01;
             globe.rotation.x += deltaMove.y * 0.01;
         }
-        previousMousePosition = {
-            x: e.offsetX,
-            y: e.offsetY
-        };
+        previousMousePosition = { x: e.offsetX, y: e.offsetY };
     });
+
+    // Touch Events for Mobile
+    spinGlobeContainer.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        if(e.touches.length > 0) {
+            previousMousePosition = {
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY
+            };
+        }
+        if (e.cancelable) e.preventDefault(); 
+    }, { passive: false });
+
+    window.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        if (isDragging && e.touches.length > 0) {
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const deltaMove = {
+                x: currentX - previousMousePosition.x,
+                y: currentY - previousMousePosition.y
+            };
+            
+            globe.rotation.y += deltaMove.x * 0.01;
+            globe.rotation.x += deltaMove.y * 0.01;
+            
+            previousMousePosition = { x: currentX, y: currentY };
+        }
+    }, { passive: false });
 
     // Handle Resize
     window.addEventListener('resize', () => {
@@ -236,9 +266,9 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
         renderer.setSize(spinGlobeContainer.clientWidth, spinGlobeContainer.clientHeight);
         
         if (newAspect < 1) {
-            camera.position.z = 45;
+            camera.position.z = 52;
         } else {
-            camera.position.z = 28;
+            camera.position.z = 32;
         }
     });
 

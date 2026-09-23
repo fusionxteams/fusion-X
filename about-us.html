@@ -1044,7 +1044,7 @@
     const W = cv.clientWidth || 500, H = cv.clientHeight || 420;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(55, W/H, 0.1, 500);
-    camera.position.set(0, 10, 150);
+    camera.position.set(0, 5, 110); // Pulled camera closer to make ecosystem larger
     const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
     renderer.setSize(W, H); renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 

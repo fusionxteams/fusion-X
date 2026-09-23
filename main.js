@@ -53,11 +53,11 @@ if (container && typeof THREE !== 'undefined') {
     function updateCameraPosition() {
         const currentAspect = container.clientWidth / container.clientHeight;
         if (currentAspect < 1) {
-            // Mobile (tall screen) - pull camera back so the 24-width map fits
-            camera.position.set(0, 32, 24);
+            // Mobile (tall screen) - pull camera back
+            camera.position.set(0, 75, 55);
         } else {
             // Desktop (wide screen) - Zoomed out to show full map with breathing room
-            camera.position.set(0, 18, 17);
+            camera.position.set(0, 42, 38);
         }
         camera.lookAt(0, 0, 0);
     }
@@ -66,6 +66,8 @@ if (container && typeof THREE !== 'undefined') {
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
     // Handle Resize
@@ -81,22 +83,44 @@ if (container && typeof THREE !== 'undefined') {
     const textureLoader = new THREE.TextureLoader();
     // Using realistic blue marble (has snow, terrain, oceans)
     const texture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
-    // Using a bump map to extrude actual 3D mountains
-    const bumpTexture = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_bump_1024.jpg');
-    
-    // Increased segments (128x64) so the geometry has enough vertices to form 3D mountains
-    const mapGeo = new THREE.PlaneGeometry(24, 12, 128, 64);
+    // 1. Optimized Geometry for smoother play (Reduced from 2 Million to 260,000 polygons)
+    const mapGeo = new THREE.PlaneGeometry(48, 24, 512, 256);
     const mapMat = new THREE.MeshStandardMaterial({ 
         color: 0xffffff,
         map: texture,
-        displacementMap: bumpTexture,
-        displacementScale: 0.6, // Extrudes mountains out of the flat map!
-        roughness: 0.8,
-        metalness: 0.1,
+        displacementScale: 2.0, // HIGH MOUNTAINS!
+        displacementBias: -0.2, 
+        roughness: 0.6,
+        metalness: 0.2,
         side: THREE.DoubleSide
     });
+    
+    // 2. Load the elevation map, but BLUR it dynamically so spikes connect into smooth ridges!
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.src = 'https://unpkg.com/three-globe/example/img/earth-topology.png';
+    img.onload = () => {
+        const blurCanvas = document.createElement('canvas');
+        blurCanvas.width = img.width;
+        blurCanvas.height = img.height;
+        const ctx = blurCanvas.getContext('2d');
+        
+        // Heavy blur forces individual pixel spikes to merge together into realistic smooth mountain ranges!
+        ctx.filter = 'blur(4px)';
+        ctx.drawImage(img, 0, 0);
+        
+        const smoothBumpTexture = new THREE.CanvasTexture(blurCanvas);
+        smoothBumpTexture.minFilter = THREE.LinearFilter;
+        smoothBumpTexture.magFilter = THREE.LinearFilter;
+        
+        mapMat.displacementMap = smoothBumpTexture;
+        mapMat.needsUpdate = true;
+    };
+    
     const mapPlane = new THREE.Mesh(mapGeo, mapMat);
     mapPlane.rotation.x = -Math.PI / 2; // Lay it flat
+    mapPlane.receiveShadow = true;
+    mapPlane.castShadow = true;
     scene.add(mapPlane);
 
     // 2. The Detailed Commercial Jet Airplane Model
@@ -207,6 +231,8 @@ if (container && typeof THREE !== 'undefined') {
     jetModel.add(hStab);
 
     planeGroup.add(jetModel); // Add jet model to main plane group
+    
+    // (Jet stream removed to optimize performance and reduce GPU load)
 
     // 3. Fixed Cloth Banner (Larger & Readable on BOTH sides)
     const bannerCanvas = document.createElement('canvas');
@@ -269,13 +295,15 @@ if (container && typeof THREE !== 'undefined') {
     planeGroup.position.y = 1.0; 
     scene.add(planeGroup);
 
-    // 4. City Locations on the Map (matching the dot locations roughly)
+    // 4. Exact Geographic Coordinates mapped to the 48x24 plane
+    // Formula: X = (Lon / 180) * 24, Z = (-Lat / 90) * 12
     const locations = [
-        { name: 'New York, USA', pos: new THREE.Vector3(-6, 0.2, -2) },
-        { name: 'London, UK', pos: new THREE.Vector3(1.5, 0.2, -3) },
-        { name: 'Dubai, UAE', pos: new THREE.Vector3(6, 0.2, -2.5) },
-        { name: 'Sydney, AUS', pos: new THREE.Vector3(8.5, 0.2, 2.5) },
-        { name: 'São Paulo, BR', pos: new THREE.Vector3(-3.5, 0.2, 3) }
+        { name: 'New York, USA', pos: new THREE.Vector3(-9.86, 2.5, -5.42) }, // 40.7N, 74.0W
+        { name: 'London, UK', pos: new THREE.Vector3(-0.01, 2.5, -6.86) },   // 51.5N, 0.1W
+        { name: 'Dubai, UAE', pos: new THREE.Vector3(7.36, 2.5, -3.36) },    // 25.2N, 55.2E
+        { name: 'Chennai, IND', pos: new THREE.Vector3(10.70, 2.5, -1.74) }, // 13.08N, 80.27E (NEW)
+        { name: 'Sydney, AUS', pos: new THREE.Vector3(20.16, 2.5, 4.50) },   // 33.8S, 151.2E
+        { name: 'São Paulo, BR', pos: new THREE.Vector3(-6.21, 2.5, 3.13) }  // 23.5S, 46.6W
     ];
 
     const popups = [];
@@ -292,20 +320,35 @@ if (container && typeof THREE !== 'undefined') {
         const dotMat = new THREE.MeshBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.8 });
         const dot = new THREE.Mesh(dotGeo, dotMat);
         dot.rotation.x = -Math.PI / 2;
+        
+        // Make the pins float above the 3D mountains like a hologram
         dot.position.copy(location.pos);
-        dot.position.y = 0.05; // slightly above map
+        dot.position.y = 2.5; // Raised from 1.2 to clear mountains!
         scene.add(dot);
+
+        // Add a hologram laser line shooting down from the pin to the map
+        const poleGeo = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(location.pos.x, 2.5, location.pos.z),
+            new THREE.Vector3(location.pos.x, -0.5, location.pos.z) // shoot into the ground
+        ]);
+        const poleMat = new THREE.LineBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.5 });
+        const pole = new THREE.Line(poleGeo, poleMat);
+        scene.add(pole);
     });
 
-    // 5. Flight Path (Raised to clear mountains)
+    // 5. Flight Path (Hugging the terrain closely, stopping exactly at cities!)
     const continents = [
-        new THREE.Vector3(-6, 4, -2),  
-        new THREE.Vector3(1.5, 4, -3), 
-        new THREE.Vector3(6, 4, -2.5), 
-        new THREE.Vector3(8.5, 4, 2.5),
-        new THREE.Vector3(2, 4, 1),
-        new THREE.Vector3(-3.5, 4, 3), 
-        new THREE.Vector3(-6, 4, -2)   
+        new THREE.Vector3(-9.86, 2.8, -5.42), // NY
+        new THREE.Vector3(-4.5, 2.5, -6.5),   // Atlantic dip
+        new THREE.Vector3(-0.01, 2.8, -6.86), // London
+        new THREE.Vector3(4.0, 3.5, -5.0),    // Over Europe/Mountains
+        new THREE.Vector3(7.36, 2.8, -3.36),  // Dubai
+        new THREE.Vector3(10.70, 2.8, -1.74), // Chennai
+        new THREE.Vector3(15.0, 2.5, 1.5),    // Indian Ocean dip
+        new THREE.Vector3(20.16, 2.8, 4.50),  // Sydney
+        new THREE.Vector3(7.0, 3.5, 6.0),     // Over Pacific/Antarctic edge
+        new THREE.Vector3(-6.21, 2.8, 3.13),  // Sao Paulo
+        new THREE.Vector3(-9.86, 2.8, -5.42)  // Back to NY
     ];
     
     const curve = new THREE.CatmullRomCurve3(continents);
@@ -325,16 +368,56 @@ if (container && typeof THREE !== 'undefined') {
     pathLine.computeLineDistances();
     scene.add(pathLine);
 
-    // Lighting (Enhanced for 3D mountains)
-    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+    // --- DYNAMIC DAY / NIGHT CYCLE ---
+    const hour = new Date().getHours();
+    const isNight = (hour >= 18 || hour < 6);
+    
+    // Update the background color of the hero section based on time
+    const heroSection = document.querySelector('.hero');
+    if (heroSection) {
+        heroSection.style.background = isNight 
+            ? 'linear-gradient(135deg, #050510 0%, #1a1a2e 100%)' 
+            : 'linear-gradient(135deg, #ffffff 0%, #fff3e0 100%)';
+    }
+
+    // Dynamic Lighting
+    const ambientIntensity = isNight ? 0.2 : 0.6; 
+    const ambientColor = isNight ? 0x88aaff : 0xffffff;
+    const ambient = new THREE.AmbientLight(ambientColor, ambientIntensity);
     scene.add(ambient);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    
+    const sunMoonColor = isNight ? 0xaaccff : 0xffffff;
+    const sunMoonIntensity = isNight ? 0.6 : 1.8;
+    const dirLight = new THREE.DirectionalLight(sunMoonColor, sunMoonIntensity);
     dirLight.position.set(10, 20, 10);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 1024; // Lowered from 2048 for better performance
+    dirLight.shadow.mapSize.height = 1024;
+    dirLight.shadow.camera.near = 0.5;
+    dirLight.shadow.camera.far = 100;
+    dirLight.shadow.camera.left = -30;
+    dirLight.shadow.camera.right = 30;
+    dirLight.shadow.camera.top = 20;
+    dirLight.shadow.camera.bottom = -20;
     scene.add(dirLight);
     
-    const fillLight = new THREE.DirectionalLight(0xabcdef, 0.5);
-    fillLight.position.set(-10, 5, -10);
-    scene.add(fillLight);
+    if (!isNight) {
+        const fillLight = new THREE.DirectionalLight(0xabcdef, 0.5);
+        fillLight.position.set(-10, 5, -10);
+        scene.add(fillLight);
+    } else {
+        // Add 3D Stars at Night!
+        const starsGeo = new THREE.BufferGeometry();
+        const starsCount = 3000;
+        const posArray = new Float32Array(starsCount * 3);
+        for(let i = 0; i < starsCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 300; // Spread across a huge area
+        }
+        starsGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const starsMat = new THREE.PointsMaterial({size: 0.2, color: 0xffffff, transparent: true, opacity: 0.8});
+        const starMesh = new THREE.Points(starsGeo, starsMat);
+        scene.add(starMesh);
+    }
 
     // --- INTERACTIVITY LOGIC ---
     let isRolling = false;
@@ -343,14 +426,15 @@ if (container && typeof THREE !== 'undefined') {
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
-    // Orbit Controls for Dragging the Map
+    // Orbit Controls for Dragging, Zooming, and Tilting the Map
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
+    controls.enableDamping = true; // Smooth gliding effect
     controls.dampingFactor = 0.05;
     controls.enableZoom = true;
-    controls.minDistance = 5;
-    controls.maxDistance = 25;
-    controls.maxPolarAngle = Math.PI / 2 - 0.1; // Prevent going underneath the map
+    controls.enablePan = true; // Allow dragging the map around
+    controls.minDistance = 10; // How close you can zoom in
+    controls.maxDistance = 100; // Fixed! Allows zooming out properly
+    controls.maxPolarAngle = Math.PI / 2 - 0.05; // Prevent camera from going underneath the map
 
     // Raycaster mouse for clicking
     container.addEventListener('mousemove', (event) => {
@@ -411,6 +495,14 @@ if (container && typeof THREE !== 'undefined') {
         }
         bannerPositionsFront.needsUpdate = true;
         bannerPositionsBack.needsUpdate = true;
+
+        // Holographic Map Bobbing (Slow, realistic hover effect)
+        mapPlane.position.y = Math.sin(time * 0.02) * 0.1;
+        
+        // Ocean Satellite Movement Effect (Moving Specular Highlights)
+        // By slowly orbiting the sun/moon light, it creates beautiful moving reflections across the water!
+        dirLight.position.x = Math.sin(time * 0.005) * 20;
+        dirLight.position.z = Math.cos(time * 0.005) * 20;
 
         // Update HTML Popups
         popups.forEach(popup => {

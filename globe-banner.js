@@ -130,30 +130,55 @@ if (spinGlobeContainer && typeof THREE !== 'undefined') {
         arcLines.push({ curve, dot, progress: Math.random() });
     });
 
-    // 3. Floating Digital Marketing Text Nodes
-    const textSprites = ['SEO', 'ADS', 'SOCIAL', 'BRAND', 'DATA'];
-    const canvas = document.createElement('canvas');
-    canvas.width = 128; canvas.height = 64;
-    const ctx = canvas.getContext('2d');
+    // 3. Floating Digital Marketing Text Nodes (Upgraded Tooltips)
+    const textSprites = [
+        'SEO', 'ADS', 'SOCIAL', 'BRAND', 'DATA', 
+        'UI/UX', 'WEB 3', 'AI DRIVEN', 'METRICS', 'ROI', 
+        'GROWTH', 'FUNNELS', 'VIRAL', 'CONTENT'
+    ];
     
-    textSprites.forEach((text) => {
-        ctx.clearRect(0,0,128,64);
+    function createTooltipSprite(text) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 256; 
+        canvas.height = 100;
+        const ctx = canvas.getContext('2d');
+        
+        // Draw Pill Background (White with slight transparency)
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.beginPath();
+        ctx.roundRect(10, 10, 236, 80, 40); // x, y, width, height, radii
+        ctx.fill();
+        
+        // Draw Orange Border
+        ctx.strokeStyle = '#ff5722';
+        ctx.lineWidth = 6;
+        ctx.stroke();
+
+        // Draw Text
         ctx.fillStyle = '#ff5722';
-        ctx.font = 'bold 30px Arial';
+        ctx.font = 'bold 36px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(text, 64, 32);
+        ctx.fillText(text, 128, 50);
         
         const tex = new THREE.CanvasTexture(canvas);
-        const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.9 });
+        const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 1.0 });
         const sprite = new THREE.Sprite(mat);
+        sprite.scale.set(4, 1.5, 1); // Scale appropriately for the 256x100 canvas ratio
+        return sprite;
+    }
+
+    textSprites.forEach((text, index) => {
+        const sprite = createTooltipSprite(text);
         
-        sprite.scale.set(3, 1.5, 1);
-        
-        // Place them floating randomly slightly above the surface
-        const randLat = (Math.random() - 0.5) * 120;
+        // Distribute them evenly around the globe using Fibonacci sphere or just random
+        const randLat = (Math.random() - 0.5) * 140; // -70 to 70 to avoid extreme poles
         const randLon = (Math.random() - 0.5) * 360;
-        const pos = getPosFromLatLon(randLat, randLon, globeRadius + 2.5);
+        
+        // Orbit distance varies slightly so they don't overlap perfectly
+        const orbitDist = globeRadius + 2.0 + (Math.random() * 2);
+        const pos = getPosFromLatLon(randLat, randLon, orbitDist);
+        
         sprite.position.copy(pos);
         globe.add(sprite);
     });

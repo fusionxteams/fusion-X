@@ -200,13 +200,18 @@
 
         /* ===== PROCESS ===== */
         #about-process {
-            padding: 130px 0;
             background: var(--white);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden; /* For horizontal scroll */
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
+            padding: 0 5%;
         }
 
         .section-header .tag {
@@ -234,9 +239,11 @@
         }
 
         .process-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            flex-wrap: nowrap;
             gap: 40px;
+            width: max-content;
+            padding: 0 5%;
         }
 
         .process-card {
@@ -246,14 +253,9 @@
             padding: 48px 36px;
             position: relative;
             overflow: hidden;
+            width: 400px;
+            flex-shrink: 0;
             transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
-            opacity: 0;
-            transform: translateY(60px);
-        }
-
-        .process-card.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .process-card:hover {
@@ -313,7 +315,15 @@
         /* ===== TEAM ===== */
         #about-team {
             padding: 130px 0;
-            background: var(--off-white);
+            background: var(--dark); /* Changed to Dark Mode */
+        }
+
+        #about-team .section-header h2 {
+            color: var(--white);
+        }
+
+        #about-team .section-header p {
+            color: #aaaaaa;
         }
 
         .team-grid {
@@ -323,10 +333,11 @@
         }
 
         .team-card {
-            background: var(--white);
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 40px 32px;
-            border: 1px solid #eeeeee;
+            border: 1px solid rgba(255,255,255,0.08);
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
@@ -341,8 +352,9 @@
 
         .team-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(255,87,34,0.1);
-            border-color: var(--orange);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            border-color: rgba(255,87,34,0.5);
+            background: rgba(255,255,255,0.06);
         }
 
         .team-card-accent {
@@ -368,13 +380,13 @@
         .team-name {
             font-size: 1.7rem;
             font-weight: 900;
-            color: var(--dark);
+            color: var(--white);
             margin-bottom: 16px;
             letter-spacing: -0.5px;
         }
 
         .team-desc {
-            color: var(--grey);
+            color: #aaaaaa;
             font-size: 0.95rem;
             line-height: 1.7;
             margin-bottom: 24px;
@@ -387,24 +399,24 @@
         }
 
         .team-tag {
-            background: rgba(255,87,34,0.07);
-            color: var(--orange);
+            background: rgba(255,87,34,0.15);
+            color: var(--orange-light);
             font-size: 0.78rem;
             font-weight: 700;
             padding: 6px 14px;
             border-radius: 20px;
-            border: 1px solid rgba(255,87,34,0.15);
+            border: 1px solid rgba(255,87,34,0.3);
         }
 
         .team-trainer {
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid #f0f0f0;
+            border-top: 1px solid rgba(255,255,255,0.1);
             font-size: 0.85rem;
-            color: #999;
+            color: #777;
         }
 
-        .team-trainer strong { color: var(--dark); }
+        .team-trainer strong { color: var(--white); }
 
         /* ===== STATS ===== */
         #about-stats {
@@ -847,31 +859,56 @@
 <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // 1. Process cards stagger in
-    gsap.utils.toArray('.process-card').forEach((card, i) => {
-        gsap.fromTo(card,
-            { opacity: 0, y: 70 },
-            { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: i * 0.18,
-              scrollTrigger: { trigger: card, start: 'top 82%' }
-            }
-        );
-    });
+    // 1. Process Horizontal Scroll Flow
+    const processGrid = document.querySelector('.process-grid');
+    if (processGrid) {
+        // Calculate how far to move left: total width of content minus the viewport width + some padding
+        function getScrollAmount() {
+            let gridWidth = processGrid.scrollWidth;
+            return -(gridWidth - window.innerWidth + 80); 
+        }
 
-    // 2. Team cards stagger in
+        const tween = gsap.to(processGrid, {
+            x: getScrollAmount,
+            ease: "none"
+        });
+
+        ScrollTrigger.create({
+            trigger: "#about-process",
+            start: "top top",
+            end: () => `+=${getScrollAmount() * -1}`,
+            pin: true,
+            animation: tween,
+            scrub: 1,
+            invalidateOnRefresh: true
+        });
+    }
+
+    // 2. Flow In / Flow Out Stagger Animations (Team Cards)
     gsap.utils.toArray('.team-card').forEach((card, i) => {
         gsap.fromTo(card,
             { opacity: 0, y: 60 },
-            { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: i * 0.12,
-              scrollTrigger: { trigger: card, start: 'top 85%' }
+            { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+              scrollTrigger: { 
+                  trigger: card, 
+                  start: 'top 85%',
+                  end: 'bottom 15%',
+                  toggleActions: "play reverse play reverse" // Flow in, flow out
+              }
             }
         );
     });
 
-    // 3. Who-we-are text slides in from left
+    // 3. Who-we-are text slides in from left, fades out when leaving
     gsap.fromTo('.who-text',
         { opacity: 0, x: -80 },
         { opacity: 1, x: 0, duration: 1.1, ease: 'power3.out',
-          scrollTrigger: { trigger: '#about-who', start: 'top 70%' }
+          scrollTrigger: { 
+              trigger: '#about-who', 
+              start: 'top 70%',
+              end: 'bottom 20%',
+              toggleActions: "play reverse play reverse" // Flow in, flow out
+          }
         }
     );
 

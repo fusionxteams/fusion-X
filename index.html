@@ -12,65 +12,21 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
     <style>
-        .dangling-container {
-            position: relative;
-        }
-        .charm-string {
-            position: absolute;
-            top: 25px; /* Hang just below the text */
-            left: 50%;
-            width: 2px;
-            height: 70px;
-            background: repeating-linear-gradient(to bottom, #ff5722, #ff5722 5px, #c24015 5px, #c24015 10px);
-            transform-origin: top center;
-            
-            z-index: 100;
-            pointer-events: none;
-        }
-        .charm-string::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -3px;
-            width: 8px;
-            height: 8px;
-            background: #ff5722;
-            border-radius: 2px;
-        }
-        .charm-object {
-            position: absolute;
-            top: 70px;
-            left: -25px;
-            width: 50px;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
-            transform-origin: top center;
-        }
+        
+        
+        
+        
 
         @media (max-width: 768px) {
-            .charm-string {
-                display: none !important;
-            }
+            
         }
 
-        @keyframes swing {
-            0% { transform: rotate(12deg); }
+        
             100% { transform: rotate(-12deg); }
         }
     
-        .nav-cta-btn {
-            background: #ff5722 !important;
-            color: #fff !important;
-            padding: 8px 25px !important;
-            border-radius: 50px !important;
-            font-weight: 800 !important;
-            letter-spacing: 1px !important;
-            box-shadow: 0 4px 10px rgba(255, 87, 34, 0.3) !important;
-            transition: transform 0.2s, background 0.2s !important;
-        }
-        .nav-cta-btn:hover {
-            background: #e64a19 !important;
-            transform: translateY(-2px);
-        }
+        
+        
 
     
         .elegant-reveal {
@@ -89,32 +45,7 @@
 <link rel="icon" type="image/png" href="logo_transparent.png">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo-container">
-            <img src="logo_transparent.png" alt="Fusion X Logo - Best Digital Marketing Agency" class="logo">
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html#home" class="active">Home</a></li>
-            <li><a href="about-us.html">About us</a></li>
-            <li><a href="index.html#services">Services</a></li>
-            <li><a href="index.html#brands">Brands</a></li>
-            <li><a href="index.html#team">Our team</a></li>
-            <li><a href="index.html#works">Our works</a></li>
-            <li class="dangling-container">
-            <a href="index.html#contact" class="nav-cta-btn">Let's Connect</a>
-            <div class="charm-string">
-                <img src="logo_transparent.png" class="charm-object" alt="Fusion X Charm">
-            </div>
-        </li>
-        </ul>
-        <div class="hamburger">
-            <svg viewBox="0 0 100 80" width="30" height="30">
-                <rect width="100" height="15" rx="8" fill="#ff5722"></rect>
-                <rect y="30" width="100" height="15" rx="8" fill="#ff5722"></rect>
-                <rect y="60" width="100" height="15" rx="8" fill="#ff5722"></rect>
-            </svg>
-        </div>
-    </nav>
+    <div id="navbar-placeholder"></div>
 
     <header id="home" class="hero">
         <div class="hero-content">
@@ -329,20 +260,8 @@
             }
 
         
-        .nav-cta-btn {
-            background: #ff5722 !important;
-            color: #fff !important;
-            padding: 8px 25px !important;
-            border-radius: 50px !important;
-            font-weight: 800 !important;
-            letter-spacing: 1px !important;
-            box-shadow: 0 4px 10px rgba(255, 87, 34, 0.3) !important;
-            transition: transform 0.2s, background 0.2s !important;
-        }
-        .nav-cta-btn:hover {
-            background: #e64a19 !important;
-            transform: translateY(-2px);
-        }
+        
+        
 
     
         .elegant-reveal {
@@ -517,20 +436,8 @@
             }
 
         
-        .nav-cta-btn {
-            background: #ff5722 !important;
-            color: #fff !important;
-            padding: 8px 25px !important;
-            border-radius: 50px !important;
-            font-weight: 800 !important;
-            letter-spacing: 1px !important;
-            box-shadow: 0 4px 10px rgba(255, 87, 34, 0.3) !important;
-            transition: transform 0.2s, background 0.2s !important;
-        }
-        .nav-cta-btn:hover {
-            background: #e64a19 !important;
-            transform: translateY(-2px);
-        }
+        
+        
 
     
         .elegant-reveal {
@@ -854,17 +761,8 @@
     <script src="shatter-animation.js"></script>
 <script src="charm-physics.js"></script>
 
-    <footer style="background-color: #111; color: white; text-align: center; padding: 60px 20px; font-family: 'Inter', sans-serif;">
-        <h2 style="font-size: 2.5rem; margin-bottom: 10px; color: white;">FUSION X</h2>
-        <p style="color: #ff5722; font-weight: bold; letter-spacing: 2px; margin: 0;">TAKE YOUR BRAND WORLDWIDE</p>
-        <div style="margin: 30px 0;">
-            <a href="index.html#home" style="color: #ccc; text-decoration: none; margin: 0 10px; font-size: 0.9rem;">HOME</a>
-            <a href="about-us.html" style="color: #ccc; text-decoration: none; margin: 0 10px; font-size: 0.9rem;">ABOUT US</a>
-            <a href="index.html#services" style="color: #ccc; text-decoration: none; margin: 0 10px; font-size: 0.9rem;">SERVICES</a>
-            <a href="index.html#contact" style="color: #ccc; text-decoration: none; margin: 0 10px; font-size: 0.9rem;">LET'S CONNECT</a>
-        </div>
-        <p style="color: #666; font-size: 0.9rem; margin-top: 30px;">© 2026 Fusion X. All Rights Reserved.</p>
-    </footer>
+    <div id="footer-placeholder"></div>
 
+<script src="components.js"></script>
 </body>
 </html>

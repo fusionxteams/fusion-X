@@ -441,3 +441,78 @@ body {
 }
 
 .seo-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(255, 87, 34, 0.15) !important; }
+
+/* --- GLOBAL UNIFIED NAVBAR STYLES --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background: #ffffff !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.logo-container img { height: 40px; }
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0; padding: 0;
+    gap: 30px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+.nav-links li a:hover, .nav-links li a.active {
+    color: #ff5722;
+}
+
+.nav-cta-btn {
+    background: #ff5722 !important;
+    color: #fff !important;
+    padding: 10px 25px !important;
+    border-radius: 50px !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+    letter-spacing: 1px !important;
+    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4) !important;
+    transition: transform 0.2s, background 0.2s !important;
+    display: inline-block;
+}
+
+.nav-cta-btn:hover {
+    background: #e64a19 !important;
+    transform: translateY(-2px);
+}
+
+.dangling-container { position: relative; display: flex; align-items: center; }
+.charm-string {
+    position: absolute; top: 35px; left: 50%; width: 2px; height: 70px;
+    background: repeating-linear-gradient(to bottom, #ff5722, #ff5722 5px, #c24015 5px, #c24015 10px);
+    transform-origin: top center; z-index: 100; pointer-events: none;
+    animation: swing 3s ease-in-out infinite alternate;
+}
+.charm-object {
+    position: absolute; top: 70px; left: -25px; width: 50px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); transform-origin: top center;
+}
+@keyframes swing { 0% { transform: rotate(12deg); } 100% { transform: rotate(-12deg); } }
+
+.hamburger { display: none; cursor: pointer; }
+@media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .charm-string { display: none !important; }
+}

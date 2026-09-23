@@ -380,15 +380,12 @@ if (container && typeof THREE !== 'undefined') {
     scene.add(pathLine);
 
     // --- DYNAMIC DAY / NIGHT CYCLE ---
-    const hour = new Date().getHours();
-    const isNight = (hour >= 18 || hour < 6);
+    const isNight = true; // Forced night mode to match black background
     
     // Update the background color of the hero section based on time
     const heroSection = document.querySelector('.hero');
     if (heroSection) {
-        heroSection.style.background = isNight 
-            ? 'linear-gradient(135deg, #050510 0%, #1a1a2e 100%)' 
-            : 'linear-gradient(135deg, #ffffff 0%, #fff3e0 100%)';
+        heroSection.style.background = '#080808';
     }
 
     // Dynamic Lighting

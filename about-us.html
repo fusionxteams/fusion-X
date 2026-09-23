@@ -173,7 +173,7 @@
         /* ═══════════════════════════════════════
            SCENE 2 · WHO WE ARE (light bg)
         ═══════════════════════════════════════ */
-        #scene-who { background: #f8f9fa; color: var(--dark); }
+        #scene-who { background: #f8f9fa; color: var(--dark); height: auto; min-height: 100vh; padding: 120px 0; }
 
         .who-grid {
             display: grid;
@@ -1046,11 +1046,13 @@
     const camera = new THREE.PerspectiveCamera(55, W/H, 0.1, 500);
     
     const updateCam = () => {
-        const aspect = cv.clientWidth / cv.clientHeight;
+        const cw = cv.parentElement.clientWidth || cv.clientWidth || 500;
+        const ch = cv.parentElement.clientHeight || cv.clientHeight || 420;
+        const aspect = cw / ch;
         if (aspect < 1) {
-            camera.position.set(0, 5, 160); // pull back for mobile
+            camera.position.set(0, 5, 140); // slightly larger for mobile
         } else {
-            camera.position.set(0, 5, 110); // desktop
+            camera.position.set(0, 2, 95); // perfectly centered and slightly larger for desktop
         }
         camera.aspect = aspect;
         camera.updateProjectionMatrix();
@@ -1149,11 +1151,15 @@
         renderer.render(scene, camera);
     })();
 
-    window.addEventListener('resize', () => {
-        const nW=cv.clientWidth, nH=cv.clientHeight;
-        updateCam();
-        renderer.setSize(nW,nH);
-    });
+    const handleResize = () => {
+        const nW=cv.parentElement.clientWidth, nH=cv.parentElement.clientHeight;
+        if (nW > 0 && nH > 0) {
+            renderer.setSize(nW, nH);
+            updateCam();
+        }
+    };
+    window.addEventListener('resize', handleResize);
+    setTimeout(handleResize, 100);
 })();
 
 /* ── PROCESS BG: Floating wireframe polyhedra ──────── */

@@ -177,7 +177,7 @@
 
         .who-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 0.8fr 1.2fr;
             gap: 80px;
             align-items: center;
             max-width: 1200px;
@@ -205,7 +205,7 @@
         .who-body strong { color: var(--dark); }
 
         .who-3d {
-            height: 420px;
+            height: 550px;
             border-radius: 28px;
             overflow: hidden;
             background: var(--dark);
@@ -548,7 +548,7 @@
         ═══════════════════════════════════════ */
         @media (max-width: 900px) {
             .who-grid { grid-template-columns: 1fr; gap: 40px; }
-            .who-3d { height: 300px; }
+            .who-3d { height: 400px; }
             .member-wrap { grid-template-columns: 1fr; text-align: center; gap: 40px; }
             .member-avatar { width: 180px; height: 180px; font-size: 3rem; margin: 0 auto; }
             .pulse-ring { display: none; }
@@ -1044,7 +1044,19 @@
     const W = cv.clientWidth || 500, H = cv.clientHeight || 420;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(55, W/H, 0.1, 500);
-    camera.position.set(0, 5, 110); // Pulled camera closer to make ecosystem larger
+    
+    const updateCam = () => {
+        const aspect = cv.clientWidth / cv.clientHeight;
+        if (aspect < 1) {
+            camera.position.set(0, 5, 160); // pull back for mobile
+        } else {
+            camera.position.set(0, 5, 110); // desktop
+        }
+        camera.aspect = aspect;
+        camera.updateProjectionMatrix();
+    };
+    updateCam();
+
     const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
     renderer.setSize(W, H); renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 
@@ -1139,7 +1151,7 @@
 
     window.addEventListener('resize', () => {
         const nW=cv.clientWidth, nH=cv.clientHeight;
-        camera.aspect=nW/nH; camera.updateProjectionMatrix();
+        updateCam();
         renderer.setSize(nW,nH);
     });
 })();

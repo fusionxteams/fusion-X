@@ -211,7 +211,34 @@
 <body>
 
     <!-- NAVBAR (Exact match to screenshot) -->
-    <div id="navbar-placeholder"></div>
+            <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo_transparent.png" alt="Fusion X Logo - Best Digital Marketing Agency" class="logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html#home">HOME</a></li>
+            <li><a href="about-us.html">ABOUT US</a></li>
+            <li><a href="index.html#services">SERVICES</a></li>
+            <li><a href="index.html#brands">BRANDS</a></li>
+            <li><a href="index.html#team">OUR TEAM</a></li>
+            <li><a href="index.html#works">OUR WORKS</a></li>
+            <li class="dangling-container">
+                <a href="index.html#contact" class="nav-cta-btn">LET'S CONNECT</a>
+                <div class="charm-string">
+                    <img src="logo_transparent.png" class="charm-object" alt="Fusion X Charm">
+                </div>
+            </li>
+        </ul>
+        <div class="hamburger">
+            <svg viewBox="0 0 100 80" width="30" height="30">
+                <rect width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="30" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="60" width="100" height="15" rx="8" fill="#ff5722"></rect>
+            </svg>
+        </div>
+    </nav>
 
     <!-- HERO & 3D SECTION -->
     <section class="about-hero-section">
@@ -324,32 +351,20 @@
     </section>
     
     <!-- FOOTER -->
-    <div id="footer-placeholder"></div>
+            <footer style="background-color:#111;color:white;text-align:center;padding:60px 20px;font-family:'Inter',sans-serif;">
+        <h2 style="font-size:2.5rem;margin-bottom:10px;color:white;">FUSION X</h2>
+        <p style="color:#ff5722;font-weight:bold;letter-spacing:2px;margin:0;">TAKE YOUR BRAND WORLDWIDE</p>
+        <div style="margin:30px 0;">
+            <a href="index.html#home" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">HOME</a>
+            <a href="about-us.html" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">ABOUT US</a>
+            <a href="index.html#services" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">SERVICES</a>
+            <a href="index.html#contact" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">LET'S CONNECT</a>
+        </div>
+        <p style="color:#666;font-size:0.9rem;margin-top:30px;">© 2026 Fusion X. All Rights Reserved.</p>
+    </footer>
 
     <!-- Scripts -->
-    <script>
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
-        
-        if (hamburger) {
-            hamburger.addEventListener('click', () => {
-                if (navLinks.style.display === 'flex') {
-                    navLinks.style.display = 'none';
-                } else {
-                    navLinks.style.display = 'flex';
-                    navLinks.style.flexDirection = 'column';
-                    navLinks.style.position = 'absolute';
-                    navLinks.style.top = '70px';
-                    navLinks.style.left = '0';
-                    navLinks.style.width = '100%';
-                    navLinks.style.background = '#ffffff';
-                    navLinks.style.padding = '20px 0';
-                    navLinks.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
-                    navLinks.style.zIndex = '999';
-                }
-            });
-        }
-    </script>
+    
     <script src="about-marketing-3d.js"></script>
     <script src="charm-physics.js"></script>
 <script src="components.js"></script>

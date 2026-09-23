@@ -78,11 +78,38 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
+    // Mouse Interaction
+    const mouse = new THREE.Vector2(0, 0);
+    const targetMouse = new THREE.Vector2(0, 0);
+    const raycaster = new THREE.Raycaster();
+    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const intersectPoint = new THREE.Vector3();
+    let isMouseOver = false;
+
+    shatterSect.addEventListener('mousemove', (e) => {
+        const rect = shatterSect.getBoundingClientRect();
+        targetMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        targetMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        isMouseOver = true;
+    });
+    
+    shatterSect.addEventListener('mouseleave', () => {
+        isMouseOver = false;
+    });
+
     // Animation Loop
     let count = 0;
     
     function animateWave() {
         requestAnimationFrame(animateWave);
+        
+        // Smoothly interpolate mouse position for fluid interaction
+        mouse.x += (targetMouse.x - mouse.x) * 0.1;
+        mouse.y += (targetMouse.y - mouse.y) * 0.1;
+
+        // Find where the mouse is pointing on the invisible floor plane
+        raycaster.setFromCamera(mouse, camera);
+        raycaster.ray.intersectPlane(plane, intersectPoint);
         
         const positions = particles.geometry.attributes.position.array;
         const scales = particles.geometry.attributes.scale.array;
@@ -92,13 +119,35 @@ if (shatterContainer && typeof THREE !== 'undefined') {
         
         for (let ix = 0; ix < AMOUNTX; ix++) {
             for (let iy = 0; iy < AMOUNTY; iy++) {
-                // Create a flowing sine wave pattern
-                positions[i + 1] = (Math.sin((ix + count) * 0.3) * 30) + 
-                                   (Math.sin((iy + count) * 0.5) * 30);
                 
-                // Scale particles based on their wave height
-                scales[j] = (Math.sin((ix + count) * 0.3) + 1) * 8 + 
-                            (Math.sin((iy + count) * 0.5) + 1) * 8;
+                const px = positions[i];
+                const pz = positions[i + 2];
+                
+                // Base sine wave calculation
+                let waveHeight = (Math.sin((ix + count) * 0.3) * 30) + 
+                                 (Math.sin((iy + count) * 0.5) * 30);
+                
+                let baseScale = (Math.sin((ix + count) * 0.3) + 1) * 8 + 
+                                (Math.sin((iy + count) * 0.5) + 1) * 8;
+
+                // Add Mouse Influence (Ripple/Repel effect)
+                if (isMouseOver && intersectPoint) {
+                    const dx = px - intersectPoint.x;
+                    const dz = pz - intersectPoint.z;
+                    const distance = Math.sqrt(dx*dx + dz*dz);
+                    
+                    const influenceRadius = 150;
+                    if (distance < influenceRadius) {
+                        // Create a smooth bell curve dropoff based on distance
+                        const force = (influenceRadius - distance) / influenceRadius;
+                        // Push particles up and make them massive!
+                        waveHeight += force * 80;
+                        baseScale += force * 40;
+                    }
+                }
+
+                positions[i + 1] = waveHeight;
+                scales[j] = baseScale;
                 
                 i += 3;
                 j++;

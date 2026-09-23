@@ -441,3 +441,9 @@ body {
 }
 
 .seo-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(255, 87, 34, 0.15) !important; }
+
+ # g l o b e - c o n t a i n e r   c a n v a s   { 
+         b o r d e r - r a d i u s :   2 0 p x ; 
+         b o x - s h a d o w :   0   1 5 p x   3 5 p x   r g b a ( 0 , 0 , 0 , 0 . 1 ) ; 
+ }  
+ 

@@ -189,7 +189,7 @@ if (spiderContainer) {
             ctx.rotate(angle + Math.PI / 2); // Rotate so head faces direction of travel
             
             // Draw Legs
-            ctx.strokeStyle = '#222222';
+            ctx.strokeStyle = '#ff5722';
             ctx.lineWidth = 1.5;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
@@ -212,7 +212,7 @@ if (spiderContainer) {
             }
             
             // Draw Body
-            ctx.fillStyle = '#111111'; // Pitch black
+            ctx.fillStyle = '#ff5722'; // Orange body
             
             // Abdomen (rear oval)
             ctx.beginPath();
@@ -225,7 +225,7 @@ if (spiderContainer) {
             ctx.fill();
             
             // Red Hourglass mark on back
-            ctx.fillStyle = '#ff0000';
+            ctx.fillStyle = '#000000';
             ctx.beginPath();
             ctx.moveTo(-1.5, 4);
             ctx.lineTo(1.5, 4);

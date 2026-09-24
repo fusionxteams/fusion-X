@@ -8,7 +8,7 @@ let isAnimating = false;
 // --- 3D PARTICLE WAVE BACKGROUND ---
 if (shatterContainer && typeof THREE !== 'undefined') {
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0xffffff, 0.003); // White fog for depth
+    scene.fog = new THREE.FogExp2(0x080808, 0.003); // White fog for depth
 
     const camera = new THREE.PerspectiveCamera(75, shatterContainer.clientWidth / shatterContainer.clientHeight, 1, 1000);
     // Position camera looking slightly down at the wave
@@ -51,7 +51,7 @@ if (shatterContainer && typeof THREE !== 'undefined') {
     // Custom shader material for particles to scale dynamically based on the 'scale' attribute
     const material = new THREE.ShaderMaterial({
         uniforms: {
-            color: { value: new THREE.Color(0xd5d5d5) }, // Subtle light silver/grey theme
+            color: { value: new THREE.Color(0xff5722) }, // Subtle light silver/grey theme
         },
         vertexShader: `
             attribute float scale;

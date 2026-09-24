@@ -5,7 +5,17 @@ const navLinks = document.querySelector('.nav-links');
 if (hamburger) {
     hamburger.addEventListener('click', () => {
         if (navLinks.style.display === 'flex') {
-            navLinks.style.display = 'none';
+            navLinks.style.display = '';
+            navLinks.style.flexDirection = '';
+            navLinks.style.alignItems = '';
+            navLinks.style.position = '';
+            navLinks.style.top = '';
+            navLinks.style.left = '';
+            navLinks.style.width = '';
+            navLinks.style.background = '';
+            navLinks.style.padding = '';
+            navLinks.style.boxShadow = '';
+            navLinks.style.zIndex = '';
         } else {
             navLinks.style.display = 'flex';
             navLinks.style.flexDirection = 'column';
@@ -17,6 +27,7 @@ if (hamburger) {
             navLinks.style.background = 'white';
             navLinks.style.padding = '30px 0'; // A bit more padding
             navLinks.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
+            navLinks.style.zIndex = '1000'; // Ensure it's on top
         }
     });
 
@@ -369,14 +380,15 @@ if (container && typeof THREE !== 'undefined') {
     scene.add(pathLine);
 
     // --- DYNAMIC DAY / NIGHT CYCLE ---
-    const hour = new Date().getHours();
-    const isNight = (hour >= 18 || hour < 6);
+    const isNight = true; // Forced night mode to match black background
     
-    // Update the background color of ONLY the 3D map scene (not the whole HTML page)
-    if (isNight) {
-        scene.background = new THREE.Color(0x050510); // Space black for the map area
-    } else {
-        scene.background = null; // Transparent so the original page gradient shows through
+    // Ensure the 3D map itself is transparent so it beautifully blends with the new black hero section theme
+    scene.background = null; 
+
+    // Update the background color of the hero section to match the new global theme
+    const heroSection = document.querySelector('.hero');
+    if (heroSection) {
+        heroSection.style.background = '#080808';
     }
 
     // Dynamic Lighting

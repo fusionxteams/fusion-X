@@ -380,7 +380,8 @@ if (container && typeof THREE !== 'undefined') {
     scene.add(pathLine);
 
     // --- DYNAMIC DAY / NIGHT CYCLE ---
-    const isNight = true; // Forced night mode to match black background
+    const hour = new Date().getHours();
+    const isNight = (hour >= 18 || hour < 6); // Restore dynamic day/night cycle
     
     // Ensure the 3D map itself is transparent so it beautifully blends with the new black hero section theme
     scene.background = null; 

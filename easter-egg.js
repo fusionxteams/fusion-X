@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const state = localStorage.getItem('fusionx_easter_egg');
         if (state === 'unlocked') {
-            showCharmTooltip('Congratulations! You found a hidden offer!', 5000);
+            showCharmTooltip('Your offer still stays, pull me again!', 5000);
         }
     }, 1500);
 

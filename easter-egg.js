@@ -66,13 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, duration);
     };
 
-    // Check localStorage for initial state
-    setTimeout(() => {
-        const state = localStorage.getItem('fusionx_easter_egg');
-        if (state === 'unlocked') {
-            showCharmTooltip('Your offer still stays, pull me again!', 5000);
-        }
-    }, 1500);
+    
 
     const onPointerDown = (e) => {
         if (isCut) return;

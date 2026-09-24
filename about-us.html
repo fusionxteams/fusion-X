@@ -133,7 +133,7 @@
             max-width: 580px;
             margin: 0 auto 50px;
             line-height: 1.8;
-            opacity: 0;
+            opacity: 0; visibility: hidden;
         }
 
         .hero-scroll-hint {
@@ -146,7 +146,7 @@
             align-items: center;
             gap: 10px;
             z-index: 3;
-            opacity: 0;
+            opacity: 0; visibility: hidden;
         }
 
         .hint-text {
@@ -167,7 +167,7 @@
         @keyframes growLine {
             0%   { height: 0; opacity: 1; }
             80%  { height: 55px; opacity: 1; }
-            100% { height: 55px; opacity: 0; }
+            100% { height: 55px; opacity: 0; visibility: hidden; }
         }
 
         /* ═══════════════════════════════════════
@@ -229,7 +229,7 @@
             text-align: center;
             padding: 80px 5%;
             z-index: 2;
-            opacity: 0;
+            opacity: 0; visibility: hidden;
             transform: translateY(80px) scale(0.96);
         }
 
@@ -299,7 +299,7 @@
             align-items: center;
             justify-content: center;
             padding: 80px 5%;
-            opacity: 0;
+            opacity: 0; visibility: hidden;
         }
 
         .member-wrap {
@@ -353,7 +353,7 @@
 
         @keyframes pulseRing {
             0%   { opacity: 0.8; transform: scale(1); }
-            100% { opacity: 0;   transform: scale(1.1); }
+            100% { opacity: 0; visibility: hidden;   transform: scale(1.1); }
         }
 
         /* Member text */
@@ -1308,13 +1308,13 @@ const teamTl = gsap.timeline({
 
 function memberFlow(el, dir = 1) {
     return teamTl
-        .fromTo(el, { opacity: 0, x: -120 * dir }, { opacity: 1, x: 0, duration: 0.22 })
-        .to(el, { opacity: 0, x: 120 * dir, duration: 0.2 }, '+=0.28');
+        .fromTo(el, { autoAlpha: 0, x: -120 * dir }, { autoAlpha: 1, x: 0, duration: 0.22 })
+        .to(el, { autoAlpha: 0, x: 120 * dir, duration: 0.2 }, '+=0.28');
 }
 // Alternate slide direction per member
 [['#tm1', 1], ['#tm2', -1], ['#tm3', 1], ['#tm4', -1]].forEach(([sel, dir]) => memberFlow(sel, dir));
 // Last member: enter, no exit
-teamTl.fromTo('#tm5', { opacity: 0, x: -120 }, { opacity: 1, x: 0, duration: 0.22 });
+teamTl.fromTo('#tm5', { autoAlpha: 0, x: -120 }, { autoAlpha: 1, x: 0, duration: 0.22 });
 
 /* ── 6. STATS counters ────────────────────────────── */
 document.querySelectorAll('.stat-n[data-target]').forEach(el => {

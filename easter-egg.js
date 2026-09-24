@@ -33,23 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
             tt.style.fontSize = '13px';
             tt.style.fontWeight = 'bold';
             tt.style.whiteSpace = 'nowrap';
-            tt.style.top = '80px';
-            tt.style.left = '35px';
+            tt.style.top = '150px';
+            tt.style.right = '-25px';
             tt.style.pointerEvents = 'none';
             tt.style.opacity = '0';
             tt.style.transition = 'opacity 0.3s ease';
             tt.style.boxShadow = '0 4px 10px rgba(255,87,34,0.4)';
             tt.style.zIndex = '1000';
             
-            const arrow = document.createElement('div');
-            arrow.style.position = 'absolute';
-            arrow.style.left = '-4px';
-            arrow.style.top = '12px';
-            arrow.style.width = '8px';
-            arrow.style.height = '8px';
-            arrow.style.background = '#ff5722';
-            arrow.style.transform = 'rotate(45deg)';
-            tt.appendChild(arrow);
+            const rope2 = document.createElement('div');
+            rope2.style.position = 'absolute';
+            rope2.style.right = '25px';
+            rope2.style.top = '-30px';
+            rope2.style.width = '2px';
+            rope2.style.height = '30px';
+            rope2.style.background = 'repeating-linear-gradient(to bottom, #ff5722, #ff5722 5px, #c24015 5px, #c24015 10px)';
+            tt.appendChild(rope2);
             
             const textSpan = document.createElement('span');
             textSpan.id = 'charm-tooltip-text';

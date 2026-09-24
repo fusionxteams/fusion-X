@@ -9,24 +9,83 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDragging = false;
     let isCut = false;
     
-    // Physics state
     let startX = 0, startY = 0;
     let anchorX = 0, anchorY = 0;
     let currentX = 0, currentY = 0;
     let vx = 0, vy = 0;
     const gravity = 0.5;
     let bounces = 0;
-    const MAX_BOUNCES = 3;
+    const MAX_BOUNCES = 6;
 
     let dragStartX = 0, dragStartY = 0;
+
+    // Tooltip System
+    const showCharmTooltip = (text, duration = 5000) => {
+        let tt = document.getElementById('charm-tooltip');
+        if (!tt) {
+            tt = document.createElement('div');
+            tt.id = 'charm-tooltip';
+            tt.style.position = 'absolute';
+            tt.style.background = '#ff5722';
+            tt.style.color = '#fff';
+            tt.style.padding = '8px 12px';
+            tt.style.borderRadius = '8px';
+            tt.style.fontSize = '13px';
+            tt.style.fontWeight = 'bold';
+            tt.style.whiteSpace = 'nowrap';
+            tt.style.top = '80px';
+            tt.style.left = '35px';
+            tt.style.pointerEvents = 'none';
+            tt.style.opacity = '0';
+            tt.style.transition = 'opacity 0.3s ease';
+            tt.style.boxShadow = '0 4px 10px rgba(255,87,34,0.4)';
+            tt.style.zIndex = '1000';
+            
+            const arrow = document.createElement('div');
+            arrow.style.position = 'absolute';
+            arrow.style.left = '-4px';
+            arrow.style.top = '12px';
+            arrow.style.width = '8px';
+            arrow.style.height = '8px';
+            arrow.style.background = '#ff5722';
+            arrow.style.transform = 'rotate(45deg)';
+            tt.appendChild(arrow);
+            
+            const textSpan = document.createElement('span');
+            textSpan.id = 'charm-tooltip-text';
+            tt.appendChild(textSpan);
+            
+            charmString.appendChild(tt);
+        }
+        
+        document.getElementById('charm-tooltip-text').innerText = text;
+        tt.style.opacity = '1';
+        
+        if (window.charmTooltipTimeout) clearTimeout(window.charmTooltipTimeout);
+        window.charmTooltipTimeout = setTimeout(() => {
+            tt.style.opacity = '0';
+        }, duration);
+    };
+
+    // Check localStorage for initial state
+    setTimeout(() => {
+        const state = localStorage.getItem('fusionx_easter_egg');
+        if (state === 'unlocked') {
+            showCharmTooltip('Congratulations! You found a hidden offer!', 5000);
+        }
+    }, 1500);
 
     const onPointerDown = (e) => {
         if (isCut) return;
         e.preventDefault();
         isDragging = true;
         charmObj.style.cursor = 'grabbing';
-        charmString.style.animation = 'none'; // Stop swing
+        charmString.style.animation = 'none';
         charmString.style.transform = 'none';
+        
+        // Hide tooltip if dragging
+        const tt = document.getElementById('charm-tooltip');
+        if (tt) tt.style.opacity = '0';
         
         const rect = charmObj.getBoundingClientRect();
         const stringRect = charmString.getBoundingClientRect();
@@ -37,14 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
         dragStartX = e.clientX || (e.touches && e.touches[0].clientX);
         dragStartY = e.clientY || (e.touches && e.touches[0].clientY);
         
-        // Convert to absolute fixed coordinates
         charmObj.style.position = 'fixed';
         charmObj.style.left = rect.left + 'px';
         charmObj.style.top = rect.top + 'px';
         charmObj.style.margin = '0';
         charmObj.style.zIndex = '9999';
         
-        document.body.appendChild(charmObj); // Move to body for free movement
+        document.body.appendChild(charmObj);
         
         currentX = rect.left;
         currentY = rect.top;
@@ -53,8 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const drawString = () => {
-        // We can draw a dynamic string using a canvas or just an SVG line.
-        // For simplicity, we just use the existing charm-string element by rotating it.
         if (isCut || !isDragging) return;
         const dx = (currentX + 25) - anchorX;
         const dy = (currentY + 25) - anchorY;
@@ -82,7 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         drawString();
         
-        // Check stretch threshold
         const stretchDist = Math.sqrt(Math.pow((currentX+25)-anchorX, 2) + Math.pow((currentY+25)-anchorY, 2));
         if (stretchDist > 200) {
             cutString();
@@ -94,11 +149,9 @@ document.addEventListener('DOMContentLoaded', () => {
         isDragging = false;
         charmObj.style.cursor = 'grab';
         
-        // Snap back if not cut
         charmString.style.height = '70px';
         charmString.style.animation = 'swing 3s ease-in-out infinite alternate';
         
-        // Put object back inside string container
         charmObj.style.position = 'absolute';
         charmObj.style.left = '-25px';
         charmObj.style.top = '70px';
@@ -108,14 +161,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const cutString = () => {
         isCut = true;
         isDragging = false;
-        charmString.style.display = 'none'; // Hide the broken string
+        charmString.style.display = 'none';
         
-        // Launch logic
+        if (!localStorage.getItem('fusionx_easter_egg')) {
+            localStorage.setItem('fusionx_easter_egg', 'unlocked');
+        }
+        
         const pullDx = anchorX - (currentX + 25);
         const pullDy = anchorY - (currentY + 25);
         
-        vx = pullDx * 0.15; // Slingshot force multiplier
+        vx = pullDx * 0.15;
         vy = pullDy * 0.15;
+        bounces = 0;
         
         requestAnimationFrame(physicsLoop);
     };
@@ -151,15 +208,40 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const settleAndTransform = () => {
-        // Move to center
-        charmObj.style.transition = 'all 1s cubic-bezier(0.25, 1, 0.5, 1)';
+        charmObj.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
         charmObj.style.left = 'calc(50vw - 25px)';
         charmObj.style.top = 'calc(50vh - 25px)';
         
         setTimeout(() => {
             showHiddenOffer();
             triggerFireworks();
-        }, 1000);
+        }, 850);
+    };
+
+    const returnToNavbar = (message) => {
+        // We restore physics properties and bring it back up to the anchor
+        const stringRect = charmString.getBoundingClientRect();
+        
+        charmObj.style.display = 'block';
+        charmObj.style.transition = 'all 0.8s cubic-bezier(0.5, 0, 0.2, 1)';
+        charmObj.style.left = (stringRect.left - 25 + stringRect.width/2) + 'px';
+        charmObj.style.top = (stringRect.top + 70) + 'px';
+        
+        setTimeout(() => {
+            charmString.style.display = 'block';
+            charmObj.style.transition = 'none';
+            charmObj.style.position = 'absolute';
+            charmObj.style.left = '-25px';
+            charmObj.style.top = '70px';
+            charmString.appendChild(charmObj);
+            
+            charmString.style.height = '70px';
+            charmString.style.animation = 'swing 3s ease-in-out infinite alternate';
+            
+            isCut = false;
+            
+            showCharmTooltip(message, 5000);
+        }, 850);
     };
 
     const showHiddenOffer = () => {
@@ -185,25 +267,51 @@ document.addEventListener('DOMContentLoaded', () => {
         formBox.style.textAlign = 'center';
         formBox.style.color = '#fff';
         formBox.style.maxWidth = '400px';
+        formBox.style.position = 'relative';
         formBox.style.transform = 'scale(0.5)';
         formBox.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         formBox.style.boxShadow = '0 0 40px rgba(255, 87, 34, 0.4)';
         
+        // Cross close button
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '&times;';
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '10px';
+        closeBtn.style.right = '15px';
+        closeBtn.style.background = 'none';
+        closeBtn.style.border = 'none';
+        closeBtn.style.color = '#888';
+        closeBtn.style.fontSize = '28px';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.lineHeight = '1';
+        
+        closeBtn.onclick = () => {
+            overlay.remove();
+            returnToNavbar("Your offer still stays, pull me again!");
+        };
+        
         formBox.innerHTML = `
-            <h2 style="color: #ff5722; font-size: 2rem; margin-bottom: 10px;">🎉 You unlocked a Hidden offer!</h2>
+            <h2 style="color: #ff5722; font-size: 2rem; margin-bottom: 10px; margin-top: 10px;">🎉 You unlocked a Hidden offer!</h2>
             <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.5; color: #ccc;">If you build a website with us, we give you <strong style="color: #fff;">3 blogs free!</strong></p>
-            <form id="hiddenOfferForm" onsubmit="event.preventDefault(); alert('Offer Claimed!'); this.parentElement.parentElement.remove();">
+            <form id="hiddenOfferForm">
                 <input type="text" placeholder="Your Name" required style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: none; background: #333; color: #fff;">
                 <input type="email" placeholder="Your Email" required style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: none; background: #333; color: #fff;">
                 <button type="submit" style="width: 100%; padding: 15px; background: #ff5722; color: #fff; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">Claim Offer</button>
             </form>
-            <button onclick="this.parentElement.parentElement.remove()" style="margin-top: 15px; background: none; border: none; color: #888; cursor: pointer; text-decoration: underline;">Close</button>
         `;
+        
+        formBox.appendChild(closeBtn);
+        
+        formBox.querySelector("#hiddenOfferForm").onsubmit = (e) => {
+            e.preventDefault();
+            localStorage.setItem('fusionx_easter_egg', 'claimed');
+            overlay.remove();
+            returnToNavbar("Welcome to Fusion X! You've made a brilliant choice for your brand's explosive growth.");
+        };
         
         overlay.appendChild(formBox);
         document.body.appendChild(overlay);
         
-        // Trigger animations
         setTimeout(() => {
             overlay.style.opacity = '1';
             formBox.style.transform = 'scale(1)';
@@ -226,12 +334,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const particles = [];
         const colors = ['#ff5722', '#ffffff', '#ffd700', '#ff8a65'];
         
-        for (let i = 0; i < 150; i++) {
+        for (let i = 0; i < 200; i++) {
             particles.push({
                 x: fwCanvas.width / 2,
                 y: fwCanvas.height / 2,
-                vx: (Math.random() - 0.5) * 20,
-                vy: (Math.random() - 0.5) * 20,
+                vx: (Math.random() - 0.5) * 25,
+                vy: (Math.random() - 0.5) * 25,
                 color: colors[Math.floor(Math.random() * colors.length)],
                 life: 1.0,
                 decay: 0.01 + Math.random() * 0.02
@@ -247,13 +355,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     active = true;
                     p.x += p.vx;
                     p.y += p.vy;
-                    p.vy += 0.2; // gravity
+                    p.vy += 0.2; 
                     p.life -= p.decay;
                     
                     ctx.globalAlpha = p.life;
                     ctx.fillStyle = p.color;
                     ctx.beginPath();
-                    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
                     ctx.fill();
                 }
             });

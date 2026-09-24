@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cutString = () => {
         isCut = true;
         isDragging = false;
-        charmString.style.display = 'none';
+        charmString.style.opacity = '0';
         
         if (!localStorage.getItem('fusionx_easter_egg')) {
             localStorage.setItem('fusionx_easter_egg', 'unlocked');
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         charmObj.style.top = (stringRect.top + 70) + 'px';
         
         setTimeout(() => {
-            charmString.style.display = 'block';
+            charmString.style.opacity = '1';
             charmObj.style.transition = 'none';
             charmObj.style.position = 'absolute';
             charmObj.style.left = '-25px';

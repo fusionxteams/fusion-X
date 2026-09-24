@@ -383,13 +383,11 @@ if (container && typeof THREE !== 'undefined') {
     const hour = new Date().getHours();
     const isNight = (hour >= 18 || hour < 6); // Restore dynamic day/night cycle
     
-    // Ensure the 3D map itself is transparent so it beautifully blends with the new black hero section theme
-    scene.background = null; 
-
-    // Update the background color of the hero section to match the new global theme
-    const heroSection = document.querySelector('.hero');
-    if (heroSection) {
-        heroSection.style.background = '#080808';
+    // Restrict night mode background strictly to the 3D map canvas, keeping the page theme intact!
+    if (isNight) {
+        scene.background = new THREE.Color(0x050510); // Space black for the map area
+    } else {
+        scene.background = null; // Transparent so the original page gradient shows through
     }
 
     // Dynamic Lighting

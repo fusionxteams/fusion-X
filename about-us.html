@@ -1212,11 +1212,63 @@
     });
 
     let t = 0;
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2(-9999, -9999);
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = (e.clientX / innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / innerHeight) * 2 + 1;
+    });
+
+    // Store original positions for spring effect
+    shapes.forEach(s => {
+        s.ox = s.mesh.position.x;
+        s.oy = s.mesh.position.y;
+        s.oz = s.mesh.position.z;
+    });
+
     (function loop() {
         requestAnimationFrame(loop); t += 0.01;
+        raycaster.setFromCamera(mouse, camera);
+
         shapes.forEach(s => {
-            s.mesh.rotation.x += s.sp; s.mesh.rotation.y += s.sp*0.7;
-            s.mesh.position.y += Math.sin(t+s.ph)*0.4;
+            s.mesh.rotation.x += s.sp; 
+            s.mesh.rotation.y += s.sp*0.7;
+            
+            // Base float animation applied to origin, not current position
+            const targetY = s.oy + Math.sin(t+s.ph)*40;
+
+            // Repulsion logic
+            const pt = new THREE.Vector3();
+            raycaster.ray.closestPointToPoint(s.mesh.position, pt);
+            const dist = pt.distanceTo(s.mesh.position);
+            
+            if (dist < 180) {
+                const push = s.mesh.position.clone().sub(pt).normalize();
+                if (push.lengthSq() === 0) push.set((Math.random()-0.5)*2, (Math.random()-0.5)*2, (Math.random()-0.5)*2).normalize();
+                // Stronger push
+                s.vx = (s.vx || 0) + push.x * 12;
+                s.vy = (s.vy || 0) + push.y * 12;
+                s.vz = (s.vz || 0) + push.z * 12;
+            }
+
+            // Spring force back to origin
+            const dx = s.ox - s.mesh.position.x;
+            const dy = targetY - s.mesh.position.y;
+            const dz = s.oz - s.mesh.position.z;
+
+            s.vx = (s.vx || 0) + dx * 0.005;
+            s.vy = (s.vy || 0) + dy * 0.005;
+            s.vz = (s.vz || 0) + dz * 0.005;
+
+            // Apply velocity with friction
+            if (s.vx !== undefined) {
+                s.mesh.position.x += s.vx;
+                s.mesh.position.y += s.vy;
+                s.mesh.position.z += s.vz;
+                s.vx *= 0.90;
+                s.vy *= 0.90;
+                s.vz *= 0.90;
+            }
         });
         renderer.render(scene, camera);
     })();

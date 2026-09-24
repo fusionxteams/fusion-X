@@ -299,7 +299,10 @@
             align-items: center;
             justify-content: center;
             padding: 80px 5%;
-            opacity: 0;
+            opacity: 0; visibility: hidden;
+        }
+        #tm1 {
+            opacity: 1; visibility: visible;
         }
 
         .member-wrap {
@@ -547,10 +550,16 @@
            RESPONSIVE
         ═══════════════════════════════════════ */
         @media (max-width: 900px) {
+            .team-spotlight {
+                align-items: flex-start;
+                padding-top: 110px;
+                padding-bottom: 40px;
+                overflow-y: auto;
+            }
             .who-grid { grid-template-columns: 1fr; gap: 40px; }
             .who-3d { height: 400px; }
-            .member-wrap { grid-template-columns: 1fr; text-align: center; gap: 40px; }
-            .member-avatar { width: 180px; height: 180px; font-size: 3rem; margin: 0 auto; }
+            .member-wrap { grid-template-columns: 1fr; text-align: center; gap: 20px; }
+            .member-avatar { width: 150px; height: 150px; font-size: 3rem; margin: 0 auto; }
             .pulse-ring { display: none; }
             .stats-row { grid-template-columns: repeat(2, 1fr); }
             .team-indicator { display: none; }
@@ -697,7 +706,7 @@
     <div class="team-spotlight" id="tm1" role="region" itemscope itemtype="https://schema.org/Person">
         <div class="member-wrap">
             <div class="member-photo-block">
-                <div class="member-avatar" aria-label="Jaiharan K — CEO" itemprop="image">JK</div>
+                <div class="member-avatar" aria-label="Jaiharan K — CEO" itemprop="image"><img src="team/jaiharan-k-ceo.webp" alt="Jaiharan K"></div>
                 <!-- Replace the div above with: <img class="member-avatar" src="team-jaiharan.jpg" alt="Jaiharan K - CEO, Fusion X"> -->
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
@@ -723,7 +732,7 @@
     <div class="team-spotlight" id="tm2" role="region" itemscope itemtype="https://schema.org/Person">
         <div class="member-wrap">
             <div class="member-photo-block">
-                <div class="member-avatar" aria-label="Kamalesh J — Digital Marketing Expert" itemprop="image">KJ</div>
+                <div class="member-avatar" aria-label="Kamalesh J — Digital Marketing Expert" itemprop="image"><img src="team/kamalesh-j-digital-marketing-expert.webp" alt="Kamalesh J"></div>
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
@@ -750,7 +759,7 @@
     <div class="team-spotlight" id="tm3" role="region" itemscope itemtype="https://schema.org/Person">
         <div class="member-wrap">
             <div class="member-photo-block">
-                <div class="member-avatar" aria-label="Kannan Js — Web Developer" itemprop="image">KN</div>
+                <div class="member-avatar" aria-label="Kannan Js — Web Developer" itemprop="image"><img src="team/kannan-s-web-developer.webp" alt="Kannan S"></div>
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
@@ -776,7 +785,7 @@
     <div class="team-spotlight" id="tm4" role="region" itemscope itemtype="https://schema.org/Person">
         <div class="member-wrap">
             <div class="member-photo-block">
-                <div class="member-avatar" aria-label="Saravana Sanjhay M — SEO Expert" itemprop="image">SS</div>
+                <div class="member-avatar" aria-label="Saravana Sanjhay M — SEO Expert" itemprop="image"><img src="team/saravana-sanjhay-m-seo-expert.webp" alt="Saravana Sanjhay M"></div>
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
@@ -802,7 +811,7 @@
     <div class="team-spotlight" id="tm5" role="region" itemscope itemtype="https://schema.org/Person">
         <div class="member-wrap">
             <div class="member-photo-block">
-                <div class="member-avatar" aria-label="Jabakumar — Content Editor" itemprop="image">JB</div>
+                <div class="member-avatar" aria-label="Jabakumar — Content Editor" itemprop="image"><img src="team/jabakumar-video-editor.webp" alt="Jabakumar"></div>
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
@@ -1308,13 +1317,15 @@ const teamTl = gsap.timeline({
 
 function memberFlow(el, dir = 1) {
     return teamTl
-        .fromTo(el, { opacity: 0, x: -120 * dir }, { opacity: 1, x: 0, duration: 0.22 })
-        .to(el, { opacity: 0, x: 120 * dir, duration: 0.2 }, '+=0.28');
+        .fromTo(el, { autoAlpha: 0, x: -120 * dir }, { autoAlpha: 1, x: 0, duration: 0.22 })
+        .to(el, { autoAlpha: 0, x: 120 * dir, duration: 0.2 }, '+=0.28');
 }
+// tm1 starts visible, only exit
+teamTl.to('#tm1', { autoAlpha: 0, x: 120, duration: 0.2 }, '+=0.28');
 // Alternate slide direction per member
-[['#tm1', 1], ['#tm2', -1], ['#tm3', 1], ['#tm4', -1]].forEach(([sel, dir]) => memberFlow(sel, dir));
+[['#tm2', -1], ['#tm3', 1], ['#tm4', -1]].forEach(([sel, dir]) => memberFlow(sel, dir));
 // Last member: enter, no exit
-teamTl.fromTo('#tm5', { opacity: 0, x: -120 }, { opacity: 1, x: 0, duration: 0.22 });
+teamTl.fromTo('#tm5', { autoAlpha: 0, x: -120 }, { autoAlpha: 1, x: 0, duration: 0.22 });
 
 /* ── 6. STATS counters ────────────────────────────── */
 document.querySelectorAll('.stat-n[data-target]').forEach(el => {

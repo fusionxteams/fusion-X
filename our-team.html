@@ -1,161 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Elite Team | Fusion X Digital Marketing Agency</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo_transparent.png">
     <link rel="stylesheet" href="style.css">
 
     <style>
         body {
-            background-color: #050505;
-            color: #ffffff;
+            background-color: #f5f5f7; /* Clean, premium Apple-like white */
+            color: #1d1d1f;
             overflow-x: hidden;
-            transition: background-color 0.8s ease;
             margin: 0;
-        }
-
-        .team-typography {
             font-family: 'Space Grotesk', sans-serif;
         }
 
-        #webgl-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .team-container {
-            position: relative;
-            z-index: 10;
-        }
-
-        .team-intro {
-            height: 100vh;
+        /* --- HERO BANNER --- */
+        .team-hero {
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            font-family: 'Outfit', sans-serif;
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            position: relative;
         }
         
-        .team-intro h1 {
-            font-size: clamp(4rem, 8vw, 7rem);
+        .team-hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(3.5rem, 8vw, 6rem);
             font-weight: 900;
             margin: 0;
             text-transform: uppercase;
             letter-spacing: -2px;
+            background: linear-gradient(90deg, #fff, #ff5722);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .member-section {
-            min-height: 100vh;
+        .team-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: #aaa;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        /* --- SPLIT SCREEN WORDPRESS-FRIENDLY LAYOUT --- */
+        .team-section {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 100px 5%;
-            box-sizing: border-box;
-            position: relative;
+            border-bottom: 1px solid #e5e5ea;
         }
 
-        .member-content {
-            max-width: 650px;
+        .team-section:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        /* Sticky Visual Column */
+        .visual-col {
+            flex: 1;
+            min-width: 300px;
+            padding: 40px;
+            position: sticky;
+            top: 100px; /* Sticks to top when scrolling */
+            height: calc(100vh - 200px);
             display: flex;
             flex-direction: column;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
         }
 
-        .member-section.right-align .member-content {
-            margin-left: auto;
-        }
-
-        .member-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 50px;
+        .member-photo {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1;
             object-fit: cover;
-            margin-bottom: 20px;
-            border: 3px solid #ff5722;
-            box-shadow: 0 10px 20px rgba(255,87,34,0.3);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .member-photo:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: 0 40px 80px rgba(255,87,34,0.2);
+        }
+
+        /* Scrolling Content Column */
+        .content-col {
+            flex: 1;
+            min-width: 300px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .member-name {
             font-family: 'Outfit', sans-serif;
-            font-size: 3rem;
+            font-size: 4rem;
             font-weight: 900;
-            margin: 0 0 5px 0;
+            margin: 0;
             line-height: 1;
+            color: #1d1d1f;
             text-transform: uppercase;
         }
 
         .member-role {
-            font-size: 1rem;
+            font-size: 1.2rem;
             color: #ff5722;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-top: 10px;
+            margin-bottom: 30px;
         }
 
         .member-desc {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            margin-bottom: 25px;
-            color: #d0d0d0;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #515154;
+            margin-bottom: 30px;
         }
 
         .highlights {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
         }
 
         .highlight-tag {
-            background: rgba(255,87,34,0.15);
-            border: 1px solid rgba(255,87,34,0.3);
-            color: #ff5722;
-            padding: 6px 12px;
-            border-radius: 30px;
+            background: #fff;
+            border: 1px solid #d2d2d7;
+            color: #1d1d1f;
+            padding: 10px 20px;
+            border-radius: 40px;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .highlight-tag:hover {
+            background: #1d1d1f;
+            color: #fff;
+            border-color: #1d1d1f;
+        }
+
+        /* --- FINAL CTA --- */
+        .cta-section {
+            background: #000;
+            color: #fff;
+            padding: 120px 20px;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 0 0 20px 0;
             text-transform: uppercase;
         }
 
-        /* Light Theme overrides */
-        body.light-theme {
-            background-color: #f5f5f7;
-            color: #111111;
+        .cta-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 20px 50px;
+            background: #ff5722;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: transform 0.3s ease;
         }
-        body.light-theme .member-content {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-        }
-        body.light-theme .member-desc {
-            color: #444;
+        
+        .cta-btn:hover {
+            transform: scale(1.05);
+            background: #e64a19;
         }
 
-        .gsap-reveal {
-            opacity: 0;
-            transform: translateY(30px);
+        /* Mobile adjustments for Sticky layout */
+        @media (max-width: 900px) {
+            .visual-col {
+                position: relative;
+                top: 0;
+                height: auto;
+                padding: 20px;
+            }
+            .content-col {
+                padding: 20px;
+            }
+            .member-name {
+                font-size: 2.5rem;
+            }
         }
+        
+        /* Animation classes */
+        .gsap-fade-up { opacity: 0; transform: translateY(40px); }
     </style>
-    <link rel="icon" type="image/png" href="logo_transparent.png">
 </head>
 <body>
 
-    <nav class="navbar">
+    <!-- NAVBAR -->
+    <nav class="navbar" style="background:#fff;">
         <div class="logo-container">
             <a href="index.html">
                 <img src="logo_transparent.png" alt="Fusion X" class="logo">
@@ -184,125 +244,124 @@
         </div>
     </nav>
 
-    <canvas id="webgl-canvas"></canvas>
+    <!-- HERO -->
+    <header class="team-hero">
+        <h1 class="gsap-fade-up">The Minds Behind The Magic</h1>
+        <p class="gsap-fade-up">We are a collective of elite digital strategists, visionary developers, and technical SEO experts dedicated to scaling your brand to global dominance.</p>
+    </header>
 
-    <div class="team-container team-typography">
-        
-        <section class="team-intro dark-mode-trigger" id="sec-intro">
-            <h1 class="gsap-reveal">Our Elite Team</h1>
-            <p class="gsap-reveal" style="color:#ff5722; letter-spacing:4px; font-weight:700;">[ SCROLL DOWN ]</p>
-        </section>
-
-        <!-- KAMALESH J -->
-        <section class="member-section dark-mode-trigger" id="sec-kamalesh">
-            <div class="member-content gsap-reveal">
-                <img src="team/kamalesh-j-digital-marketing-expert.webp" alt="Kamalesh" class="member-image">
-                <h2 class="member-name">Kamalesh J</h2>
-                <div class="member-role">Expert Digital Marketing Strategist</div>
-                <div class="member-desc">
-                    As the <strong>best digital marketing expert in Chennai</strong>, Kamalesh is the strategic powerhouse behind our most successful campaigns. With 4 years of elite industry experience, he doesn't just run ads; he engineers holistic digital ecosystems. Recognized as a top <strong>Meta Ads specialist and Google Ads consultant</strong>, he delivers High ROAS (Return on Ad Spend) through precise <strong>B2B lead generation</strong> and programmatic advertising. From crafting custom conversion tracking to executing high-converting landing page CRO (Conversion Rate Optimization), he drives qualified buyer inquiries on auto-pilot. Trained by top industry experts at Digital Scholar (including Sorav Jain), he brings a deeply analytical, data-driven approach to every <strong>local SEO and performance marketing</strong> strategy.
-                </div>
-                <div class="highlights">
-                    <span class="highlight-tag">Growth Strategy</span>
-                    <span class="highlight-tag">Meta Ads</span>
-                    <span class="highlight-tag">CRO</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- JAIHARAN -->
-        <section class="member-section right-align light-mode-trigger" id="sec-jaiharan">
-            <div class="member-content gsap-reveal">
-                <img src="team/jaiharan-k-ceo.webp" alt="JaiHaran" class="member-image">
-                <h2 class="member-name">JaiHaran K</h2>
-                <div class="member-role">CEO & Client Success Director</div>
-                <div class="member-desc">
-                    JaiHaran is the empathetic bridge between our clients and our creative execution team. Representing a <strong>top social media management agency in Chennai</strong>, he acts as the ultimate Client Success Manager, ensuring every founder's vision translates into measurable ROI. With over 2 years of hands-on experience in <strong>brand reputation management and social media growth hacking</strong>, he aligns our full-stack digital agency operations with your core business goals. Beyond client success, JaiHaran is a multi-talented asset—leveraging professional video editing skills for viral content delivery, and acting as our strict Quality Assurance (QA) lead to hunt down bugs across websites and native mobile apps.
-                </div>
-                <div class="highlights">
-                    <span class="highlight-tag">Client Success</span>
-                    <span class="highlight-tag">Global Network</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- KANNAN S -->
-        <section class="member-section dark-mode-trigger" id="sec-kannan">
-            <div class="member-content gsap-reveal">
-                <img src="team/kannan-s-web-developer.webp" alt="Kannan" class="member-image">
-                <h2 class="member-name">Kannan S</h2>
-                <div class="member-role">Technical Web Developer</div>
-                <div class="member-desc">
-                    Kannan is the architectural mind behind our breathtaking digital experiences. Representing the <strong>best custom website design company in Chennai</strong>, Kannan is a Certified React JS Architect with over 2 years of deep expertise in <strong>Shopify storefront development and custom web application builds</strong>. He merges stunning visual aesthetics with lightning-fast code, dominating <strong>Core Web Vitals Optimization Services</strong> to ensure Google ranks your site higher. Whether it's complex state management, headless CMS integration, or crafting seamless e-commerce checkout flows for maximum <strong>conversion rate optimization (CRO)</strong>, Kannan builds highly secure digital properties that convert visitors into loyal customers.
-                </div>
-                <div class="highlights">
-                    <span class="highlight-tag">React Architect</span>
-                    <span class="highlight-tag">Code Structure</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- SARAVANA -->
-        <section class="member-section right-align light-mode-trigger" id="sec-saravana">
-            <div class="member-content gsap-reveal">
-                <img src="team/saravana-sanjhay-m-seo-expert.webp" alt="Saravana" class="member-image">
-                <h2 class="member-name">Saravana S</h2>
-                <div class="member-role">Technical SEO Expert</div>
-                <div class="member-desc">
-                    Saravana is our undisputed master of search visibility and organic growth. As a <strong>leading Technical SEO specialist in Chennai</strong> and Certified Angular Developer, he brings over 2 years of experience in propelling enterprise brands to the absolute top of the SERPs. He doesn't chase vanity metrics; he excels in mapping user search intent to high-volume, low-difficulty semantic keyword clusters. From dominating the <strong>Google Maps 3-Pack for local businesses</strong> to executing rigorous technical SEO audits, backlink acquisition, and LSI keyword optimization, Saravana ensures your brand captures maximum high-intent organic search traffic.
-                </div>
-                <div class="highlights">
-                    <span class="highlight-tag">SEO Ranking</span>
-                    <span class="highlight-tag">Search Intent</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- JABAKUMAR -->
-        <section class="member-section dark-mode-trigger" id="sec-jabakumar">
-            <div class="member-content gsap-reveal">
-                <img src="team/jabakumar-video-editor.webp" alt="Jabakumar" class="member-image">
-                <h2 class="member-name">Jabakumar</h2>
-                <div class="member-role">Cinematic Video Editor</div>
-                <div class="member-desc">
-                    Jabakumar is the visionary cinematic storyteller providing the <strong>top commercial video editing services in Chennai</strong>. With 2 years of specialized experience in corporate videography, motion graphics, and cinematic post-production, he understands how to engineer viral emotional resonance. As a leading strategist for a <strong>short-form video marketing agency</strong>, he is our secret weapon for dominating Instagram Reels, YouTube Shorts, and TikTok algorithms. By mastering advanced color grading, precise audio syncing, and retention-driven visual hooks, Jabakumar transforms raw footage into scroll-stopping brand assets that guarantee maximum audience retention.
-                </div>
-                <div class="highlights">
-                    <span class="highlight-tag">Cinematic Video</span>
-                    <span class="highlight-tag">Color Grading</span>
-                </div>
-            </div>
-        </section>
+    <!-- TEAM MEMBERS -->
     
-        <!-- FINAL CTA SECTION -->
-        <section class="member-section light-mode-trigger" id="sec-cta" style="justify-content: center; text-align: center; min-height: 70vh;">
-            <div style="max-width: 800px; z-index: 50; position: relative;">
-                <h1 style="font-family:'Outfit', sans-serif; font-size:4rem; font-weight:900; text-transform:uppercase; color:#111; line-height:1.1; margin-bottom: 20px;">
-                    Work with our finest technical team
-                </h1>
-                <p style="font-size:1.2rem; color:#444; margin-bottom: 40px; font-family:'Space Grotesk', sans-serif;">
-                    Ready to scale your brand with proven digital strategies? Partner with the experts who engineer predictable growth.
-                </p>
-                <a href="contact.html" style="display:inline-block; padding: 20px 40px; background:#ff5722; color:#fff; font-family:'Space Grotesk', sans-serif; font-size:1.2rem; font-weight:bold; text-transform:uppercase; text-decoration:none; border-radius:10px; box-shadow: 0 10px 20px rgba(255,87,34,0.3); transition: transform 0.2s;">
-                    Let's Connect
-                </a>
+    <!-- Kamalesh J -->
+    <section class="team-section">
+        <div class="visual-col gsap-fade-up">
+            <img src="team/kamalesh-j-digital-marketing-expert.webp" alt="Kamalesh J - Digital Marketing Expert in Chennai" class="member-photo">
+        </div>
+        <div class="content-col gsap-fade-up">
+            <h2 class="member-name">Kamalesh J</h2>
+            <div class="member-role">Expert Digital Marketing Strategist</div>
+            <div class="member-desc">
+                As the <strong>best digital marketing expert in Chennai</strong>, Kamalesh is the strategic powerhouse behind our most successful campaigns. With 4 years of elite industry experience, he doesn't just run ads; he engineers holistic digital ecosystems. Recognized as a top <strong>Meta Ads specialist and Google Ads consultant</strong>, he delivers High ROAS (Return on Ad Spend) through precise <strong>B2B lead generation</strong> and programmatic advertising. From crafting custom conversion tracking to executing high-converting landing page CRO (Conversion Rate Optimization), he drives qualified buyer inquiries on auto-pilot. Trained by top industry experts at Digital Scholar (including Sorav Jain), he brings a deeply analytical, data-driven approach to every <strong>local SEO and performance marketing</strong> strategy.
             </div>
-        </section>
-    </div>
+            <div class="highlights">
+                <span class="highlight-tag">B2B Lead Generation</span>
+                <span class="highlight-tag">Meta Ads Master</span>
+                <span class="highlight-tag">High ROAS Scale</span>
+            </div>
+        </div>
+    </section>
 
+    <!-- JaiHaran K -->
+    <section class="team-section">
+        <div class="visual-col gsap-fade-up">
+            <img src="team/jaiharan-k-ceo.webp" alt="JaiHaran K - Client Success" class="member-photo">
+        </div>
+        <div class="content-col gsap-fade-up">
+            <h2 class="member-name">JaiHaran K</h2>
+            <div class="member-role">CEO & Client Success Director</div>
+            <div class="member-desc">
+                JaiHaran is the empathetic bridge between our clients and our creative execution team. Representing a <strong>top social media management agency in Chennai</strong>, he acts as the ultimate Client Success Manager, ensuring every founder's vision translates into measurable ROI. With over 2 years of hands-on experience in <strong>brand reputation management and social media growth hacking</strong>, he aligns our full-stack digital agency operations with your core business goals. Beyond client success, JaiHaran is a multi-talented asset—leveraging professional video editing skills for viral content delivery, and acting as our strict Quality Assurance (QA) lead to hunt down bugs across websites and native mobile apps.
+            </div>
+            <div class="highlights">
+                <span class="highlight-tag">Social Media Growth</span>
+                <span class="highlight-tag">Brand Reputation</span>
+                <span class="highlight-tag">Client Success</span>
+            </div>
+        </div>
+    </section>
 
-    <!-- The Standard Footer -->
-    <footer id="main-footer" style="background-color:#111;color:white;text-align:center;padding:60px 20px;font-family:'Space Grotesk',sans-serif;position:relative;z-index:100;width:100%;box-sizing:border-box;">
+    <!-- Kannan S -->
+    <section class="team-section">
+        <div class="visual-col gsap-fade-up">
+            <img src="team/kannan-s-web-developer.webp" alt="Kannan S - React Developer" class="member-photo">
+        </div>
+        <div class="content-col gsap-fade-up">
+            <h2 class="member-name">Kannan S</h2>
+            <div class="member-role">Technical Web Developer</div>
+            <div class="member-desc">
+                Kannan is the architectural mind behind our breathtaking digital experiences. Representing the <strong>best custom website design company in Chennai</strong>, Kannan is a Certified React JS Architect with over 2 years of deep expertise in <strong>Shopify storefront development and custom web application builds</strong>. He merges stunning visual aesthetics with lightning-fast code, dominating <strong>Core Web Vitals Optimization Services</strong> to ensure Google ranks your site higher. Whether it's complex state management, headless CMS integration, or crafting seamless e-commerce checkout flows for maximum <strong>conversion rate optimization (CRO)</strong>, Kannan builds highly secure digital properties that convert visitors into loyal customers.
+            </div>
+            <div class="highlights">
+                <span class="highlight-tag">React JS Architect</span>
+                <span class="highlight-tag">Shopify E-Commerce</span>
+                <span class="highlight-tag">Core Web Vitals</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Saravana S -->
+    <section class="team-section">
+        <div class="visual-col gsap-fade-up">
+            <img src="team/saravana-sanjhay-m-seo-expert.webp" alt="Saravana S - Technical SEO Expert" class="member-photo">
+        </div>
+        <div class="content-col gsap-fade-up">
+            <h2 class="member-name">Saravana S</h2>
+            <div class="member-role">Technical SEO Expert</div>
+            <div class="member-desc">
+                Saravana is our undisputed master of search visibility and organic growth. As a <strong>leading Technical SEO specialist in Chennai</strong> and Certified Angular Developer, he brings over 2 years of experience in propelling enterprise brands to the absolute top of the SERPs. He doesn't chase vanity metrics; he excels in mapping user search intent to high-volume, low-difficulty semantic keyword clusters. From dominating the <strong>Google Maps 3-Pack for local businesses</strong> to executing rigorous technical SEO audits, backlink acquisition, and LSI keyword optimization, Saravana ensures your brand captures maximum high-intent organic search traffic.
+            </div>
+            <div class="highlights">
+                <span class="highlight-tag">Technical SEO Audits</span>
+                <span class="highlight-tag">Google Maps 3-Pack</span>
+                <span class="highlight-tag">Semantic Keyword Clustering</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jabakumar -->
+    <section class="team-section">
+        <div class="visual-col gsap-fade-up">
+            <img src="team/jabakumar-video-editor.webp" alt="Jabakumar - Cinematic Video Editor" class="member-photo">
+        </div>
+        <div class="content-col gsap-fade-up">
+            <h2 class="member-name">Jabakumar</h2>
+            <div class="member-role">Cinematic Video Editor</div>
+            <div class="member-desc">
+                Jabakumar is the visionary cinematic storyteller providing the <strong>top commercial video editing services in Chennai</strong>. With 2 years of specialized experience in corporate videography, motion graphics, and cinematic post-production, he understands how to engineer viral emotional resonance. As a leading strategist for a <strong>short-form video marketing agency</strong>, he is our secret weapon for dominating Instagram Reels, YouTube Shorts, and TikTok algorithms. By mastering advanced color grading, precise audio syncing, and retention-driven visual hooks, Jabakumar transforms raw footage into scroll-stopping brand assets that guarantee maximum audience retention.
+            </div>
+            <div class="highlights">
+                <span class="highlight-tag">Short-form Video Marketing</span>
+                <span class="highlight-tag">Cinematic Color Grading</span>
+                <span class="highlight-tag">Viral Retention Hooks</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta-section">
+        <h2 class="gsap-fade-up">Work with our finest technical team</h2>
+        <p class="gsap-fade-up" style="font-size:1.2rem; color:#aaa; max-width:600px; margin:0 auto;">Ready to scale your brand with proven digital strategies? Partner with the experts who engineer predictable growth.</p>
+        <a href="contact.html" class="cta-btn gsap-fade-up">Let's Connect</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="main-footer" style="background-color:#050505;color:white;text-align:center;padding:60px 20px;font-family:'Space Grotesk',sans-serif;">
         <h2 style="font-size:2.5rem;margin-bottom:10px;color:white;font-family:'Outfit',sans-serif;font-weight:900;">FUSION X</h2>
         <p style="color:#ff5722;font-weight:bold;letter-spacing:2px;margin:0;text-transform:uppercase;">TAKE YOUR BRAND WORLDWIDE</p>
     </footer>
 
-    <!-- Scripts -->
-    
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="charm-physics.js"></script>
 
@@ -314,430 +373,22 @@
         if (hb && nl) {
             hb.addEventListener('click', () => {
                 const open = nl.classList.toggle('mob-open');
-                Object.assign(nl.style, open ? { display:'flex', flexDirection:'column', position:'absolute', top:'70px', left:'0', width:'100%', background: document.body.classList.contains('light-theme') ? '#fff' : '#111', padding:'20px 0', gap:'20px' } : { display:'none' });
+                Object.assign(nl.style, open ? { display:'flex', flexDirection:'column', position:'absolute', top:'70px', left:'0', width:'100%', background:'#fff', padding:'20px 0', gap:'20px' } : { display:'none' });
             });
         }
 
-        gsap.utils.toArray('.gsap-reveal').forEach(elem => {
-            gsap.to(elem, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: elem, start: 'top 80%' } });
-        });
-
-        const themeConfig = { bgColor: new THREE.Color(0x050505), pOpacity: 0.8 };
-        function setDarkTheme() {
-            document.body.classList.remove('light-theme');
-            gsap.to(themeConfig.bgColor, { r: 0x05/255, g: 0x05/255, b: 0x05/255, duration: 0.8 });
-            gsap.to(themeConfig, { pOpacity: 0.8, duration: 0.8 });
-        }
-        function setLightTheme() {
-            document.body.classList.add('light-theme');
-            gsap.to(themeConfig.bgColor, { r: 0.96, g: 0.96, b: 0.97, duration: 0.8 });
-            gsap.to(themeConfig, { pOpacity: 0.0, duration: 0.8 }); // Hide orange dots on white theme
-        }
-        document.querySelectorAll('.dark-mode-trigger').forEach(sec => {
-            ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setDarkTheme, onEnterBack: setDarkTheme });
-        });
-        document.querySelectorAll('.light-mode-trigger').forEach(sec => {
-            ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setLightTheme, onEnterBack: setLightTheme });
-        });
-
-        
-        // --- ROLE-SPECIFIC 3D MODELS SCENE ---
-        const canvas = document.getElementById('webgl-canvas');
-        const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x050505, 0.015);
-        
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 25;
-
-
-        
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
-        // --- PHOTOREALISTIC STUDIO LIGHTING ---
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.0;
-        renderer.outputEncoding = THREE.sRGBEncoding;
-
-        const pmremGenerator = new THREE.PMREMGenerator(renderer);
-        scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
-        
-        // High contrast lighting
-        const ambient = new THREE.AmbientLight(0xffffff, 0.2);
-        scene.add(ambient);
-        const dir1 = new THREE.DirectionalLight(0xffffff, 2.0);
-        dir1.position.set(10, 20, 15);
-        scene.add(dir1);
-
-        // --- ULTRA REALISTIC MATERIALS ---
-        // Dark Gunmetal Chrome
-        const matDark = new THREE.MeshPhysicalMaterial({ 
-            color: 0x111111, metalness: 1.0, roughness: 0.15, 
-            clearcoat: 1.0, clearcoatRoughness: 0.1 
-        });
-        
-        // Polished Anodized Orange Aluminum
-        const matOrange = new THREE.MeshPhysicalMaterial({ 
-            color: 0xff4400, metalness: 0.8, roughness: 0.2, 
-            clearcoat: 0.5, clearcoatRoughness: 0.2 
-        });
-        
-        // Frosted Glass
-        const matWhite = new THREE.MeshPhysicalMaterial({ 
-            color: 0xffffff, metalness: 0.1, roughness: 0.05, 
-            transmission: 0.9, thickness: 1.5, ior: 1.5, transparent: true
-        });
-        
-        // Solid Matte White for contrast accents
-        const matSolidWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8 });
-
-
-        const matGlass = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, opacity: 1, transparent: true, roughness: 0.1 });
-
-        const models = [];
-        const mainGroup = new THREE.Group();
-        scene.add(mainGroup);
-
-        
-        // 0. INTRO (Fusion X Rocket Ship)
-        const g0 = new THREE.Group();
-        // Fuselage
-        const fuselage = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 6, 32), matWhite);
-        g0.add(fuselage);
-        // Nose Cone
-        const nose = new THREE.Mesh(new THREE.ConeGeometry(1.5, 3, 32), matOrange);
-        nose.position.y = 4.5;
-        g0.add(nose);
-        // Fins
-        for(let i=0; i<4; i++) {
-            const fin = new THREE.Mesh(new THREE.BoxGeometry(0.2, 2, 2), matDark);
-            fin.position.set(Math.cos(i*Math.PI/2)*2, -2, Math.sin(i*Math.PI/2)*2);
-            fin.rotation.y = -i*Math.PI/2;
-            fin.rotation.x = Math.PI/6;
-            g0.add(fin);
-        }
-        // Window
-        const windowFrame = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.2, 32), matDark);
-        windowFrame.rotation.x = Math.PI/2;
-        windowFrame.position.set(0, 1.5, 1.4);
-        g0.add(windowFrame);
-        const windowGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.3, 32), matGlass);
-        windowGlass.rotation.x = Math.PI/2;
-        windowGlass.position.set(0, 1.5, 1.4);
-        g0.add(windowGlass);
-        
-        // Tilt rocket
-        g0.rotation.z = -Math.PI/6;
-        g0.rotation.x = Math.PI/8;
-        
-                g0.visible = false;
-
-        models.push(g0); mainGroup.add(g0);
-
-
-        // 1. Kamalesh (Growth Bar)
-        const g1 = new THREE.Group();
-        for(let i=0; i<4; i++) {
-            const bar = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2 + i*2, 1.5), matOrange);
-            bar.position.set(i*2 - 3, (2 + i*2)/2 - 3, 0);
-            g1.add(bar);
-        }
-        const arrow = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 16), matWhite);
-        arrow.position.set(4, 5, 0);
-        arrow.rotation.z = -Math.PI/4;
-        g1.add(arrow);
-        g1.visible = false;
-        models.push(g1); mainGroup.add(g1);
-
-        // 2. JaiHaran (Network Globe)
-        const g2 = new THREE.Group();
-        const globe = new THREE.Mesh(new THREE.SphereGeometry(3.5, 32, 32), matDark);
-        g2.add(globe);
-        for(let i=0; i<3; i++) {
-            const ring = new THREE.Mesh(new THREE.TorusGeometry(4.5 + i*0.5, 0.15, 16, 100), matOrange);
-            ring.rotation.x = Math.random() * Math.PI;
-            ring.rotation.y = Math.random() * Math.PI;
-            g2.add(ring);
-        }
-        g2.visible = false;
-        models.push(g2); mainGroup.add(g2);
-
-        // 3. Kannan (Web Monitor)
-        const g3 = new THREE.Group();
-        const screen = new THREE.Mesh(new THREE.BoxGeometry(8, 5, 0.5), matDark);
-        g3.add(screen);
-        const glass = new THREE.Mesh(new THREE.PlaneGeometry(7.5, 4.5), matWhite);
-        glass.position.z = 0.26;
-        g3.add(glass);
-        const stand = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 2), matWhite);
-        stand.position.y = -3.5;
-        g3.add(stand);
-        const base = new THREE.Mesh(new THREE.BoxGeometry(4, 0.2, 2.5), matOrange);
-        base.position.y = -4.5;
-        g3.add(base);
-        // Code lines
-        const code1 = new THREE.Mesh(new THREE.BoxGeometry(4, 0.2, 0.1), matOrange);
-        code1.position.set(-1.5, 1, 0.3);
-        g3.add(code1);
-        const code2 = new THREE.Mesh(new THREE.BoxGeometry(6, 0.2, 0.1), matDark);
-        code2.position.set(-0.5, 0, 0.3);
-        g3.add(code2);
-        g3.visible = false;
-        models.push(g3); mainGroup.add(g3);
-
-        
-        
-        // 4. Saravana (SEO Search Bar)
-        const g4 = new THREE.Group();
-        // The Search Bar Base
-        const searchBase = new THREE.Mesh(new THREE.BoxGeometry(6, 1.2, 0.5), matWhite);
-        g4.add(searchBase);
-        
-        // Search Button (Right Side)
-        const searchBtn = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 0.6), matOrange);
-        searchBtn.position.set(2.4, 0, 0);
-        g4.add(searchBtn);
-        
-        // Tiny Magnifying Glass Icon inside the button
-        const iconRing = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.05, 16, 32), matWhite);
-        iconRing.position.set(2.4, 0.1, 0.35);
-        g4.add(iconRing);
-        const iconHandle = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.3), matWhite);
-        iconHandle.rotation.z = -Math.PI/4;
-        iconHandle.position.set(2.25, -0.1, 0.35);
-        g4.add(iconHandle);
-        
-        // Blinking Cursor
-        const cursor = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.6, 0.6), matDark);
-        cursor.position.set(-2.5, 0, 0.2);
-        
-        // Let's animate the cursor blinking in the render loop!
-        // We'll attach it to a global variable or just animate its material opacity
-        cursor.material.transparent = true;
-        g4.add(cursor);
-        
-        // Floating SEO keyword blocks
-        const kw1 = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.5, 0.2), matDark);
-        kw1.position.set(-3, 2, -1);
-        g4.add(kw1);
-        const kw2 = new THREE.Mesh(new THREE.BoxGeometry(2, 0.5, 0.2), matOrange);
-        kw2.position.set(2, -2, -1);
-        g4.add(kw2);
-        
-        g4.rotation.x = 0.2;
-        g4.rotation.y = -0.2;
-        
-        g4.visible = false;
-        models.push(g4); mainGroup.add(g4);
-
-
-
-        
-        // 5. Jabakumar (Video Film Reel / Clapperboard)
-        const g5 = new THREE.Group();
-        // White Frame
-        const boardFrame = new THREE.Mesh(new THREE.BoxGeometry(6.2, 4.2, 0.4), matWhite);
-        g5.add(boardFrame);
-        // Black Chalkboard Surface
-        const boardSurface = new THREE.Mesh(new THREE.BoxGeometry(5.8, 3.8, 0.5), matDark);
-        g5.add(boardSurface);
-        // The Clapper arm
-        const clapper = new THREE.Mesh(new THREE.BoxGeometry(6.2, 1, 0.5), matWhite);
-        clapper.position.set(-0.2, 2.7, 0);
-        clapper.rotation.z = 0.25;
-        // Orange stripes on the clapper arm
-        for(let i=0; i<5; i++) {
-            const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.1, 0.6), matOrange);
-            stripe.position.set(-2.2 + i*1.2, 0, 0);
-            stripe.rotation.z = Math.PI/6;
-            clapper.add(stripe);
-        }
-        g5.add(clapper);
-        
-        g5.rotation.y = -0.3;
-        g5.rotation.x = 0.1;
-        
-        
-        g5.visible = false;
-        models.push(g5); mainGroup.add(g5);
-
-        
-        // 6. CTA Section (Let's Connect Envelope)
-        const g6 = new THREE.Group();
-        // Envelope Body
-        const envBody = new THREE.Mesh(new THREE.BoxGeometry(6, 4, 0.4), matWhite);
-        g6.add(envBody);
-        
-        // Let's build a better envelope flap
-        const flapShape = new THREE.Shape();
-        flapShape.moveTo(-3, 2);
-        flapShape.lineTo(0, -1);
-        flapShape.lineTo(3, 2);
-        flapShape.lineTo(-3, 2);
-        
-        const extrudeSettings = { depth: 0.45, bevelEnabled: false };
-        const envFlap = new THREE.Mesh(new THREE.ExtrudeGeometry(flapShape, extrudeSettings), matOrange);
-        envFlap.position.z = 0.1;
-        g6.add(envFlap);
-        
-        // A little floating letter coming out
-        const letter = new THREE.Mesh(new THREE.BoxGeometry(5.5, 3, 0.1), matDark);
-        letter.position.set(0, 3, -0.2); // Popping out the top
-        letter.rotation.z = 0.1; // Slight tilt
-        g6.add(letter);
-        
-        g6.rotation.x = 0.2;
-        g6.rotation.y = -0.3;
-        g6.visible = false;
-        models.push(g6); mainGroup.add(g6);
-
-        // Safe UserData initialization
-        g0.userData = {rx: Math.PI/8, rz: -Math.PI/6}; // Rocket
-        g1.userData = {};
-        g2.userData = {};
-        g3.userData = {};
-        g4.userData = {rx: 0.2, ry: -0.2}; // SEO Search Bar
-        g5.userData = {rx: 0.1, ry: -0.3}; // Clapperboard
-        g6.userData = {rx: 0.2, ry: -0.3}; // Envelope
-
-
-
-
-        const sections = ['#sec-intro', '#sec-kamalesh', '#sec-jaiharan', '#sec-kannan', '#sec-saravana', '#sec-jabakumar', '#sec-cta'];
-        
-        sections.forEach((sec, index) => {
-            ScrollTrigger.create({
-                trigger: sec,
-                start: "top 60%",
-                end: "bottom 60%",
-                onEnter: () => switchModel(index),
-                onEnterBack: () => switchModel(index)
+        // Simple, clean scroll reveals (Very WordPress friendly)
+        gsap.utils.toArray('.gsap-fade-up').forEach(elem => {
+            gsap.to(elem, { 
+                opacity: 1, 
+                y: 0, 
+                duration: 1, 
+                ease: 'power3.out', 
+                scrollTrigger: { 
+                    trigger: elem, 
+                    start: 'top 85%' 
+                } 
             });
-        });
-
-        let currentActiveModel = null;
-        function switchModel(index) {
-            if (currentActiveModel === index) return;
-            currentActiveModel = index;
-            
-            models.forEach((m, i) => {
-                if (i === index) {
-                    m.visible = true;
-                    // Cinematic Fly-In Animation (from behind camera, spinning)
-                    gsap.fromTo(m.position, {z: 30, y: -10}, {z: 0, y: 0, duration: 1.5, ease: 'power3.out'});
-                    
-                    const tx = m.userData.rx || 0;
-                    const ty = m.userData.ry || 0;
-                    const tz = m.userData.rz || 0;
-                    gsap.fromTo(m.rotation, {x: Math.PI, y: -Math.PI, z: tz}, {x: tx, y: ty, z: tz, duration: 1.5, ease: 'power3.out'});
-
-                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1.5, ease: 'back.out(1.2)'});
-                } else if (m.visible) {
-                    // Fly out away from camera
-                    gsap.to(m.position, {z: -30, y: 10, duration: 1, ease: 'power2.in', onComplete: () => m.visible = false});
-                    gsap.to(m.scale, {x:0, y:0, z:0, duration: 1, ease: 'power2.in'});
-                }
-            });
-
-                        // Adjust main group offset based on text alignment
-            if (index === 0) { gsap.to(mainGroup.position, {x: 0, duration: 1}); } 
-            else if (index === 1) { gsap.to(mainGroup.position, {x: 11, duration: 1}); } 
-            else if (index === 2) { gsap.to(mainGroup.position, {x: -11, duration: 1}); } 
-            else if (index === 3) { gsap.to(mainGroup.position, {x: 11, duration: 1}); } 
-            else if (index === 4) { gsap.to(mainGroup.position, {x: -11, duration: 1}); } 
-            else if (index === 5) { gsap.to(mainGroup.position, {x: 11, duration: 1}); }
-            else if (index === 6) { gsap.to(mainGroup.position, {x: -11, y: 1, duration: 1}); }
-        }
-
-        // --- STOP MODEL FROM HITTING FOOTER ---
-        ScrollTrigger.create({
-            trigger: '#main-footer',
-            start: "top bottom", 
-            end: "bottom bottom", 
-            scrub: true,
-            onUpdate: (self) => {
-                gsap.to(mainGroup.position, {y: self.progress * 15, duration: 0.1});
-                gsap.to(themeConfig, {pOpacity: 0.8 * (1 - self.progress), duration: 0.1});
-            }
-        });
-
-        // --- REACTIVE ORANGE PARTICLES ---
-        const pCount = 800;
-        const pGeo = new THREE.BufferGeometry();
-        const pPos = new Float32Array(pCount * 3);
-        const pBasePos = new Float32Array(pCount * 3);
-        for(let i=0; i<pCount; i++) {
-            let x = (Math.random() - 0.5) * 60;
-            let y = (Math.random() - 0.5) * 60;
-            let z = (Math.random() - 0.5) * 30 - 10;
-            pPos[i*3] = x; pPos[i*3+1] = y; pPos[i*3+2] = z;
-            pBasePos[i*3] = x; pBasePos[i*3+1] = y; pBasePos[i*3+2] = z;
-        }
-        pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-        const pMat = new THREE.PointsMaterial({ color: 0xff5722, size: 0.2, transparent: true, opacity: 0.8 });
-        const particles = new THREE.Points(pGeo, pMat);
-        scene.add(particles);
-
-        let mouseX = 0, mouseY = 0;
-        window.addEventListener('mousemove', e => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
-
-        const clock = new THREE.Clock();
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = clock.getElapsedTime();
-            
-            models.forEach((m, i) => {
-                if(m.visible) {
-                    m.rotation.y += 0.01;
-                    m.rotation.x += Math.sin(time) * 0.005;
-                }
-            });
-
-            
-            // SEO Cursor Blink
-            if (models[4] && models[4].visible) {
-                models[4].children[4].material.opacity = Math.sin(time * 5) > 0 ? 1 : 0;
-            }
-
-            // Particles logic
-            const positions = particles.geometry.attributes.position.array;
-            for(let i=0; i<pCount; i++) {
-                let bx = pBasePos[i*3];
-                let by = pBasePos[i*3+1];
-                let mwX = mouseX * 25;
-                let mwY = mouseY * 15;
-                let dx = bx - mwX;
-                let dy = by - mwY;
-                let dist = Math.sqrt(dx*dx + dy*dy);
-                
-                if (dist < 8) {
-                    let force = (8 - dist) / 8;
-                    positions[i*3] = bx + (dx/dist) * force * 5;
-                    positions[i*3+1] = by + (dy/dist) * force * 5;
-                } else {
-                    positions[i*3] += (bx - positions[i*3]) * 0.1;
-                    positions[i*3+1] += (by - positions[i*3+1]) * 0.1;
-                }
-            }
-            particles.geometry.attributes.position.needsUpdate = true;
-            particles.rotation.y = time * 0.02;
-
-            renderer.setClearColor(themeConfig.bgColor, 1);
-            pMat.opacity = themeConfig.pOpacity;
-            scene.fog.color.copy(themeConfig.bgColor);
-
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
         });
     </script>
 </body>

@@ -7,21 +7,17 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Load global style.css which contains the default Segoe UI navbar styling -->
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* DO NOT OVERRIDE BODY FONT! Keep it identical to style.css for the Navbar */
         body {
             background-color: #050505;
             color: #ffffff;
             overflow-x: hidden;
             transition: background-color 0.8s ease;
             margin: 0;
-            /* Using global font from style.css */
         }
 
-        /* Specific typography for the team sections */
         .team-typography {
             font-family: 'Space Grotesk', sans-serif;
         }
@@ -70,12 +66,12 @@
             max-width: 500px;
             display: flex;
             flex-direction: column;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.6);
             padding: 40px;
             border-radius: 20px;
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .member-section.right-align .member-content {
@@ -140,7 +136,7 @@
             color: #111111;
         }
         body.light-theme .member-content {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(0, 0, 0, 0.05);
             box-shadow: 0 20px 40px rgba(0,0,0,0.05);
         }
@@ -156,7 +152,6 @@
 </head>
 <body>
 
-    <!-- EXACT NAVBAR FROM ABOUT-US.HTML -->
     <nav class="navbar">
         <div class="logo-container">
             <a href="index.html">
@@ -191,7 +186,7 @@
     <div class="team-container team-typography">
         
         <section class="team-intro dark-mode-trigger" id="sec-intro">
-            <h1 class="gsap-reveal">The Visionaries</h1>
+            <h1 class="gsap-reveal">Our Elite Team</h1>
             <p class="gsap-reveal" style="color:#ff5722; letter-spacing:4px; font-weight:700;">[ SCROLL DOWN ]</p>
         </section>
 
@@ -271,14 +266,14 @@
                 </div>
                 <div class="highlights">
                     <span class="highlight-tag">Cinematic Video</span>
-                    <span class="highlight-tag">Refraction</span>
+                    <span class="highlight-tag">Color Grading</span>
                 </div>
             </div>
         </section>
     </div>
 
     <!-- The Standard Footer -->
-    <footer style="background-color:#111;color:white;text-align:center;padding:60px 20px;font-family:'Space Grotesk',sans-serif;position:relative;z-index:100;width:100%;box-sizing:border-box;">
+    <footer id="main-footer" style="background-color:#111;color:white;text-align:center;padding:60px 20px;font-family:'Space Grotesk',sans-serif;position:relative;z-index:100;width:100%;box-sizing:border-box;">
         <h2 style="font-size:2.5rem;margin-bottom:10px;color:white;font-family:'Outfit',sans-serif;font-weight:900;">FUSION X</h2>
         <p style="color:#ff5722;font-weight:bold;letter-spacing:2px;margin:0;text-transform:uppercase;">TAKE YOUR BRAND WORLDWIDE</p>
     </footer>
@@ -287,7 +282,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="charm-physics.js"></script> <!-- The slingshot form trigger is in here now! -->
+    <script src="charm-physics.js"></script>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
@@ -297,7 +292,7 @@
         if (hb && nl) {
             hb.addEventListener('click', () => {
                 const open = nl.classList.toggle('mob-open');
-                Object.assign(nl.style, open ? { display:'flex', flexDirection:'column', position:'absolute', top:'70px', left:'0', width:'100%', background:'#fff', padding:'20px 0', gap:'20px' } : { display:'none' });
+                Object.assign(nl.style, open ? { display:'flex', flexDirection:'column', position:'absolute', top:'70px', left:'0', width:'100%', background: document.body.classList.contains('light-theme') ? '#fff' : '#111', padding:'20px 0', gap:'20px' } : { display:'none' });
             });
         }
 
@@ -305,14 +300,16 @@
             gsap.to(elem, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: elem, start: 'top 80%' } });
         });
 
-        const themeConfig = { bgColor: new THREE.Color(0x050505) };
+        const themeConfig = { bgColor: new THREE.Color(0x050505), pOpacity: 0.8 };
         function setDarkTheme() {
             document.body.classList.remove('light-theme');
             gsap.to(themeConfig.bgColor, { r: 0x05/255, g: 0x05/255, b: 0x05/255, duration: 0.8 });
+            gsap.to(themeConfig, { pOpacity: 0.8, duration: 0.8 });
         }
         function setLightTheme() {
             document.body.classList.add('light-theme');
             gsap.to(themeConfig.bgColor, { r: 0.96, g: 0.96, b: 0.97, duration: 0.8 });
+            gsap.to(themeConfig, { pOpacity: 0.0, duration: 0.8 }); // Hide orange dots on white theme
         }
         document.querySelectorAll('.dark-mode-trigger').forEach(sec => {
             ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setDarkTheme, onEnterBack: setDarkTheme });
@@ -321,7 +318,7 @@
             ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setLightTheme, onEnterBack: setLightTheme });
         });
 
-        // --- ULTRA PREMIUM 3D SCENE ---
+        // --- ROLE-SPECIFIC 3D MODELS SCENE ---
         const canvas = document.getElementById('webgl-canvas');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -331,79 +328,110 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // High-end lighting
-        const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+        // Lighting
+        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambient);
-        const spot1 = new THREE.SpotLight(0xff5722, 5);
-        spot1.position.set(15, 20, 10);
-        scene.add(spot1);
-        const spot2 = new THREE.SpotLight(0x4488ff, 3);
-        spot2.position.set(-15, -10, 15);
-        scene.add(spot2);
+        const dir1 = new THREE.DirectionalLight(0xffffff, 0.8);
+        dir1.position.set(10, 20, 15);
+        scene.add(dir1);
+        const orangeLight = new THREE.PointLight(0xff5722, 1.5, 50);
+        orangeLight.position.set(-10, -5, 10);
+        scene.add(orangeLight);
 
-        // Premium Glass Material (Refractive, frosted)
-        const glassMat = new THREE.MeshPhysicalMaterial({
-            color: 0xffffff,
-            metalness: 0.1,
-            roughness: 0.1,
-            transmission: 1.0, // Glass effect
-            thickness: 2.0,
-            ior: 1.5,
-            clearcoat: 1.0,
-            transparent: true
-        });
-
-        // Glowing Core Material
-        const glowMatOrange = new THREE.MeshBasicMaterial({ color: 0xff5722 });
-        const glowMatBlue = new THREE.MeshBasicMaterial({ color: 0x4488ff });
+        // Sleek Matte Materials
+        const matOrange = new THREE.MeshStandardMaterial({ color: 0xff5722, roughness: 0.2, metalness: 0.1 });
+        const matWhite = new THREE.MeshStandardMaterial({ color: 0xeeeeee, roughness: 0.2, metalness: 0.1 });
+        const matDark = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.2, metalness: 0.1 });
+        const matGold = new THREE.MeshStandardMaterial({ color: 0xffaa00, roughness: 0.3, metalness: 0.8 });
 
         const models = [];
         const mainGroup = new THREE.Group();
         scene.add(mainGroup);
 
-        // 1. Kamalesh (Strategy): Octahedron in Sphere
+        // 1. Kamalesh (Growth Bar)
         const g1 = new THREE.Group();
-        const sphereGlass = new THREE.Mesh(new THREE.SphereGeometry(4, 64, 64), glassMat);
-        const octaCore = new THREE.Mesh(new THREE.OctahedronGeometry(2), glowMatOrange);
-        g1.add(sphereGlass); g1.add(octaCore);
+        for(let i=0; i<4; i++) {
+            const bar = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2 + i*2, 1.5), matOrange);
+            bar.position.set(i*2 - 3, (2 + i*2)/2 - 3, 0);
+            g1.add(bar);
+        }
+        const arrow = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 16), matWhite);
+        arrow.position.set(4, 5, 0);
+        arrow.rotation.z = -Math.PI/4;
+        g1.add(arrow);
         models.push(g1); mainGroup.add(g1);
 
-        // 2. JaiHaran (Network): Interlocking Rings
+        // 2. JaiHaran (Network Globe)
         const g2 = new THREE.Group();
+        const globe = new THREE.Mesh(new THREE.SphereGeometry(3.5, 32, 32), matDark);
+        g2.add(globe);
         for(let i=0; i<3; i++) {
-            const r = new THREE.Mesh(new THREE.TorusGeometry(3.5, 0.4, 32, 100), glassMat);
-            r.rotation.x = Math.random() * Math.PI;
-            r.rotation.y = Math.random() * Math.PI;
-            g2.add(r);
+            const ring = new THREE.Mesh(new THREE.TorusGeometry(4.5 + i*0.5, 0.15, 16, 100), matOrange);
+            ring.rotation.x = Math.random() * Math.PI;
+            ring.rotation.y = Math.random() * Math.PI;
+            g2.add(ring);
         }
-        const centerGlow = new THREE.Mesh(new THREE.SphereGeometry(1.5, 32, 32), glowMatBlue);
-        g2.add(centerGlow);
         g2.visible = false;
         models.push(g2); mainGroup.add(g2);
 
-        // 3. Kannan (Code): Fragmented Cubes
+        // 3. Kannan (Web Monitor)
         const g3 = new THREE.Group();
-        const mainCube = new THREE.Mesh(new THREE.BoxGeometry(5, 5, 5), glassMat);
-        g3.add(mainCube);
-        const innerCube = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2.5, 2.5), glowMatOrange);
-        g3.add(innerCube);
+        const screen = new THREE.Mesh(new THREE.BoxGeometry(8, 5, 0.5), matDark);
+        g3.add(screen);
+        const glass = new THREE.Mesh(new THREE.PlaneGeometry(7.5, 4.5), matWhite);
+        glass.position.z = 0.26;
+        g3.add(glass);
+        const stand = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 2), matWhite);
+        stand.position.y = -3.5;
+        g3.add(stand);
+        const base = new THREE.Mesh(new THREE.BoxGeometry(4, 0.2, 2.5), matOrange);
+        base.position.y = -4.5;
+        g3.add(base);
+        // Code lines
+        const code1 = new THREE.Mesh(new THREE.BoxGeometry(4, 0.2, 0.1), matOrange);
+        code1.position.set(-1.5, 1, 0.3);
+        g3.add(code1);
+        const code2 = new THREE.Mesh(new THREE.BoxGeometry(6, 0.2, 0.1), matDark);
+        code2.position.set(-0.5, 0, 0.3);
+        g3.add(code2);
         g3.visible = false;
         models.push(g3); mainGroup.add(g3);
 
-        // 4. Saravana (SEO): Iridescent Torus Knot
+        // 4. Saravana (SEO Target / Bullseye)
         const g4 = new THREE.Group();
-        const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(2.5, 0.8, 256, 64), glassMat);
-        g4.add(knot);
+        const ring1 = new THREE.Mesh(new THREE.CylinderGeometry(4, 4, 0.5, 32), matOrange);
+        ring1.rotation.x = Math.PI / 2;
+        g4.add(ring1);
+        const ring2 = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.6, 32), matWhite);
+        ring2.rotation.x = Math.PI / 2;
+        g4.add(ring2);
+        const bullseye = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.7, 32), matGold);
+        bullseye.rotation.x = Math.PI / 2;
+        g4.add(bullseye);
+        // Arrow stuck in it
+        const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 6, 16), matDark);
+        shaft.position.z = 3;
+        shaft.rotation.x = Math.PI / 2;
+        shaft.rotation.z = -0.3;
+        g4.add(shaft);
         g4.visible = false;
         models.push(g4); mainGroup.add(g4);
 
-        // 5. Jabakumar (Video): Shattered Cylinder
+        // 5. Jabakumar (Video Film Reel / Clapperboard)
         const g5 = new THREE.Group();
-        const cyl = new THREE.Mesh(new THREE.CylinderGeometry(3, 3, 8, 32), glassMat);
-        cyl.rotation.z = Math.PI/4;
-        const line = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 10, 16), glowMatOrange);
-        line.rotation.z = Math.PI/4;
-        g5.add(cyl); g5.add(line);
+        const board = new THREE.Mesh(new THREE.BoxGeometry(6, 4, 0.5), matDark);
+        g5.add(board);
+        const clapper = new THREE.Mesh(new THREE.BoxGeometry(6, 1, 0.5), matWhite);
+        clapper.position.set(0, 2.5, 0);
+        clapper.rotation.z = 0.2;
+        clapper.position.x = -0.2;
+        for(let i=0; i<5; i++) {
+            const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.1, 0.6), matOrange);
+            stripe.position.set(-2 + i*1, 0, 0);
+            stripe.rotation.z = Math.PI/6;
+            clapper.add(stripe);
+        }
+        g5.add(clapper);
         g5.visible = false;
         models.push(g5); mainGroup.add(g5);
 
@@ -424,7 +452,7 @@
             models.forEach((m, i) => {
                 if (i === index) {
                     m.visible = true;
-                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1.5, ease: 'elastic.out(1, 0.7)'});
+                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1, ease: 'back.out(1.2)'});
                 } else {
                     m.visible = false;
                 }
@@ -437,6 +465,47 @@
             else if (index === 4) { gsap.to(mainGroup.position, {x: 7, duration: 1}); }
         }
 
+        // --- STOP MODEL FROM HITTING FOOTER ---
+        // As the footer enters the viewport, push the 3D model UP so it doesn't clip into the footer!
+        ScrollTrigger.create({
+            trigger: '#main-footer',
+            start: "top bottom", // When top of footer hits bottom of viewport
+            end: "bottom bottom", 
+            scrub: true,
+            onUpdate: (self) => {
+                // Move the mainGroup UP in the Y axis based on scroll progress
+                // self.progress goes from 0 to 1
+                gsap.to(mainGroup.position, {y: self.progress * 15, duration: 0.1});
+                
+                // Also fade out particles
+                gsap.to(themeConfig, {pOpacity: 0.8 * (1 - self.progress), duration: 0.1});
+            }
+        });
+
+
+        // --- REACTIVE ORANGE PARTICLES ---
+        const pCount = 800;
+        const pGeo = new THREE.BufferGeometry();
+        const pPos = new Float32Array(pCount * 3);
+        const pBasePos = new Float32Array(pCount * 3);
+        for(let i=0; i<pCount; i++) {
+            let x = (Math.random() - 0.5) * 60;
+            let y = (Math.random() - 0.5) * 60;
+            let z = (Math.random() - 0.5) * 30 - 10;
+            pPos[i*3] = x; pPos[i*3+1] = y; pPos[i*3+2] = z;
+            pBasePos[i*3] = x; pBasePos[i*3+1] = y; pBasePos[i*3+2] = z;
+        }
+        pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const pMat = new THREE.PointsMaterial({ color: 0xff5722, size: 0.2, transparent: true, opacity: 0.8 });
+        const particles = new THREE.Points(pGeo, pMat);
+        scene.add(particles);
+
+        let mouseX = 0, mouseY = 0;
+        window.addEventListener('mousemove', e => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
         const clock = new THREE.Clock();
         function animate() {
             requestAnimationFrame(animate);
@@ -445,16 +514,36 @@
             models.forEach((m, i) => {
                 if(m.visible) {
                     m.rotation.y += 0.01;
-                    m.rotation.x += 0.005;
-                    m.position.y = Math.sin(time * 2) * 0.5; // Premium float
+                    m.rotation.x = Math.sin(time) * 0.1;
                 }
             });
 
-            // Pulse the glowing cores
-            glowMatOrange.color.setHSL(0.04, 1, 0.5 + Math.sin(time * 3) * 0.2);
-            glowMatBlue.color.setHSL(0.6, 1, 0.5 + Math.sin(time * 3) * 0.2);
+            // Particles logic
+            const positions = particles.geometry.attributes.position.array;
+            for(let i=0; i<pCount; i++) {
+                let bx = pBasePos[i*3];
+                let by = pBasePos[i*3+1];
+                let mwX = mouseX * 25;
+                let mwY = mouseY * 15;
+                let dx = bx - mwX;
+                let dy = by - mwY;
+                let dist = Math.sqrt(dx*dx + dy*dy);
+                
+                if (dist < 8) {
+                    let force = (8 - dist) / 8;
+                    positions[i*3] = bx + (dx/dist) * force * 5;
+                    positions[i*3+1] = by + (dy/dist) * force * 5;
+                } else {
+                    positions[i*3] += (bx - positions[i*3]) * 0.1;
+                    positions[i*3+1] += (by - positions[i*3+1]) * 0.1;
+                }
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+            particles.rotation.y = time * 0.02;
 
             renderer.setClearColor(themeConfig.bgColor, 1);
+            pMat.opacity = themeConfig.pOpacity;
+
             renderer.render(scene, camera);
         }
         animate();

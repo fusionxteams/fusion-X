@@ -299,15 +299,10 @@
 
     <!-- Scripts -->
     
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="charm-physics.js"></script>
 
@@ -355,41 +350,48 @@
         camera.position.z = 25;
 
 
+        
         const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         
-        // POST-PROCESSING: Cinematic Bloom
-        const renderScene = new THREE.RenderPass(scene, camera);
-        const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-        bloomPass.threshold = 0;
-        bloomPass.strength = 1.2; // Glowing neon effect
-        bloomPass.radius = 0.5;
+        // --- PHOTOREALISTIC STUDIO LIGHTING ---
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.0;
+        renderer.outputEncoding = THREE.sRGBEncoding;
+
+        const pmremGenerator = new THREE.PMREMGenerator(renderer);
+        scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
         
-        const composer = new THREE.EffectComposer(renderer);
-        composer.addPass(renderScene);
-        composer.addPass(bloomPass);
-
-
         // High contrast lighting
-        const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+        const ambient = new THREE.AmbientLight(0xffffff, 0.2);
         scene.add(ambient);
-        const dir1 = new THREE.DirectionalLight(0xffffff, 1.2);
+        const dir1 = new THREE.DirectionalLight(0xffffff, 2.0);
         dir1.position.set(10, 20, 15);
         scene.add(dir1);
-        const orangeLight = new THREE.PointLight(0xff5722, 2, 50);
-        orangeLight.position.set(-10, 5, 10);
-        scene.add(orangeLight);
-        const blueLight = new THREE.PointLight(0x4488ff, 1, 50);
-        blueLight.position.set(10, -5, -10);
-        scene.add(blueLight);
 
-        // Sleek Matte Materials
+        // --- ULTRA REALISTIC MATERIALS ---
+        // Dark Gunmetal Chrome
+        const matDark = new THREE.MeshPhysicalMaterial({ 
+            color: 0x111111, metalness: 1.0, roughness: 0.15, 
+            clearcoat: 1.0, clearcoatRoughness: 0.1 
+        });
         
-        const matOrange = new THREE.MeshStandardMaterial({ color: 0xff5722, emissive: 0xaa2200, emissiveIntensity: 0.5, roughness: 0.1, metalness: 0.5 });
-        const matWhite = new THREE.MeshStandardMaterial({ color: 0xeeeeee, emissive: 0x222222, emissiveIntensity: 0.2, roughness: 0.1, metalness: 0.3 });
-        const matDark = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.6, metalness: 0.8 });
-        const matGold = new THREE.MeshStandardMaterial({ color: 0xffaa00, emissive: 0x553300, emissiveIntensity: 0.5, roughness: 0.2, metalness: 1.0 });
+        // Polished Anodized Orange Aluminum
+        const matOrange = new THREE.MeshPhysicalMaterial({ 
+            color: 0xff4400, metalness: 0.8, roughness: 0.2, 
+            clearcoat: 0.5, clearcoatRoughness: 0.2 
+        });
+        
+        // Frosted Glass
+        const matWhite = new THREE.MeshPhysicalMaterial({ 
+            color: 0xffffff, metalness: 0.1, roughness: 0.05, 
+            transmission: 0.9, thickness: 1.5, ior: 1.5, transparent: true
+        });
+        
+        // Solid Matte White for contrast accents
+        const matSolidWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8 });
+
 
         const matGlass = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, opacity: 1, transparent: true, roughness: 0.1 });
 
@@ -728,7 +730,7 @@
             pMat.opacity = themeConfig.pOpacity;
             scene.fog.color.copy(themeConfig.bgColor);
 
-            composer.render();
+            renderer.render(scene, camera);
         }
         animate();
 

@@ -211,7 +211,7 @@
         </section>
 
         <!-- JAIHARAN -->
-        <section class="member-section right-align light-mode-trigger" id="sec-jaiharan">
+        <section class="member-section right-align dark-mode-trigger" id="sec-jaiharan">
             <div class="member-content gsap-reveal">
                 <img src="team/jaiharan-k-ceo.webp" alt="JaiHaran" class="member-image">
                 <h2 class="member-name">JaiHaran K</h2>
@@ -243,7 +243,7 @@
         </section>
 
         <!-- SARAVANA -->
-        <section class="member-section right-align light-mode-trigger" id="sec-saravana">
+        <section class="member-section right-align dark-mode-trigger" id="sec-saravana">
             <div class="member-content gsap-reveal">
                 <img src="team/saravana-sanjhay-m-seo-expert.webp" alt="Saravana" class="member-image">
                 <h2 class="member-name">Saravana S</h2>
@@ -275,7 +275,7 @@
         </section>
     
         <!-- FINAL CTA SECTION -->
-        <section class="member-section light-mode-trigger" id="sec-cta" style="justify-content: center; text-align: center; min-height: 70vh;">
+        <section class="member-section dark-mode-trigger" id="sec-cta" style="justify-content: center; text-align: center; min-height: 70vh;">
             <div style="max-width: 800px; z-index: 50; position: relative;">
                 <h1 style="font-family:'Outfit', sans-serif; font-size:4rem; font-weight:900; text-transform:uppercase; color:#111; line-height:1.1; margin-bottom: 20px;">
                     Work with our finest technical team
@@ -341,7 +341,7 @@
         document.querySelectorAll('.dark-mode-trigger').forEach(sec => {
             ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setDarkTheme, onEnterBack: setDarkTheme });
         });
-        document.querySelectorAll('.light-mode-trigger').forEach(sec => {
+        document.querySelectorAll('.dark-mode-trigger').forEach(sec => {
             ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setLightTheme, onEnterBack: setLightTheme });
         });
 

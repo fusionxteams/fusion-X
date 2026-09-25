@@ -607,7 +607,7 @@
             });
         });
 
-        let currentActiveModel = null;
+                        let currentActiveModel = null;
         function switchModel(index) {
             if (currentActiveModel === index) return;
             currentActiveModel = index;
@@ -615,30 +615,30 @@
             models.forEach((m, i) => {
                 if (i === index) {
                     m.visible = true;
+                    m.userData.isAnimating = true;
                     // Cinematic Fly-In Animation (from behind camera, spinning)
-                    gsap.fromTo(m.position, {z: 30, y: -10}, {z: 0, y: 0, duration: 1.5, ease: 'power3.out'});
-                    
                     const tx = m.userData.rx || 0;
                     const ty = m.userData.ry || 0;
                     const tz = m.userData.rz || 0;
-                    gsap.fromTo(m.rotation, {x: Math.PI, y: -Math.PI, z: tz}, {x: tx, y: ty, z: tz, duration: 1.5, ease: 'power3.out'});
-
-                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1.5, ease: 'back.out(1.2)'});
+                    gsap.fromTo(m.position, {z: 30, y: -10}, {z: 0, y: 0, duration: 1.5, ease: 'power3.out', overwrite: true});
+                    gsap.fromTo(m.rotation, {x: Math.PI, y: -Math.PI, z: tz}, {x: tx, y: ty, z: tz, duration: 1.5, ease: 'power3.out', overwrite: true, onComplete: () => m.userData.isAnimating = false});
+                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1.5, ease: 'back.out(1.2)', overwrite: true});
                 } else if (m.visible) {
+                    m.userData.isAnimating = true;
                     // Fly out away from camera
-                    gsap.to(m.position, {z: -30, y: 10, duration: 1, ease: 'power2.in', onComplete: () => m.visible = false});
-                    gsap.to(m.scale, {x:0, y:0, z:0, duration: 1, ease: 'power2.in'});
+                    gsap.to(m.position, {z: -30, y: 10, duration: 1, ease: 'power2.in', overwrite: true, onComplete: () => { m.visible = false; m.userData.isAnimating = false; }});
+                    gsap.to(m.scale, {x:0, y:0, z:0, duration: 1, ease: 'power2.in', overwrite: true});
                 }
             });
 
-                        // Adjust main group offset based on text alignment
-            if (index === 0) { gsap.to(mainGroup.position, {x: 0, duration: 1}); } 
-            else if (index === 1) { gsap.to(mainGroup.position, {x: 11, duration: 1}); } 
-            else if (index === 2) { gsap.to(mainGroup.position, {x: -11, duration: 1}); } 
-            else if (index === 3) { gsap.to(mainGroup.position, {x: 11, duration: 1}); } 
-            else if (index === 4) { gsap.to(mainGroup.position, {x: -11, duration: 1}); } 
-            else if (index === 5) { gsap.to(mainGroup.position, {x: 11, duration: 1}); }
-            else if (index === 6) { gsap.to(mainGroup.position, {x: -11, y: 1, duration: 1}); }
+            // Adjust main group offset based on text alignment
+            if (index === 0) { gsap.to(mainGroup.position, {x: 0, y: 0, duration: 1, overwrite: true}); } 
+            else if (index === 1) { gsap.to(mainGroup.position, {x: 11, y: 0, duration: 1, overwrite: true}); } 
+            else if (index === 2) { gsap.to(mainGroup.position, {x: -11, y: 0, duration: 1, overwrite: true}); } 
+            else if (index === 3) { gsap.to(mainGroup.position, {x: 11, y: 0, duration: 1, overwrite: true}); } 
+            else if (index === 4) { gsap.to(mainGroup.position, {x: -11, y: 0, duration: 1, overwrite: true}); } 
+            else if (index === 5) { gsap.to(mainGroup.position, {x: 11, y: 0, duration: 1, overwrite: true}); }
+            else if (index === 6) { gsap.to(mainGroup.position, {x: -11, y: 1, duration: 1, overwrite: true}); }
         }
 
         // --- STOP MODEL FROM HITTING FOOTER ---
@@ -681,8 +681,8 @@
             requestAnimationFrame(animate);
             const time = clock.getElapsedTime();
             
-            models.forEach((m, i) => {
-                if(m.visible) {
+                        models.forEach((m, i) => {
+                if(m.visible && !m.userData.isAnimating) {
                     m.rotation.y += 0.01;
                     m.rotation.x += Math.sin(time) * 0.005;
                 }

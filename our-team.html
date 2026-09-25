@@ -44,7 +44,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
         }
         
         .team-intro h1 {
@@ -91,7 +91,7 @@
         }
 
         .member-name {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             font-size: 3rem;
             font-weight: 900;
             margin: 0 0 5px 0;
@@ -227,7 +227,7 @@
         </section>
 
         <!-- KANNAN S -->
-        <section class="member-section dark-mode-trigger" id="sec-kannan">
+        <section class="member-section light-mode-trigger" id="sec-kannan">
             <div class="member-content gsap-reveal">
                 <img src="team/kannan-s-web-developer.webp" alt="Kannan" class="member-image">
                 <h2 class="member-name">Kannan S</h2>
@@ -275,15 +275,15 @@
         </section>
     
         <!-- FINAL CTA SECTION -->
-        <section class="member-section dark-mode-trigger" id="sec-cta" style="justify-content: center; text-align: center; min-height: 70vh;">
+        <section class="member-section light-mode-trigger" id="sec-cta" style="justify-content: center; text-align: center; min-height: 70vh;">
             <div style="max-width: 800px; z-index: 50; position: relative;">
-                <h1 style="font-family:'Outfit', sans-serif; font-size:4rem; font-weight:900; text-transform:uppercase; color:#111; line-height:1.1; margin-bottom: 20px;">
+                <h1 style=" font-size:4rem; font-weight:900; text-transform:uppercase; color:#111; line-height:1.1; margin-bottom: 20px;">
                     Work with our finest technical team
                 </h1>
-                <p style="font-size:1.2rem; color:#444; margin-bottom: 40px; font-family:'Space Grotesk', sans-serif;">
+                <p style="font-size:1.2rem; color:#444; margin-bottom: 40px; ">
                     Ready to scale your brand with proven digital strategies? Partner with the experts who engineer predictable growth.
                 </p>
-                <a href="contact.html" style="display:inline-block; padding: 20px 40px; background:#ff5722; color:#fff; font-family:'Space Grotesk', sans-serif; font-size:1.2rem; font-weight:bold; text-transform:uppercase; text-decoration:none; border-radius:10px; box-shadow: 0 10px 20px rgba(255,87,34,0.3); transition: transform 0.2s;">
+                <a href="contact.html" style="display:inline-block; padding: 20px 40px; background:#ff5722; color:#fff;  font-size:1.2rem; font-weight:bold; text-transform:uppercase; text-decoration:none; border-radius:10px; box-shadow: 0 10px 20px rgba(255,87,34,0.3); transition: transform 0.2s;">
                     Let's Connect
                 </a>
             </div>
@@ -300,12 +300,7 @@
     <!-- Scripts -->
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -359,16 +354,7 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         
-        // POST-PROCESSING: Cinematic Bloom
-        const renderScene = new THREE.RenderPass(scene, camera);
-        const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-        bloomPass.threshold = 0;
-        bloomPass.strength = 1.2; // Glowing neon effect
-        bloomPass.radius = 0.5;
         
-        const composer = new THREE.EffectComposer(renderer);
-        composer.addPass(renderScene);
-        composer.addPass(bloomPass);
 
 
         // High contrast lighting
@@ -386,10 +372,14 @@
 
         // Sleek Matte Materials
         
-        const matOrange = new THREE.MeshStandardMaterial({ color: 0xff5722, emissive: 0xaa2200, emissiveIntensity: 0.5, roughness: 0.1, metalness: 0.5 });
-        const matWhite = new THREE.MeshStandardMaterial({ color: 0xeeeeee, emissive: 0x222222, emissiveIntensity: 0.2, roughness: 0.1, metalness: 0.3 });
-        const matDark = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.6, metalness: 0.8 });
-        const matGold = new THREE.MeshStandardMaterial({ color: 0xffaa00, emissive: 0x553300, emissiveIntensity: 0.5, roughness: 0.2, metalness: 1.0 });
+        
+        const matOrange = new THREE.MeshStandardMaterial({ color: 0xff5722, roughness: 0.2, metalness: 0.1 });
+        const matDark = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.4, metalness: 0.5 });
+        const matGold = new THREE.MeshStandardMaterial({ color: 0xffaa00, roughness: 0.3, metalness: 0.8 });
+        
+        // I will rename matWhite to matGrey so it contrasts against both white and black backgrounds
+        const matWhite = new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.3, metalness: 0.4 });
+
 
         const matGlass = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, opacity: 1, transparent: true, roughness: 0.1 });
 
@@ -728,7 +718,7 @@
             pMat.opacity = themeConfig.pOpacity;
             scene.fog.color.copy(themeConfig.bgColor);
 
-            composer.render();
+            renderer.render(scene, camera);
         }
         animate();
 

@@ -9,22 +9,25 @@ document.addEventListener("DOMContentLoaded", () => {
     let aVelocity = 0.0;
     let aAcceleration = 0.0;
     
-    // Slingshot variables
-    let pullY = 0; // How far down the charm is pulled
-    let pVelocity = 0.0;
+    let pullX = 0;
+    let pullY = 0; 
     
     const gravity = 0.4; 
     const length = 70; 
     const damping = 0.985; 
-    const springDamping = 0.8;
     
     let isDragging = false;
+    let startX = 0;
     let startY = 0;
+    
+    let hasDetached = false;
     
     stringElement.style.animation = 'none';
     charmElement.style.cursor = 'grab';
 
     function updatePhysics() {
+        if (hasDetached) return; // Stop physics if it flew away!
+
         if (!isDragging) {
             // Pendulum Swing
             aAcceleration = (-1 * gravity / length) * Math.sin(angle);
@@ -32,27 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
             aVelocity *= damping;
             angle += aVelocity;
             
-            // Spring bounce-back for Y position
-            if (pullY !== 0) {
-                let pAcceleration = (0 - pullY) * 0.3; // Spring force towards 0
-                pVelocity += pAcceleration;
-                pVelocity *= springDamping;
-                pullY += pVelocity;
-                
-                // Snap to 0 if very close to stop jitter
-                if (Math.abs(pullY) < 0.5 && Math.abs(pVelocity) < 0.5) {
-                    pullY = 0;
-                    pVelocity = 0;
-                }
-            }
+            // Snap back to 0 if let go without enough force
+            pullX += (0 - pullX) * 0.2;
+            pullY += (0 - pullY) * 0.2;
         }
         
         const degrees = angle * (180 / Math.PI);
-        // Rotate the string
         stringElement.style.transform = `rotate(${degrees}deg)`;
-        
-        // Translate the charm element DOWN the string
-        charmElement.style.transform = `translateY(${pullY}px)`;
+        charmElement.style.transform = `translate(${pullX}px, ${pullY}px)`;
         
         requestAnimationFrame(updatePhysics);
     }
@@ -60,14 +50,16 @@ document.addEventListener("DOMContentLoaded", () => {
     updatePhysics();
 
     function startDrag(e) {
+        if (hasDetached) return;
         isDragging = true;
         charmElement.style.cursor = 'grabbing';
         aVelocity = 0;
-        pVelocity = 0;
         
         if (e.touches && e.touches.length > 0) {
-            startY = e.touches[0].clientY - pullY; // Offset by current pull
+            startX = e.touches[0].clientX - pullX;
+            startY = e.touches[0].clientY - pullY;
         } else {
+            startX = e.clientX - pullX;
             startY = e.clientY - pullY;
         }
         
@@ -75,11 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function drag(e) {
-        if (!isDragging) return;
-        
-        const pivotRect = stringElement.getBoundingClientRect();
-        const pivotX = pivotRect.left + (pivotRect.width / 2);
-        const pivotY = pivotRect.top;
+        if (!isDragging || hasDetached) return;
         
         let clientX = e.clientX;
         let clientY = e.clientY;
@@ -88,24 +76,18 @@ document.addEventListener("DOMContentLoaded", () => {
             clientY = e.touches[0].clientY;
         }
 
-        // --- PENDULUM ANGLE ---
-        const dx = clientX - pivotX;
-        const dy = clientY - pivotY;
-        let newAngle = Math.atan2(dy, dx) - (Math.PI / 2);
+        let dx = clientX - startX;
+        let dy = clientY - startY;
         
-        const maxAngle = Math.PI / 1.5; 
-        if (newAngle > maxAngle) newAngle = maxAngle;
-        if (newAngle < -maxAngle) newAngle = -maxAngle;
-        angle = newAngle;
+        // Let them pull it anywhere like a rubber band!
+        pullX = dx;
+        pullY = dy;
         
-        // --- VERTICAL PULL (SLINGSHOT) ---
-        let currentPull = clientY - startY;
-        if (currentPull > 0) {
-            // Resistance logic (harder to pull further)
-            pullY = currentPull * 0.5; 
-            if (pullY > 150) pullY = 150; // Max pull 150px
-        } else {
-            pullY = 0;
+        // Calculate hypotenuse for max stretch
+        let dist = Math.sqrt(pullX*pullX + pullY*pullY);
+        if (dist > 150) {
+            pullX = (pullX/dist) * 150;
+            pullY = (pullY/dist) * 150;
         }
     }
 
@@ -116,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div style="background:#fff; border-radius:15px; padding:40px; width:90%; max-width:500px; position:relative; transform:scale(0.8); transition:transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
                     <button id="close-modal-btn" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:24px; cursor:pointer; color:#333;">&times;</button>
                     <h2 style="font-family:'Outfit', sans-serif; font-size:2rem; margin-top:0; color:#111; text-transform:uppercase;">Let's Connect</h2>
-                    <p style="color:#666; margin-bottom:20px;">You've found the secret slingshot! Drop your details below.</p>
+                    <p style="color:#666; margin-bottom:20px;">Direct hit! You found the secret form.</p>
                     <form onsubmit="event.preventDefault(); alert('Form Submitted Successfully!'); document.getElementById('charm-contact-modal').remove();">
                         <input type="text" placeholder="Your Name" required style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box; font-family:inherit;">
                         <input type="email" placeholder="Your Email" required style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box; font-family:inherit;">
@@ -143,21 +125,51 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function endDrag() {
-        if (isDragging) {
-            isDragging = false;
-            charmElement.style.cursor = 'grab';
+        if (!isDragging || hasDetached) return;
+        isDragging = false;
+        charmElement.style.cursor = 'grab';
+        
+        let dist = Math.sqrt(pullX*pullX + pullY*pullY);
+        
+        // ANGRY BIRDS TRIGGER: If they pulled it more than 80px
+        if (dist > 80) {
+            hasDetached = true;
             
-            // SLINGSHOT TRIGGER: If pulled down more than 60px!
-            if (pullY > 60) {
-                // Snap back violently
-                pVelocity = -40; // High upward velocity
-                aVelocity = (Math.random() - 0.5) * 0.5; // Add some chaotic swing
+            // 1. Detach from string visually
+            const rect = charmElement.getBoundingClientRect();
+            
+            // Move charm to body so it flies freely over everything
+            document.body.appendChild(charmElement);
+            charmElement.style.position = 'fixed';
+            charmElement.style.left = rect.left + 'px';
+            charmElement.style.top = rect.top + 'px';
+            charmElement.style.margin = '0';
+            charmElement.style.transform = 'none';
+            charmElement.style.zIndex = '99999';
+            charmElement.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; // bouncy flight
+            
+            // Calculate trajectory (opposite of pull)
+            let flyX = (window.innerWidth / 2) - 50;
+            let flyY = (window.innerHeight / 2) - 50;
+            
+            // Hide the string 
+            stringElement.style.opacity = '0';
+            stringElement.style.transition = 'opacity 0.3s';
+            
+            // Fly!
+            setTimeout(() => {
+                charmElement.style.left = flyX + 'px';
+                charmElement.style.top = flyY + 'px';
+                charmElement.style.transform = 'scale(5) rotate(720deg)';
+                charmElement.style.opacity = '0'; // Explode/fade out
+            }, 50);
+            
+            // Open form when it hits
+            setTimeout(() => {
+                charmElement.style.display = 'none'; // Remove it entirely
                 openFormModal();
-            } else if (Math.abs(angle) > Math.PI / 3) {
-                // Fallback for extreme side swing
-                aVelocity = angle > 0 ? -1.5 : 1.5;
-                openFormModal();
-            }
+            }, 600);
+            
         }
     }
 

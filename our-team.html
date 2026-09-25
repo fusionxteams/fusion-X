@@ -442,37 +442,50 @@
         models.push(g3); mainGroup.add(g3);
 
         
-        // 4. Saravana (SEO Magnifying Glass)
-        const g4 = new THREE.Group();
-        // Handle
-        const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 4, 32), matDark);
-        handle.position.set(2, -2, 0);
-        handle.rotation.z = -Math.PI/4;
-        g4.add(handle);
-        // Rim
-        const rim = new THREE.Mesh(new THREE.TorusGeometry(3, 0.5, 32, 64), matOrange);
-        g4.add(rim);
-        // Glass Lens
-        const lens = new THREE.Mesh(new THREE.CylinderGeometry(2.9, 2.9, 0.2, 64), matGlass);
-        lens.rotation.x = Math.PI/2;
-        g4.add(lens);
         
-        // Floating Search Nodes (SEO connections)
-        for(let i=0; i<3; i++) {
-            const node = new THREE.Mesh(new THREE.SphereGeometry(0.6, 16, 16), matWhite);
-            node.position.set((Math.random()-0.5)*4, (Math.random()-0.5)*4, -2 - Math.random()*2);
-            g4.add(node);
-            const lineMat = new THREE.LineBasicMaterial({ color: 0xff5722 });
-            const points = [];
-            points.push(new THREE.Vector3(0, 0, 0));
-            points.push(node.position);
-            const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
-            const line = new THREE.Line(lineGeo, lineMat);
-            g4.add(line);
-        }
+        // 4. Saravana (SEO Search Bar)
+        const g4 = new THREE.Group();
+        // The Search Bar Base
+        const searchBase = new THREE.Mesh(new THREE.BoxGeometry(6, 1.2, 0.5), matWhite);
+        g4.add(searchBase);
+        
+        // Search Button (Right Side)
+        const searchBtn = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 0.6), matOrange);
+        searchBtn.position.set(2.4, 0, 0);
+        g4.add(searchBtn);
+        
+        // Tiny Magnifying Glass Icon inside the button
+        const iconRing = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.05, 16, 32), matWhite);
+        iconRing.position.set(2.4, 0.1, 0.35);
+        g4.add(iconRing);
+        const iconHandle = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.3), matWhite);
+        iconHandle.rotation.z = -Math.PI/4;
+        iconHandle.position.set(2.25, -0.1, 0.35);
+        g4.add(iconHandle);
+        
+        // Blinking Cursor
+        const cursor = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.6, 0.6), matDark);
+        cursor.position.set(-2.5, 0, 0.2);
+        
+        // Let's animate the cursor blinking in the render loop!
+        // We'll attach it to a global variable or just animate its material opacity
+        cursor.material.transparent = true;
+        g4.add(cursor);
+        
+        // Floating SEO keyword blocks
+        const kw1 = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.5, 0.2), matDark);
+        kw1.position.set(-3, 2, -1);
+        g4.add(kw1);
+        const kw2 = new THREE.Mesh(new THREE.BoxGeometry(2, 0.5, 0.2), matOrange);
+        kw2.position.set(2, -2, -1);
+        g4.add(kw2);
+        
+        g4.rotation.x = 0.2;
+        g4.rotation.y = -0.2;
         
         g4.visible = false;
         models.push(g4); mainGroup.add(g4);
+
 
 
         // 5. Jabakumar (Video Film Reel / Clapperboard)
@@ -580,6 +593,12 @@
                     m.rotation.x += Math.sin(time) * 0.005;
                 }
             });
+
+            
+            // SEO Cursor Blink
+            if (models[4] && models[4].visible) {
+                models[4].children[4].material.opacity = Math.sin(time * 5) > 0 ? 1 : 0;
+            }
 
             // Particles logic
             const positions = particles.geometry.attributes.position.array;

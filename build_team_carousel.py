@@ -1,0 +1,433 @@
+import os
+
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Elite Team | Fusion X Digital Marketing Agency</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* No scroll, all interaction is 3D drag */
+            background-color: #080808;
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            touch-action: none;
+        }
+
+        #team-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 1;
+            cursor: grab;
+        }
+        
+        #team-canvas:active { cursor: grabbing; }
+
+        .ui-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding-bottom: 80px;
+        }
+
+        .active-info {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto;
+        }
+
+        .active-info.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .active-info h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            margin: 0 0 10px 0;
+            line-height: 1;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .active-info .role {
+            font-size: 1.2rem;
+            color: #ff5722;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .active-info p {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            line-height: 1.6;
+        }
+
+        .instructions {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 4px;
+            pointer-events: none;
+            z-index: 5;
+            animation: pulse 2s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.6; }
+        }
+        
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            z-index: 20;
+            background: transparent;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer p {
+            margin: 0;
+            color: #444;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Standard Navbar -->
+    <nav class="navbar" style="background: transparent; border: none; box-shadow: none;">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo_transparent.png" alt="Fusion X" class="logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html#home" style="color:#fff;">HOME</a></li>
+            <li><a href="about-us.html" style="color:#fff;">ABOUT US</a></li>
+            <li><a href="index.html#services" style="color:#fff;">SERVICES</a></li>
+            <li><a href="index.html#brands" style="color:#fff;">BRANDS</a></li>
+            <li><a href="our-team.html" class="active" style="color:#ff5722;">OUR TEAM</a></li>
+            <li><a href="index.html#works" style="color:#fff;">OUR WORKS</a></li>
+            <li class="dangling-container">
+                <a href="index.html#contact" class="nav-cta-btn">LET'S CONNECT</a>
+                <div class="charm-string">
+                    <img src="logo_transparent.png" class="charm-object" alt="Fusion X">
+                </div>
+            </li>
+        </ul>
+        <div class="hamburger">
+            <svg viewBox="0 0 100 80" width="30" height="30">
+                <rect width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="30" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="60" width="100" height="15" rx="8" fill="#ff5722"></rect>
+            </svg>
+        </div>
+    </nav>
+
+    <!-- WebGL Canvas -->
+    <canvas id="team-canvas"></canvas>
+
+    <div class="instructions">[ DRAG TO EXPLORE ]</div>
+
+    <!-- UI Overlay for Member Info -->
+    <div class="ui-layer">
+        <div class="active-info" id="info-panel">
+            <div class="role" id="m-role">Role</div>
+            <h1 id="m-name">Name</h1>
+            <p id="m-desc">Description</p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>c 2026 Fusion X Digital Marketing Agency.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="charm-physics.js"></script>
+    
+    <script>
+        // Navbar Hamburger
+        const hb = document.querySelector('.hamburger'), nl = document.querySelector('.nav-links');
+        if (hb && nl) {
+            hb.addEventListener('click', () => {
+                const open = nl.classList.toggle('mob-open');
+                Object.assign(nl.style, open ? { display:'flex', flexDirection:'column', position:'absolute', top:'70px', left:'0', width:'100%', background:'#111', padding:'20px 0', gap:'20px' } : { display:'none' });
+            });
+        }
+
+        // --- 3D Carousel (Cylinder) Setup ---
+        const canvas = document.getElementById('team-canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(0x080808, 30, 100);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 45;
+        camera.position.y = 2;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const members = [
+            { id: 'jaiharan', name: 'Jaiharan K', role: 'Chief Executive Officer', img: 'team/jaiharan-k-ceo.webp', desc: 'The visionary force behind Fusion X. Jaiharan orchestrates global brand strategies, ensuring every campaign is engineered for maximum ROI.' },
+            { id: 'kamalesh', name: 'Kamalesh J', role: 'Digital Marketing Expert', img: 'team/kamalesh-j-digital-marketing-expert.webp', desc: 'A master of paid media and conversion funnels. Kamalesh engineers data-driven ad campaigns that turn cold traffic into hyper-loyal customers.' },
+            { id: 'saravana', name: 'Saravana Sanjhay M', role: 'SEO Expert', img: 'team/saravana-sanjhay-m-seo-expert.webp', desc: 'The architect of organic visibility. Saravana leverages advanced AEO, GEO, and technical SEO frameworks to secure top rankings globally.' },
+            { id: 'kannan',   name: 'Kannan S', role: 'Web Developer', img: 'team/kannan-s-web-developer.webp', desc: 'The code wizard who brings digital experiences to life. Kannan builds ultra-fast, highly responsive websites with flawless interactive UI/UX.' },
+            { id: 'jabakumar',name: 'Jabakumar', role: 'Video Editor', img: 'team/jabakumar-video-editor.webp', desc: 'The visual storyteller. Jabakumar crafts highly engaging, cinematic video content that captures attention and drives viral brand awareness.' }
+        ];
+
+        const carouselGroup = new THREE.Group();
+        scene.add(carouselGroup);
+
+        const textureLoader = new THREE.TextureLoader();
+        const planes = [];
+        const radius = 25; // Carousel radius
+        const count = members.length;
+        const angleStep = (Math.PI * 2) / count;
+
+        // Custom Shader for images
+        const vertexShader = `
+            varying vec2 vUv;
+            uniform float uHover;
+            void main() {
+                vUv = uv;
+                vec3 pos = position;
+                // Add curve to planes to match cylinder
+                float theta = pos.x * 0.05;
+                pos.z += cos(theta) * 2.0 - 2.0; 
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            }
+        `;
+        const fragmentShader = `
+            varying vec2 vUv;
+            uniform sampler2D uTexture;
+            uniform float uActive;
+            void main() {
+                vec4 tex = texture2D(uTexture, vUv);
+                
+                // Black and white to color effect
+                float gray = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
+                vec3 bw = vec3(gray);
+                vec3 finalColor = mix(bw, tex.rgb, uActive);
+                
+                gl_FragColor = vec4(finalColor, tex.a * (0.3 + 0.7 * uActive));
+            }
+        `;
+
+        members.forEach((data, i) => {
+            const tex = textureLoader.load(data.img);
+            tex.colorSpace = THREE.SRGBColorSpace;
+            
+            const material = new THREE.ShaderMaterial({
+                vertexShader, fragmentShader,
+                uniforms: {
+                    uTexture: { value: tex },
+                    uActive: { value: 0.0 }
+                },
+                transparent: true,
+                side: THREE.DoubleSide
+            });
+
+            // 1:1 Aspect ratio
+            const geometry = new THREE.PlaneGeometry(16, 16, 32, 32);
+            const mesh = new THREE.Mesh(geometry, material);
+            
+            const angle = i * angleStep;
+            mesh.position.x = Math.sin(angle) * radius;
+            mesh.position.z = Math.cos(angle) * radius;
+            // Face outwards
+            mesh.rotation.y = angle;
+            
+            mesh.userData = { index: i, angle: angle };
+            carouselGroup.add(mesh);
+            planes.push(mesh);
+        });
+
+        // Add Floating Background Particles
+        const particlesGeo = new THREE.BufferGeometry();
+        const pCount = 800;
+        const pPos = new Float32Array(pCount * 3);
+        for(let i=0; i<pCount*3; i++) {
+            pPos[i] = (Math.random() - 0.5) * 150;
+        }
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const particlesMat = new THREE.PointsMaterial({ color: 0xff5722, size: 0.2, transparent: true, opacity: 0.4 });
+        const particles = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particles);
+
+        // --- INTERACTION LOGIC ---
+        let currentAngle = 0;
+        let targetAngle = 0;
+        let isDragging = false;
+        let startX = 0;
+        let activeIndex = -1;
+
+        const infoPanel = document.getElementById('info-panel');
+        const mRole = document.getElementById('m-role');
+        const mName = document.getElementById('m-name');
+        const mDesc = document.getElementById('m-desc');
+
+        function updateUI(index) {
+            if (activeIndex === index) return;
+            activeIndex = index;
+            
+            infoPanel.classList.remove('visible');
+            setTimeout(() => {
+                const d = members[index];
+                mRole.innerText = d.role;
+                mName.innerText = d.name;
+                mDesc.innerText = d.desc;
+                infoPanel.classList.add('visible');
+            }, 300);
+        }
+
+        // Mouse / Touch Dragging
+        window.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+        window.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; }, {passive:true});
+        
+        window.addEventListener('mousemove', e => {
+            if(!isDragging) return;
+            const deltaX = e.clientX - startX;
+            targetAngle += deltaX * 0.005;
+            startX = e.clientX;
+        });
+        window.addEventListener('touchmove', e => {
+            if(!isDragging) return;
+            const deltaX = e.touches[0].clientX - startX;
+            targetAngle += deltaX * 0.005;
+            startX = e.touches[0].clientX;
+        }, {passive:true});
+        
+        window.addEventListener('mouseup', () => { isDragging = false; snapToNearest(); });
+        window.addEventListener('touchend', () => { isDragging = false; snapToNearest(); });
+        
+        // Wheel scrolling maps to rotation
+        window.addEventListener('wheel', e => {
+            targetAngle -= Math.sign(e.deltaY) * 0.4;
+            // Debounce snap
+            clearTimeout(window.snapTimer);
+            window.snapTimer = setTimeout(snapToNearest, 300);
+        });
+
+        function snapToNearest() {
+            // Find closest angle step
+            let normalized = targetAngle % (Math.PI * 2);
+            if(normalized < 0) normalized += Math.PI * 2;
+            
+            let closestIndex = 0;
+            let minDiff = Infinity;
+            
+            planes.forEach((p, i) => {
+                // Plane world angle is p.rotation.y + carouselGroup.rotation.y
+                let worldAngle = (p.userData.angle + targetAngle) % (Math.PI * 2);
+                if(worldAngle < 0) worldAngle += Math.PI * 2;
+                
+                // Distance to 0 (facing camera)
+                let diff = Math.min(worldAngle, Math.PI * 2 - worldAngle);
+                if(diff < minDiff) {
+                    minDiff = diff;
+                    closestIndex = i;
+                }
+            });
+            
+            // Snap targetAngle so that closestIndex is exactly at 0
+            const idealWorldAngle = targetAngle + planes[closestIndex].userData.angle;
+            // We want idealWorldAngle to be a multiple of 2PI
+            const remainder = idealWorldAngle % (Math.PI * 2);
+            let offset = -remainder;
+            if(remainder > Math.PI) offset = (Math.PI * 2) - remainder;
+            if(remainder < -Math.PI) offset = -(Math.PI * 2) - remainder;
+            
+            targetAngle += offset;
+        }
+
+        // Initialize first snap
+        snapToNearest();
+
+        // --- RENDER LOOP ---
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Smooth lerp rotation
+            currentAngle += (targetAngle - currentAngle) * 0.1;
+            carouselGroup.rotation.y = currentAngle;
+            
+            particles.rotation.y = currentAngle * 0.5;
+
+            // Update active states
+            let closestIndex = 0;
+            let maxActive = 0;
+
+            planes.forEach((plane, i) => {
+                // Calculate how much this plane is facing the camera
+                const worldAngle = (plane.userData.angle + currentAngle) % (Math.PI * 2);
+                const normalizedAngle = worldAngle >= 0 ? worldAngle : worldAngle + Math.PI * 2;
+                const diff = Math.min(normalizedAngle, Math.PI * 2 - normalizedAngle);
+                
+                // 1 if perfectly centered, 0 if far away
+                const activeFactor = Math.max(0, 1.0 - (diff / (Math.PI/2)));
+                
+                // Lerp uniform
+                plane.material.uniforms.uActive.value += (activeFactor - plane.material.uniforms.uActive.value) * 0.1;
+                
+                // Slight scale based on active
+                const scale = 1.0 + (activeFactor * 0.3);
+                plane.scale.set(scale, scale, scale);
+                
+                if(activeFactor > maxActive) {
+                    maxActive = activeFactor;
+                    closestIndex = i;
+                }
+            });
+            
+            if(maxActive > 0.8) {
+                updateUI(closestIndex);
+            }
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- RESIZE HANDLER ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>
+"""
+
+with open('our-team.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)

@@ -1,9 +1,13 @@
-<!DOCTYPE html>
+import os
+
+# --- BASE TEMPLATE ---
+def get_base_html(title, content):
+    return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Elite Team | Fusion X Digital Marketing Agency</title>
+    <title>{title} | Fusion X Digital Marketing Agency</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -38,7 +42,37 @@
         </div>
     </nav>
 
-    
+    {content}
+
+    <footer>
+        <h2 style="font-size:2rem;font-weight:900;letter-spacing:-1px;margin-bottom:6px;">FUSION X</h2>
+        <p style="color:#ff5722;font-weight:700;letter-spacing:3px;font-size:0.78rem;text-transform:uppercase;margin-bottom:32px;">Take Your Brand Worldwide</p>
+        <div style="margin-bottom:32px;">
+            <a href="index.html#home" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Home</a>
+            <a href="about-us.html" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">About</a>
+            <a href="services.html" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Services</a>
+            <a href="brands.html" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Brands</a>
+            <a href="contact.html" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Connect</a>
+        </div>
+        <p style="color:#222;font-size:0.8rem;">© 2026 Fusion X Digital Marketing Agency. All Rights Reserved.</p>
+    </footer>
+
+    <script src="charm-physics.js"></script>
+    <script>
+        const hb = document.querySelector('.hamburger'), nl = document.querySelector('.nav-links');
+        if (hb && nl) {{
+            hb.addEventListener('click', () => {{
+                const open = nl.classList.toggle('mob-open');
+                Object.assign(nl.style, open ? {{ display:'flex', flexDirection:'column', position:'absolute', top:'70px', left:'0', width:'100%', background:'#fff', padding:'20px 0', gap:'20px' }} : {{ display:'none' }});
+            }});
+        }}
+    </script>
+</body>
+</html>
+"""
+
+# --- OUR TEAM ---
+team_content = """
     <style>
         #team-hero {
             position: relative;
@@ -293,30 +327,29 @@
             renderer.setSize(rect.width, rect.height);
         }
     </script>
+"""
 
-
-    <footer>
-        <h2 style="font-size:2rem;font-weight:900;letter-spacing:-1px;margin-bottom:6px;">FUSION X</h2>
-        <p style="color:#ff5722;font-weight:700;letter-spacing:3px;font-size:0.78rem;text-transform:uppercase;margin-bottom:32px;">Take Your Brand Worldwide</p>
-        <div style="margin-bottom:32px;">
-            <a href="index.html#home" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Home</a>
-            <a href="about-us.html" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">About</a>
-            <a href="services.html" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Services</a>
-            <a href="brands.html" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Brands</a>
-            <a href="contact.html" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Connect</a>
+# --- PAGE GEN ---
+def create_page(filename, title, heading):
+    content = f"""
+    <section style="min-height: 70vh; display: flex; align-items: center; justify-content: center; padding-top: 100px;">
+        <div style="text-align: center;">
+            <h1 style="font-family: 'Outfit', sans-serif; font-size: 4rem; color: #111;">{heading}</h1>
+            <p style="color: #666; font-size: 1.2rem;">Detailed page content goes here.</p>
         </div>
-        <p style="color:#222;font-size:0.8rem;">© 2026 Fusion X Digital Marketing Agency. All Rights Reserved.</p>
-    </footer>
+    </section>
+    """
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(get_base_html(title, content))
 
-    <script src="charm-physics.js"></script>
-    <script>
-        const hb = document.querySelector('.hamburger'), nl = document.querySelector('.nav-links');
-        if (hb && nl) {
-            hb.addEventListener('click', () => {
-                const open = nl.classList.toggle('mob-open');
-                Object.assign(nl.style, open ? { display:'flex', flexDirection:'column', position:'absolute', top:'70px', left:'0', width:'100%', background:'#fff', padding:'20px 0', gap:'20px' } : { display:'none' });
-            });
-        }
-    </script>
-</body>
-</html>
+# Generate the placeholder pages
+create_page('services.html', 'Our Services', 'Services')
+create_page('brands.html', 'Brands We Work With', 'Brands')
+create_page('our-works.html', 'Our Works', 'Our Works')
+create_page('contact.html', 'Contact Us', 'Let\'s Connect')
+
+# Generate Our Team
+with open('our-team.html', 'w', encoding='utf-8') as f:
+    f.write(get_base_html('Our Elite Team', team_content))
+
+print("All pages generated!")

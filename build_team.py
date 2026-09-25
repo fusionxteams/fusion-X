@@ -1,0 +1,535 @@
+import os
+
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Elite Team | Fusion X Digital Marketing Agency</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            background-color: #050505; /* Cinematic Dark */
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* 3D Canvas Background */
+        #team-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none; /* Let clicks pass to HTML if needed, but we handle mouse in JS */
+        }
+
+        /* Scroll Container */
+        #scroll-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+
+        /* Intro Section */
+        .team-intro {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+        }
+
+        .team-intro h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            line-height: 1;
+            margin: 0;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .team-intro p {
+            font-size: 1.2rem;
+            color: #888;
+            max-width: 600px;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Member Scroll Sections */
+        .member-section {
+            height: 120vh; /* Plenty of scroll space per member */
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+        }
+
+        .member-info {
+            width: 50%;
+            opacity: 0; /* Animated by GSAP */
+            transform: translateY(50px);
+            pointer-events: auto;
+        }
+
+        /* Alternate left/right */
+        .member-section:nth-child(even) .member-info {
+            margin-left: auto;
+            text-align: left;
+        }
+
+        .member-section:nth-child(odd) .member-info {
+            margin-right: auto;
+            text-align: right;
+        }
+
+        .role-tag {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #ff5722;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .member-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 5rem);
+            font-weight: 800;
+            margin: 0 0 20px 0;
+            line-height: 1.1;
+        }
+
+        .member-desc {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+        
+        .member-section:nth-child(odd) .member-desc {
+            margin-left: auto;
+        }
+
+        .expertise-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .member-section:nth-child(odd) .expertise-tags {
+            justify-content: flex-end;
+        }
+
+        .expertise-tags span {
+            background: rgba(255, 87, 34, 0.1);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            color: #ff5722;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* Mouse Tracker */
+        .cursor-tracker {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Scroll progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 4px;
+            background: #ff5722;
+            width: 0%;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progress"></div>
+
+    <!-- WebGL Canvas -->
+    <canvas id="team-canvas"></canvas>
+
+    <!-- UI Overlay (Navbar) -->
+    <nav class="navbar" style="background: transparent; box-shadow: none;">
+        <div class="nav-container">
+            <a href="index.html#home" class="logo-wrap">
+                <img src="logo_transparent.png" alt="Fusion X" class="logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#home" style="color:#fff;">HOME</a></li>
+                <li><a href="about-us.html" style="color:#fff;">ABOUT US</a></li>
+                <li><a href="our-team.html" class="active" style="color:#ff5722;">OUR TEAM</a></li>
+                <li>
+                    <div class="dangling-container">
+                        <a href="index.html#contact" class="nav-cta-btn">LET'S CONNECT</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Scroll Content -->
+    <div id="scroll-container">
+        
+        <section class="team-intro">
+            <h1>The Elite<br>Architects</h1>
+            <p>Scroll to meet the masterminds behind your brand's digital dominance.</p>
+        </section>
+
+        <!-- Member 1 -->
+        <section class="member-section" id="mem-jaiharan">
+            <div class="member-info">
+                <span class="role-tag">Chief Executive Officer</span>
+                <h2 class="member-name">Jaiharan K</h2>
+                <p class="member-desc">The visionary force behind Fusion X. Jaiharan orchestrates global brand strategies, ensuring every campaign is engineered for maximum ROI and market dominance.</p>
+                <div class="expertise-tags">
+                    <span>Global Strategy</span>
+                    <span>Brand Dominance</span>
+                    <span>Leadership</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Member 2 -->
+        <section class="member-section" id="mem-kamalesh">
+            <div class="member-info">
+                <span class="role-tag">Digital Marketing Expert</span>
+                <h2 class="member-name">Kamalesh J</h2>
+                <p class="member-desc">A master of paid media and conversion funnels. Kamalesh engineers data-driven ad campaigns that turn cold traffic into hyper-loyal customers.</p>
+                <div class="expertise-tags">
+                    <span>Meta Ads</span>
+                    <span>Google Ads</span>
+                    <span>Funnel Optimization</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Member 3 -->
+        <section class="member-section" id="mem-saravana">
+            <div class="member-info">
+                <span class="role-tag">SEO Expert</span>
+                <h2 class="member-name">Saravana Sanjhay M</h2>
+                <p class="member-desc">The architect of organic visibility. Saravana leverages advanced AEO, GEO, and technical SEO frameworks to secure top rankings in Google and AI search engines.</p>
+                <div class="expertise-tags">
+                    <span>Technical SEO</span>
+                    <span>AEO / GEO</span>
+                    <span>EEAT</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Member 4 -->
+        <section class="member-section" id="mem-kannan">
+            <div class="member-info">
+                <span class="role-tag">Web Developer</span>
+                <h2 class="member-name">Kannan S</h2>
+                <p class="member-desc">The code wizard who brings digital experiences to life. Kannan builds ultra-fast, highly responsive websites with flawless interactive UI/UX.</p>
+                <div class="expertise-tags">
+                    <span>React / Angular</span>
+                    <span>Three.js</span>
+                    <span>UI/UX</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Member 5 -->
+        <section class="member-section" id="mem-jabakumar">
+            <div class="member-info">
+                <span class="role-tag">Video Editor</span>
+                <h2 class="member-name">Jabakumar</h2>
+                <p class="member-desc">The visual storyteller. Jabakumar crafts highly engaging, cinematic video content that captures attention and drives viral brand awareness.</p>
+                <div class="expertise-tags">
+                    <span>Cinematography</span>
+                    <span>VFX</span>
+                    <span>Viral Content</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer spacer -->
+        <div style="height: 30vh;"></div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- PROGRESS BAR ---
+        gsap.to('#progress', {
+            width: '100%',
+            ease: 'none',
+            scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 0.1 }
+        });
+
+        // --- THREE.JS SETUP ---
+        const canvas = document.getElementById('team-canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, 0.001);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        // Initial camera position (looking at nothing / intro)
+        camera.position.set(0, 0, 150);
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // --- CUSTOM SHADER MATERIAL (Liquid Distortion on Hover) ---
+        // React Bits / ThreeUI style displacement shader
+        const vertexShader = `
+            varying vec2 vUv;
+            uniform float uTime;
+            uniform float uHover;
+            void main() {
+                vUv = uv;
+                vec3 pos = position;
+                // Add subtle wave based on time and hover state
+                float wave = sin(pos.x * 0.5 + uTime) * cos(pos.y * 0.5 + uTime);
+                pos.z += wave * 2.0 * uHover;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            }
+        `;
+
+        const fragmentShader = `
+            varying vec2 vUv;
+            uniform sampler2D uTexture;
+            uniform float uHover;
+            uniform float uTime;
+            void main() {
+                vec2 uv = vUv;
+                
+                // RGB Shift on hover
+                float shift = 0.02 * uHover * sin(uTime * 5.0 + uv.y * 10.0);
+                
+                vec4 texColorR = texture2D(uTexture, uv + vec2(shift, 0.0));
+                vec4 texColorG = texture2D(uTexture, uv);
+                vec4 texColorB = texture2D(uTexture, uv - vec2(shift, 0.0));
+                
+                vec4 finalColor = vec4(texColorR.r, texColorG.g, texColorB.b, texColorG.a);
+                
+                // Dim slightly when not hovered
+                finalColor.rgb *= (0.6 + 0.4 * uHover);
+                
+                gl_FragColor = finalColor;
+            }
+        `;
+
+        const textureLoader = new THREE.TextureLoader();
+        
+        // Members data
+        const membersData = [
+            { id: 'jaiharan', img: 'team/jaiharan-k-ceo.webp', pos: { x: 30, y: 0, z: -20 }, rot: { y: -0.2 } },
+            { id: 'kamalesh', img: 'team/kamalesh-j-digital-marketing-expert.webp', pos: { x: -30, y: -40, z: -60 }, rot: { y: 0.2 } },
+            { id: 'saravana', img: 'team/saravana-sanjhay-m-seo-expert.webp', pos: { x: 35, y: -80, z: -100 }, rot: { y: -0.25 } },
+            { id: 'kannan',   img: 'team/kannan-s-web-developer.webp', pos: { x: -35, y: -120, z: -140 }, rot: { y: 0.25 } },
+            { id: 'jabakumar',img: 'team/jabakumar-video-editor.webp', pos: { x: 30, y: -160, z: -180 }, rot: { y: -0.15 } }
+        ];
+
+        const planes = [];
+
+        // Build Planes
+        membersData.forEach((data, index) => {
+            const tex = textureLoader.load(data.img);
+            tex.generateMipmaps = true;
+            tex.minFilter = THREE.LinearMipmapLinearFilter;
+
+            const material = new THREE.ShaderMaterial({
+                vertexShader,
+                fragmentShader,
+                uniforms: {
+                    uTexture: { value: tex },
+                    uTime: { value: 0 },
+                    uHover: { value: 0.0 }
+                },
+                transparent: true
+            });
+
+            // Keep aspect ratio 1:1 since images are 1:1 cropped
+            const geometry = new THREE.PlaneGeometry(25, 25, 32, 32);
+            const mesh = new THREE.Mesh(geometry, material);
+            
+            mesh.position.set(data.pos.x, data.pos.y, data.pos.z);
+            mesh.rotation.y = data.rot.y;
+            
+            mesh.userData = { id: data.id, baseHover: 0 };
+            
+            scene.add(mesh);
+            planes.push(mesh);
+        });
+
+        // Add Floating Background Particles
+        const particlesGeo = new THREE.BufferGeometry();
+        const pCount = 1000;
+        const pPos = new Float32Array(pCount * 3);
+        for(let i=0; i<pCount*3; i++) {
+            pPos[i] = (Math.random() - 0.5) * 300;
+        }
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const particlesMat = new THREE.PointsMaterial({ color: 0xff5722, size: 0.5, transparent: true, opacity: 0.5 });
+        const particles = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particles);
+
+        // --- SCROLL ANIMATIONS (GSAP tying DOM to WebGL) ---
+        
+        // Setup initial timeline for camera
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: '#scroll-container',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 1.5 // Smooth scrubbing
+            }
+        });
+
+        // Animate camera through the Z-depth and Y-depth to pass by each plane
+        tl.to(camera.position, {
+            y: -180,
+            z: -140, // Move deep into the scene
+            ease: 'power1.inOut'
+        }, 0);
+
+        // Animate HTML elements fading in and out as you scroll
+        const sections = document.querySelectorAll('.member-section');
+        sections.forEach((sec, i) => {
+            const info = sec.querySelector('.member-info');
+            
+            // Text fade in
+            gsap.to(info, {
+                opacity: 1,
+                y: 0,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: sec,
+                    start: 'top 60%',
+                    end: 'top 30%',
+                    scrub: 1
+                }
+            });
+            
+            // Text fade out
+            gsap.to(info, {
+                opacity: 0,
+                y: -50,
+                ease: 'power3.in',
+                scrollTrigger: {
+                    trigger: sec,
+                    start: 'bottom 60%',
+                    end: 'bottom 30%',
+                    scrub: 1
+                }
+            });
+
+            // Trigger Plane Hover Effect based on scroll position!
+            // When section is active, the plane "lights up" and distorts
+            ScrollTrigger.create({
+                trigger: sec,
+                start: 'top center',
+                end: 'bottom center',
+                onUpdate: (self) => {
+                    // Parabola curve: 0 at ends, 1 in middle
+                    const progress = self.progress;
+                    const intensity = Math.sin(progress * Math.PI);
+                    gsap.to(planes[i].material.uniforms.uHover, {
+                        value: intensity,
+                        duration: 0.1
+                    });
+                    
+                    // Slightly scale the active plane
+                    planes[i].scale.setScalar(1 + (intensity * 0.2));
+                }
+            });
+        });
+
+
+        // --- MOUSE MOVEMENT (Parallax) ---
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // --- RENDER LOOP ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            const elapsedTime = clock.getElapsedTime();
+
+            // Smooth parallax targeting
+            targetX = mouseX * 5;
+            targetY = mouseY * 5;
+            
+            camera.position.x += (targetX - camera.position.x) * 0.05;
+            // Note: Camera Y and Z are controlled by GSAP, so we just add a slight offset to rotation for parallax
+            camera.rotation.y = mouseX * -0.05;
+            camera.rotation.x = mouseY * 0.05;
+
+            // Update uniforms
+            planes.forEach((plane, i) => {
+                plane.material.uniforms.uTime.value = elapsedTime;
+                // Subtle floating motion
+                plane.position.y += Math.sin(elapsedTime * 2 + i) * 0.02;
+            });
+            
+            particles.rotation.y = elapsedTime * 0.02;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // --- RESIZE HANDLER ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>
+"""
+
+with open('our-team.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)

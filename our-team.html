@@ -323,15 +323,17 @@
         });
 
         const themeConfig = { bgColor: new THREE.Color(0x050505), pOpacity: 0.8 };
-        function setDarkTheme() {
+                function setDarkTheme() {
             document.body.classList.remove('light-theme');
-            gsap.to(themeConfig.bgColor, { r: 0x05/255, g: 0x05/255, b: 0x05/255, duration: 0.8 });
+        });
             gsap.to(themeConfig, { pOpacity: 0.8, duration: 0.8 });
         }
-        function setLightTheme() {
+                function setLightTheme() {
             document.body.classList.add('light-theme');
-            gsap.to(themeConfig.bgColor, { r: 0.96, g: 0.96, b: 0.97, duration: 0.8 });
-            gsap.to(themeConfig, { pOpacity: 0.0, duration: 0.8 }); // Hide orange dots on white theme
+            // Do NOT change WebGL background to white, keep it black space so it layers!
+            // Just let the DOM CSS handle the white glassmorphism cards.
+        });
+            gsap.to(themeConfig, { pOpacity: 0.8, duration: 0.8 }); // Keep dots visible
         }
         document.querySelectorAll('.dark-mode-trigger').forEach(sec => {
             ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setDarkTheme, onEnterBack: setDarkTheme });
@@ -378,7 +380,7 @@
         const matGold = new THREE.MeshStandardMaterial({ color: 0xffaa00, roughness: 0.3, metalness: 0.8 });
         
         // I will rename matWhite to matGrey so it contrasts against both white and black backgrounds
-        const matWhite = new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.3, metalness: 0.4 });
+        const matWhite = new THREE.MeshStandardMaterial({ color: 0xeeeeee, roughness: 0.3, metalness: 0.4 });
 
 
         const matGlass = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, opacity: 1, transparent: true, roughness: 0.1 });

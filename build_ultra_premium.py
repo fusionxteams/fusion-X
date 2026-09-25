@@ -1,0 +1,476 @@
+import os
+
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Elite Team | Fusion X Digital Marketing Agency</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Load global style.css which contains the default Segoe UI navbar styling -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* DO NOT OVERRIDE BODY FONT! Keep it identical to style.css for the Navbar */
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+            transition: background-color 0.8s ease;
+            margin: 0;
+            /* Using global font from style.css */
+        }
+
+        /* Specific typography for the team sections */
+        .team-typography {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        #webgl-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .team-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .team-intro {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        .team-intro h1 {
+            font-size: clamp(4rem, 8vw, 7rem);
+            font-weight: 900;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .member-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 5%;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .member-content {
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .member-section.right-align .member-content {
+            margin-left: auto;
+        }
+
+        .member-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #ff5722;
+            box-shadow: 0 10px 20px rgba(255,87,34,0.3);
+        }
+
+        .member-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 0 0 5px 0;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .member-role {
+            font-size: 1rem;
+            color: #ff5722;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .member-desc {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            color: #d0d0d0;
+        }
+
+        .highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .highlight-tag {
+            background: rgba(255,87,34,0.15);
+            border: 1px solid rgba(255,87,34,0.3);
+            color: #ff5722;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        /* Light Theme overrides */
+        body.light-theme {
+            background-color: #f5f5f7;
+            color: #111111;
+        }
+        body.light-theme .member-content {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        body.light-theme .member-desc {
+            color: #444;
+        }
+
+        .gsap-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- EXACT NAVBAR FROM ABOUT-US.HTML -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo_transparent.png" alt="Fusion X" class="logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html#home">HOME</a></li>
+            <li><a href="about-us.html">ABOUT US</a></li>
+            <li><a href="services.html">SERVICES</a></li>
+            <li><a href="brands.html">BRANDS</a></li>
+            <li><a href="our-team.html" class="active">OUR TEAM</a></li>
+            <li><a href="our-works.html">OUR WORKS</a></li>
+            <li class="dangling-container">
+                <a href="contact.html" class="nav-cta-btn">LET'S CONNECT</a>
+                <div class="charm-string">
+                    <img src="logo_transparent.png" class="charm-object" alt="Fusion X">
+                </div>
+            </li>
+        </ul>
+        <div class="hamburger">
+            <svg viewBox="0 0 100 80" width="30" height="30">
+                <rect width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="30" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="60" width="100" height="15" rx="8" fill="#ff5722"></rect>
+            </svg>
+        </div>
+    </nav>
+
+    <canvas id="webgl-canvas"></canvas>
+
+    <div class="team-container team-typography">
+        
+        <section class="team-intro dark-mode-trigger" id="sec-intro">
+            <h1 class="gsap-reveal">The Visionaries</h1>
+            <p class="gsap-reveal" style="color:#ff5722; letter-spacing:4px; font-weight:700;">[ SCROLL DOWN ]</p>
+        </section>
+
+        <!-- KAMALESH J -->
+        <section class="member-section dark-mode-trigger" id="sec-kamalesh">
+            <div class="member-content gsap-reveal">
+                <img src="team/kamalesh-j-digital-marketing-expert.webp" alt="Kamalesh" class="member-image">
+                <h2 class="member-name">Kamalesh J</h2>
+                <div class="member-role">Expert Digital Marketing Strategist</div>
+                <div class="member-desc">
+                    Meet Kamalesh, the strategic powerhouse and our leading digital marketing expert. With 4 years of elite industry experience, Kamalesh doesn't just run campaigns; he engineers digital ecosystems that generate predictable revenue. Trained by top industry experts at Digital Scholar, including Sorav Jain and Rishi Jain, he brings a deeply humanized approach to data analysis.
+                </div>
+                <div class="highlights">
+                    <span class="highlight-tag">Growth Strategy</span>
+                    <span class="highlight-tag">Meta Ads</span>
+                    <span class="highlight-tag">CRO</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- JAIHARAN -->
+        <section class="member-section right-align light-mode-trigger" id="sec-jaiharan">
+            <div class="member-content gsap-reveal">
+                <img src="team/jaiharan-k-ceo.webp" alt="JaiHaran" class="member-image">
+                <h2 class="member-name">JaiHaran K</h2>
+                <div class="member-role">CEO & Client Success Director</div>
+                <div class="member-desc">
+                    JaiHaran is the empathetic bridge between our clients and our creative execution team. With over 2 years of hands-on experience in client relationship management, he ensures that every founder's vision is heard, understood, and brought to life. He manages our social media management agency operations, fostering authentic community engagement.
+                </div>
+                <div class="highlights">
+                    <span class="highlight-tag">Client Success</span>
+                    <span class="highlight-tag">Global Network</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- KANNAN S -->
+        <section class="member-section dark-mode-trigger" id="sec-kannan">
+            <div class="member-content gsap-reveal">
+                <img src="team/kannan-s-web-developer.webp" alt="Kannan" class="member-image">
+                <h2 class="member-name">Kannan S</h2>
+                <div class="member-role">Technical Web Developer</div>
+                <div class="member-desc">
+                    Kannan is the architectural mind behind our breathtaking digital experiences. As a Certified React Developer with over 2 years of specialized expertise in custom website design and Shopify storefront development, he merges stunning visual aesthetics with lightning-fast code. He dominates Core Web Vitals optimization.
+                </div>
+                <div class="highlights">
+                    <span class="highlight-tag">React Architect</span>
+                    <span class="highlight-tag">Code Structure</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SARAVANA -->
+        <section class="member-section right-align light-mode-trigger" id="sec-saravana">
+            <div class="member-content gsap-reveal">
+                <img src="team/saravana-sanjhay-m-seo-expert.webp" alt="Saravana" class="member-image">
+                <h2 class="member-name">Saravana S</h2>
+                <div class="member-role">Technical SEO Expert</div>
+                <div class="member-desc">
+                    Saravana is our master of search visibility and organic growth. As a Certified Angular Developer and highly sought-after technical SEO specialist, he brings over 2 years of experience in propelling brands to the top of the search results. He excels in dominating the Google Maps 3-Pack and mapping user search intent.
+                </div>
+                <div class="highlights">
+                    <span class="highlight-tag">SEO Ranking</span>
+                    <span class="highlight-tag">Search Intent</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- JABAKUMAR -->
+        <section class="member-section dark-mode-trigger" id="sec-jabakumar">
+            <div class="member-content gsap-reveal">
+                <img src="team/jabakumar-video-editor.webp" alt="Jabakumar" class="member-image">
+                <h2 class="member-name">Jabakumar</h2>
+                <div class="member-role">Cinematic Video Editor</div>
+                <div class="member-desc">
+                    Jabakumar is the visionary storyteller who captures the soul of your brand on film. With 2 years of specialized experience in commercial video editing and cinematic post-production, he understands how to make audiences feel something profound. He is our secret weapon for short-form video marketing.
+                </div>
+                <div class="highlights">
+                    <span class="highlight-tag">Cinematic Video</span>
+                    <span class="highlight-tag">Refraction</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- The Standard Footer -->
+    <footer style="background-color:#111;color:white;text-align:center;padding:60px 20px;font-family:'Space Grotesk',sans-serif;position:relative;z-index:100;width:100%;box-sizing:border-box;">
+        <h2 style="font-size:2.5rem;margin-bottom:10px;color:white;font-family:'Outfit',sans-serif;font-weight:900;">FUSION X</h2>
+        <p style="color:#ff5722;font-weight:bold;letter-spacing:2px;margin:0;text-transform:uppercase;">TAKE YOUR BRAND WORLDWIDE</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="charm-physics.js"></script> <!-- The slingshot form trigger is in here now! -->
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Mobile Nav
+        const hb = document.querySelector('.hamburger'), nl = document.querySelector('.nav-links');
+        if (hb && nl) {
+            hb.addEventListener('click', () => {
+                const open = nl.classList.toggle('mob-open');
+                Object.assign(nl.style, open ? { display:'flex', flexDirection:'column', position:'absolute', top:'70px', left:'0', width:'100%', background:'#fff', padding:'20px 0', gap:'20px' } : { display:'none' });
+            });
+        }
+
+        gsap.utils.toArray('.gsap-reveal').forEach(elem => {
+            gsap.to(elem, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: elem, start: 'top 80%' } });
+        });
+
+        const themeConfig = { bgColor: new THREE.Color(0x050505) };
+        function setDarkTheme() {
+            document.body.classList.remove('light-theme');
+            gsap.to(themeConfig.bgColor, { r: 0x05/255, g: 0x05/255, b: 0x05/255, duration: 0.8 });
+        }
+        function setLightTheme() {
+            document.body.classList.add('light-theme');
+            gsap.to(themeConfig.bgColor, { r: 0.96, g: 0.96, b: 0.97, duration: 0.8 });
+        }
+        document.querySelectorAll('.dark-mode-trigger').forEach(sec => {
+            ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setDarkTheme, onEnterBack: setDarkTheme });
+        });
+        document.querySelectorAll('.light-mode-trigger').forEach(sec => {
+            ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setLightTheme, onEnterBack: setLightTheme });
+        });
+
+        // --- ULTRA PREMIUM 3D SCENE ---
+        const canvas = document.getElementById('webgl-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 25;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // High-end lighting
+        const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambient);
+        const spot1 = new THREE.SpotLight(0xff5722, 5);
+        spot1.position.set(15, 20, 10);
+        scene.add(spot1);
+        const spot2 = new THREE.SpotLight(0x4488ff, 3);
+        spot2.position.set(-15, -10, 15);
+        scene.add(spot2);
+
+        // Premium Glass Material (Refractive, frosted)
+        const glassMat = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            metalness: 0.1,
+            roughness: 0.1,
+            transmission: 1.0, // Glass effect
+            thickness: 2.0,
+            ior: 1.5,
+            clearcoat: 1.0,
+            transparent: true
+        });
+
+        // Glowing Core Material
+        const glowMatOrange = new THREE.MeshBasicMaterial({ color: 0xff5722 });
+        const glowMatBlue = new THREE.MeshBasicMaterial({ color: 0x4488ff });
+
+        const models = [];
+        const mainGroup = new THREE.Group();
+        scene.add(mainGroup);
+
+        // 1. Kamalesh (Strategy): Octahedron in Sphere
+        const g1 = new THREE.Group();
+        const sphereGlass = new THREE.Mesh(new THREE.SphereGeometry(4, 64, 64), glassMat);
+        const octaCore = new THREE.Mesh(new THREE.OctahedronGeometry(2), glowMatOrange);
+        g1.add(sphereGlass); g1.add(octaCore);
+        models.push(g1); mainGroup.add(g1);
+
+        // 2. JaiHaran (Network): Interlocking Rings
+        const g2 = new THREE.Group();
+        for(let i=0; i<3; i++) {
+            const r = new THREE.Mesh(new THREE.TorusGeometry(3.5, 0.4, 32, 100), glassMat);
+            r.rotation.x = Math.random() * Math.PI;
+            r.rotation.y = Math.random() * Math.PI;
+            g2.add(r);
+        }
+        const centerGlow = new THREE.Mesh(new THREE.SphereGeometry(1.5, 32, 32), glowMatBlue);
+        g2.add(centerGlow);
+        g2.visible = false;
+        models.push(g2); mainGroup.add(g2);
+
+        // 3. Kannan (Code): Fragmented Cubes
+        const g3 = new THREE.Group();
+        const mainCube = new THREE.Mesh(new THREE.BoxGeometry(5, 5, 5), glassMat);
+        g3.add(mainCube);
+        const innerCube = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2.5, 2.5), glowMatOrange);
+        g3.add(innerCube);
+        g3.visible = false;
+        models.push(g3); mainGroup.add(g3);
+
+        // 4. Saravana (SEO): Iridescent Torus Knot
+        const g4 = new THREE.Group();
+        const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(2.5, 0.8, 256, 64), glassMat);
+        g4.add(knot);
+        g4.visible = false;
+        models.push(g4); mainGroup.add(g4);
+
+        // 5. Jabakumar (Video): Shattered Cylinder
+        const g5 = new THREE.Group();
+        const cyl = new THREE.Mesh(new THREE.CylinderGeometry(3, 3, 8, 32), glassMat);
+        cyl.rotation.z = Math.PI/4;
+        const line = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 10, 16), glowMatOrange);
+        line.rotation.z = Math.PI/4;
+        g5.add(cyl); g5.add(line);
+        g5.visible = false;
+        models.push(g5); mainGroup.add(g5);
+
+
+        const sections = ['#sec-kamalesh', '#sec-jaiharan', '#sec-kannan', '#sec-saravana', '#sec-jabakumar'];
+        
+        sections.forEach((sec, index) => {
+            ScrollTrigger.create({
+                trigger: sec,
+                start: "top 60%",
+                end: "bottom 60%",
+                onEnter: () => switchModel(index),
+                onEnterBack: () => switchModel(index)
+            });
+        });
+
+        function switchModel(index) {
+            models.forEach((m, i) => {
+                if (i === index) {
+                    m.visible = true;
+                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1.5, ease: 'elastic.out(1, 0.7)'});
+                } else {
+                    m.visible = false;
+                }
+            });
+
+            if (index === 0) { gsap.to(mainGroup.position, {x: 7, duration: 1}); } 
+            else if (index === 1) { gsap.to(mainGroup.position, {x: -7, duration: 1}); } 
+            else if (index === 2) { gsap.to(mainGroup.position, {x: 7, duration: 1}); } 
+            else if (index === 3) { gsap.to(mainGroup.position, {x: -7, duration: 1}); } 
+            else if (index === 4) { gsap.to(mainGroup.position, {x: 7, duration: 1}); }
+        }
+
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+            
+            models.forEach((m, i) => {
+                if(m.visible) {
+                    m.rotation.y += 0.01;
+                    m.rotation.x += 0.005;
+                    m.position.y = Math.sin(time * 2) * 0.5; // Premium float
+                }
+            });
+
+            // Pulse the glowing cores
+            glowMatOrange.color.setHSL(0.04, 1, 0.5 + Math.sin(time * 3) * 0.2);
+            glowMatBlue.color.setHSL(0.6, 1, 0.5 + Math.sin(time * 3) * 0.2);
+
+            renderer.setClearColor(themeConfig.bgColor, 1);
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
+"""
+
+with open('our-team.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+    print("Redesigned our-team.html with ultra-premium glass geometries.")

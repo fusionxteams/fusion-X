@@ -1,0 +1,518 @@
+import os
+
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Elite Team | Fusion X Digital Marketing Agency</title>
+    <meta name="description" content="Meet the expert digital marketing team at Fusion X. Our specialists in SEO, custom website design, Meta ads, and cinematic video editing drive unparalleled brand growth.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        /* 3D Canvas */
+        #webgl-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Cinematic Overlay Gradient */
+        .cinematic-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 50%, rgba(0,0,0,0) 0%, rgba(5,5,5,0.8) 70%, rgba(5,5,5,1) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* UI Layer */
+        .ui-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            padding: 0 8%;
+        }
+
+        .team-content-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            pointer-events: auto;
+        }
+
+        .member-info {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            max-width: 650px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .member-info.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .member-role {
+            font-size: 1.1rem;
+            color: #ff5722;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .member-role span { display: inline-block; transform: translateY(100%); }
+
+        .member-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            line-height: 1.1;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff 30%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            overflow: hidden;
+        }
+        .member-name span { display: inline-block; transform: translateY(100%); }
+
+        .member-desc {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #b0b0b0;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            text-align: justify;
+        }
+
+        .highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .highlight-tag {
+            background: rgba(255,87,34,0.1);
+            border: 1px solid rgba(255,87,34,0.3);
+            color: #ff5722;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(255,87,34,0.05);
+        }
+
+        .progress-indicator {
+            position: absolute;
+            bottom: 6vh;
+            left: 8%;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.3);
+            z-index: 10;
+        }
+        .progress-indicator span { color: #fff; font-size: 1.5rem; }
+
+        .hint {
+            position: absolute;
+            bottom: 6vh;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.4);
+            z-index: 10;
+            animation: pulse 2s infinite alternate ease-in-out;
+            text-transform: uppercase;
+        }
+        @keyframes pulse { 0% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        /* The Fixed WebGL Slider Wrapper */
+        .slider-wrapper {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+        }
+
+        /* Footer Container */
+        .footer-wrapper {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: flex-end;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .footer-wrapper > * { pointer-events: auto; }
+    </style>
+</head>
+<body>
+
+    <!-- Standard Navbar -->
+    <nav class="navbar" style="z-index: 100; background: transparent; border: none;">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo_transparent.png" alt="Fusion X" class="logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html#home" style="color:#fff;">HOME</a></li>
+            <li><a href="about-us.html" style="color:#fff;">ABOUT US</a></li>
+            <li><a href="services.html" style="color:#fff;">SERVICES</a></li>
+            <li><a href="brands.html" style="color:#fff;">BRANDS</a></li>
+            <li><a href="our-team.html" class="active" style="color:#ff5722;">OUR TEAM</a></li>
+            <li><a href="our-works.html" style="color:#fff;">OUR WORKS</a></li>
+            <li class="dangling-container">
+                <a href="contact.html" class="nav-cta-btn">LET'S CONNECT</a>
+                <div class="charm-string">
+                    <img src="logo_transparent.png" class="charm-object" alt="Fusion X">
+                </div>
+            </li>
+        </ul>
+        <div class="hamburger">
+            <svg viewBox="0 0 100 80" width="30" height="30">
+                <rect width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="30" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="60" width="100" height="15" rx="8" fill="#ff5722"></rect>
+            </svg>
+        </div>
+    </nav>
+
+    <!-- WebGL & UI -->
+    <div class="slider-wrapper">
+        <div id="webgl-container"></div>
+        <div class="cinematic-overlay"></div>
+        <div class="hint">[ SCROLL OR SWIPE ]</div>
+        <div class="progress-indicator"><span id="curr-idx">1</span> / 5</div>
+        
+        <div class="ui-layer">
+            <div class="team-content-wrapper" id="content-wrapper">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- The Standard Footer -->
+    <div class="footer-wrapper">
+        <footer style="background-color:#111;color:white;text-align:center;padding:60px 20px;font-family:'Space Grotesk',sans-serif;position:relative;z-index:100;width:100%;box-sizing:border-box;">
+            <h2 style="font-size:2.5rem;margin-bottom:10px;color:white;font-family:'Outfit',sans-serif;font-weight:900;">FUSION X</h2>
+            <p style="color:#ff5722;font-weight:bold;letter-spacing:2px;margin:0;text-transform:uppercase;">TAKE YOUR BRAND WORLDWIDE</p>
+            <div style="margin:30px 0; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+                <a href="index.html#home" style="color:#ccc;text-decoration:none;font-size:0.9rem;font-weight:500;">HOME</a>
+                <a href="about-us.html" style="color:#ccc;text-decoration:none;font-size:0.9rem;font-weight:500;">ABOUT US</a>
+                <a href="services.html" style="color:#ccc;text-decoration:none;font-size:0.9rem;font-weight:500;">SERVICES</a>
+                <a href="brands.html" style="color:#ccc;text-decoration:none;font-size:0.9rem;font-weight:500;">BRANDS</a>
+                <a href="contact.html" style="color:#ccc;text-decoration:none;font-size:0.9rem;font-weight:500;">LET'S CONNECT</a>
+            </div>
+            <p style="color:#666;font-size:0.9rem;margin-top:30px;">© 2026 Fusion X Digital Marketing Agency. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="charm-physics.js"></script>
+    
+    <script>
+        // Navbar Mobile
+        const hb = document.querySelector('.hamburger'), nl = document.querySelector('.nav-links');
+        if (hb && nl) {
+            hb.addEventListener('click', () => {
+                const open = nl.classList.toggle('mob-open');
+                Object.assign(nl.style, open ? { display:'flex', flexDirection:'column', position:'absolute', top:'70px', left:'0', width:'100%', background:'#111', padding:'20px 0', gap:'20px' } : { display:'none' });
+            });
+        }
+
+        // Highly detailed, semantic SEO content
+        const members = [
+            { id: 'kamalesh', name: 'Kamalesh J', role: 'Expert Digital Marketing Strategist', 
+              desc: 'Meet Kamalesh, the strategic powerhouse and our leading digital marketing expert. With 4 years of elite industry experience, Kamalesh doesn\\'t just run campaigns; he engineers digital ecosystems that generate predictable revenue. Trained by top industry experts at Digital Scholar, including Sorav Jain and Rishi Jain, he brings a deeply humanized approach to data analysis. Whether he is dissecting competitor brands or architecting a robust digital marketing strategy, his ultimate goal is to connect your brand with real people. He specializes in deploying high-ROAS Meta and Google Ads, crafting laser-targeted local audience funnels, and executing conversion rate optimization (CRO) that transforms passive visitors into loyal customers.',
+              tags: ['Digital Marketing Strategy', 'Meta Ads Expert', 'Local SEO Marketing', 'CRO Specialist'] },
+            { id: 'jaiharan', name: 'JaiHaran K', role: 'CEO & Client Success Director', 
+              desc: 'JaiHaran is the empathetic bridge between our clients and our creative execution team. With over 2 years of hands-on experience in client relationship management, he ensures that every founder\\'s vision is heard, understood, and brought to life. He manages our social media management agency operations, fostering authentic community engagement and digital brand growth. But JaiHaran’s talents don\\'t stop at communication—he is a multi-disciplinary force. He brings stories to life through dynamic video editing and serves as our meticulous QA specialist. Before any project launches, he rigorously tests websites, Android apps, and iOS applications to ensure a flawless, bug-free user experience across all platforms.',
+              tags: ['Client Relationship Mgt', 'Social Media Agency', 'Multi-Platform QA', 'Digital Brand Growth'] },
+            { id: 'kannan', name: 'Kannan S', role: 'Frontend & Technical Web Developer', 
+              desc: 'Kannan is the architectural mind behind our breathtaking digital experiences. As a Certified React Developer with over 2 years of specialized expertise in custom website design and Shopify storefront development, he merges stunning visual aesthetics with lightning-fast code. Coming from a rigorous background in IT custom web development, Kannan understands that a beautiful website must also perform flawlessly. He dominates Core Web Vitals optimization, ensuring every page loads instantly to capture impatient modern audiences. Beyond his technical frontend developer skills, Kannan is a master of words, utilizing deep keyword research to craft search-optimized SEO blogs that educate humans while ranking powerfully on search engines.',
+              tags: ['Custom Website Design', 'Core Web Vitals', 'Shopify Development', 'SEO Blog Writing'] },
+            { id: 'saravana', name: 'Saravana Sanjhay M', role: 'Technical SEO & Search Expert', 
+              desc: 'Saravana is our master of search visibility and organic growth. As a Certified Angular Developer and highly sought-after technical SEO specialist, he brings over 2 years of experience in propelling brands to the top of the search results. His approach to SEO is deeply analytical yet profoundly user-centric. Before joining Fusion X, he orchestrated massive local search visibility campaigns in the IT sector. Today, he excels in dominating the Google Maps 3-Pack, conducting comprehensive site audits, and mapping out intricate user search intent. By blending rich semantic keyword integration with flawless technical web design, Saravana ensures that your website doesn\\'t just rank highly—it provides a brilliant, high-converting journey for every single visitor.',
+              tags: ['Technical SEO Specialist', 'Google Maps 3-Pack', 'Comprehensive Audits', 'Local Search Visibility'] },
+            { id: 'jabakumar', name: 'Jabakumar', role: 'Cinematic Video Editor', 
+              desc: 'Jabakumar is the visionary storyteller who captures the soul of your brand on film. With 2 years of specialized experience in commercial video editing and cinematic post-production, he understands how to make audiences feel something profound. Having honed his craft in demanding IT media production studios, he approaches every project with a director\\'s eye for detail. Jabakumar is an expert in dynamic shot composition, immersive sound design optimization, and precise color grading. In today\\'s fast-paced digital world, he is our secret weapon for short-form video marketing, perfectly timing edits to musical hooks to create highly engaging Reels, Shorts, and ads that demand instant attention and drive viral awareness.',
+              tags: ['Commercial Video Editing', 'Cinematic Post-Production', 'Sound Design Opt', 'Short-Form Video'] }
+        ];
+
+        const wrapper = document.getElementById('content-wrapper');
+        members.forEach((m, i) => {
+            const html = `
+                <div class="member-info ${i === 0 ? 'active' : ''}" id="info-${i}">
+                    <div class="member-role"><span>${m.role}</span></div>
+                    <h1 class="member-name"><span>${m.name}</span></h1>
+                    <p class="member-desc">${m.desc}</p>
+                    <div class="highlights">
+                        ${m.tags.map(t => `<span class="highlight-tag">${t}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+            wrapper.insertAdjacentHTML('beforeend', html);
+        });
+
+        // --- MIND-TWISTING 3D MODEL SCENE (THREE.JS) ---
+        const container = document.getElementById('webgl-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 25;
+        camera.position.x = 8; // Offset to right side of screen
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Lighting
+        const ambient = new THREE.AmbientLight(0x222222);
+        scene.add(ambient);
+        const pointLight = new THREE.PointLight(0xff5722, 2, 50);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+        const pointLight2 = new THREE.PointLight(0x4444ff, 1.5, 50);
+        pointLight2.position.set(-5, -5, -5);
+        scene.add(pointLight2);
+
+        // 3D Models / Primitives
+        const materials = {
+            wireframe: new THREE.MeshStandardMaterial({ color: 0xff5722, wireframe: true, transparent: true, opacity: 0 }),
+            solid: new THREE.MeshPhysicalMaterial({ color: 0x111111, metalness: 0.9, roughness: 0.1, envMapIntensity: 1.0, transparent: true, opacity: 0 }),
+            points: new THREE.PointsMaterial({ color: 0xffaa00, size: 0.1, transparent: true, opacity: 0 })
+        };
+
+        const models = [];
+        
+        // 0: Kamalesh (Torus Knot - Funnels/Networks)
+        const geo0 = new THREE.TorusKnotGeometry(4, 1.2, 128, 32);
+        const mesh0 = new THREE.Mesh(geo0, materials.wireframe.clone());
+        scene.add(mesh0);
+        models.push(mesh0);
+
+        // 1: JaiHaran (Icosahedron Particles - Client Network/Globe)
+        const geo1 = new THREE.IcosahedronGeometry(5, 4);
+        const mesh1 = new THREE.Points(geo1, materials.points.clone());
+        scene.add(mesh1);
+        models.push(mesh1);
+
+        // 2: Kannan (Abstract Box structure - Code/Development)
+        const geo2 = new THREE.BoxGeometry(6, 6, 6, 4, 4, 4);
+        const mesh2 = new THREE.Mesh(geo2, materials.wireframe.clone());
+        scene.add(mesh2);
+        models.push(mesh2);
+
+        // 3: Saravana (DNA Helix / Cylinder Twist - Growth/SEO)
+        const geo3 = new THREE.CylinderGeometry(2, 4, 12, 16, 10, true);
+        const mesh3 = new THREE.Mesh(geo3, materials.wireframe.clone());
+        scene.add(mesh3);
+        models.push(mesh3);
+
+        // 4: Jabakumar (Cinematic Rings - Lenses/Video)
+        const group4 = new THREE.Group();
+        for(let i=0; i<5; i++) {
+            const r = new THREE.Mesh(new THREE.TorusGeometry(3 + i*0.5, 0.05, 16, 100), materials.solid.clone());
+            r.rotation.x = Math.random() * Math.PI;
+            r.rotation.y = Math.random() * Math.PI;
+            group4.add(r);
+        }
+        scene.add(group4);
+        models.push(group4);
+
+        // Initial state
+        models[0].material.opacity = 0.5;
+
+        // Background Particles
+        const bgGeo = new THREE.BufferGeometry();
+        const bgPos = new Float32Array(500 * 3);
+        for(let i=0; i<1500; i++) {
+            bgPos[i] = (Math.random() - 0.5) * 100;
+        }
+        bgGeo.setAttribute('position', new THREE.BufferAttribute(bgPos, 3));
+        const bgMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.05, transparent: true, opacity: 0.2 });
+        const bgParticles = new THREE.Points(bgGeo, bgMat);
+        scene.add(bgParticles);
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+            
+            // Model animations
+            mesh0.rotation.x = t * 0.2; mesh0.rotation.y = t * 0.3;
+            mesh1.rotation.y = t * 0.1;
+            mesh2.rotation.x = t * 0.2; mesh2.rotation.z = t * 0.1;
+            mesh3.rotation.y = t * 0.5;
+            
+            group4.children.forEach((r, i) => {
+                r.rotation.x += 0.01 * (i+1);
+                r.rotation.y += 0.015;
+            });
+            
+            bgParticles.rotation.y = t * 0.02;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- SCROLL/SWIPE EVENT LOGIC ---
+        let currentIdx = 0;
+        let isAnimating = false;
+        let footerRevealed = false;
+        const totalSlides = members.length;
+        const sliderWrapper = document.querySelector('.slider-wrapper');
+        
+        function changeSlide(dir) {
+            if (isAnimating) return;
+            
+            if (footerRevealed && dir === -1) {
+                isAnimating = true;
+                gsap.to(sliderWrapper, { y: 0, duration: 1, ease: 'power3.inOut', onComplete: () => { footerRevealed = false; isAnimating = false; }});
+                return;
+            }
+            if (footerRevealed && dir === 1) return;
+            if (currentIdx === totalSlides - 1 && dir === 1) {
+                isAnimating = true;
+                const footerHeight = document.querySelector('.footer-wrapper footer').offsetHeight;
+                gsap.to(sliderWrapper, { y: -footerHeight, duration: 1, ease: 'power3.inOut', onComplete: () => { footerRevealed = true; isAnimating = false; }});
+                return;
+            }
+            
+            const nextIdx = currentIdx + dir;
+            if (nextIdx < 0 || nextIdx >= totalSlides) return;
+            
+            isAnimating = true;
+
+            const currInfo = document.getElementById(`info-${currentIdx}`);
+            const nextInfo = document.getElementById(`info-${nextIdx}`);
+            
+            // 1. Text Out
+            if(currInfo) {
+                gsap.to(currInfo.querySelectorAll('span, .member-desc, .highlights'), {
+                    y: -50, opacity: 0, duration: 0.5, stagger: 0.05, ease: 'power3.in',
+                    onComplete: () => currInfo.classList.remove('active')
+                });
+            }
+
+            // 2. Cinematic 3D Scene Transition (Mind-Twisting)
+            const currModel = models[currentIdx];
+            const nextModel = models[nextIdx];
+            
+            // Camera zoom into current object
+            gsap.to(camera.position, {
+                z: 5, x: 2, duration: 0.7, ease: 'power2.in',
+                onComplete: () => {
+                    // Explode/Hide current
+                    if(currModel.type === 'Group') {
+                        currModel.children.forEach(c => gsap.to(c.material, {opacity: 0, duration: 0.2}));
+                    } else {
+                        gsap.to(currModel.material, {opacity: 0, duration: 0.2});
+                    }
+                    
+                    // Show Next
+                    if(nextModel.type === 'Group') {
+                        nextModel.children.forEach(c => gsap.to(c.material, {opacity: 0.8, duration: 0.2}));
+                    } else {
+                        gsap.to(nextModel.material, {opacity: nextModel.type === 'Points' ? 0.8 : 0.5, duration: 0.2});
+                    }
+                    
+                    // Zoom camera back out from center
+                    camera.position.set(-10, 0, 5); // Start from weird angle
+                    gsap.to(camera.position, {
+                        z: 25, x: 8, duration: 1.2, ease: 'power3.out',
+                        onComplete: () => {
+                            currentIdx = nextIdx;
+                            document.getElementById('curr-idx').innerText = currentIdx + 1;
+                            isAnimating = false;
+                        }
+                    });
+
+                    // 3. Text In
+                    if(nextInfo) {
+                        nextInfo.classList.add('active');
+                        gsap.fromTo(nextInfo.querySelectorAll('.member-role span, .member-name span'), 
+                            { y: 100, opacity: 1 }, 
+                            { y: 0, duration: 0.8, stagger: 0.1, ease: 'expo.out' }
+                        );
+                        gsap.fromTo(nextInfo.querySelectorAll('.member-desc, .highlights'), 
+                            { y: 40, opacity: 0 }, 
+                            { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', delay: 0.2 }
+                        );
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('wheel', (e) => {
+            if(Math.abs(e.deltaY) > 20) { changeSlide(e.deltaY > 0 ? 1 : -1); }
+        });
+
+        let touchStartY = 0;
+        window.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, {passive: false});
+        window.addEventListener('touchmove', e => { if(e.cancelable) e.preventDefault(); }, {passive: false});
+        window.addEventListener('touchend', e => {
+            if(!touchStartY) return;
+            const touchEndY = e.changedTouches[0].clientY;
+            const diff = touchStartY - touchEndY;
+            if(diff > 50) { changeSlide(1); } else if (diff < -50) { changeSlide(-1); }
+            touchStartY = 0;
+        });
+
+        setTimeout(() => {
+            const firstInfo = document.getElementById('info-0');
+            gsap.to(firstInfo.querySelectorAll('.member-role span, .member-name span'), { y: 0, duration: 1, stagger: 0.1, ease: 'expo.out' });
+            gsap.to(firstInfo.querySelectorAll('.member-desc, .highlights'), { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: 'power3.out', delay: 0.4 });
+        }, 500);
+    </script>
+</body>
+</html>
+"""
+
+with open('our-team.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)

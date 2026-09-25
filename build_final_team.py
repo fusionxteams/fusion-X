@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+import os
+
+html_content = """<!DOCTYPE html>
 <html lang="en">
 <head>
-    
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Elite Team | Fusion X Digital Marketing Agency</title>
@@ -65,7 +65,7 @@
         }
 
         .member-content {
-            max-width: 650px;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
             background: rgba(0, 0, 0, 0.6);
@@ -151,7 +151,6 @@
             transform: translateY(30px);
         }
     </style>
-    <link rel="icon" type="image/png" href="logo_transparent.png">
 </head>
 <body>
 
@@ -200,7 +199,7 @@
                 <h2 class="member-name">Kamalesh J</h2>
                 <div class="member-role">Expert Digital Marketing Strategist</div>
                 <div class="member-desc">
-                    Meet Kamalesh, the strategic powerhouse and our leading digital marketing expert in Chennai. With 4 years of elite industry experience, Kamalesh doesn't just run campaigns; he engineers digital ecosystems that generate predictable revenue and High ROAS value. He deeply analyzes competitor brands and formulates bespoke roadmaps for client growth. From crafting custom conversion tracking frameworks and laser-targeted local audience funnels to executing high-converting landing page CRO (Conversion Rate Optimization), he drives qualified buyer inquiries on auto-pilot. Trained by top industry experts at Digital Scholar, including Sorav Jain and Rishi Jain, he brings a deeply humanized approach to data analysis across Meta Ads and Google Ads.
+                    Meet Kamalesh, the strategic powerhouse and our leading digital marketing expert. With 4 years of elite industry experience, Kamalesh doesn't just run campaigns; he engineers digital ecosystems that generate predictable revenue. Trained by top industry experts at Digital Scholar, including Sorav Jain and Rishi Jain, he brings a deeply humanized approach to data analysis.
                 </div>
                 <div class="highlights">
                     <span class="highlight-tag">Growth Strategy</span>
@@ -217,7 +216,7 @@
                 <h2 class="member-name">JaiHaran K</h2>
                 <div class="member-role">CEO & Client Success Director</div>
                 <div class="member-desc">
-                    JaiHaran is the empathetic bridge between our clients and our creative execution team. With over 2 years of hands-on experience in client relationship management, he ensures that every founder's vision is heard, understood, and brought to life. He manages all client interactions and speaks directly to client needs, ensuring our social media management operations align perfectly with business goals. Beyond client success, JaiHaran is a multi-talented asset—he leverages his video editing skills for quick turnarounds and acts as our strict Quality Assurance (QA) lead, meticulously hunting down bugs across websites, Android apps, and iOS platforms before any project goes live.
+                    JaiHaran is the empathetic bridge between our clients and our creative execution team. With over 2 years of hands-on experience in client relationship management, he ensures that every founder's vision is heard, understood, and brought to life. He manages our social media management agency operations, fostering authentic community engagement.
                 </div>
                 <div class="highlights">
                     <span class="highlight-tag">Client Success</span>
@@ -233,7 +232,7 @@
                 <h2 class="member-name">Kannan S</h2>
                 <div class="member-role">Technical Web Developer</div>
                 <div class="member-desc">
-                    Kannan is the architectural mind behind our breathtaking digital experiences. As a highly skilled Web Designer and Certified React Developer at Fusion X with more than 2 years of specialized expertise in custom website design and Shopify storefront development, he merges stunning visual aesthetics with lightning-fast code. He dominates Core Web Vitals optimization, ensuring every pixel looks perfect while maintaining flawless backend architecture. Whether it's complex React state management or crafting seamless e-commerce checkout flows, Kannan builds digital properties that convert visitors into loyal customers.
+                    Kannan is the architectural mind behind our breathtaking digital experiences. As a Certified React Developer with over 2 years of specialized expertise in custom website design and Shopify storefront development, he merges stunning visual aesthetics with lightning-fast code. He dominates Core Web Vitals optimization.
                 </div>
                 <div class="highlights">
                     <span class="highlight-tag">React Architect</span>
@@ -249,7 +248,7 @@
                 <h2 class="member-name">Saravana S</h2>
                 <div class="member-role">Technical SEO Expert</div>
                 <div class="member-desc">
-                    Saravana is our master of search visibility and organic growth. As a Certified Angular Developer and a highly sought-after technical SEO specialist, he brings over 2 years of experience in propelling brands to the absolute top of the search engine results pages (SERPs). He doesn't just chase vanity metrics; he excels in mapping user search intent to high-volume, low-difficulty semantic keywords. From dominating the Google Maps 3-Pack for local businesses to executing rigorous technical SEO audits that fix crawlability issues, Saravana ensures your brand captures high-intent organic traffic.
+                    Saravana is our master of search visibility and organic growth. As a Certified Angular Developer and highly sought-after technical SEO specialist, he brings over 2 years of experience in propelling brands to the top of the search results. He excels in dominating the Google Maps 3-Pack and mapping user search intent.
                 </div>
                 <div class="highlights">
                     <span class="highlight-tag">SEO Ranking</span>
@@ -265,7 +264,7 @@
                 <h2 class="member-name">Jabakumar</h2>
                 <div class="member-role">Cinematic Video Editor</div>
                 <div class="member-desc">
-                    Jabakumar is the visionary cinematic storyteller who captures the absolute soul of your brand on film. With 2 years of specialized experience in commercial video editing, motion graphics, and cinematic post-production, he understands how to make audiences feel something profound. He is our secret weapon for short-form video marketing across Instagram Reels and TikTok. By mastering advanced color grading, precise audio syncing, and retention-driven editing techniques, Jabakumar transforms raw footage into scroll-stopping masterpieces that hook viewers within the first three seconds.
+                    Jabakumar is the visionary storyteller who captures the soul of your brand on film. With 2 years of specialized experience in commercial video editing and cinematic post-production, he understands how to make audiences feel something profound. He is our secret weapon for short-form video marketing.
                 </div>
                 <div class="highlights">
                     <span class="highlight-tag">Cinematic Video</span>
@@ -321,12 +320,9 @@
             ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setLightTheme, onEnterBack: setLightTheme });
         });
 
-        
         // --- ROLE-SPECIFIC 3D MODELS SCENE ---
         const canvas = document.getElementById('webgl-canvas');
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x050505, 0.015);
-        
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 25;
 
@@ -334,65 +330,25 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // High contrast lighting
-        const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+        // Lighting
+        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambient);
-        const dir1 = new THREE.DirectionalLight(0xffffff, 1.2);
+        const dir1 = new THREE.DirectionalLight(0xffffff, 0.8);
         dir1.position.set(10, 20, 15);
         scene.add(dir1);
-        const orangeLight = new THREE.PointLight(0xff5722, 2, 50);
-        orangeLight.position.set(-10, 5, 10);
+        const orangeLight = new THREE.PointLight(0xff5722, 1.5, 50);
+        orangeLight.position.set(-10, -5, 10);
         scene.add(orangeLight);
-        const blueLight = new THREE.PointLight(0x4488ff, 1, 50);
-        blueLight.position.set(10, -5, -10);
-        scene.add(blueLight);
 
         // Sleek Matte Materials
-        const matOrange = new THREE.MeshStandardMaterial({ color: 0xff5722, roughness: 0.1, metalness: 0.2 });
-        const matWhite = new THREE.MeshStandardMaterial({ color: 0xeeeeee, roughness: 0.1, metalness: 0.2 });
-        const matDark = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.4, metalness: 0.5 });
+        const matOrange = new THREE.MeshStandardMaterial({ color: 0xff5722, roughness: 0.2, metalness: 0.1 });
+        const matWhite = new THREE.MeshStandardMaterial({ color: 0xeeeeee, roughness: 0.2, metalness: 0.1 });
+        const matDark = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.2, metalness: 0.1 });
         const matGold = new THREE.MeshStandardMaterial({ color: 0xffaa00, roughness: 0.3, metalness: 0.8 });
-        const matGlass = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, opacity: 1, transparent: true, roughness: 0.1 });
 
         const models = [];
         const mainGroup = new THREE.Group();
         scene.add(mainGroup);
-
-        
-        // 0. INTRO (Fusion X Rocket Ship)
-        const g0 = new THREE.Group();
-        // Fuselage
-        const fuselage = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 6, 32), matWhite);
-        g0.add(fuselage);
-        // Nose Cone
-        const nose = new THREE.Mesh(new THREE.ConeGeometry(1.5, 3, 32), matOrange);
-        nose.position.y = 4.5;
-        g0.add(nose);
-        // Fins
-        for(let i=0; i<4; i++) {
-            const fin = new THREE.Mesh(new THREE.BoxGeometry(0.2, 2, 2), matDark);
-            fin.position.set(Math.cos(i*Math.PI/2)*2, -2, Math.sin(i*Math.PI/2)*2);
-            fin.rotation.y = -i*Math.PI/2;
-            fin.rotation.x = Math.PI/6;
-            g0.add(fin);
-        }
-        // Window
-        const windowFrame = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.2, 32), matDark);
-        windowFrame.rotation.x = Math.PI/2;
-        windowFrame.position.set(0, 1.5, 1.4);
-        g0.add(windowFrame);
-        const windowGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.3, 32), matGlass);
-        windowGlass.rotation.x = Math.PI/2;
-        windowGlass.position.set(0, 1.5, 1.4);
-        g0.add(windowGlass);
-        
-        // Tilt rocket
-        g0.rotation.z = -Math.PI/6;
-        g0.rotation.x = Math.PI/8;
-        
-        g0.visible = false;
-        models.push(g0); mainGroup.add(g0);
-
 
         // 1. Kamalesh (Growth Bar)
         const g1 = new THREE.Group();
@@ -405,7 +361,6 @@
         arrow.position.set(4, 5, 0);
         arrow.rotation.z = -Math.PI/4;
         g1.add(arrow);
-        g1.visible = false;
         models.push(g1); mainGroup.add(g1);
 
         // 2. JaiHaran (Network Globe)
@@ -444,84 +399,46 @@
         g3.visible = false;
         models.push(g3); mainGroup.add(g3);
 
-        
-        
-        // 4. Saravana (SEO Search Bar)
+        // 4. Saravana (SEO Target / Bullseye)
         const g4 = new THREE.Group();
-        // The Search Bar Base
-        const searchBase = new THREE.Mesh(new THREE.BoxGeometry(6, 1.2, 0.5), matWhite);
-        g4.add(searchBase);
-        
-        // Search Button (Right Side)
-        const searchBtn = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 0.6), matOrange);
-        searchBtn.position.set(2.4, 0, 0);
-        g4.add(searchBtn);
-        
-        // Tiny Magnifying Glass Icon inside the button
-        const iconRing = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.05, 16, 32), matWhite);
-        iconRing.position.set(2.4, 0.1, 0.35);
-        g4.add(iconRing);
-        const iconHandle = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.3), matWhite);
-        iconHandle.rotation.z = -Math.PI/4;
-        iconHandle.position.set(2.25, -0.1, 0.35);
-        g4.add(iconHandle);
-        
-        // Blinking Cursor
-        const cursor = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.6, 0.6), matDark);
-        cursor.position.set(-2.5, 0, 0.2);
-        
-        // Let's animate the cursor blinking in the render loop!
-        // We'll attach it to a global variable or just animate its material opacity
-        cursor.material.transparent = true;
-        g4.add(cursor);
-        
-        // Floating SEO keyword blocks
-        const kw1 = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.5, 0.2), matDark);
-        kw1.position.set(-3, 2, -1);
-        g4.add(kw1);
-        const kw2 = new THREE.Mesh(new THREE.BoxGeometry(2, 0.5, 0.2), matOrange);
-        kw2.position.set(2, -2, -1);
-        g4.add(kw2);
-        
-        g4.rotation.x = 0.2;
-        g4.rotation.y = -0.2;
-        
+        const ring1 = new THREE.Mesh(new THREE.CylinderGeometry(4, 4, 0.5, 32), matOrange);
+        ring1.rotation.x = Math.PI / 2;
+        g4.add(ring1);
+        const ring2 = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.6, 32), matWhite);
+        ring2.rotation.x = Math.PI / 2;
+        g4.add(ring2);
+        const bullseye = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.7, 32), matGold);
+        bullseye.rotation.x = Math.PI / 2;
+        g4.add(bullseye);
+        // Arrow stuck in it
+        const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 6, 16), matDark);
+        shaft.position.z = 3;
+        shaft.rotation.x = Math.PI / 2;
+        shaft.rotation.z = -0.3;
+        g4.add(shaft);
         g4.visible = false;
         models.push(g4); mainGroup.add(g4);
 
-
-
-        
         // 5. Jabakumar (Video Film Reel / Clapperboard)
         const g5 = new THREE.Group();
-        // White Frame
-        const boardFrame = new THREE.Mesh(new THREE.BoxGeometry(6.2, 4.2, 0.4), matWhite);
-        g5.add(boardFrame);
-        // Black Chalkboard Surface
-        const boardSurface = new THREE.Mesh(new THREE.BoxGeometry(5.8, 3.8, 0.5), matDark);
-        g5.add(boardSurface);
-        // The Clapper arm
-        const clapper = new THREE.Mesh(new THREE.BoxGeometry(6.2, 1, 0.5), matWhite);
-        clapper.position.set(-0.2, 2.7, 0);
-        clapper.rotation.z = 0.25;
-        // Orange stripes on the clapper arm
+        const board = new THREE.Mesh(new THREE.BoxGeometry(6, 4, 0.5), matDark);
+        g5.add(board);
+        const clapper = new THREE.Mesh(new THREE.BoxGeometry(6, 1, 0.5), matWhite);
+        clapper.position.set(0, 2.5, 0);
+        clapper.rotation.z = 0.2;
+        clapper.position.x = -0.2;
         for(let i=0; i<5; i++) {
             const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.1, 0.6), matOrange);
-            stripe.position.set(-2.2 + i*1.2, 0, 0);
+            stripe.position.set(-2 + i*1, 0, 0);
             stripe.rotation.z = Math.PI/6;
             clapper.add(stripe);
         }
         g5.add(clapper);
-        
-        g5.rotation.y = -0.3;
-        g5.rotation.x = 0.1;
-        
         g5.visible = false;
         models.push(g5); mainGroup.add(g5);
 
 
-
-        const sections = ['#sec-intro', '#sec-kamalesh', '#sec-jaiharan', '#sec-kannan', '#sec-saravana', '#sec-jabakumar'];
+        const sections = ['#sec-kamalesh', '#sec-jaiharan', '#sec-kannan', '#sec-saravana', '#sec-jabakumar'];
         
         sections.forEach((sec, index) => {
             ScrollTrigger.create({
@@ -533,45 +450,40 @@
             });
         });
 
-        let currentActiveModel = null;
         function switchModel(index) {
-            if (currentActiveModel === index) return;
-            currentActiveModel = index;
-            
             models.forEach((m, i) => {
                 if (i === index) {
                     m.visible = true;
-                    // Cinematic Fly-In Animation (from behind camera, spinning)
-                    gsap.fromTo(m.position, {z: 30, y: -10}, {z: 0, y: 0, duration: 1.5, ease: 'power3.out'});
-                    gsap.fromTo(m.rotation, {x: Math.PI, y: -Math.PI}, {x: 0, y: 0, duration: 1.5, ease: 'power3.out'});
-                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1.5, ease: 'back.out(1.2)'});
-                } else if (m.visible) {
-                    // Fly out away from camera
-                    gsap.to(m.position, {z: -30, y: 10, duration: 1, ease: 'power2.in', onComplete: () => m.visible = false});
-                    gsap.to(m.scale, {x:0, y:0, z:0, duration: 1, ease: 'power2.in'});
+                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1, ease: 'back.out(1.2)'});
+                } else {
+                    m.visible = false;
                 }
             });
 
-                        // Adjust main group offset based on text alignment
-            if (index === 0) { gsap.to(mainGroup.position, {x: 0, duration: 1}); } 
-            else if (index === 1) { gsap.to(mainGroup.position, {x: 11, duration: 1}); } 
-            else if (index === 2) { gsap.to(mainGroup.position, {x: -11, duration: 1}); } 
-            else if (index === 3) { gsap.to(mainGroup.position, {x: 11, duration: 1}); } 
-            else if (index === 4) { gsap.to(mainGroup.position, {x: -11, duration: 1}); } 
-            else if (index === 5) { gsap.to(mainGroup.position, {x: 11, duration: 1}); }
+            if (index === 0) { gsap.to(mainGroup.position, {x: 7, duration: 1}); } 
+            else if (index === 1) { gsap.to(mainGroup.position, {x: -7, duration: 1}); } 
+            else if (index === 2) { gsap.to(mainGroup.position, {x: 7, duration: 1}); } 
+            else if (index === 3) { gsap.to(mainGroup.position, {x: -7, duration: 1}); } 
+            else if (index === 4) { gsap.to(mainGroup.position, {x: 7, duration: 1}); }
         }
 
         // --- STOP MODEL FROM HITTING FOOTER ---
+        // As the footer enters the viewport, push the 3D model UP so it doesn't clip into the footer!
         ScrollTrigger.create({
             trigger: '#main-footer',
-            start: "top bottom", 
+            start: "top bottom", // When top of footer hits bottom of viewport
             end: "bottom bottom", 
             scrub: true,
             onUpdate: (self) => {
+                // Move the mainGroup UP in the Y axis based on scroll progress
+                // self.progress goes from 0 to 1
                 gsap.to(mainGroup.position, {y: self.progress * 15, duration: 0.1});
+                
+                // Also fade out particles
                 gsap.to(themeConfig, {pOpacity: 0.8 * (1 - self.progress), duration: 0.1});
             }
         });
+
 
         // --- REACTIVE ORANGE PARTICLES ---
         const pCount = 800;
@@ -604,15 +516,9 @@
             models.forEach((m, i) => {
                 if(m.visible) {
                     m.rotation.y += 0.01;
-                    m.rotation.x += Math.sin(time) * 0.005;
+                    m.rotation.x = Math.sin(time) * 0.1;
                 }
             });
-
-            
-            // SEO Cursor Blink
-            if (models[4] && models[4].visible) {
-                models[4].children[4].material.opacity = Math.sin(time * 5) > 0 ? 1 : 0;
-            }
 
             // Particles logic
             const positions = particles.geometry.attributes.position.array;
@@ -639,7 +545,6 @@
 
             renderer.setClearColor(themeConfig.bgColor, 1);
             pMat.opacity = themeConfig.pOpacity;
-            scene.fog.color.copy(themeConfig.bgColor);
 
             renderer.render(scene, camera);
         }
@@ -653,3 +558,8 @@
     </script>
 </body>
 </html>
+"""
+
+with open('our-team.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+    print("Redesigned our-team.html with role-specific props, reactive particles, and footer clipping fix.")

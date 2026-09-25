@@ -15,506 +15,413 @@
     <style>
         body {
             margin: 0;
-            overflow-x: hidden;
-            background-color: #050505; /* Cinematic Dark */
+            overflow: hidden; /* No scroll, all interaction is 3D drag */
+            background-color: #080808;
             color: #ffffff;
             font-family: 'Space Grotesk', sans-serif;
+            touch-action: none;
         }
 
-        /* 3D Canvas Background */
         #team-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none; /* Let clicks pass to HTML if needed, but we handle mouse in JS */
+            position: absolute;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 1;
+            cursor: grab;
         }
+        
+        #team-canvas:active { cursor: grabbing; }
 
-        /* Scroll Container */
-        #scroll-container {
-            position: relative;
+        .ui-layer {
+            position: absolute;
+            inset: 0;
             z-index: 10;
-            width: 100%;
-        }
-
-        /* Intro Section */
-        .team-intro {
-            height: 100vh;
+            pointer-events: none;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 5%;
+            justify-content: flex-end;
+            padding-bottom: 80px;
         }
 
-        .team-intro h1 {
+        .active-info {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto;
+        }
+
+        .active-info.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .active-info h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(3rem, 8vw, 7rem);
+            font-size: clamp(3rem, 6vw, 5rem);
             font-weight: 900;
-            letter-spacing: -0.05em;
+            margin: 0 0 10px 0;
             line-height: 1;
-            margin: 0;
             text-transform: uppercase;
-            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            background: linear-gradient(135deg, #ffffff, #a0a0a0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .team-intro p {
+        .active-info .role {
             font-size: 1.2rem;
-            color: #888;
-            max-width: 600px;
-            margin-top: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Member Scroll Sections */
-        .member-section {
-            height: 120vh; /* Plenty of scroll space per member */
-            display: flex;
-            align-items: center;
-            padding: 0 5%;
-            position: relative;
-        }
-
-        .member-info {
-            width: 50%;
-            opacity: 0; /* Animated by GSAP */
-            transform: translateY(50px);
-            pointer-events: auto;
-        }
-
-        /* Alternate left/right */
-        .member-section:nth-child(even) .member-info {
-            margin-left: auto;
-            text-align: left;
-        }
-
-        .member-section:nth-child(odd) .member-info {
-            margin-right: auto;
-            text-align: right;
-        }
-
-        .role-tag {
-            font-family: 'Space Grotesk', sans-serif;
             color: #ff5722;
             font-weight: 600;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            display: block;
+            margin-bottom: 20px;
         }
 
-        .member-name {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 5rem);
-            font-weight: 800;
-            margin: 0 0 20px 0;
-            line-height: 1.1;
-        }
-
-        .member-desc {
+        .active-info p {
             font-size: 1.1rem;
             color: #b0b0b0;
+            max-width: 600px;
+            margin: 0 auto 20px auto;
             line-height: 1.6;
-            margin-bottom: 30px;
-            max-width: 500px;
-        }
-        
-        .member-section:nth-child(odd) .member-desc {
-            margin-left: auto;
         }
 
-        .expertise-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .member-section:nth-child(odd) .expertise-tags {
-            justify-content: flex-end;
-        }
-
-        .expertise-tags span {
-            background: rgba(255, 87, 34, 0.1);
-            border: 1px solid rgba(255, 87, 34, 0.3);
-            color: #ff5722;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-        }
-
-        /* Mouse Tracker */
-        .cursor-tracker {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 100;
+        .instructions {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 4px;
             pointer-events: none;
+            z-index: 5;
+            animation: pulse 2s infinite alternate;
         }
-
-        /* Scroll progress indicator */
-        .progress-bar {
-            position: fixed;
-            top: 0; left: 0;
-            height: 4px;
-            background: #ff5722;
-            width: 0%;
-            z-index: 999;
+        
+        @keyframes pulse {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.6; }
+        }
+        
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            z-index: 20;
+            background: transparent;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer p {
+            margin: 0;
+            color: #444;
+            font-size: 0.8rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- Progress Bar -->
-    <div class="progress-bar" id="progress"></div>
+    <!-- Standard Navbar -->
+    <nav class="navbar" style="background: transparent; border: none; box-shadow: none;">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo_transparent.png" alt="Fusion X" class="logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html#home" style="color:#fff;">HOME</a></li>
+            <li><a href="about-us.html" style="color:#fff;">ABOUT US</a></li>
+            <li><a href="index.html#services" style="color:#fff;">SERVICES</a></li>
+            <li><a href="index.html#brands" style="color:#fff;">BRANDS</a></li>
+            <li><a href="our-team.html" class="active" style="color:#ff5722;">OUR TEAM</a></li>
+            <li><a href="index.html#works" style="color:#fff;">OUR WORKS</a></li>
+            <li class="dangling-container">
+                <a href="index.html#contact" class="nav-cta-btn">LET'S CONNECT</a>
+                <div class="charm-string">
+                    <img src="logo_transparent.png" class="charm-object" alt="Fusion X">
+                </div>
+            </li>
+        </ul>
+        <div class="hamburger">
+            <svg viewBox="0 0 100 80" width="30" height="30">
+                <rect width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="30" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                <rect y="60" width="100" height="15" rx="8" fill="#ff5722"></rect>
+            </svg>
+        </div>
+    </nav>
 
     <!-- WebGL Canvas -->
     <canvas id="team-canvas"></canvas>
 
-    <!-- UI Overlay (Navbar) -->
-    <nav class="navbar" style="background: transparent; box-shadow: none;">
-        <div class="nav-container">
-            <a href="index.html#home" class="logo-wrap">
-                <img src="logo_transparent.png" alt="Fusion X" class="logo">
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html#home" style="color:#fff;">HOME</a></li>
-                <li><a href="about-us.html" style="color:#fff;">ABOUT US</a></li>
-                <li><a href="our-team.html" class="active" style="color:#ff5722;">OUR TEAM</a></li>
-                <li>
-                    <div class="dangling-container">
-                        <a href="index.html#contact" class="nav-cta-btn">LET'S CONNECT</a>
-                    </div>
-                </li>
-            </ul>
+    <div class="instructions">[ DRAG TO EXPLORE ]</div>
+
+    <!-- UI Overlay for Member Info -->
+    <div class="ui-layer">
+        <div class="active-info" id="info-panel">
+            <div class="role" id="m-role">Role</div>
+            <h1 id="m-name">Name</h1>
+            <p id="m-desc">Description</p>
         </div>
-    </nav>
-
-    <!-- Scroll Content -->
-    <div id="scroll-container">
-        
-        <section class="team-intro">
-            <h1>The Elite<br>Architects</h1>
-            <p>Scroll to meet the masterminds behind your brand's digital dominance.</p>
-        </section>
-
-        <!-- Member 1 -->
-        <section class="member-section" id="mem-jaiharan">
-            <div class="member-info">
-                <span class="role-tag">Chief Executive Officer</span>
-                <h2 class="member-name">Jaiharan K</h2>
-                <p class="member-desc">The visionary force behind Fusion X. Jaiharan orchestrates global brand strategies, ensuring every campaign is engineered for maximum ROI and market dominance.</p>
-                <div class="expertise-tags">
-                    <span>Global Strategy</span>
-                    <span>Brand Dominance</span>
-                    <span>Leadership</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Member 2 -->
-        <section class="member-section" id="mem-kamalesh">
-            <div class="member-info">
-                <span class="role-tag">Digital Marketing Expert</span>
-                <h2 class="member-name">Kamalesh J</h2>
-                <p class="member-desc">A master of paid media and conversion funnels. Kamalesh engineers data-driven ad campaigns that turn cold traffic into hyper-loyal customers.</p>
-                <div class="expertise-tags">
-                    <span>Meta Ads</span>
-                    <span>Google Ads</span>
-                    <span>Funnel Optimization</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Member 3 -->
-        <section class="member-section" id="mem-saravana">
-            <div class="member-info">
-                <span class="role-tag">SEO Expert</span>
-                <h2 class="member-name">Saravana Sanjhay M</h2>
-                <p class="member-desc">The architect of organic visibility. Saravana leverages advanced AEO, GEO, and technical SEO frameworks to secure top rankings in Google and AI search engines.</p>
-                <div class="expertise-tags">
-                    <span>Technical SEO</span>
-                    <span>AEO / GEO</span>
-                    <span>EEAT</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Member 4 -->
-        <section class="member-section" id="mem-kannan">
-            <div class="member-info">
-                <span class="role-tag">Web Developer</span>
-                <h2 class="member-name">Kannan S</h2>
-                <p class="member-desc">The code wizard who brings digital experiences to life. Kannan builds ultra-fast, highly responsive websites with flawless interactive UI/UX.</p>
-                <div class="expertise-tags">
-                    <span>React / Angular</span>
-                    <span>Three.js</span>
-                    <span>UI/UX</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Member 5 -->
-        <section class="member-section" id="mem-jabakumar">
-            <div class="member-info">
-                <span class="role-tag">Video Editor</span>
-                <h2 class="member-name">Jabakumar</h2>
-                <p class="member-desc">The visual storyteller. Jabakumar crafts highly engaging, cinematic video content that captures attention and drives viral brand awareness.</p>
-                <div class="expertise-tags">
-                    <span>Cinematography</span>
-                    <span>VFX</span>
-                    <span>Viral Content</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer spacer -->
-        <div style="height: 30vh;"></div>
-
     </div>
+    
+    <footer>
+        <h2 style="font-size:2rem;font-weight:900;letter-spacing:-1px;margin-bottom:6px;">FUSION X</h2>
+        <p style="color:#ff5722;font-weight:700;letter-spacing:3px;font-size:0.78rem;text-transform:uppercase;margin-bottom:32px;">Take Your Brand Worldwide</p>
+        <div style="margin-bottom:32px;">
+            <a href="index.html#home" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Home</a>
+            <a href="about-us.html" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">About</a>
+            <a href="index.html#services" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Services</a>
+            <a href="index.html#brands" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Brands</a>
+            <a href="index.html#contact" style="color:#ccc;text-decoration:none;margin:0 10px;font-size:0.9rem;">Connect</a>
+        </div>
+        <p style="color:#222;font-size:0.8rem;">© 2026 Fusion X Digital Marketing Agency. All Rights Reserved.</p>
+    </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
+    <script src="charm-physics.js"></script>
+    
     <script>
-        gsap.registerPlugin(ScrollTrigger);
+        // Navbar Hamburger
+        const hb = document.querySelector('.hamburger'), nl = document.querySelector('.nav-links');
+        if (hb && nl) {
+            hb.addEventListener('click', () => {
+                const open = nl.classList.toggle('mob-open');
+                Object.assign(nl.style, open ? { display:'flex', flexDirection:'column', position:'absolute', top:'70px', left:'0', width:'100%', background:'#111', padding:'20px 0', gap:'20px' } : { display:'none' });
+            });
+        }
 
-        // --- PROGRESS BAR ---
-        gsap.to('#progress', {
-            width: '100%',
-            ease: 'none',
-            scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 0.1 }
-        });
-
-        // --- THREE.JS SETUP ---
+        // --- 3D Carousel (Cylinder) Setup ---
         const canvas = document.getElementById('team-canvas');
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x050505, 0.001);
+        scene.fog = new THREE.Fog(0x080808, 30, 100);
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        // Initial camera position (looking at nothing / intro)
-        camera.position.set(0, 0, 150);
+        camera.position.z = 45;
+        camera.position.y = 2;
 
         const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // --- CUSTOM SHADER MATERIAL (Liquid Distortion on Hover) ---
-        // React Bits / ThreeUI style displacement shader
+        const members = [
+            { id: 'jaiharan', name: 'Jaiharan K', role: 'Chief Executive Officer', img: 'team/jaiharan-k-ceo.webp', desc: 'The visionary force behind Fusion X. Jaiharan orchestrates global brand strategies, ensuring every campaign is engineered for maximum ROI.' },
+            { id: 'kamalesh', name: 'Kamalesh J', role: 'Digital Marketing Expert', img: 'team/kamalesh-j-digital-marketing-expert.webp', desc: 'A master of paid media and conversion funnels. Kamalesh engineers data-driven ad campaigns that turn cold traffic into hyper-loyal customers.' },
+            { id: 'saravana', name: 'Saravana Sanjhay M', role: 'SEO Expert', img: 'team/saravana-sanjhay-m-seo-expert.webp', desc: 'The architect of organic visibility. Saravana leverages advanced AEO, GEO, and technical SEO frameworks to secure top rankings globally.' },
+            { id: 'kannan',   name: 'Kannan S', role: 'Web Developer', img: 'team/kannan-s-web-developer.webp', desc: 'The code wizard who brings digital experiences to life. Kannan builds ultra-fast, highly responsive websites with flawless interactive UI/UX.' },
+            { id: 'jabakumar',name: 'Jabakumar', role: 'Video Editor', img: 'team/jabakumar-video-editor.webp', desc: 'The visual storyteller. Jabakumar crafts highly engaging, cinematic video content that captures attention and drives viral brand awareness.' }
+        ];
+
+        const carouselGroup = new THREE.Group();
+        scene.add(carouselGroup);
+
+        const textureLoader = new THREE.TextureLoader();
+        const planes = [];
+        const radius = 25; // Carousel radius
+        const count = members.length;
+        const angleStep = (Math.PI * 2) / count;
+
+        // Custom Shader for images
         const vertexShader = `
             varying vec2 vUv;
-            uniform float uTime;
             uniform float uHover;
             void main() {
                 vUv = uv;
                 vec3 pos = position;
-                // Add subtle wave based on time and hover state
-                float wave = sin(pos.x * 0.5 + uTime) * cos(pos.y * 0.5 + uTime);
-                pos.z += wave * 2.0 * uHover;
+                // Add curve to planes to match cylinder
+                float theta = pos.x * 0.05;
+                pos.z += cos(theta) * 2.0 - 2.0; 
                 gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
             }
         `;
-
         const fragmentShader = `
             varying vec2 vUv;
             uniform sampler2D uTexture;
-            uniform float uHover;
-            uniform float uTime;
+            uniform float uActive;
             void main() {
-                vec2 uv = vUv;
+                vec4 tex = texture2D(uTexture, vUv);
                 
-                // RGB Shift on hover
-                float shift = 0.02 * uHover * sin(uTime * 5.0 + uv.y * 10.0);
+                // Black and white to color effect
+                float gray = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
+                vec3 bw = vec3(gray);
+                vec3 finalColor = mix(bw, tex.rgb, uActive);
                 
-                vec4 texColorR = texture2D(uTexture, uv + vec2(shift, 0.0));
-                vec4 texColorG = texture2D(uTexture, uv);
-                vec4 texColorB = texture2D(uTexture, uv - vec2(shift, 0.0));
-                
-                vec4 finalColor = vec4(texColorR.r, texColorG.g, texColorB.b, texColorG.a);
-                
-                // Dim slightly when not hovered
-                finalColor.rgb *= (0.6 + 0.4 * uHover);
-                
-                gl_FragColor = finalColor;
+                gl_FragColor = vec4(finalColor, tex.a * (0.3 + 0.7 * uActive));
             }
         `;
 
-        const textureLoader = new THREE.TextureLoader();
-        
-        // Members data
-        const membersData = [
-            { id: 'jaiharan', img: 'team/jaiharan-k-ceo.webp', pos: { x: 30, y: 0, z: -20 }, rot: { y: -0.2 } },
-            { id: 'kamalesh', img: 'team/kamalesh-j-digital-marketing-expert.webp', pos: { x: -30, y: -40, z: -60 }, rot: { y: 0.2 } },
-            { id: 'saravana', img: 'team/saravana-sanjhay-m-seo-expert.webp', pos: { x: 35, y: -80, z: -100 }, rot: { y: -0.25 } },
-            { id: 'kannan',   img: 'team/kannan-s-web-developer.webp', pos: { x: -35, y: -120, z: -140 }, rot: { y: 0.25 } },
-            { id: 'jabakumar',img: 'team/jabakumar-video-editor.webp', pos: { x: 30, y: -160, z: -180 }, rot: { y: -0.15 } }
-        ];
-
-        const planes = [];
-
-        // Build Planes
-        membersData.forEach((data, index) => {
+        members.forEach((data, i) => {
             const tex = textureLoader.load(data.img);
-            tex.generateMipmaps = true;
-            tex.minFilter = THREE.LinearMipmapLinearFilter;
-
+            tex.colorSpace = THREE.SRGBColorSpace;
+            
             const material = new THREE.ShaderMaterial({
-                vertexShader,
-                fragmentShader,
+                vertexShader, fragmentShader,
                 uniforms: {
                     uTexture: { value: tex },
-                    uTime: { value: 0 },
-                    uHover: { value: 0.0 }
+                    uActive: { value: 0.0 }
                 },
-                transparent: true
+                transparent: true,
+                side: THREE.DoubleSide
             });
 
-            // Keep aspect ratio 1:1 since images are 1:1 cropped
-            const geometry = new THREE.PlaneGeometry(25, 25, 32, 32);
+            // 1:1 Aspect ratio
+            const geometry = new THREE.PlaneGeometry(16, 16, 32, 32);
             const mesh = new THREE.Mesh(geometry, material);
             
-            mesh.position.set(data.pos.x, data.pos.y, data.pos.z);
-            mesh.rotation.y = data.rot.y;
+            const angle = i * angleStep;
+            mesh.position.x = Math.sin(angle) * radius;
+            mesh.position.z = Math.cos(angle) * radius;
+            // Face outwards
+            mesh.rotation.y = angle;
             
-            mesh.userData = { id: data.id, baseHover: 0 };
-            
-            scene.add(mesh);
+            mesh.userData = { index: i, angle: angle };
+            carouselGroup.add(mesh);
             planes.push(mesh);
         });
 
         // Add Floating Background Particles
         const particlesGeo = new THREE.BufferGeometry();
-        const pCount = 1000;
+        const pCount = 800;
         const pPos = new Float32Array(pCount * 3);
         for(let i=0; i<pCount*3; i++) {
-            pPos[i] = (Math.random() - 0.5) * 300;
+            pPos[i] = (Math.random() - 0.5) * 150;
         }
         particlesGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-        const particlesMat = new THREE.PointsMaterial({ color: 0xff5722, size: 0.5, transparent: true, opacity: 0.5 });
+        const particlesMat = new THREE.PointsMaterial({ color: 0xff5722, size: 0.2, transparent: true, opacity: 0.4 });
         const particles = new THREE.Points(particlesGeo, particlesMat);
         scene.add(particles);
 
-        // --- SCROLL ANIMATIONS (GSAP tying DOM to WebGL) ---
+        // --- INTERACTION LOGIC ---
+        let currentAngle = 0;
+        let targetAngle = 0;
+        let isDragging = false;
+        let startX = 0;
+        let activeIndex = -1;
+
+        const infoPanel = document.getElementById('info-panel');
+        const mRole = document.getElementById('m-role');
+        const mName = document.getElementById('m-name');
+        const mDesc = document.getElementById('m-desc');
+
+        function updateUI(index) {
+            if (activeIndex === index) return;
+            activeIndex = index;
+            
+            infoPanel.classList.remove('visible');
+            setTimeout(() => {
+                const d = members[index];
+                mRole.innerText = d.role;
+                mName.innerText = d.name;
+                mDesc.innerText = d.desc;
+                infoPanel.classList.add('visible');
+            }, 300);
+        }
+
+        // Mouse / Touch Dragging
+        window.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+        window.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; }, {passive:true});
         
-        // Setup initial timeline for camera
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: '#scroll-container',
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 1.5 // Smooth scrubbing
-            }
+        window.addEventListener('mousemove', e => {
+            if(!isDragging) return;
+            const deltaX = e.clientX - startX;
+            targetAngle += deltaX * 0.005;
+            startX = e.clientX;
+        });
+        window.addEventListener('touchmove', e => {
+            if(!isDragging) return;
+            const deltaX = e.touches[0].clientX - startX;
+            targetAngle += deltaX * 0.005;
+            startX = e.touches[0].clientX;
+        }, {passive:true});
+        
+        window.addEventListener('mouseup', () => { isDragging = false; snapToNearest(); });
+        window.addEventListener('touchend', () => { isDragging = false; snapToNearest(); });
+        
+        // Wheel scrolling maps to rotation
+        window.addEventListener('wheel', e => {
+            targetAngle -= Math.sign(e.deltaY) * 0.4;
+            // Debounce snap
+            clearTimeout(window.snapTimer);
+            window.snapTimer = setTimeout(snapToNearest, 300);
         });
 
-        // Animate camera through the Z-depth and Y-depth to pass by each plane
-        tl.to(camera.position, {
-            y: -180,
-            z: -140, // Move deep into the scene
-            ease: 'power1.inOut'
-        }, 0);
-
-        // Animate HTML elements fading in and out as you scroll
-        const sections = document.querySelectorAll('.member-section');
-        sections.forEach((sec, i) => {
-            const info = sec.querySelector('.member-info');
+        function snapToNearest() {
+            // Find closest angle step
+            let normalized = targetAngle % (Math.PI * 2);
+            if(normalized < 0) normalized += Math.PI * 2;
             
-            // Text fade in
-            gsap.to(info, {
-                opacity: 1,
-                y: 0,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: sec,
-                    start: 'top 60%',
-                    end: 'top 30%',
-                    scrub: 1
+            let closestIndex = 0;
+            let minDiff = Infinity;
+            
+            planes.forEach((p, i) => {
+                // Plane world angle is p.rotation.y + carouselGroup.rotation.y
+                let worldAngle = (p.userData.angle + targetAngle) % (Math.PI * 2);
+                if(worldAngle < 0) worldAngle += Math.PI * 2;
+                
+                // Distance to 0 (facing camera)
+                let diff = Math.min(worldAngle, Math.PI * 2 - worldAngle);
+                if(diff < minDiff) {
+                    minDiff = diff;
+                    closestIndex = i;
                 }
             });
             
-            // Text fade out
-            gsap.to(info, {
-                opacity: 0,
-                y: -50,
-                ease: 'power3.in',
-                scrollTrigger: {
-                    trigger: sec,
-                    start: 'bottom 60%',
-                    end: 'bottom 30%',
-                    scrub: 1
-                }
-            });
+            // Snap targetAngle so that closestIndex is exactly at 0
+            const idealWorldAngle = targetAngle + planes[closestIndex].userData.angle;
+            // We want idealWorldAngle to be a multiple of 2PI
+            const remainder = idealWorldAngle % (Math.PI * 2);
+            let offset = -remainder;
+            if(remainder > Math.PI) offset = (Math.PI * 2) - remainder;
+            if(remainder < -Math.PI) offset = -(Math.PI * 2) - remainder;
+            
+            targetAngle += offset;
+        }
 
-            // Trigger Plane Hover Effect based on scroll position!
-            // When section is active, the plane "lights up" and distorts
-            ScrollTrigger.create({
-                trigger: sec,
-                start: 'top center',
-                end: 'bottom center',
-                onUpdate: (self) => {
-                    // Parabola curve: 0 at ends, 1 in middle
-                    const progress = self.progress;
-                    const intensity = Math.sin(progress * Math.PI);
-                    gsap.to(planes[i].material.uniforms.uHover, {
-                        value: intensity,
-                        duration: 0.1
-                    });
-                    
-                    // Slightly scale the active plane
-                    planes[i].scale.setScalar(1 + (intensity * 0.2));
-                }
-            });
-        });
-
-
-        // --- MOUSE MOVEMENT (Parallax) ---
-        let mouseX = 0;
-        let mouseY = 0;
-        let targetX = 0;
-        let targetY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
+        // Initialize first snap
+        snapToNearest();
 
         // --- RENDER LOOP ---
-        const clock = new THREE.Clock();
-
         function animate() {
             requestAnimationFrame(animate);
             
-            const elapsedTime = clock.getElapsedTime();
-
-            // Smooth parallax targeting
-            targetX = mouseX * 5;
-            targetY = mouseY * 5;
+            // Smooth lerp rotation
+            currentAngle += (targetAngle - currentAngle) * 0.1;
+            carouselGroup.rotation.y = currentAngle;
             
-            camera.position.x += (targetX - camera.position.x) * 0.05;
-            // Note: Camera Y and Z are controlled by GSAP, so we just add a slight offset to rotation for parallax
-            camera.rotation.y = mouseX * -0.05;
-            camera.rotation.x = mouseY * 0.05;
+            particles.rotation.y = currentAngle * 0.5;
 
-            // Update uniforms
+            // Update active states
+            let closestIndex = 0;
+            let maxActive = 0;
+
             planes.forEach((plane, i) => {
-                plane.material.uniforms.uTime.value = elapsedTime;
-                // Subtle floating motion
-                plane.position.y += Math.sin(elapsedTime * 2 + i) * 0.02;
+                // Calculate how much this plane is facing the camera
+                const worldAngle = (plane.userData.angle + currentAngle) % (Math.PI * 2);
+                const normalizedAngle = worldAngle >= 0 ? worldAngle : worldAngle + Math.PI * 2;
+                const diff = Math.min(normalizedAngle, Math.PI * 2 - normalizedAngle);
+                
+                // 1 if perfectly centered, 0 if far away
+                const activeFactor = Math.max(0, 1.0 - (diff / (Math.PI/2)));
+                
+                // Lerp uniform
+                plane.material.uniforms.uActive.value += (activeFactor - plane.material.uniforms.uActive.value) * 0.1;
+                
+                // Slight scale based on active
+                const scale = 1.0 + (activeFactor * 0.3);
+                plane.scale.set(scale, scale, scale);
+                
+                if(activeFactor > maxActive) {
+                    maxActive = activeFactor;
+                    closestIndex = i;
+                }
             });
             
-            particles.rotation.y = elapsedTime * 0.02;
+            if(maxActive > 0.8) {
+                updateUI(closestIndex);
+            }
 
             renderer.render(scene, camera);
         }
-
         animate();
 
         // --- RESIZE HANDLER ---

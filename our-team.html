@@ -406,12 +406,7 @@
         g0.rotation.z = -Math.PI/6;
         g0.rotation.x = Math.PI/8;
         
-        
-        g0.userData = {rx: Math.PI/8, rz: -Math.PI/6}; // Rocket
-        g4.userData = {rx: 0.2, ry: -0.2}; // SEO Search Bar
-        g5.userData = {rx: 0.1, ry: -0.3}; // Clapperboard
-        
-        g0.visible = false;
+                g0.visible = false;
 
         models.push(g0); mainGroup.add(g0);
 
@@ -538,8 +533,18 @@
         g5.rotation.y = -0.3;
         g5.rotation.x = 0.1;
         
+        
         g5.visible = false;
         models.push(g5); mainGroup.add(g5);
+
+        // Safe UserData initialization
+        g0.userData = {rx: Math.PI/8, rz: -Math.PI/6}; // Rocket
+        g1.userData = {};
+        g2.userData = {};
+        g3.userData = {};
+        g4.userData = {rx: 0.2, ry: -0.2}; // SEO Search Bar
+        g5.userData = {rx: 0.1, ry: -0.3}; // Clapperboard
+
 
 
 

@@ -211,7 +211,7 @@
         </section>
 
         <!-- JAIHARAN -->
-        <section class="member-section right-align dark-mode-trigger" id="sec-jaiharan">
+        <section class="member-section right-align light-mode-trigger" id="sec-jaiharan">
             <div class="member-content gsap-reveal">
                 <img src="team/jaiharan-k-ceo.webp" alt="JaiHaran" class="member-image">
                 <h2 class="member-name">JaiHaran K</h2>
@@ -227,7 +227,7 @@
         </section>
 
         <!-- KANNAN S -->
-        <section class="member-section light-mode-trigger" id="sec-kannan">
+        <section class="member-section dark-mode-trigger" id="sec-kannan">
             <div class="member-content gsap-reveal">
                 <img src="team/kannan-s-web-developer.webp" alt="Kannan" class="member-image">
                 <h2 class="member-name">Kannan S</h2>
@@ -243,7 +243,7 @@
         </section>
 
         <!-- SARAVANA -->
-        <section class="member-section right-align dark-mode-trigger" id="sec-saravana">
+        <section class="member-section right-align light-mode-trigger" id="sec-saravana">
             <div class="member-content gsap-reveal">
                 <img src="team/saravana-sanjhay-m-seo-expert.webp" alt="Saravana" class="member-image">
                 <h2 class="member-name">Saravana S</h2>
@@ -322,12 +322,16 @@
             gsap.to(elem, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: elem, start: 'top 80%' } });
         });
 
-                const themeConfig = { bgColor: new THREE.Color(0x050505), pOpacity: 0.8 };
+                        const themeConfig = { bgColor: new THREE.Color(0x050505), pOpacity: 0.8 };
         function setDarkTheme() {
             document.body.classList.remove('light-theme');
+            gsap.to(themeConfig.bgColor, { r: 0x05/255, g: 0x05/255, b: 0x05/255, duration: 0.8 });
+            gsap.to(themeConfig, { pOpacity: 0.8, duration: 0.8 });
         }
         function setLightTheme() {
             document.body.classList.add('light-theme');
+            gsap.to(themeConfig.bgColor, { r: 0.96, g: 0.96, b: 0.97, duration: 0.8 });
+            gsap.to(themeConfig, { pOpacity: 0.0, duration: 0.8 }); 
         }
         
         document.querySelectorAll('.dark-mode-trigger').forEach(sec => {

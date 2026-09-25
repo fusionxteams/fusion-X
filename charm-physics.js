@@ -1,4 +1,3 @@
-// charm-physics.js
 
 document.addEventListener("DOMContentLoaded", () => {
     const stringElement = document.querySelector('.charm-string');
@@ -6,66 +5,49 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (!stringElement || !charmElement) return;
 
-    // Physics variables
-    let angle = 0.2; // Starting angle in radians (~11 degrees)
+    let angle = 0.2; 
     let aVelocity = 0.0;
     let aAcceleration = 0.0;
     
-    // Constants
-    const gravity = 0.4; // Gravity strength
-    const length = 70; // Length of the string
-    const damping = 0.985; // Air resistance / friction
+    const gravity = 0.4; 
+    const length = 70; 
+    const damping = 0.985; 
     
-    // Interaction state
     let isDragging = false;
     
-    // Disable CSS animation so JS can take over
     stringElement.style.animation = 'none';
     charmElement.style.cursor = 'grab';
 
-    // Update loop
     function updatePhysics() {
         if (!isDragging) {
-            // Standard Pendulum Math
             aAcceleration = (-1 * gravity / length) * Math.sin(angle);
             aVelocity += aAcceleration;
             aVelocity *= damping;
             angle += aVelocity;
         }
         
-        // Apply rotation via CSS transform
-        // The transform-origin is already top center via CSS
         const degrees = angle * (180 / Math.PI);
         stringElement.style.transform = `rotate(${degrees}deg)`;
         
         requestAnimationFrame(updatePhysics);
     }
 
-    // Start physics loop
     updatePhysics();
 
-    // Interaction handling (Mouse & Touch)
     function startDrag(e) {
         isDragging = true;
         charmElement.style.cursor = 'grabbing';
-        
-        // Optional: Reset velocity when caught so it doesn't violently snap when released
         aVelocity = 0;
-        
-        // Prevent default text selection/scrolling while dragging
         if (e.cancelable) e.preventDefault(); 
     }
 
     function drag(e) {
         if (!isDragging) return;
         
-        // Get the bounding box of the pivot (top of the string)
         const pivotRect = stringElement.getBoundingClientRect();
-        // The pivot is at the top-center of the string element
         const pivotX = pivotRect.left + (pivotRect.width / 2);
         const pivotY = pivotRect.top;
         
-        // Get client coordinates depending on touch or mouse
         let clientX = e.clientX;
         let clientY = e.clientY;
         if (e.touches && e.touches.length > 0) {
@@ -73,37 +55,74 @@ document.addEventListener("DOMContentLoaded", () => {
             clientY = e.touches[0].clientY;
         }
 
-        // Calculate angle from pivot to mouse
         const dx = clientX - pivotX;
         const dy = clientY - pivotY;
         
-        // atan2 gives angle from X axis. We subtract PI/2 to align with Y axis (downwards)
         let newAngle = Math.atan2(dy, dx) - (Math.PI / 2);
         
-        // Clamp the angle so they can't flip it over the top of the nav bar
-        const maxAngle = Math.PI / 2.5; // ~72 degrees
+        // Let them pull it way back for a slingshot!
+        const maxAngle = Math.PI / 1.5; 
         if (newAngle > maxAngle) newAngle = maxAngle;
         if (newAngle < -maxAngle) newAngle = -maxAngle;
         
         angle = newAngle;
     }
 
+    // Modal creation
+    function openFormModal() {
+        if (document.getElementById('charm-contact-modal')) return;
+        const modalHtml = `
+            <div id="charm-contact-modal" style="position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:9999; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(5px); opacity:0; transition:opacity 0.4s;">
+                <div style="background:#fff; border-radius:15px; padding:40px; width:90%; max-width:500px; position:relative; transform:scale(0.8); transition:transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                    <button id="close-modal-btn" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:24px; cursor:pointer; color:#333;">&times;</button>
+                    <h2 style="font-family:'Outfit', sans-serif; font-size:2rem; margin-top:0; color:#111; text-transform:uppercase;">Let's Connect</h2>
+                    <p style="color:#666; margin-bottom:20px;">You've found the secret slingshot! Drop your details below.</p>
+                    <form onsubmit="event.preventDefault(); alert('Form Submitted Successfully!'); document.getElementById('charm-contact-modal').remove();">
+                        <input type="text" placeholder="Your Name" required style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box; font-family:inherit;">
+                        <input type="email" placeholder="Your Email" required style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box; font-family:inherit;">
+                        <textarea placeholder="Your Message" rows="4" required style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box; font-family:inherit;"></textarea>
+                        <button type="submit" style="width:100%; padding:15px; background:#ff5722; color:#fff; border:none; border-radius:5px; font-weight:bold; font-size:1.1rem; cursor:pointer; text-transform:uppercase;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        
+        // Animate In
+        setTimeout(() => {
+            const modal = document.getElementById('charm-contact-modal');
+            modal.style.opacity = '1';
+            modal.children[0].style.transform = 'scale(1)';
+        }, 10);
+        
+        document.getElementById('close-modal-btn').addEventListener('click', () => {
+            const modal = document.getElementById('charm-contact-modal');
+            modal.style.opacity = '0';
+            modal.children[0].style.transform = 'scale(0.8)';
+            setTimeout(() => modal.remove(), 400);
+        });
+    }
+
     function endDrag() {
         if (isDragging) {
             isDragging = false;
             charmElement.style.cursor = 'grab';
+            
+            // SLINGSHOT TRIGGER: If pulled past ~45 degrees, trigger the form!
+            const triggerAngle = Math.PI / 4; 
+            if (Math.abs(angle) > triggerAngle) {
+                // Add extreme snap-back velocity for slingshot effect
+                aVelocity = angle > 0 ? -1.5 : 1.5;
+                openFormModal();
+            }
         }
     }
 
-    // Mouse events
     charmElement.addEventListener('mousedown', startDrag);
     window.addEventListener('mousemove', drag);
     window.addEventListener('mouseup', endDrag);
 
-    // Touch events for mobile
     charmElement.addEventListener('touchstart', startDrag, { passive: false });
     window.addEventListener('touchmove', drag, { passive: false });
     window.addEventListener('touchend', endDrag);
-
-    
 });

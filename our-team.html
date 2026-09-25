@@ -322,25 +322,22 @@
             gsap.to(elem, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: elem, start: 'top 80%' } });
         });
 
-        const themeConfig = { bgColor: new THREE.Color(0x050505), pOpacity: 0.8 };
-                function setDarkTheme() {
+                const themeConfig = { bgColor: new THREE.Color(0x050505), pOpacity: 0.8 };
+        function setDarkTheme() {
             document.body.classList.remove('light-theme');
-        });
-            gsap.to(themeConfig, { pOpacity: 0.8, duration: 0.8 });
         }
-                function setLightTheme() {
+        function setLightTheme() {
             document.body.classList.add('light-theme');
-            // Do NOT change WebGL background to white, keep it black space so it layers!
-            // Just let the DOM CSS handle the white glassmorphism cards.
-        });
-            gsap.to(themeConfig, { pOpacity: 0.8, duration: 0.8 }); // Keep dots visible
         }
+        
         document.querySelectorAll('.dark-mode-trigger').forEach(sec => {
             ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setDarkTheme, onEnterBack: setDarkTheme });
         });
-        document.querySelectorAll('.dark-mode-trigger').forEach(sec => {
+        document.querySelectorAll('.light-mode-trigger').forEach(sec => {
             ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setLightTheme, onEnterBack: setLightTheme });
         });
+
+
 
         
         // --- ROLE-SPECIFIC 3D MODELS SCENE ---

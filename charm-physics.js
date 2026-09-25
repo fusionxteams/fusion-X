@@ -10,23 +10,19 @@ document.addEventListener("DOMContentLoaded", () => {
     let aAcceleration = 0.0;
     
     // Slingshot variables
-    let stretchScale = 1.0;
-    let sVelocity = 0.0;
+    let pullY = 0; // How far down the charm is pulled
+    let pVelocity = 0.0;
     
     const gravity = 0.4; 
     const length = 70; 
     const damping = 0.985; 
-    const stretchDamping = 0.85;
+    const springDamping = 0.8;
     
     let isDragging = false;
     let startY = 0;
-    let currentY = 0;
     
     stringElement.style.animation = 'none';
     charmElement.style.cursor = 'grab';
-    
-    // Make sure transform origin is top center so scaling works correctly
-    stringElement.style.transformOrigin = 'top center';
 
     function updatePhysics() {
         if (!isDragging) {
@@ -36,18 +32,27 @@ document.addEventListener("DOMContentLoaded", () => {
             aVelocity *= damping;
             angle += aVelocity;
             
-            // Slingshot Bounce-back (Spring physics)
-            if (stretchScale !== 1.0) {
-                let sAcceleration = (1.0 - stretchScale) * 0.2; // Spring force towards 1.0
-                sVelocity += sAcceleration;
-                sVelocity *= stretchDamping;
-                stretchScale += sVelocity;
+            // Spring bounce-back for Y position
+            if (pullY !== 0) {
+                let pAcceleration = (0 - pullY) * 0.3; // Spring force towards 0
+                pVelocity += pAcceleration;
+                pVelocity *= springDamping;
+                pullY += pVelocity;
+                
+                // Snap to 0 if very close to stop jitter
+                if (Math.abs(pullY) < 0.5 && Math.abs(pVelocity) < 0.5) {
+                    pullY = 0;
+                    pVelocity = 0;
+                }
             }
         }
         
         const degrees = angle * (180 / Math.PI);
-        // Apply rotation AND vertical stretch for the slingshot effect
-        stringElement.style.transform = `rotate(${degrees}deg) scaleY(${stretchScale})`;
+        // Rotate the string
+        stringElement.style.transform = `rotate(${degrees}deg)`;
+        
+        // Translate the charm element DOWN the string
+        charmElement.style.transform = `translateY(${pullY}px)`;
         
         requestAnimationFrame(updatePhysics);
     }
@@ -58,13 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
         isDragging = true;
         charmElement.style.cursor = 'grabbing';
         aVelocity = 0;
-        sVelocity = 0;
+        pVelocity = 0;
         
-        // Record starting Y for elastic pull
         if (e.touches && e.touches.length > 0) {
-            startY = e.touches[0].clientY;
+            startY = e.touches[0].clientY - pullY; // Offset by current pull
         } else {
-            startY = e.clientY;
+            startY = e.clientY - pullY;
         }
         
         if (e.cancelable) e.preventDefault(); 
@@ -94,14 +98,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (newAngle < -maxAngle) newAngle = -maxAngle;
         angle = newAngle;
         
-        // --- SLINGSHOT STRETCH ---
-        const pullDistance = clientY - startY;
-        if (pullDistance > 0) {
-            // Elastic stretch (harder to pull the further you go)
-            stretchScale = 1.0 + (pullDistance * 0.005);
-            if (stretchScale > 2.0) stretchScale = 2.0; // Max stretch
+        // --- VERTICAL PULL (SLINGSHOT) ---
+        let currentPull = clientY - startY;
+        if (currentPull > 0) {
+            // Resistance logic (harder to pull further)
+            pullY = currentPull * 0.5; 
+            if (pullY > 150) pullY = 150; // Max pull 150px
         } else {
-            stretchScale = 1.0;
+            pullY = 0;
         }
     }
 
@@ -143,13 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
             isDragging = false;
             charmElement.style.cursor = 'grab';
             
-            // SLINGSHOT TRIGGER: If pulled past stretch 1.4, trigger form!
-            if (stretchScale > 1.4) {
+            // SLINGSHOT TRIGGER: If pulled down more than 60px!
+            if (pullY > 60) {
                 // Snap back violently
-                sVelocity = -0.5;
+                pVelocity = -40; // High upward velocity
                 aVelocity = (Math.random() - 0.5) * 0.5; // Add some chaotic swing
                 openFormModal();
-            } else if (Math.abs(angle) > Math.PI / 4) {
+            } else if (Math.abs(angle) > Math.PI / 3) {
                 // Fallback for extreme side swing
                 aVelocity = angle > 0 ? -1.5 : 1.5;
                 openFormModal();

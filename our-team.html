@@ -355,22 +355,41 @@
         const mainGroup = new THREE.Group();
         scene.add(mainGroup);
 
-        // 0. INTRO (Generic Monitor Model as requested)
+        
+        // 0. INTRO (Fusion X Rocket Ship)
         const g0 = new THREE.Group();
-        const introScreen = new THREE.Mesh(new THREE.BoxGeometry(10, 6, 0.5), matDark);
-        g0.add(introScreen);
-        const introGlass = new THREE.Mesh(new THREE.PlaneGeometry(9.5, 5.5), matGlass);
-        introGlass.position.z = 0.26;
-        g0.add(introGlass);
-        // Floating blocks in front of monitor
-        for(let i=0; i<3; i++) {
-            const b = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), i%2==0 ? matOrange : matWhite);
-            b.position.set(-3 + i*3, 0, 2 + i);
-            b.rotation.set(Math.random(), Math.random(), 0);
-            g0.add(b);
+        // Fuselage
+        const fuselage = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 6, 32), matWhite);
+        g0.add(fuselage);
+        // Nose Cone
+        const nose = new THREE.Mesh(new THREE.ConeGeometry(1.5, 3, 32), matOrange);
+        nose.position.y = 4.5;
+        g0.add(nose);
+        // Fins
+        for(let i=0; i<4; i++) {
+            const fin = new THREE.Mesh(new THREE.BoxGeometry(0.2, 2, 2), matDark);
+            fin.position.set(Math.cos(i*Math.PI/2)*2, -2, Math.sin(i*Math.PI/2)*2);
+            fin.rotation.y = -i*Math.PI/2;
+            fin.rotation.x = Math.PI/6;
+            g0.add(fin);
         }
+        // Window
+        const windowFrame = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.2, 32), matDark);
+        windowFrame.rotation.x = Math.PI/2;
+        windowFrame.position.set(0, 1.5, 1.4);
+        g0.add(windowFrame);
+        const windowGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.3, 32), matGlass);
+        windowGlass.rotation.x = Math.PI/2;
+        windowGlass.position.set(0, 1.5, 1.4);
+        g0.add(windowGlass);
+        
+        // Tilt rocket
+        g0.rotation.z = -Math.PI/6;
+        g0.rotation.x = Math.PI/8;
+        
         g0.visible = false;
         models.push(g0); mainGroup.add(g0);
+
 
         // 1. Kamalesh (Growth Bar)
         const g1 = new THREE.Group();
@@ -422,25 +441,39 @@
         g3.visible = false;
         models.push(g3); mainGroup.add(g3);
 
-        // 4. Saravana (SEO Target / Bullseye)
+        
+        // 4. Saravana (SEO Magnifying Glass)
         const g4 = new THREE.Group();
-        const ring1 = new THREE.Mesh(new THREE.CylinderGeometry(4, 4, 0.5, 32), matOrange);
-        ring1.rotation.x = Math.PI / 2;
-        g4.add(ring1);
-        const ring2 = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.6, 32), matWhite);
-        ring2.rotation.x = Math.PI / 2;
-        g4.add(ring2);
-        const bullseye = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.7, 32), matGold);
-        bullseye.rotation.x = Math.PI / 2;
-        g4.add(bullseye);
-        // Arrow stuck in it
-        const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 6, 16), matDark);
-        shaft.position.z = 3;
-        shaft.rotation.x = Math.PI / 2;
-        shaft.rotation.z = -0.3;
-        g4.add(shaft);
+        // Handle
+        const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 4, 32), matDark);
+        handle.position.set(2, -2, 0);
+        handle.rotation.z = -Math.PI/4;
+        g4.add(handle);
+        // Rim
+        const rim = new THREE.Mesh(new THREE.TorusGeometry(3, 0.5, 32, 64), matOrange);
+        g4.add(rim);
+        // Glass Lens
+        const lens = new THREE.Mesh(new THREE.CylinderGeometry(2.9, 2.9, 0.2, 64), matGlass);
+        lens.rotation.x = Math.PI/2;
+        g4.add(lens);
+        
+        // Floating Search Nodes (SEO connections)
+        for(let i=0; i<3; i++) {
+            const node = new THREE.Mesh(new THREE.SphereGeometry(0.6, 16, 16), matWhite);
+            node.position.set((Math.random()-0.5)*4, (Math.random()-0.5)*4, -2 - Math.random()*2);
+            g4.add(node);
+            const lineMat = new THREE.LineBasicMaterial({ color: 0xff5722 });
+            const points = [];
+            points.push(new THREE.Vector3(0, 0, 0));
+            points.push(node.position);
+            const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+            const line = new THREE.Line(lineGeo, lineMat);
+            g4.add(line);
+        }
+        
         g4.visible = false;
         models.push(g4); mainGroup.add(g4);
+
 
         // 5. Jabakumar (Video Film Reel / Clapperboard)
         const g5 = new THREE.Group();

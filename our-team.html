@@ -273,7 +273,23 @@
                 </div>
             </div>
         </section>
+    
+        <!-- FINAL CTA SECTION -->
+        <section class="member-section light-mode-trigger" id="sec-cta" style="justify-content: center; text-align: center; min-height: 70vh;">
+            <div style="max-width: 800px; z-index: 50; position: relative;">
+                <h1 style="font-family:'Outfit', sans-serif; font-size:4rem; font-weight:900; text-transform:uppercase; color:#111; line-height:1.1; margin-bottom: 20px;">
+                    Work with our finest technical team
+                </h1>
+                <p style="font-size:1.2rem; color:#444; margin-bottom: 40px; font-family:'Space Grotesk', sans-serif;">
+                    Ready to scale your brand with proven digital strategies? Partner with the experts who engineer predictable growth.
+                </p>
+                <a href="contact.html" style="display:inline-block; padding: 20px 40px; background:#ff5722; color:#fff; font-family:'Space Grotesk', sans-serif; font-size:1.2rem; font-weight:bold; text-transform:uppercase; text-decoration:none; border-radius:10px; box-shadow: 0 10px 20px rgba(255,87,34,0.3); transition: transform 0.2s;">
+                    Let's Connect
+                </a>
+            </div>
+        </section>
     </div>
+
 
     <!-- The Standard Footer -->
     <footer id="main-footer" style="background-color:#111;color:white;text-align:center;padding:60px 20px;font-family:'Space Grotesk',sans-serif;position:relative;z-index:100;width:100%;box-sizing:border-box;">
@@ -390,7 +406,13 @@
         g0.rotation.z = -Math.PI/6;
         g0.rotation.x = Math.PI/8;
         
+        
+        g0.userData = {rx: Math.PI/8, rz: -Math.PI/6}; // Rocket
+        g4.userData = {rx: 0.2, ry: -0.2}; // SEO Search Bar
+        g5.userData = {rx: 0.1, ry: -0.3}; // Clapperboard
+        
         g0.visible = false;
+
         models.push(g0); mainGroup.add(g0);
 
 
@@ -543,7 +565,12 @@
                     m.visible = true;
                     // Cinematic Fly-In Animation (from behind camera, spinning)
                     gsap.fromTo(m.position, {z: 30, y: -10}, {z: 0, y: 0, duration: 1.5, ease: 'power3.out'});
-                    gsap.fromTo(m.rotation, {x: Math.PI, y: -Math.PI}, {x: 0, y: 0, duration: 1.5, ease: 'power3.out'});
+                    
+                    const tx = m.userData.rx || 0;
+                    const ty = m.userData.ry || 0;
+                    const tz = m.userData.rz || 0;
+                    gsap.fromTo(m.rotation, {x: Math.PI, y: -Math.PI, z: tz}, {x: tx, y: ty, z: tz, duration: 1.5, ease: 'power3.out'});
+
                     gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1.5, ease: 'back.out(1.2)'});
                 } else if (m.visible) {
                     // Fly out away from camera

@@ -9,25 +9,45 @@ document.addEventListener("DOMContentLoaded", () => {
     let aVelocity = 0.0;
     let aAcceleration = 0.0;
     
+    // Slingshot variables
+    let stretchScale = 1.0;
+    let sVelocity = 0.0;
+    
     const gravity = 0.4; 
     const length = 70; 
     const damping = 0.985; 
+    const stretchDamping = 0.85;
     
     let isDragging = false;
+    let startY = 0;
+    let currentY = 0;
     
     stringElement.style.animation = 'none';
     charmElement.style.cursor = 'grab';
+    
+    // Make sure transform origin is top center so scaling works correctly
+    stringElement.style.transformOrigin = 'top center';
 
     function updatePhysics() {
         if (!isDragging) {
+            // Pendulum Swing
             aAcceleration = (-1 * gravity / length) * Math.sin(angle);
             aVelocity += aAcceleration;
             aVelocity *= damping;
             angle += aVelocity;
+            
+            // Slingshot Bounce-back (Spring physics)
+            if (stretchScale !== 1.0) {
+                let sAcceleration = (1.0 - stretchScale) * 0.2; // Spring force towards 1.0
+                sVelocity += sAcceleration;
+                sVelocity *= stretchDamping;
+                stretchScale += sVelocity;
+            }
         }
         
         const degrees = angle * (180 / Math.PI);
-        stringElement.style.transform = `rotate(${degrees}deg)`;
+        // Apply rotation AND vertical stretch for the slingshot effect
+        stringElement.style.transform = `rotate(${degrees}deg) scaleY(${stretchScale})`;
         
         requestAnimationFrame(updatePhysics);
     }
@@ -38,6 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
         isDragging = true;
         charmElement.style.cursor = 'grabbing';
         aVelocity = 0;
+        sVelocity = 0;
+        
+        // Record starting Y for elastic pull
+        if (e.touches && e.touches.length > 0) {
+            startY = e.touches[0].clientY;
+        } else {
+            startY = e.clientY;
+        }
+        
         if (e.cancelable) e.preventDefault(); 
     }
 
@@ -55,20 +84,27 @@ document.addEventListener("DOMContentLoaded", () => {
             clientY = e.touches[0].clientY;
         }
 
+        // --- PENDULUM ANGLE ---
         const dx = clientX - pivotX;
         const dy = clientY - pivotY;
-        
         let newAngle = Math.atan2(dy, dx) - (Math.PI / 2);
         
-        // Let them pull it way back for a slingshot!
         const maxAngle = Math.PI / 1.5; 
         if (newAngle > maxAngle) newAngle = maxAngle;
         if (newAngle < -maxAngle) newAngle = -maxAngle;
-        
         angle = newAngle;
+        
+        // --- SLINGSHOT STRETCH ---
+        const pullDistance = clientY - startY;
+        if (pullDistance > 0) {
+            // Elastic stretch (harder to pull the further you go)
+            stretchScale = 1.0 + (pullDistance * 0.005);
+            if (stretchScale > 2.0) stretchScale = 2.0; // Max stretch
+        } else {
+            stretchScale = 1.0;
+        }
     }
 
-    // Modal creation
     function openFormModal() {
         if (document.getElementById('charm-contact-modal')) return;
         const modalHtml = `
@@ -88,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
         
-        // Animate In
         setTimeout(() => {
             const modal = document.getElementById('charm-contact-modal');
             modal.style.opacity = '1';
@@ -108,10 +143,14 @@ document.addEventListener("DOMContentLoaded", () => {
             isDragging = false;
             charmElement.style.cursor = 'grab';
             
-            // SLINGSHOT TRIGGER: If pulled past ~45 degrees, trigger the form!
-            const triggerAngle = Math.PI / 4; 
-            if (Math.abs(angle) > triggerAngle) {
-                // Add extreme snap-back velocity for slingshot effect
+            // SLINGSHOT TRIGGER: If pulled past stretch 1.4, trigger form!
+            if (stretchScale > 1.4) {
+                // Snap back violently
+                sVelocity = -0.5;
+                aVelocity = (Math.random() - 0.5) * 0.5; // Add some chaotic swing
+                openFormModal();
+            } else if (Math.abs(angle) > Math.PI / 4) {
+                // Fallback for extreme side swing
                 aVelocity = angle > 0 ? -1.5 : 1.5;
                 openFormModal();
             }

@@ -318,9 +318,12 @@
             ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setLightTheme, onEnterBack: setLightTheme });
         });
 
+        
         // --- ROLE-SPECIFIC 3D MODELS SCENE ---
         const canvas = document.getElementById('webgl-canvas');
         const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, 0.015);
+        
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 25;
 
@@ -328,25 +331,46 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // Lighting
-        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+        // High contrast lighting
+        const ambient = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambient);
-        const dir1 = new THREE.DirectionalLight(0xffffff, 0.8);
+        const dir1 = new THREE.DirectionalLight(0xffffff, 1.2);
         dir1.position.set(10, 20, 15);
         scene.add(dir1);
-        const orangeLight = new THREE.PointLight(0xff5722, 1.5, 50);
-        orangeLight.position.set(-10, -5, 10);
+        const orangeLight = new THREE.PointLight(0xff5722, 2, 50);
+        orangeLight.position.set(-10, 5, 10);
         scene.add(orangeLight);
+        const blueLight = new THREE.PointLight(0x4488ff, 1, 50);
+        blueLight.position.set(10, -5, -10);
+        scene.add(blueLight);
 
         // Sleek Matte Materials
-        const matOrange = new THREE.MeshStandardMaterial({ color: 0xff5722, roughness: 0.2, metalness: 0.1 });
-        const matWhite = new THREE.MeshStandardMaterial({ color: 0xeeeeee, roughness: 0.2, metalness: 0.1 });
-        const matDark = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.2, metalness: 0.1 });
+        const matOrange = new THREE.MeshStandardMaterial({ color: 0xff5722, roughness: 0.1, metalness: 0.2 });
+        const matWhite = new THREE.MeshStandardMaterial({ color: 0xeeeeee, roughness: 0.1, metalness: 0.2 });
+        const matDark = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.4, metalness: 0.5 });
         const matGold = new THREE.MeshStandardMaterial({ color: 0xffaa00, roughness: 0.3, metalness: 0.8 });
+        const matGlass = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, opacity: 1, transparent: true, roughness: 0.1 });
 
         const models = [];
         const mainGroup = new THREE.Group();
         scene.add(mainGroup);
+
+        // 0. INTRO (Generic Monitor Model as requested)
+        const g0 = new THREE.Group();
+        const introScreen = new THREE.Mesh(new THREE.BoxGeometry(10, 6, 0.5), matDark);
+        g0.add(introScreen);
+        const introGlass = new THREE.Mesh(new THREE.PlaneGeometry(9.5, 5.5), matGlass);
+        introGlass.position.z = 0.26;
+        g0.add(introGlass);
+        // Floating blocks in front of monitor
+        for(let i=0; i<3; i++) {
+            const b = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), i%2==0 ? matOrange : matWhite);
+            b.position.set(-3 + i*3, 0, 2 + i);
+            b.rotation.set(Math.random(), Math.random(), 0);
+            g0.add(b);
+        }
+        g0.visible = false;
+        models.push(g0); mainGroup.add(g0);
 
         // 1. Kamalesh (Growth Bar)
         const g1 = new THREE.Group();
@@ -359,6 +383,7 @@
         arrow.position.set(4, 5, 0);
         arrow.rotation.z = -Math.PI/4;
         g1.add(arrow);
+        g1.visible = false;
         models.push(g1); mainGroup.add(g1);
 
         // 2. JaiHaran (Network Globe)
@@ -436,7 +461,7 @@
         models.push(g5); mainGroup.add(g5);
 
 
-        const sections = ['#sec-kamalesh', '#sec-jaiharan', '#sec-kannan', '#sec-saravana', '#sec-jabakumar'];
+        const sections = ['#sec-intro', '#sec-kamalesh', '#sec-jaiharan', '#sec-kannan', '#sec-saravana', '#sec-jabakumar'];
         
         sections.forEach((sec, index) => {
             ScrollTrigger.create({
@@ -448,40 +473,45 @@
             });
         });
 
+        let currentActiveModel = null;
         function switchModel(index) {
+            if (currentActiveModel === index) return;
+            currentActiveModel = index;
+            
             models.forEach((m, i) => {
                 if (i === index) {
                     m.visible = true;
-                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1, ease: 'back.out(1.2)'});
-                } else {
-                    m.visible = false;
+                    // Cinematic Fly-In Animation (from behind camera, spinning)
+                    gsap.fromTo(m.position, {z: 30, y: -10}, {z: 0, y: 0, duration: 1.5, ease: 'power3.out'});
+                    gsap.fromTo(m.rotation, {x: Math.PI, y: -Math.PI}, {x: 0, y: 0, duration: 1.5, ease: 'power3.out'});
+                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1.5, ease: 'back.out(1.2)'});
+                } else if (m.visible) {
+                    // Fly out away from camera
+                    gsap.to(m.position, {z: -30, y: 10, duration: 1, ease: 'power2.in', onComplete: () => m.visible = false});
+                    gsap.to(m.scale, {x:0, y:0, z:0, duration: 1, ease: 'power2.in'});
                 }
             });
 
-            if (index === 0) { gsap.to(mainGroup.position, {x: 7, duration: 1}); } 
-            else if (index === 1) { gsap.to(mainGroup.position, {x: -7, duration: 1}); } 
-            else if (index === 2) { gsap.to(mainGroup.position, {x: 7, duration: 1}); } 
-            else if (index === 3) { gsap.to(mainGroup.position, {x: -7, duration: 1}); } 
-            else if (index === 4) { gsap.to(mainGroup.position, {x: 7, duration: 1}); }
+            // Adjust main group offset based on text alignment
+            if (index === 0) { gsap.to(mainGroup.position, {x: 0, duration: 1}); } 
+            else if (index === 1) { gsap.to(mainGroup.position, {x: 6, duration: 1}); } // Kamalesh left -> prop right
+            else if (index === 2) { gsap.to(mainGroup.position, {x: -6, duration: 1}); } // Jaiharan right -> prop left
+            else if (index === 3) { gsap.to(mainGroup.position, {x: 6, duration: 1}); } 
+            else if (index === 4) { gsap.to(mainGroup.position, {x: -6, duration: 1}); } 
+            else if (index === 5) { gsap.to(mainGroup.position, {x: 0, duration: 1}); }
         }
 
         // --- STOP MODEL FROM HITTING FOOTER ---
-        // As the footer enters the viewport, push the 3D model UP so it doesn't clip into the footer!
         ScrollTrigger.create({
             trigger: '#main-footer',
-            start: "top bottom", // When top of footer hits bottom of viewport
+            start: "top bottom", 
             end: "bottom bottom", 
             scrub: true,
             onUpdate: (self) => {
-                // Move the mainGroup UP in the Y axis based on scroll progress
-                // self.progress goes from 0 to 1
                 gsap.to(mainGroup.position, {y: self.progress * 15, duration: 0.1});
-                
-                // Also fade out particles
                 gsap.to(themeConfig, {pOpacity: 0.8 * (1 - self.progress), duration: 0.1});
             }
         });
-
 
         // --- REACTIVE ORANGE PARTICLES ---
         const pCount = 800;
@@ -514,7 +544,7 @@
             models.forEach((m, i) => {
                 if(m.visible) {
                     m.rotation.y += 0.01;
-                    m.rotation.x = Math.sin(time) * 0.1;
+                    m.rotation.x += Math.sin(time) * 0.005;
                 }
             });
 
@@ -543,6 +573,7 @@
 
             renderer.setClearColor(themeConfig.bgColor, 1);
             pMat.opacity = themeConfig.pOpacity;
+            scene.fog.color.copy(themeConfig.bgColor);
 
             renderer.render(scene, camera);
         }

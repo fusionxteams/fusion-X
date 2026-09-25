@@ -537,6 +537,36 @@
         g5.visible = false;
         models.push(g5); mainGroup.add(g5);
 
+        
+        // 6. CTA Section (Let's Connect Envelope)
+        const g6 = new THREE.Group();
+        // Envelope Body
+        const envBody = new THREE.Mesh(new THREE.BoxGeometry(6, 4, 0.4), matWhite);
+        g6.add(envBody);
+        
+        // Let's build a better envelope flap
+        const flapShape = new THREE.Shape();
+        flapShape.moveTo(-3, 2);
+        flapShape.lineTo(0, -1);
+        flapShape.lineTo(3, 2);
+        flapShape.lineTo(-3, 2);
+        
+        const extrudeSettings = { depth: 0.45, bevelEnabled: false };
+        const envFlap = new THREE.Mesh(new THREE.ExtrudeGeometry(flapShape, extrudeSettings), matOrange);
+        envFlap.position.z = 0.1;
+        g6.add(envFlap);
+        
+        // A little floating letter coming out
+        const letter = new THREE.Mesh(new THREE.BoxGeometry(5.5, 3, 0.1), matDark);
+        letter.position.set(0, 3, -0.2); // Popping out the top
+        letter.rotation.z = 0.1; // Slight tilt
+        g6.add(letter);
+        
+        g6.rotation.x = 0.2;
+        g6.rotation.y = -0.3;
+        g6.visible = false;
+        models.push(g6); mainGroup.add(g6);
+
         // Safe UserData initialization
         g0.userData = {rx: Math.PI/8, rz: -Math.PI/6}; // Rocket
         g1.userData = {};
@@ -544,11 +574,12 @@
         g3.userData = {};
         g4.userData = {rx: 0.2, ry: -0.2}; // SEO Search Bar
         g5.userData = {rx: 0.1, ry: -0.3}; // Clapperboard
+        g6.userData = {rx: 0.2, ry: -0.3}; // Envelope
 
 
 
 
-        const sections = ['#sec-intro', '#sec-kamalesh', '#sec-jaiharan', '#sec-kannan', '#sec-saravana', '#sec-jabakumar'];
+        const sections = ['#sec-intro', '#sec-kamalesh', '#sec-jaiharan', '#sec-kannan', '#sec-saravana', '#sec-jabakumar', '#sec-cta'];
         
         sections.forEach((sec, index) => {
             ScrollTrigger.create({
@@ -591,6 +622,7 @@
             else if (index === 3) { gsap.to(mainGroup.position, {x: 11, duration: 1}); } 
             else if (index === 4) { gsap.to(mainGroup.position, {x: -11, duration: 1}); } 
             else if (index === 5) { gsap.to(mainGroup.position, {x: 11, duration: 1}); }
+            else if (index === 6) { gsap.to(mainGroup.position, {x: -11, y: 1, duration: 1}); }
         }
 
         // --- STOP MODEL FROM HITTING FOOTER ---

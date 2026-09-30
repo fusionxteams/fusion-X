@@ -139,15 +139,10 @@ body {
 
 
 .nav-links a.active,
-
 .nav-links li a.active {
-
-    color: var(--primary-orange);
-
-    text-shadow: 0 0 12px rgba(255, 87, 34, 0.4);
-
-    font-weight: 600;
-
+    color: var(--primary-orange) !important;
+    text-shadow: 0 0 12px rgba(255, 87, 34, 0.65), 0 0 20px rgba(255, 87, 34, 0.35) !important;
+    font-weight: 700 !important;
 }
 
 
@@ -989,29 +984,44 @@ body {
 
 
 
-.dangling-container { position: relative; display: flex; align-items: center; }
+.dangling-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
 
 .charm-string {
-
-    position: absolute; top: 35px; left: 50%; width: 2px; height: 70px;
-
+    position: absolute;
+    top: 35px;
+    left: 50%;
+    width: 2.5px;
+    height: 70px;
     background: repeating-linear-gradient(to bottom, #ff5722, #ff5722 5px, #c24015 5px, #c24015 10px);
-
-    transform-origin: top center; z-index: 100; pointer-events: none;
-
-    animation: swing 3s ease-in-out infinite alternate;
-
+    transform-origin: top center;
+    z-index: 100;
+    pointer-events: none;
+    border-radius: 2px;
 }
 
 .charm-object {
-
-    position: absolute; top: 70px; left: -25px; width: 50px;
-
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); transform-origin: top center;
-
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 70px);
+    width: 48px;
+    height: auto;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+    transform-origin: center center;
+    cursor: grab;
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    z-index: 101;
 }
 
-@keyframes swing { 0% { transform: rotate(12deg); } 100% { transform: rotate(-12deg); } }
+.charm-object:active {
+    cursor: grabbing;
+} 100% { transform: rotate(-12deg); } }
 
 
 

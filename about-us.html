@@ -6,7 +6,7 @@
 
     <!-- ===== AEO / GEO / EEAT PRIMARY SEO ===== -->
     <title>Best Digital Marketing Company in India | Fusion X — Chennai</title>
-    <meta name="description" content="Fusion X is India's most trusted digital marketing company in Chennai — led by expert SEO specialists, Meta & Google Ads managers, React & Angular web developers, and award-winning content editors. 100+ brands scaled globally.">
+    <meta name="description" content="Fusion X is India's most trusted digital marketing company in Chennai — led by expert SEO specialists, Meta & Google Ads managers, React & Angular web developers, and award-winning content editors. 10+ brands scaled globally.">
     <meta name="keywords" content="best digital marketing company in India, best digital marketing company in Chennai, best SEO expert India, best web developer Chennai, Meta Ads specialist India, Google Ads expert India, brand growth agency, digital marketing company Chennai, EEAT optimized agency, AEO expert India, GEO optimization">
     <meta name="author" content="Fusion X Digital Marketing Company, Chennai, India">
 
@@ -853,20 +853,20 @@
 <section id="scene-stats" aria-label="Fusion X results and achievements">
     <div class="stats-row">
         <div class="stat-item">
-            <div class="stat-n" data-target="100">0</div>
+            <div class="stat-n" data-target="10" data-suffix="+">0</div>
             <div class="stat-l">Brands Scaled</div>
         </div>
         <div class="stat-item">
-            <div class="stat-n" data-target="5">0</div>
-            <div class="stat-l">Elite Experts</div>
+            <div class="stat-n" data-target="5" data-suffix="">0</div>
+            <div class="stat-l">In-House Specialists</div>
         </div>
         <div class="stat-item">
-            <div class="stat-n" data-target="15">0</div>
-            <div class="stat-l">Industries Served</div>
+            <div class="stat-n" data-target="5" data-suffix="+">0</div>
+            <div class="stat-l">Core Industries Served</div>
         </div>
         <div class="stat-item">
-            <div class="stat-n" data-target="360">0</div>
-            <div class="stat-l">Degree Coverage</div>
+            <div class="stat-n" data-target="360" data-suffix="°">0</div>
+            <div class="stat-l">Digital Coverage</div>
         </div>
     </div>
 </section>
@@ -1400,7 +1400,7 @@ document.querySelectorAll('.stat-n[data-target]').forEach(el => {
         trigger: el, start: 'top 85%', once: true,
         onEnter: () => {
             const tgt = +el.dataset.target;
-            const suffix = tgt === 360 ? '°' : '+';
+            const suffix = el.dataset.suffix !== undefined ? el.dataset.suffix : (tgt === 360 ? '°' : '+');
             let cur = 0;
             const step = Math.max(1, Math.ceil(tgt / 70));
             const iv = setInterval(() => {

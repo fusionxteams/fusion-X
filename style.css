@@ -1104,3 +1104,13 @@ body {
 
 
 
+
+/* Permanent Eradication of Legacy Let\'s Connect Modal */
+#charm-contact-modal {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    transform: scale(0) !important;
+    z-index: -999999 !important;
+}

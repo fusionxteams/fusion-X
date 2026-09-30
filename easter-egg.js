@@ -1,3 +1,35 @@
+
+// Global MutationObserver to instantly vaporize any legacy '#charm-contact-modal'
+(function() {
+    function killLegacy() {
+        document.querySelectorAll('#charm-contact-modal').forEach(e => e.remove());
+    }
+    killLegacy();
+    if (typeof MutationObserver !== 'undefined') {
+        const obs = new MutationObserver(mutations => {
+            for (const m of mutations) {
+                for (const node of m.addedNodes) {
+                    if (node.nodeType === 1) {
+                        if (node.id === 'charm-contact-modal') {
+                            node.remove();
+                        } else if (node.querySelector) {
+                            const found = node.querySelector('#charm-contact-modal');
+                            if (found) found.remove();
+                        }
+                    }
+                }
+            }
+        });
+        if (document.body) {
+            obs.observe(document.body, { childList: true, subtree: true });
+        } else {
+            document.addEventListener('DOMContentLoaded', () => {
+                obs.observe(document.body, { childList: true, subtree: true });
+            });
+        }
+    }
+})();
+
 /**
  * Fusion X - Slingshot Easter Egg & Exclusive Offer Engine
  * Handles interactive rubber-band stretching, 4 smooth visible screen bounces,

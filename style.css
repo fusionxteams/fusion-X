@@ -994,34 +994,44 @@ body {
     position: absolute;
     top: 35px;
     left: 50%;
-    width: 2.5px;
+    width: 2px;
     height: 70px;
     background: repeating-linear-gradient(to bottom, #ff5722, #ff5722 5px, #c24015 5px, #c24015 10px);
     transform-origin: top center;
     z-index: 100;
     pointer-events: none;
-    border-radius: 2px;
+    animation: swing 3s ease-in-out infinite alternate;
 }
 
 .charm-object {
     position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 70px);
+    top: 70px;
+    left: -24px;
     width: 48px;
     height: auto;
     filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
-    transform-origin: center center;
+    transform-origin: top center;
     cursor: grab;
     pointer-events: auto;
     user-select: none;
     -webkit-user-drag: none;
     z-index: 101;
+    transition: filter 0.2s ease;
+}
+
+.charm-object:hover {
+    filter: drop-shadow(0 6px 14px rgba(255,87,34,0.7));
 }
 
 .charm-object:active {
     cursor: grabbing;
-} 100% { transform: rotate(-12deg); } }
+}
+
+@keyframes swing {
+    0% { transform: rotate(8deg); }
+    100% { transform: rotate(-8deg); }
+}
+100% { transform: rotate(-12deg); } }
 
 
 

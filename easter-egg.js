@@ -319,6 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const showHiddenOffer = () => {
+        // Eradicate any old or duplicate contact modal immediately
+        document.querySelectorAll('#charm-contact-modal').forEach(el => el.remove());
         charmObj.style.display = 'none';
         
         if (document.getElementById('hidden-offer-overlay')) {

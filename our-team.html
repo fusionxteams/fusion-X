@@ -857,34 +857,34 @@
         wpInnerRing.position.z = 0.22;
         wpGroup.add(wpInnerRing);
 
-        // Iconic WordPress "W"
-        const w1 = new THREE.Mesh(new THREE.BoxGeometry(0.24, 2.1, 0.12), matWPWhite);
-        w1.position.set(-0.95, 0.02, 0.25);
-        w1.rotation.z = -0.32;
+        // Iconic WordPress "W" Letterform (opens at top, points at bottom)
+        const w1 = new THREE.Mesh(new THREE.BoxGeometry(0.26, 2.15, 0.14), matWPWhite);
+        w1.position.set(-0.80, -0.05, 0.25);
+        w1.rotation.z = 0.245;
         wpGroup.add(w1);
 
-        const w2 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 1.85, 0.12), matWPWhite);
-        w2.position.set(-0.33, 0.05, 0.25);
-        w2.rotation.z = 0.28;
+        const w2 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 1.6, 0.14), matWPWhite);
+        w2.position.set(-0.28, -0.32, 0.25);
+        w2.rotation.z = -0.36;
         wpGroup.add(w2);
 
-        const w3 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 1.85, 0.12), matWPWhite);
-        w3.position.set(0.33, 0.05, 0.25);
-        w3.rotation.z = -0.28;
+        const w3 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 1.6, 0.14), matWPWhite);
+        w3.position.set(0.28, -0.32, 0.25);
+        w3.rotation.z = 0.36;
         wpGroup.add(w3);
 
-        const w4 = new THREE.Mesh(new THREE.BoxGeometry(0.24, 2.1, 0.12), matWPWhite);
-        w4.position.set(0.95, 0.02, 0.25);
-        w4.rotation.z = 0.32;
+        const w4 = new THREE.Mesh(new THREE.BoxGeometry(0.26, 2.15, 0.14), matWPWhite);
+        w4.position.set(0.80, -0.05, 0.25);
+        w4.rotation.z = -0.245;
         wpGroup.add(w4);
 
         // Top Serif Accents
-        const serifL = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.12, 0.12), matWPWhite);
-        serifL.position.set(-1.26, 0.92, 0.25);
+        const serifL = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.14, 0.14), matWPWhite);
+        serifL.position.set(-1.05, 0.98, 0.25);
         wpGroup.add(serifL);
 
-        const serifR = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.12, 0.12), matWPWhite);
-        serifR.position.set(1.26, 0.92, 0.25);
+        const serifR = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.14, 0.14), matWPWhite);
+        serifR.position.set(1.05, 0.98, 0.25);
         wpGroup.add(serifR);
 
         // WP Base Plate

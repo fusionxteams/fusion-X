@@ -11,6 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
     <style>
         
@@ -174,147 +175,416 @@
 
     
     
-    <!-- WORLDWIDE VISUAL REPRESENTATION -->
-    <section id="worldwide-delivery" style="padding: 100px 20px; background: #ffffff; color: #111; text-align: center; position: relative;">
-        
-        <div class="container" style="position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center;">
-            
-            <!-- The 3D Spinning Globe -->
-            <div id="spinning-globe-container" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 30px; cursor: grab;"></div>
+    <!-- ========================================================
+         FUSION X 3D LOGO & PROVEN ACHIEVEMENTS SHOWCASE
+         Replaces legacy globe/flight banner with interactive 3D logo & verified metrics
+    ======================================================== -->
+    <section id="achievements-showcase" class="achievements-section" style="padding: 100px 20px 95px; background: radial-gradient(circle at 50% 45%, rgba(255, 87, 34, 0.12) 0%, rgba(255, 87, 34, 0.02) 45%, transparent 70%), #070707; color: #ffffff; position: relative; overflow: hidden;">
+        <!-- Anchor for backward compatibility with existing links -->
+        <div id="worldwide-delivery" style="position: absolute; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
 
-            <h2 style="font-size: 3.5rem; font-weight: 800; line-height: 1.2; max-width: 900px; margin: 0 auto; color: #111;">
-                We will deliver your brand <span style="color: #ff5722;">worldwide</span> through digital media.
-            </h2>
-            
-            
-            <p style="font-size: 1.5rem; max-width: 800px; margin: 25px auto 0; color: #555; line-height: 1.6; font-weight: 500;">
-                And AI will tell your name as you are the top brand, and <strong style="color: #ff5722;">Fusion X</strong> will help you.
-            </p>
+        <!-- Background ambient glow aura -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 700px; height: 450px; background: radial-gradient(ellipse at center, rgba(255, 87, 34, 0.15) 0%, transparent 70%); filter: blur(50px); pointer-events: none; z-index: 1;"></div>
 
-            <!-- 3D Animated Buttons -->
-            <style>
-
-            .text-3d {
-                text-shadow: 
-                    1px 1px 0px #b03a15,
-                    2px 2px 0px #b03a15,
-                    3px 3px 0px #b03a15,
-                    4px 4px 0px #b03a15,
-                    5px 5px 0px #b03a15,
-                    6px 6px 0px #b03a15,
-                    7px 7px 0px #b03a15,
-                    8px 8px 10px rgba(0,0,0,0.6);
+        <style>
+            .achieve-cockpit-grid {
+                display: grid;
+                grid-template-columns: 1fr 1.35fr 1fr;
+                gap: 28px;
+                align-items: center;
+                max-width: 1360px;
+                margin: 0 auto;
             }
 
-                .btn-3d-group {
-                    display: flex;
-                    gap: 20px;
-                    justify-content: center;
-                    flex-wrap: wrap;
-                    margin-top: 45px;
+            .achieve-col {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .achievement-card-box {
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 18px;
+                padding: 24px;
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
+                transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .achievement-card-box:hover {
+                transform: translateY(-5px);
+                border-color: rgba(255, 87, 34, 0.55);
+                background: rgba(255, 87, 34, 0.06);
+                box-shadow: 0 16px 40px rgba(255, 87, 34, 0.18), 0 0 25px rgba(255, 87, 34, 0.1);
+            }
+
+            .card-icon-circle {
+                width: 44px;
+                height: 44px;
+                border-radius: 12px;
+                background: rgba(255, 87, 34, 0.12);
+                border: 1px solid rgba(255, 87, 34, 0.3);
+                color: #ff5722;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.15rem;
+                margin-bottom: 14px;
+                transition: all 0.3s ease;
+            }
+
+            .achievement-card-box:hover .card-icon-circle {
+                background: #ff5722;
+                color: #ffffff;
+                box-shadow: 0 0 20px rgba(255, 87, 34, 0.6);
+                transform: scale(1.08);
+            }
+
+            .card-stat-wrap {
+                font-family: 'Outfit', sans-serif;
+                font-size: 2.3rem;
+                font-weight: 900;
+                line-height: 1;
+                color: #ffffff;
+                display: flex;
+                align-items: baseline;
+                gap: 2px;
+                margin-bottom: 8px;
+            }
+
+            .achieve-prefix, .achieve-suffix {
+                color: #ff5722;
+                font-weight: 800;
+            }
+
+            .card-title-text {
+                font-family: 'Outfit', sans-serif;
+                font-size: 1.05rem;
+                font-weight: 700;
+                color: #f5f5f5;
+                margin: 0 0 8px;
+                letter-spacing: -0.01em;
+            }
+
+            .card-desc-text {
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 0.86rem;
+                line-height: 1.55;
+                color: #9e9e9e;
+                margin: 0;
+            }
+
+            /* Center Stage */
+            .achieve-center-stage {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+            }
+
+            .model-canvas-wrapper {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                position: relative;
+            }
+
+            .fusion-3d-box {
+                width: 100%;
+                height: 480px;
+                position: relative;
+                cursor: grab;
+                touch-action: none;
+            }
+
+            .fusion-3d-box:active {
+                cursor: grabbing;
+            }
+
+            .canvas-loader-overlay {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                background: rgba(10, 10, 10, 0.65);
+                backdrop-filter: blur(8px);
+                border-radius: 20px;
+                transition: opacity 0.4s ease;
+                z-index: 10;
+            }
+
+            .spinner-circle {
+                width: 40px;
+                height: 40px;
+                border: 3px solid rgba(255, 87, 34, 0.2);
+                border-top-color: #ff5722;
+                border-radius: 50%;
+                animation: spinLoader 0.8s linear infinite;
+            }
+
+            @keyframes spinLoader {
+                to { transform: rotate(360deg); }
+            }
+
+            .interaction-hint-tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 30px;
+                padding: 8px 18px;
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 0.82rem;
+                color: #cccccc;
+                margin-top: 10px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                pointer-events: none;
+            }
+
+            .hint-pulse-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #ff5722;
+                box-shadow: 0 0 10px #ff5722;
+                animation: pulseHintDot 2s infinite ease-in-out;
+            }
+
+            @keyframes pulseHintDot {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.4; transform: scale(0.85); }
+            }
+
+            /* Buttons */
+            .achieve-cta-primary {
+                background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
+                color: #ffffff;
+                font-family: 'Outfit', sans-serif;
+                font-size: 1.05rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                padding: 16px 38px;
+                border-radius: 50px;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                box-shadow: 0 8px 25px rgba(255, 87, 34, 0.45);
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            .achieve-cta-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 14px 35px rgba(255, 87, 34, 0.6);
+            }
+
+            .achieve-cta-secondary {
+                background: rgba(255, 255, 255, 0.05);
+                color: #ffffff;
+                font-family: 'Outfit', sans-serif;
+                font-size: 1.05rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                padding: 16px 34px;
+                border-radius: 50px;
+                border: 1px solid rgba(255, 255, 255, 0.18);
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                transition: all 0.3s ease;
+            }
+
+            .achieve-cta-secondary:hover {
+                background: rgba(255, 255, 255, 0.12);
+                border-color: #ff5722;
+                transform: translateY(-3px);
+            }
+
+            /* Responsive Cockpit Layout */
+            @media (max-width: 1100px) {
+                .achieve-cockpit-grid {
+                    grid-template-columns: 1fr;
+                    gap: 36px;
                 }
-                .btn-3d-primary {
-                    background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
-                    color: white;
-                    padding: 16px 45px;
-                    font-size: 1.2rem;
-                    font-weight: 800;
-                    border-radius: 50px;
-                    border: none;
-                    cursor: pointer;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                    box-shadow: 0 8px 0 #bf360c, 0 15px 25px rgba(255,87,34,0.4);
-                    transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                    text-decoration: none;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 10px;
+                .achieve-center-stage {
+                    order: 1;
                 }
-                .btn-3d-primary:active {
-                    transform: translateY(8px);
-                    box-shadow: 0 0px 0 #bf360c, 0 5px 10px rgba(255,87,34,0.4);
+                .achieve-col.left-col {
+                    order: 2;
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 18px;
                 }
-                .btn-3d-secondary {
-                    background: #ffffff;
-                    color: #333;
-                    padding: 16px 35px;
-                    font-size: 1.1rem;
-                    font-weight: 700;
-                    border-radius: 50px;
-                    border: 2px solid #e0e0e0;
-                    cursor: pointer;
-                    box-shadow: 0 6px 0 #cccccc, 0 10px 15px rgba(0,0,0,0.05);
-                    transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                    text-decoration: none;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 10px;
+                .achieve-col.right-col {
+                    order: 3;
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 18px;
                 }
-                .btn-3d-secondary:active {
-                    transform: translateY(6px);
-                    box-shadow: 0 0px 0 #cccccc, 0 5px 10px rgba(0,0,0,0.05);
+                .fusion-3d-box {
+                    height: 380px;
+                    max-width: 480px;
                 }
-            
-            .is-leaning {
-                transform: translateX(-35vw) rotate(-15deg) !important;
-                transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1) !important;
-            }
-            .is-leaning #right-arm {
-                transform: rotate(30deg) !important;
-                transition: transform 1s ease !important;
             }
 
-        
-            .is-slashing-1 #right-arm {
-                transform: rotate(140deg) !important;
-                transition: transform 0.1s cubic-bezier(0.1, 0.9, 0.2, 1) !important;
-            }
-            .is-slashing-2 #right-arm {
-                transform: rotate(140deg) !important;
-                transition: transform 0.1s cubic-bezier(0.1, 0.9, 0.2, 1) !important;
-            }
-            /* Add an explicit pull-back state if needed, or just let JS remove the class to pull back */
-
-        
-            .fusion-h1 { font-size: 8rem; }
-            .x-h1 { font-size: 10rem; }
-            .cta-h2 { font-size: 2.5rem; }
-            
-            @media (max-width: 768px) {
-                .fusion-h1 { font-size: 3rem !important; }
-                .x-h1 { font-size: 4.5rem !important; }
-                .cta-h2 { font-size: 1.6rem !important; line-height: 1.3; padding: 0 10px; }
-                #fusion-text-container { gap: 15px !important; flex-wrap: wrap; margin-bottom: 30px !important; }
-                #fusion-shatter { padding: 50px 10px !important; min-height: auto !important; }
+            @media (max-width: 860px) {
+                .achieve-col.left-col,
+                .achieve-col.right-col {
+                    grid-template-columns: repeat(2, 1fr);
+                }
             }
 
-        
-        
-        
-
-    
-        .elegant-reveal {
-            opacity: 0;
-            transform: translateY(60px) rotateX(-30deg);
-            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-            transform-origin: bottom center;
-        }
-        .elegant-reveal.is-visible {
-            opacity: 1;
-            transform: translateY(0) rotateX(0);
-        }
-
+            @media (max-width: 600px) {
+                .achieve-col.left-col,
+                .achieve-col.right-col {
+                    grid-template-columns: 1fr;
+                }
+                .fusion-3d-box {
+                    height: 310px;
+                }
+                .achieve-cockpit-grid {
+                    gap: 22px;
+                }
+            }
         </style>
+
+        <div class="achievements-container" style="max-width: 1380px; margin: 0 auto; position: relative; z-index: 2;">
             
-            <div class="btn-3d-group">
-                <a href="contact.html" class="btn-3d-primary"><i class="fas fa-rocket"></i> Get Quote</a>
-                <a href="services.html" class="btn-3d-secondary"><i class="fas fa-globe"></i> Global Strategy</a>
-                <a href="#case-studies" class="btn-3d-secondary"><i class="fas fa-chart-line"></i> View Reach</a>
+            <!-- Section Header -->
+            <div style="text-align: center; max-width: 900px; margin: 0 auto 55px;">
+                <span class="achieve-eyebrow-tag" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 87, 34, 0.12); border: 1px solid rgba(255, 87, 34, 0.35); color: #ff5722; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; padding: 7px 18px; border-radius: 50px; margin-bottom: 22px;">
+                    <i class="fas fa-award"></i> Proven Track Record &amp; Impact
+                </span>
+                <h2 style="font-family: 'Outfit', sans-serif; font-size: clamp(2.3rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.15; color: #ffffff; margin: 0 0 18px;">
+                    Delivering Brand Dominance <span style="background: linear-gradient(135deg, #ff5722 0%, #ff8a65 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Worldwide</span>
+                </h2>
+                <p style="font-family: 'Space Grotesk', sans-serif; font-size: 1.12rem; color: #aaaaaa; line-height: 1.6; margin: 0 auto; max-width: 760px;">
+                    Explore our verified agency milestones. From local Google Maps 3-Pack rank acceleration to high-scale performance ad funnels, Fusion X architects sustainable digital market leadership.
+                </p>
+            </div>
+
+            <!-- The Cockpit Layout: Left 3 Cards | Center 3D Logo | Right 3 Cards -->
+            <div class="achieve-cockpit-grid">
+
+                <!-- LEFT COLUMN: 3 Achievement Cards -->
+                <div class="achieve-col left-col">
+                    
+                    <!-- Card 1: Brands Scaled -->
+                    <div class="achievement-card-box" data-side="left-top">
+                        <div class="card-icon-circle"><i class="fas fa-crown"></i></div>
+                        <div class="card-stat-wrap">
+                            <span class="achieve-number" data-target="10">0</span><span class="achieve-suffix">+</span>
+                        </div>
+                        <h3 class="card-title-text">Brands Scaled</h3>
+                        <p class="card-desc-text">Empowering growing startups and enterprise brands with custom-coded platforms and revenue-generating digital funnels.</p>
+                    </div>
+
+                    <!-- Card 2: Inbound Calls -->
+                    <div class="achievement-card-box" data-side="left-mid">
+                        <div class="card-icon-circle"><i class="fas fa-phone-volume"></i></div>
+                        <div class="card-stat-wrap">
+                            <span class="achieve-number" data-target="900">0</span><span class="achieve-suffix">+</span>
+                        </div>
+                        <h3 class="card-title-text">Inbound Direct Phone Calls</h3>
+                        <p class="card-desc-text">Generated in just 3 months for Bhawani Corner exclusively through high-intent local SEO and Google Maps dominance.</p>
+                    </div>
+
+                    <!-- Card 3: Visibility Surge -->
+                    <div class="achievement-card-box" data-side="left-bot">
+                        <div class="card-icon-circle"><i class="fas fa-chart-line"></i></div>
+                        <div class="card-stat-wrap">
+                            <span class="achieve-prefix">+</span><span class="achieve-number" data-target="280">0</span><span class="achieve-suffix">%</span>
+                        </div>
+                        <h3 class="card-title-text">Search Visibility Surge</h3>
+                        <p class="card-desc-text">Explosive organic search footprint expansion using EEAT-structured data, entity linkages, and intent-focused silos.</p>
+                    </div>
+
+                </div>
+
+                <!-- CENTER COLUMN: Interactive 3D Model Stage -->
+                <div class="achieve-center-stage">
+                    <div class="model-canvas-wrapper">
+                        <!-- Canvas Container -->
+                        <div id="fusion-3d-canvas-container" class="fusion-3d-box">
+                            <!-- Loading Spinner Overlay -->
+                            <div id="fusion-3d-loader" class="canvas-loader-overlay">
+                                <div class="spinner-circle"></div>
+                                <span class="spinner-text" style="color: #ff5722; font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 700;">Loading 3D Logo...</span>
+                            </div>
+                        </div>
+
+                        <!-- 3D Interactive Instruction Tag -->
+                        <div class="interaction-hint-tag">
+                            <span class="hint-pulse-dot"></span>
+                            <i class="fas fa-compass" style="color:#ff5722;"></i>
+                            <span>Interactive 3D Emblem • Move cursor or drag to tilt</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: 3 Achievement Cards -->
+                <div class="achieve-col right-col">
+                    
+                    <!-- Card 4: In-House Specialists -->
+                    <div class="achievement-card-box" data-side="right-top">
+                        <div class="card-icon-circle"><i class="fas fa-users-cog"></i></div>
+                        <div class="card-stat-wrap">
+                            <span class="achieve-number" data-target="5">0</span>
+                        </div>
+                        <h3 class="card-title-text">In-House Dedicated Specialists</h3>
+                        <p class="card-desc-text">Zero third-party freelancers. Hands-on IT engineering veterans across technical SEO, React, Angular, and Ads.</p>
+                    </div>
+
+                    <!-- Card 5: Agency Excellence -->
+                    <div class="achievement-card-box" data-side="right-mid">
+                        <div class="card-icon-circle"><i class="fas fa-award"></i></div>
+                        <div class="card-stat-wrap">
+                            <span class="achieve-number" data-target="2">0</span><span class="achieve-suffix">+</span>
+                        </div>
+                        <h3 class="card-title-text">Years Full-Agency Excellence</h3>
+                        <p class="card-desc-text">Backed by 4+ years of specialized performance marketing, CRO funnels, and enterprise digital strategy.</p>
+                    </div>
+
+                    <!-- Card 6: 360 Full Coverage -->
+                    <div class="achievement-card-box" data-side="right-bot">
+                        <div class="card-icon-circle"><i class="fas fa-globe-americas"></i></div>
+                        <div class="card-stat-wrap">
+                            <span class="achieve-number" data-target="360">0</span><span class="achieve-suffix">°</span>
+                        </div>
+                        <h3 class="card-title-text">Full-Stack Digital Coverage</h3>
+                        <p class="card-desc-text">Holistic coverage: Answer Engine Optimization (AEO), Generative Engine Optimization (GEO), and Custom Web Dev.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Bottom CTA Group -->
+            <div style="margin-top: 55px; text-align: center; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="contact.html" class="achieve-cta-primary">
+                    <span>Scale Your Brand Worldwide</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="services.html" class="achieve-cta-secondary">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Explore All Services</span>
+                </a>
             </div>
 
         </div>
-        
     </section>
 
 
@@ -786,7 +1056,7 @@
     <script src="seo-cards.js"></script>
     <script src="impact-animation.js?v=2"></script>
     <script src="brands.js"></script>
-    <script src="globe-banner.js"></script>
+    <script src="fusion-3d-logo.js"></script>
     <script src="shatter-animation.js"></script>
     <footer id="main-footer" style="background-color:#111;color:white;text-align:center;padding:60px 20px;font-family:'Space Grotesk',sans-serif;position:relative;z-index:100;width:100%;box-sizing:border-box; overflow: hidden;">
         <div style="position: relative; z-index: 2;">

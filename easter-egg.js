@@ -421,7 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formBox.innerHTML = `
             <div style="font-size: 2.2rem; margin-bottom: 6px;">🎉</div>
             <h2 style="color: #ff5722; font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 900; margin: 0 0 10px 0; text-transform: uppercase;">You unlocked a Hidden offer!</h2>
-            <p style="font-size: 1.15rem; margin-bottom: 24px; line-height: 1.5; color: #e0e0e0; font-family: 'Segoe UI', Roboto, sans-serif;">If you build a website with us, we give you <strong style="color: #ff5722; font-size: 1.25rem;">3 blogs free!</strong></p>
+            <p style="font-size: 1.15rem; margin-bottom: 24px; line-height: 1.5; color: #e0e0e0; font-family: 'Segoe UI', Roboto, sans-serif;">If you build a website with us, we give you <strong style="color: #ff5722; font-size: 1.25rem;">2 blogs free!</strong></p>
             <form id="hiddenOfferForm" style="display: flex; flex-direction: column; gap: 14px;">
                 <input type="text" placeholder="Your Name" required style="width: 100%; padding: 14px 16px; border-radius: 10px; border: 1px solid #444; background: #262626; color: #fff; font-size: 15px; outline: none; box-sizing: border-box;">
                 <input type="email" placeholder="Your Email Address" required style="width: 100%; padding: 14px 16px; border-radius: 10px; border: 1px solid #444; background: #262626; color: #fff; font-size: 15px; outline: none; box-sizing: border-box;">

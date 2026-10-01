@@ -628,53 +628,365 @@
         models.push(g0); mainGroup.add(g0);
 
 
-        // 1. Kamalesh (Growth Bar)
+        // 1. Kamalesh (3D Meta Ads & 3D Google Ads Model)
         const g1 = new THREE.Group();
-        for(let i=0; i<4; i++) {
-            const bar = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2 + i*2, 1.5), matOrange);
-            bar.position.set(i*2 - 3, (2 + i*2)/2 - 3, 0);
-            g1.add(bar);
+
+        const matMetaBlue = new THREE.MeshStandardMaterial({ color: 0x0081fb, roughness: 0.2, metalness: 0.6 });
+        const matGoogleBlue = new THREE.MeshStandardMaterial({ color: 0x4285f4, roughness: 0.2, metalness: 0.5 });
+        const matGoogleYellow = new THREE.MeshStandardMaterial({ color: 0xfbbc05, roughness: 0.2, metalness: 0.5 });
+        const matGoogleGreen = new THREE.MeshStandardMaterial({ color: 0x34a853, roughness: 0.2, metalness: 0.5 });
+        const matPlateBg = new THREE.MeshStandardMaterial({ color: 0x0c1017, roughness: 0.45, metalness: 0.8 });
+
+        // --- META ADS 3D EMBLEM (Left side) ---
+        const metaGroup = new THREE.Group();
+        metaGroup.position.set(-1.8, 1.3, 0.3);
+        metaGroup.scale.set(0.92, 0.92, 0.92);
+
+        // 3D Meta Möbius Infinity Loop
+        class MetaInfinityCurve extends THREE.Curve {
+            constructor(scale = 1.9) {
+                super();
+                this.scale = scale;
+            }
+            getPoint(t) {
+                const u = t * Math.PI * 2;
+                const denom = 1 + Math.sin(u) * Math.sin(u);
+                const x = (this.scale * Math.cos(u)) / denom;
+                const y = (this.scale * Math.sin(u) * Math.cos(u)) / denom * 1.5;
+                const z = Math.sin(u) * 0.42;
+                return new THREE.Vector3(x, y, z);
+            }
         }
-        const arrow = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 16), matWhite);
-        arrow.position.set(4, 5, 0);
-        arrow.rotation.z = -Math.PI/4;
-        g1.add(arrow);
+        const metaCurve = new MetaInfinityCurve(2.1);
+        const metaTubeGeo = new THREE.TubeGeometry(metaCurve, 80, 0.36, 18, true);
+        const metaMesh = new THREE.Mesh(metaTubeGeo, matMetaBlue);
+        metaGroup.add(metaMesh);
+
+        // Backing Disc & Accent Ring
+        const metaBacking = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.22, 36), matPlateBg);
+        metaBacking.rotation.x = Math.PI / 2;
+        metaBacking.position.z = -0.3;
+        metaGroup.add(metaBacking);
+
+        const metaRing = new THREE.Mesh(new THREE.TorusGeometry(2.58, 0.07, 16, 64), matMetaBlue);
+        metaRing.position.z = -0.28;
+        metaGroup.add(metaRing);
+
+        // Meta Badge Plate
+        const metaBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+        metaBadge.position.set(0, -2.3, 0.15);
+        metaGroup.add(metaBadge);
+        const metaStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matMetaBlue);
+        metaStripe.position.set(0, -2.3, 0.18);
+        metaGroup.add(metaStripe);
+
+        g1.add(metaGroup);
+
+        // --- GOOGLE ADS 3D EMBLEM (Right side) ---
+        const googleGroup = new THREE.Group();
+        googleGroup.position.set(1.8, -1.3, -0.3);
+        googleGroup.scale.set(0.92, 0.92, 0.92);
+
+        const gBacking = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.22, 36), matPlateBg);
+        gBacking.rotation.x = Math.PI / 2;
+        gBacking.position.z = -0.3;
+        googleGroup.add(gBacking);
+
+        const gRing = new THREE.Mesh(new THREE.TorusGeometry(2.58, 0.07, 16, 64), matGoogleYellow);
+        gRing.position.z = -0.28;
+        googleGroup.add(gRing);
+
+        // Google Ads Iconic Angled Bars
+        // 1. Blue Diagonal Capsule (tilted -45deg)
+        const blueBar = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 2.8, 32), matGoogleBlue);
+        blueBar.rotation.z = -Math.PI / 4;
+        blueBar.position.set(-0.3, 0.3, 0.12);
+        googleGroup.add(blueBar);
+        const blueCapA = new THREE.Mesh(new THREE.SphereGeometry(0.36, 20, 20), matGoogleBlue);
+        blueCapA.position.set(-0.3 - 1.4 * 0.7071, 0.3 - 1.4 * 0.7071, 0.12);
+        googleGroup.add(blueCapA);
+        const blueCapB = new THREE.Mesh(new THREE.SphereGeometry(0.36, 20, 20), matGoogleBlue);
+        blueCapB.position.set(-0.3 + 1.4 * 0.7071, 0.3 + 1.4 * 0.7071, 0.12);
+        googleGroup.add(blueCapB);
+
+        // 2. Yellow Diagonal Capsule (tilted +45deg)
+        const yellowBar = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 2.8, 32), matGoogleYellow);
+        yellowBar.rotation.z = Math.PI / 4;
+        yellowBar.position.set(0.3, 0.3, 0.0);
+        googleGroup.add(yellowBar);
+        const yellowCapA = new THREE.Mesh(new THREE.SphereGeometry(0.36, 20, 20), matGoogleYellow);
+        yellowCapA.position.set(0.3 + 1.4 * 0.7071, 0.3 - 1.4 * 0.7071, 0.0);
+        googleGroup.add(yellowCapA);
+        const yellowCapB = new THREE.Mesh(new THREE.SphereGeometry(0.36, 20, 20), matGoogleYellow);
+        yellowCapB.position.set(0.3 - 1.4 * 0.7071, 0.3 + 1.4 * 0.7071, 0.0);
+        googleGroup.add(yellowCapB);
+
+        // 3. Green Circle Node at Lower Left
+        const greenNode = new THREE.Mesh(new THREE.SphereGeometry(0.52, 32, 32), matGoogleGreen);
+        greenNode.position.set(-1.3, -0.7, 0.22);
+        googleGroup.add(greenNode);
+
+        // Google Ads Badge Plate
+        const gBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+        gBadge.position.set(0, -2.3, 0.15);
+        googleGroup.add(gBadge);
+        const gStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matGoogleYellow);
+        gStripe.position.set(0, -2.3, 0.18);
+        googleGroup.add(gStripe);
+
+        g1.add(googleGroup);
+
+        // Connecting Data Orbit Ring
+        const adsOrbit = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.05, 16, 100), matOrange);
+        adsOrbit.rotation.x = Math.PI / 2.3;
+        g1.add(adsOrbit);
+
+        // Floating Metric Nodes
+        for(let i = 0; i < 4; i++) {
+            const angle = (i * Math.PI) / 2;
+            const node = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 16), matWhite);
+            node.position.set(Math.cos(angle) * 3.6, Math.sin(angle) * 1.5, Math.sin(angle) * 0.8);
+            g1.add(node);
+        }
+
         g1.visible = false;
         models.push(g1); mainGroup.add(g1);
 
-        // 2. JaiHaran (Network Globe)
+        // 2. JaiHaran (3D CapCut Symbol)
         const g2 = new THREE.Group();
-        const globe = new THREE.Mesh(new THREE.SphereGeometry(3.5, 32, 32), matDark);
-        g2.add(globe);
-        for(let i=0; i<3; i++) {
-            const ring = new THREE.Mesh(new THREE.TorusGeometry(4.5 + i*0.5, 0.15, 16, 100), matOrange);
-            ring.rotation.x = Math.random() * Math.PI;
-            ring.rotation.y = Math.random() * Math.PI;
-            g2.add(ring);
+
+        // Sleek Matte Black App Squircle Backing
+        const sqShape = new THREE.Shape();
+        const sqR = 0.85, sqW = 5.4, sqH = 5.4;
+        const sqX = -sqW/2, sqY = -sqH/2;
+        sqShape.moveTo(sqX + sqR, sqY);
+        sqShape.lineTo(sqX + sqW - sqR, sqY);
+        sqShape.quadraticCurveTo(sqX + sqW, sqY, sqX + sqW, sqY + sqR);
+        sqShape.lineTo(sqX + sqW, sqY + sqH - sqR);
+        sqShape.quadraticCurveTo(sqX + sqW, sqY + sqH, sqX + sqW - sqR, sqY + sqH);
+        sqShape.lineTo(sqX + sqR, sqY + sqH);
+        sqShape.quadraticCurveTo(sqX, sqY + sqH, sqX, sqY + sqH - sqR);
+        sqShape.lineTo(sqX, sqY + sqR);
+        sqShape.quadraticCurveTo(sqX, sqY, sqX + sqR, sqY);
+
+        const sqGeo = new THREE.ExtrudeGeometry(sqShape, { depth: 0.55, bevelEnabled: true, bevelSegments: 5, steps: 1, bevelSize: 0.15, bevelThickness: 0.15 });
+        const matCapCutBg = new THREE.MeshStandardMaterial({ color: 0x0b0d11, roughness: 0.35, metalness: 0.85 });
+        const squircleMesh = new THREE.Mesh(sqGeo, matCapCutBg);
+        squircleMesh.position.z = -0.45;
+        g2.add(squircleMesh);
+
+        // Glowing Orange Outer Accent Rim
+        const ccRim = new THREE.Mesh(new THREE.BoxGeometry(5.6, 5.6, 0.05), new THREE.MeshStandardMaterial({ color: 0xff5722, wireframe: true, transparent: true, opacity: 0.45 }));
+        ccRim.position.z = -0.4;
+        g2.add(ccRim);
+
+        // CapCut Iconic Stylized Cutter Blades (Extruded 3D Polygons)
+        const matCapCutWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.15, metalness: 0.25 });
+
+        // Top Blade (Cutter Shear)
+        const ccTopShape = new THREE.Shape();
+        ccTopShape.moveTo(-2.1, 1.7);
+        ccTopShape.lineTo(2.1, 1.7);
+        ccTopShape.lineTo(2.1, 0.85);
+        ccTopShape.lineTo(-0.8, -0.22);
+        ccTopShape.lineTo(-2.1, 0.35);
+        ccTopShape.closePath();
+
+        // Bottom Blade (Inverted & Mirrored)
+        const ccBottomShape = new THREE.Shape();
+        ccBottomShape.moveTo(2.1, -1.7);
+        ccBottomShape.lineTo(-2.1, -1.7);
+        ccBottomShape.lineTo(-2.1, -0.85);
+        ccBottomShape.lineTo(0.8, 0.22);
+        ccBottomShape.lineTo(2.1, -0.35);
+        ccBottomShape.closePath();
+
+        const ccExtrude = { depth: 0.38, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.06, bevelThickness: 0.06 };
+        const topBlade = new THREE.Mesh(new THREE.ExtrudeGeometry(ccTopShape, ccExtrude), matCapCutWhite);
+        topBlade.position.set(0, 0.16, 0.15);
+        g2.add(topBlade);
+
+        const bottomBlade = new THREE.Mesh(new THREE.ExtrudeGeometry(ccBottomShape, ccExtrude), matCapCutWhite);
+        bottomBlade.position.set(0, -0.16, 0.15);
+        g2.add(bottomBlade);
+
+        // Floating Video Editing Timeline & Keyframe Markers
+        const timeline = new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.16, 0.15), matOrange);
+        timeline.position.set(0, -3.2, 0.25);
+        g2.add(timeline);
+
+        for (let i = 0; i < 5; i++) {
+            const cutTick = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.45, 0.16), i === 2 ? matOrange : matWhite);
+            cutTick.position.set(-2.4 + i * 1.2, -3.2, 0.3);
+            g2.add(cutTick);
         }
+
+        // Diamond Keyframes at top
+        for (let i = 0; i < 3; i++) {
+            const kf = new THREE.Mesh(new THREE.OctahedronGeometry(0.22), matOrange);
+            kf.position.set(-1.6 + i * 1.6, 3.2, 0.2);
+            kf.rotation.z = Math.PI / 4;
+            g2.add(kf);
+        }
+
         g2.visible = false;
         models.push(g2); mainGroup.add(g2);
 
-        // 3. Kannan (Web Monitor)
+        // 3. Kannan (3D WordPress & 3D Shopify Symbols)
         const g3 = new THREE.Group();
-        const screen = new THREE.Mesh(new THREE.BoxGeometry(8, 5, 0.5), matDark);
-        g3.add(screen);
-        const glass = new THREE.Mesh(new THREE.PlaneGeometry(7.5, 4.5), matWhite);
-        glass.position.z = 0.26;
-        g3.add(glass);
-        const stand = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 2), matWhite);
-        stand.position.y = -3.5;
-        g3.add(stand);
-        const base = new THREE.Mesh(new THREE.BoxGeometry(4, 0.2, 2.5), matOrange);
-        base.position.y = -4.5;
-        g3.add(base);
-        // Code lines
-        const code1 = new THREE.Mesh(new THREE.BoxGeometry(4, 0.2, 0.1), matOrange);
-        code1.position.set(-1.5, 1, 0.3);
-        g3.add(code1);
-        const code2 = new THREE.Mesh(new THREE.BoxGeometry(6, 0.2, 0.1), matDark);
-        code2.position.set(-0.5, 0, 0.3);
-        g3.add(code2);
+
+        // --- WORDPRESS 3D SYMBOL (Left side) ---
+        const wpGroup = new THREE.Group();
+        wpGroup.position.set(-1.8, 1.3, 0.3);
+        wpGroup.scale.set(0.92, 0.92, 0.92);
+
+        const matWPBlue = new THREE.MeshStandardMaterial({ color: 0x0073aa, roughness: 0.2, metalness: 0.5 });
+        const matWPWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2, metalness: 0.2 });
+
+        // WordPress Circular Coin Base
+        const wpCoin = new THREE.Mesh(new THREE.CylinderGeometry(2.3, 2.3, 0.42, 64), matWPBlue);
+        wpCoin.rotation.x = Math.PI / 2;
+        wpGroup.add(wpCoin);
+
+        // Outer & Inner White Rings
+        const wpOuterRing = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.08, 16, 64), matWPWhite);
+        wpOuterRing.position.z = 0.22;
+        wpGroup.add(wpOuterRing);
+
+        const wpInnerRing = new THREE.Mesh(new THREE.TorusGeometry(1.68, 0.06, 16, 64), matWPWhite);
+        wpInnerRing.position.z = 0.22;
+        wpGroup.add(wpInnerRing);
+
+        // Iconic WordPress "W"
+        const w1 = new THREE.Mesh(new THREE.BoxGeometry(0.24, 2.1, 0.12), matWPWhite);
+        w1.position.set(-0.95, 0.02, 0.25);
+        w1.rotation.z = -0.32;
+        wpGroup.add(w1);
+
+        const w2 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 1.85, 0.12), matWPWhite);
+        w2.position.set(-0.33, 0.05, 0.25);
+        w2.rotation.z = 0.28;
+        wpGroup.add(w2);
+
+        const w3 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 1.85, 0.12), matWPWhite);
+        w3.position.set(0.33, 0.05, 0.25);
+        w3.rotation.z = -0.28;
+        wpGroup.add(w3);
+
+        const w4 = new THREE.Mesh(new THREE.BoxGeometry(0.24, 2.1, 0.12), matWPWhite);
+        w4.position.set(0.95, 0.02, 0.25);
+        w4.rotation.z = 0.32;
+        wpGroup.add(w4);
+
+        // Top Serif Accents
+        const serifL = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.12, 0.12), matWPWhite);
+        serifL.position.set(-1.26, 0.92, 0.25);
+        wpGroup.add(serifL);
+
+        const serifR = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.12, 0.12), matWPWhite);
+        serifR.position.set(1.26, 0.92, 0.25);
+        wpGroup.add(serifR);
+
+        // WP Base Plate
+        const wpBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+        wpBadge.position.set(0, -2.5, 0.12);
+        wpGroup.add(wpBadge);
+        const wpBadgeStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matWPBlue);
+        wpBadgeStripe.position.set(0, -2.5, 0.15);
+        wpGroup.add(wpBadgeStripe);
+
+        g3.add(wpGroup);
+
+        // --- SHOPIFY 3D SYMBOL (Right side) ---
+        const shopifyGroup = new THREE.Group();
+        shopifyGroup.position.set(1.8, -1.3, -0.3);
+        shopifyGroup.scale.set(0.92, 0.92, 0.92);
+
+        const matShopifyGreen = new THREE.MeshStandardMaterial({ color: 0x95bf47, roughness: 0.25, metalness: 0.25 });
+        const matShopifyDarkGreen = new THREE.MeshStandardMaterial({ color: 0x5e8e3e, roughness: 0.3, metalness: 0.3 });
+        const matShopifyWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.15, metalness: 0.2 });
+
+        // Shopify Shopping Bag Body
+        const bagShape = new THREE.Shape();
+        bagShape.moveTo(-1.6, -1.8);
+        bagShape.lineTo(1.6, -1.8);
+        bagShape.lineTo(1.3, 1.4);
+        bagShape.lineTo(-1.3, 1.4);
+        bagShape.closePath();
+
+        const bagGeo = new THREE.ExtrudeGeometry(bagShape, { depth: 1.1, bevelEnabled: true, bevelSegments: 4, steps: 1, bevelSize: 0.12, bevelThickness: 0.12 });
+        const bagMesh = new THREE.Mesh(bagGeo, matShopifyGreen);
+        bagMesh.position.z = -0.55;
+        shopifyGroup.add(bagMesh);
+
+        // Handles
+        const handleA = new THREE.Mesh(new THREE.TorusGeometry(0.65, 0.09, 16, 32, Math.PI), matShopifyDarkGreen);
+        handleA.position.set(0, 1.4, 0.3);
+        shopifyGroup.add(handleA);
+        const handleB = new THREE.Mesh(new THREE.TorusGeometry(0.65, 0.09, 16, 32, Math.PI), matShopifyDarkGreen);
+        handleB.position.set(0, 1.4, -0.3);
+        shopifyGroup.add(handleB);
+
+        // Leaf Accent on Handle
+        const leafShape = new THREE.Shape();
+        leafShape.moveTo(0, 0);
+        leafShape.quadraticCurveTo(-0.4, 0.5, -0.2, 0.9);
+        leafShape.quadraticCurveTo(0.2, 0.6, 0, 0);
+        const leafMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(leafShape, { depth: 0.06, bevelEnabled: false }), new THREE.MeshStandardMaterial({ color: 0x7ab55c }));
+        leafMesh.position.set(-0.6, 1.4, 0.32);
+        leafMesh.rotation.z = -0.3;
+        shopifyGroup.add(leafMesh);
+
+        // Shopify White 'S' on Bag Front
+        const sGroup = new THREE.Group();
+        sGroup.position.set(0, -0.1, 0.62);
+
+        const sTop = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.22, 0.12), matShopifyWhite);
+        sTop.position.set(0, 0.7, 0);
+        sGroup.add(sTop);
+
+        const sTopLeft = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.6, 0.12), matShopifyWhite);
+        sTopLeft.position.set(-0.35, 0.45, 0);
+        sGroup.add(sTopLeft);
+
+        const sMid = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.22, 0.12), matShopifyWhite);
+        sMid.position.set(0, 0.1, 0);
+        sGroup.add(sMid);
+
+        const sBotRight = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.6, 0.12), matShopifyWhite);
+        sBotRight.position.set(0.35, -0.25, 0);
+        sGroup.add(sBotRight);
+
+        const sBot = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.22, 0.12), matShopifyWhite);
+        sBot.position.set(0, -0.5, 0);
+        sGroup.add(sBot);
+
+        shopifyGroup.add(sGroup);
+
+        // Shopify Base Plate
+        const shopifyBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+        shopifyBadge.position.set(0, -2.5, 0.12);
+        shopifyGroup.add(shopifyBadge);
+        const shopifyStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matShopifyGreen);
+        shopifyStripe.position.set(0, -2.5, 0.15);
+        shopifyGroup.add(shopifyStripe);
+
+        g3.add(shopifyGroup);
+
+        // Developer Nexus Orbit Ring
+        const webOrbit = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.05, 16, 100), matOrange);
+        webOrbit.rotation.x = Math.PI / 2.3;
+        g3.add(webOrbit);
+
+        // Floating Code Node Brackets
+        for (let i = 0; i < 4; i++) {
+            const angle = (i * Math.PI) / 2 + Math.PI / 4;
+            const node = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.26, 0.26), matWhite);
+            node.position.set(Math.cos(angle) * 3.6, Math.sin(angle) * 1.5, Math.sin(angle) * 0.8);
+            node.rotation.set(angle, angle, 0);
+            g3.add(node);
+        }
+
         g3.visible = false;
         models.push(g3); mainGroup.add(g3);
 
@@ -785,13 +1097,13 @@
         models.push(g6); mainGroup.add(g6);
 
         // Safe UserData initialization
-        g0.userData = {rx: Math.PI/8, rz: -Math.PI/6}; // Rocket
-        g1.userData = {};
-        g2.userData = {};
-        g3.userData = {};
-        g4.userData = {rx: 0.2, ry: -0.2}; // SEO Search Bar
-        g5.userData = {rx: 0.1, ry: -0.3}; // Clapperboard
-        g6.userData = {rx: 0.2, ry: -0.3}; // Envelope
+        g0.userData = {rx: Math.PI/8, rz: -Math.PI/6, targetScale: 1.0}; // Rocket
+        g1.userData = {rx: 0.15, ry: -0.2, targetScale: 0.92}; // Meta & Google Ads
+        g2.userData = {rx: 0.15, ry: -0.25, targetScale: 0.82}; // CapCut
+        g3.userData = {rx: 0.15, ry: -0.2, targetScale: 0.92}; // WordPress & Shopify
+        g4.userData = {rx: 0.2, ry: -0.2, targetScale: 1.0}; // SEO Search Bar
+        g5.userData = {rx: 0.1, ry: -0.3, targetScale: 1.0}; // Clapperboard
+        g6.userData = {rx: 0.2, ry: -0.3, targetScale: 1.0}; // Envelope
 
 
 
@@ -821,9 +1133,10 @@
                     const tx = m.userData.rx || 0;
                     const ty = m.userData.ry || 0;
                     const tz = m.userData.rz || 0;
+                    const ts = m.userData.targetScale || 1.0;
                     gsap.fromTo(m.position, {z: 30, y: -10}, {z: 0, y: 0, duration: 1.5, ease: 'power3.out', overwrite: true});
                     gsap.fromTo(m.rotation, {x: Math.PI, y: -Math.PI, z: tz}, {x: tx, y: ty, z: tz, duration: 1.5, ease: 'power3.out', overwrite: true, onComplete: () => m.userData.isAnimating = false});
-                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:1, y:1, z:1, duration: 1.5, ease: 'back.out(1.2)', overwrite: true});
+                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:ts, y:ts, z:ts, duration: 1.5, ease: 'back.out(1.2)', overwrite: true});
                 } else if (m.visible) {
                     m.userData.isAnimating = true;
                     // Fly out away from camera
@@ -834,7 +1147,7 @@
 
             // Adjust main group offset based on text alignment
             const isWide = window.innerWidth >= 1024;
-            const offsetX = isWide ? 7.2 : 0;
+            const offsetX = isWide ? 9.6 : 0;
             const offsetY = isWide ? 0 : 5.5;
 
             if (index === 0) { gsap.to(mainGroup.position, {x: 0, y: 0, duration: 1.2, overwrite: true}); } 
@@ -843,7 +1156,7 @@
             else if (index === 3) { gsap.to(mainGroup.position, {x: offsetX, y: offsetY, duration: 1.2, overwrite: true}); } 
             else if (index === 4) { gsap.to(mainGroup.position, {x: -offsetX, y: offsetY, duration: 1.2, overwrite: true}); } 
             else if (index === 5) { gsap.to(mainGroup.position, {x: offsetX, y: offsetY, duration: 1.2, overwrite: true}); }
-            else if (index === 6) { gsap.to(mainGroup.position, {x: isWide ? -7.2 : 0, y: isWide ? 1 : 6, duration: 1.2, overwrite: true}); }
+            else if (index === 6) { gsap.to(mainGroup.position, {x: isWide ? -9.6 : 0, y: isWide ? 1 : 6, duration: 1.2, overwrite: true}); }
         }
 
         // --- STOP MODEL FROM HITTING FOOTER ---

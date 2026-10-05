@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isOpen = typeof force === 'boolean' ? force : !navLinks.classList.contains('mob-open');
                 navLinks.classList.toggle('mob-open', isOpen);
                 newHamburger.classList.toggle('active', isOpen);
+                document.body.classList.toggle('mob-menu-active', isOpen);
                 document.body.style.overflow = isOpen ? 'hidden' : '';
             }
 
@@ -83,7 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (link.closest('.nav-item-services') && !link.closest('.services-mega-menu')) {
                     return;
                 }
-                toggleMenu(false);
+                // Allow browser to process navigation before closing mobile drawer
+                setTimeout(() => {
+                    toggleMenu(false);
+                }, 150);
             });
 
             window.addEventListener('resize', () => {
@@ -94,6 +98,30 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // Setup Mobile Mega-Menu Category Accordions
+        if (navLinks) {
+            const megaCols = navLinks.querySelectorAll('.mega-column');
+            megaCols.forEach((col, idx) => {
+                const header = col.querySelector('.mega-cat-header');
+                if (header && !header.dataset.accordionBound) {
+                    header.dataset.accordionBound = "true";
+                    // First category open by default on mobile so user immediately sees options
+                    if (idx === 0) {
+                        col.classList.add('cat-open');
+                    }
+
+                    header.addEventListener('click', (e) => {
+                        if (window.innerWidth <= 1024) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            col.classList.toggle('cat-open');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Services dropdown toggle on mobile
         if (servicesItem && !servicesItem.dataset.subBound) {
             servicesItem.dataset.subBound = "true";
             const mainServicesLink = servicesItem.querySelector(':scope > a');
@@ -101,16 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mainServicesLink) {
                 mainServicesLink.addEventListener('click', (e) => {
                     if (window.innerWidth <= 1024) {
-                        // On mobile: toggle submenu on first click instead of jumping away
-                        if (!servicesItem.classList.contains('mob-sub-open')) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            servicesItem.classList.add('mob-sub-open');
-                        } else if (e.target.closest('.nav-chevron') || e.target.classList.contains('nav-chevron')) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            servicesItem.classList.remove('mob-sub-open');
-                        }
+                        e.preventDefault();
+                        e.stopPropagation();
+                        servicesItem.classList.toggle('mob-sub-open');
                     }
                 });
             }
@@ -611,4 +632,119 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('touchmove', onPointerMove, {passive: false});
     window.addEventListener('touchend', onPointerUp);
     document.addEventListener('touchend', onPointerUp);
+
+    // ==========================================================================
+    // UNIVERSAL SCROLL REVEAL ANIMATION ENGINE
+    // Smooth, GPU-accelerated reveal animations across services & all subpages
+    // ==========================================================================
+    (function initScrollReveal() {
+        const targetSelectors = [
+            // Subpage Primary Elements
+            '.service-card-block',
+            '.process-card',
+            '.metric-card',
+            '.tech-chip',
+            '.benefit-card',
+            '.package-card',
+            '.pricing-card',
+            '.cta-banner',
+            '.spec-row',
+            '.deliverable-item',
+
+            // services.html Main Elements
+            '.bento-card-unit',
+            '.service-stat-card',
+            '.stat-matrix-cell',
+            '.stage-view-card',
+            '.framework-card',
+            '.industry-card-unit',
+            '.sprint-step-node',
+            '.faq-accordion-item',
+            '.cta-conversion-box',
+
+            // General & Company Pages
+            '.team-card',
+            '.brand-card',
+            '.career-card',
+            '.job-card',
+            '.portfolio-card',
+            '.work-card',
+            '.about-pillar',
+            '.value-box'
+        ];
+
+        // Gather matched elements and filter out any whose parent or ancestor is already a target
+        const rawElements = Array.from(document.querySelectorAll(targetSelectors.join(', ')));
+        const elements = rawElements.filter(el => {
+            const parentTarget = el.parentElement ? el.parentElement.closest(targetSelectors.join(', ')) : null;
+            return !parentTarget;
+        });
+
+        if (!elements.length) return;
+
+        // Apply automatic stagger timing to child items in recognized grid layouts
+        const gridSelectors = [
+            '.process-grid',
+            '.tech-chips',
+            '.bento-services-grid',
+            '.hero-stats-matrix',
+            '.service-stats-matrix',
+            '.industries-cards-matrix',
+            '.sprint-timeline-row',
+            '.faq-accordion-list',
+            '.team-grid',
+            '.brands-grid',
+            '.metrics-grid'
+        ];
+
+        gridSelectors.forEach(gridSel => {
+            document.querySelectorAll(gridSel).forEach(grid => {
+                const items = Array.from(grid.children).filter(child => elements.includes(child));
+                items.forEach((item, index) => {
+                    item.classList.add(`fx-stagger-${Math.min((index % 6) + 1, 6)}`);
+                });
+            });
+        });
+
+        // Initialize elements with directional and scaling animation classes
+        elements.forEach(el => {
+            if (el.classList.contains('bento-card-unit') || el.classList.contains('process-card')) {
+                el.classList.add('fx-reveal-init', 'fx-reveal-scale');
+            } else {
+                el.classList.add('fx-reveal-init');
+            }
+        });
+
+        // Use performant IntersectionObserver for scroll-triggered reveals
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-revealed');
+                        // Clean up will-change after transition completes to preserve memory
+                        setTimeout(() => {
+                            entry.target.style.willChange = 'auto';
+                        }, 850);
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.05,
+                rootMargin: '0px 0px -20px 0px'
+            });
+
+            elements.forEach(el => {
+                // If element is already visible above the fold on initial load, reveal immediately
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    el.classList.add('is-revealed');
+                } else {
+                    observer.observe(el);
+                }
+            });
+        } else {
+            // Instant reveal fallback for older browsers
+            elements.forEach(el => el.classList.add('is-revealed'));
+        }
+    })();
 });

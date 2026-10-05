@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Universal Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="stylesheet" href="style.css?v=15">
 
     <style>
         :root {
@@ -1323,18 +1323,7 @@
 
     <!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
     <script>
-        // 1. Mobile Menu Toggle
-        const hb = document.querySelector('.hamburger'), nl = document.querySelector('.nav-links');
-        if (hb && nl) {
-            hb.addEventListener('click', () => {
-                nl.classList.toggle('mob-open');
-            });
-            window.addEventListener('resize', () => {
-                if (innerWidth > 1024) nl.classList.remove('mob-open');
-            });
-        }
-
-        // 2. Roles Category Filter
+        // 1. Roles Category Filter
         const filterBtns = document.querySelectorAll('.filter-btn');
         const jobCards = document.querySelectorAll('.job-card');
 
@@ -1417,6 +1406,6 @@
             }, 3000);
         }
     </script>
-    <script src="easter-egg.js?v=14"></script>
+    <script src="easter-egg.js?v=15"></script>
 </body>
 </html>

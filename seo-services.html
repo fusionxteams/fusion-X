@@ -178,7 +178,7 @@
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="stylesheet" href="style.css?v=15">
     <link rel="icon" type="image/png" href="logo_transparent.png">
 
     <style>
@@ -2023,26 +2023,6 @@
     <!-- Interactive Client Scripts -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Mobile Hamburger
-            const hb = document.querySelector('.hamburger');
-            const nl = document.querySelector('.nav-links');
-            if (hb && nl) {
-                hb.addEventListener('click', () => {
-                    const open = nl.classList.toggle('mob-open');
-                    Object.assign(nl.style, open ? {
-                        display: 'flex',
-                        flexDirection: 'column',
-                        position: 'absolute',
-                        top: '70px',
-                        left: '0',
-                        width: '100%',
-                        background: '#07080d',
-                        padding: '20px 0',
-                        gap: '20px',
-                        boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
-                    } : { display: 'none' });
-                });
-            }
 
             // 2. Locality Matrix Tabs
             const locBtns = document.querySelectorAll('.loc-tab-btn');
@@ -2099,6 +2079,6 @@
     <script src="orange-dots.js"></script>
 
     <!-- Slingshot Charm Easter Egg & Offer Modal -->
-    <script src="easter-egg.js?v=14"></script>
+    <script src="easter-egg.js?v=15"></script>
 </body>
 </html>

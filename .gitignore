@@ -28,3 +28,5 @@ Thumbs.db
 # WordPress-specific (Optional based on how you deploy)
 # wp-config.php
 # wp-content/uploads/
+
+.playwright-mcp/

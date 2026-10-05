@@ -784,41 +784,27 @@ body {
     
 
     #spider-container {
-
-        height: 450px !important;
-
+        height: 540px !important;
+        overflow: hidden !important;
+        touch-action: pan-y;
     }
-
-    
 
     #center-logo-html {
-
-        width: 140px !important; /* Scale logo down drastically to fit mobile */
-
+        width: 105px !important; /* Scaled down neatly for mobile */
     }
-
-    
 
     /* Shrink HTML Popups */
-
     .map-popup {
-
         font-size: 11px;
-
         padding: 6px 12px;
-
     }
 
-    
-
     .web-icon {
-
-        font-size: 10px;
-
-        padding: 4px 8px;
-
-        border-radius: 12px;
-
+        font-size: 11px;
+        padding: 5px 9px;
+        border-radius: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        touch-action: manipulation;
     }
 
     

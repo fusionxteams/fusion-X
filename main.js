@@ -1,43 +1,4 @@
-// Mobile Menu Toggle
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
 
-if (hamburger) {
-    hamburger.addEventListener('click', () => {
-        if (navLinks.style.display === 'flex') {
-            navLinks.style.display = '';
-            navLinks.style.flexDirection = '';
-            navLinks.style.alignItems = '';
-            navLinks.style.position = '';
-            navLinks.style.top = '';
-            navLinks.style.left = '';
-            navLinks.style.width = '';
-            navLinks.style.background = '';
-            navLinks.style.padding = '';
-            navLinks.style.boxShadow = '';
-            navLinks.style.zIndex = '';
-        } else {
-            navLinks.style.display = 'flex';
-            navLinks.style.flexDirection = 'column';
-            navLinks.style.alignItems = 'center'; // Center the links!
-            navLinks.style.position = 'absolute';
-            navLinks.style.top = '70px';
-            navLinks.style.left = '0';
-            navLinks.style.width = '100%';
-            navLinks.style.background = 'white';
-            navLinks.style.padding = '30px 0'; // A bit more padding
-            navLinks.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
-            navLinks.style.zIndex = '1000'; // Ensure it's on top
-        }
-    });
-
-    // Fix: Clear inline styles if resizing back to desktop
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768) {
-            navLinks.removeAttribute('style');
-        }
-    });
-}
 
 // Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

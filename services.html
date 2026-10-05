@@ -17,6 +17,7 @@
     
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=14">
 
     <!-- JSON-LD Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -173,98 +174,6 @@
             transition: var(--fx-transition);
         }
 
-        /* ==========================================================================
-           UNIVERSAL FROSTED LIGHT NAVBAR
-           ========================================================================== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--fx-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 6%;
-            z-index: 1000;
-            transition: var(--fx-transition);
-        }
-
-        .navbar .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .navbar .logo {
-            height: 44px;
-            width: auto;
-            filter: drop-shadow(0 2px 6px rgba(255, 87, 34, 0.25));
-        }
-
-        .navbar .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 36px;
-            list-style: none;
-        }
-
-        .navbar .nav-links a {
-            font-family: var(--fx-font-body);
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--fx-text-secondary);
-            position: relative;
-            padding: 6px 0;
-        }
-
-        .navbar .nav-links a:hover,
-        .navbar .nav-links a.active {
-            color: var(--fx-text-primary);
-        }
-
-        .navbar .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--fx-orange);
-            border-radius: 2px;
-            box-shadow: 0 0 8px var(--fx-orange);
-        }
-
-        .navbar-cta-btn {
-            background: linear-gradient(135deg, var(--fx-orange) 0%, #e64a19 100%);
-            color: #fff !important;
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 16px rgba(255, 87, 34, 0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .navbar-cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 87, 34, 0.45);
-        }
-
-        .hamburger {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--fx-text-primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
 
         /* ==========================================================================
            2026 KINETIC HERO SECTION (CLEAN WHITE)
@@ -1296,8 +1205,6 @@
         }
 
         @media (max-width: 768px) {
-            .navbar .nav-links { display: none; }
-            .hamburger { display: block; }
             .bento-services-grid { grid-template-columns: 1fr; }
             .bento-card-unit.span-2, .bento-card-unit.span-3 { grid-column: span 1; }
             .stage-grid-quad { grid-template-columns: 1fr; }
@@ -1318,24 +1225,88 @@
     <nav class="navbar">
         <div class="logo-container">
             <a href="index.html">
-                <img src="logo_transparent.png" alt="Fusion X Agency Logo" class="logo">
+                <img src="logo_transparent.png" alt="Fusion X - Best Digital Marketing Company India" class="logo">
             </a>
         </div>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about-us.html">About Us</a></li>
-            <li><a href="our-team.html">Our Team</a></li>
-            <li><a href="services.html" class="active">Services</a></li>
-            <li><a href="our-works.html">Our Works</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about-us.html">ABOUT US</a></li>
+            <li class="nav-item-services">
+                <a href="services.html" class="active">SERVICES <i class="fa-solid fa-chevron-down nav-chevron"></i></a>
+                <div class="services-mega-menu">
+                    <div class="mega-menu-inner">
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-code"></i><span>WEBSITE</span></div>
+                            <ul class="mega-links">
+                                <li><a href="website-development.html#portfolio-website"><span class="link-title">Portfolio Website</span><span class="link-sub">WordPress Custom Page</span></a></li>
+                                <li><a href="website-development.html#basic-website"><span class="link-title">Basic Website</span><span class="link-sub">WordPress Business Site</span></a></li>
+                                <li><a href="website-development.html#ecommerce-website"><span class="link-title">E-Commerce Website</span><span class="link-sub">Shopify & WooCommerce</span></a></li>
+                                <li><a href="website-development.html#landing-page"><span class="link-title">Landing Page</span><span class="link-sub">High-Converting Funnels</span></a></li>
+                                <li><a href="website-development.html#wedding-invitation"><span class="link-title">Wedding Digital Invitation</span><span class="link-sub">Bespoke Interactive E-Invites</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-magnifying-glass-chart"></i><span>SEO</span></div>
+                            <ul class="mega-links">
+                                <li><a href="seo-services.html"><span class="link-title">SEO for Website</span><span class="link-sub">On-Page & Off-Page SEO</span></a></li>
+                                <li><a href="site-reworking.html"><span class="link-title">Site Reworking</span><span class="link-sub">Speed & Architecture Fixes</span></a></li>
+                                <li><a href="content-blogs.html"><span class="link-title">Content & Blogs</span><span class="link-sub">Ranking Blog Production</span></a></li>
+                                <li><a href="backlinks-guest-blogs.html"><span class="link-title">Backlinks & Guest Blogs</span><span class="link-sub">Authority Link Building</span></a></li>
+                                <li><a href="local-seo.html"><span class="link-title">Local SEO for GMB</span><span class="link-sub">Google My Business Maps</span></a></li>
+                                <li><a href="social-video-seo.html"><span class="link-title">YouTube & Instagram SEO</span><span class="link-sub">Algorithm & Search Reach</span></a></li>
+                                <li><a href="brand-analysis.html"><span class="link-title">Brand Analyses</span><span class="link-sub">Competitor & EEAT Audit</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-share-nodes"></i><span>SOCIAL MEDIA MANAGEMENT</span></div>
+                            <ul class="mega-links">
+                                <li><a href="social-media-management.html#content-writing"><span class="link-title">Content Writing</span><span class="link-sub">Captions & Copywriting</span></a></li>
+                                <li><a href="social-media-management.html#video-editing"><span class="link-title">Video Editing</span><span class="link-sub">Reels, Shorts & Commercials</span></a></li>
+                                <li><a href="social-media-management.html#content-creation"><span class="link-title">Content Creation</span><span class="link-sub">Visuals, Graphics & Feeds</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-bullseye"></i><span>META & GOOGLE ADS</span></div>
+                            <ul class="mega-links">
+                                <li><a href="meta-google-ads.html#meta-ads"><span class="link-title">Meta Ads</span><span class="link-sub">Facebook & Instagram Scale</span></a></li>
+                                <li><a href="meta-google-ads.html#google-ads"><span class="link-title">Google Ads</span><span class="link-sub">Search, Display & PMax</span></a></li>
+                                <li><a href="meta-google-ads.html#youtube-ads"><span class="link-title">YouTube Ads</span><span class="link-sub">Video Campaigns & Retargeting</span></a></li>
+                                <li><a href="meta-google-ads.html#creative-strategy"><span class="link-title">Ad Creative Strategy</span><span class="link-sub">A/B Testing & High ROAS</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-chart-line"></i><span>MARKETING</span></div>
+                            <ul class="mega-links">
+                                <li><a href="marketing-services.html#email-marketing"><span class="link-title">Email Marketing</span><span class="link-sub">Automations & Drip Flows</span></a></li>
+                                <li><a href="marketing-services.html#whatsapp-marketing"><span class="link-title">WhatsApp Marketing</span><span class="link-sub">Official API Broadcasts & Bots</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mega-menu-footer">
+                        <span>Looking for customized agency scope?</span>
+                        <a href="services.html" class="mega-footer-cta">View All Services <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </li>
+            <li><a href="brands.html">BRANDS</a></li>
+            <li><a href="our-team.html">OUR TEAM</a></li>
+            <li><a href="our-works.html">OUR WORKS</a></li>
+            <li><a href="careers.html">CAREERS</a></li>
         </ul>
-        <div style="display:flex; align-items:center; gap:16px;">
-            <a href="tel:+919600096973" class="navbar-cta-btn">
-                <i class="fas fa-phone"></i> +91 9600096973
-            </a>
-            <button class="hamburger" aria-label="Toggle Navigation Menu">
-                <i class="fas fa-bars"></i>
-            </button>
+        <div class="nav-actions">
+            <div class="dangling-container">
+                <a href="contact.html" class="nav-cta-btn">LET'S CONNECT</a>
+                <div class="charm-string">
+                    <img src="logo_transparent.png" class="charm-object" alt="Fusion X Charm" draggable="false">
+                </div>
+            </div>
+            <div class="hamburger">
+                <svg viewBox="0 0 100 80" width="30" height="30">
+                    <rect width="100" height="15" rx="8" fill="#ff5722"></rect>
+                    <rect y="30" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                    <rect y="60" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                </svg>
+            </div>
         </div>
     </nav>
 
@@ -2255,20 +2226,7 @@
             const nl = document.querySelector('.nav-links');
             if (hb && nl) {
                 hb.addEventListener('click', () => {
-                    const isOpen = nl.classList.toggle('mob-open');
-                    Object.assign(nl.style, isOpen ? {
-                        display: 'flex',
-                        flexDirection: 'column',
-                        position: 'absolute',
-                        top: '80px',
-                        left: '0',
-                        width: '100%',
-                        background: 'rgba(7, 8, 12, 0.98)',
-                        padding: '30px 24px',
-                        gap: '20px',
-                        borderBottom: '1px solid var(--fx-border)',
-                        boxShadow: '0 20px 40px rgba(0,0,0,0.8)'
-                    } : { display: 'none' });
+                    nl.classList.toggle('mob-open');
                 });
             }
 
@@ -2333,5 +2291,6 @@
             });
         });
     </script>
+    <script src="easter-egg.js?v=14"></script>
 </body>
 </html>

@@ -37,6 +37,86 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Universal Mobile Navbar & Accordion Dropdown System
+    (function initUniversalNavbar() {
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const servicesItem = document.querySelector('.nav-item-services');
+
+        if (navLinks && !navLinks.querySelector('.mob-drawer-cta')) {
+            const drawerCta = document.createElement('li');
+            drawerCta.className = 'mob-drawer-cta';
+            drawerCta.innerHTML = '<a href="contact.html" class="mob-cta-btn">LET\'S CONNECT <i class="fa-solid fa-arrow-right"></i></a>';
+            navLinks.appendChild(drawerCta);
+        }
+
+        if (hamburger && navLinks) {
+            // Strip any legacy/duplicate event listeners by cloning the element
+            const newHamburger = hamburger.cloneNode(true);
+            hamburger.parentNode.replaceChild(newHamburger, hamburger);
+
+            function toggleMenu(force) {
+                const isOpen = typeof force === 'boolean' ? force : !navLinks.classList.contains('mob-open');
+                navLinks.classList.toggle('mob-open', isOpen);
+                newHamburger.classList.toggle('active', isOpen);
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+            }
+
+            newHamburger.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleMenu();
+            });
+
+            document.addEventListener('click', (e) => {
+                if (navLinks.classList.contains('mob-open')) {
+                    if (!e.target.closest('.nav-links') && !e.target.closest('.hamburger')) {
+                        toggleMenu(false);
+                    }
+                }
+            });
+
+            navLinks.addEventListener('click', (e) => {
+                const link = e.target.closest('a');
+                if (!link) return;
+                // If it's the services parent link on mobile, don't close the menu
+                if (link.closest('.nav-item-services') && !link.closest('.services-mega-menu')) {
+                    return;
+                }
+                toggleMenu(false);
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 1024) {
+                    toggleMenu(false);
+                    if (servicesItem) servicesItem.classList.remove('mob-sub-open');
+                }
+            });
+        }
+
+        if (servicesItem && !servicesItem.dataset.subBound) {
+            servicesItem.dataset.subBound = "true";
+            const mainServicesLink = servicesItem.querySelector(':scope > a');
+
+            if (mainServicesLink) {
+                mainServicesLink.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 1024) {
+                        // On mobile: toggle submenu on first click instead of jumping away
+                        if (!servicesItem.classList.contains('mob-sub-open')) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            servicesItem.classList.add('mob-sub-open');
+                        } else if (e.target.closest('.nav-chevron') || e.target.classList.contains('nav-chevron')) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            servicesItem.classList.remove('mob-sub-open');
+                        }
+                    }
+                });
+            }
+        }
+    })();
+
     const charmString = document.querySelector('.charm-string');
     const charmObj = document.querySelector('.charm-object');
     if (!charmString || !charmObj) return;
@@ -145,9 +225,17 @@ document.addEventListener('DOMContentLoaded', () => {
         startY = currentY;
     };
 
+    const getObjMetrics = () => {
+        const isMob = window.innerWidth < 900;
+        const w = charmObj.offsetWidth || (isMob ? 36 : 48);
+        const h = isMob ? 52 : 70;
+        return { halfW: w / 2, restH: h, minStretch: isMob ? 55 : 90, maxStretch: isMob ? 140 : 185 };
+    };
+
     const drawString = () => {
         if (isCut || !isDragging) return;
-        const dx = (currentX + 24) - anchorX;
+        const { halfW } = getObjMetrics();
+        const dx = (currentX + halfW) - anchorX;
         const dy = (currentY) - anchorY;
         const angle = Math.atan2(dy, dx) - Math.PI / 2;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -173,8 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         drawString();
         
-        const stretchDist = Math.sqrt(Math.pow((currentX + 24) - anchorX, 2) + Math.pow(currentY - anchorY, 2));
-        if (stretchDist > 185) {
+        const { halfW, maxStretch } = getObjMetrics();
+        const stretchDist = Math.sqrt(Math.pow((currentX + halfW) - anchorX, 2) + Math.pow(currentY - anchorY, 2));
+        if (stretchDist > maxStretch) {
             cutString();
         }
     };
@@ -184,27 +273,28 @@ document.addEventListener('DOMContentLoaded', () => {
         isDragging = false;
         charmObj.style.cursor = 'grab';
         
-        const stretchDist = Math.sqrt(Math.pow((currentX + 24) - anchorX, 2) + Math.pow(currentY - anchorY, 2));
+        const { halfW, restH, minStretch } = getObjMetrics();
+        const stretchDist = Math.sqrt(Math.pow((currentX + halfW) - anchorX, 2) + Math.pow(currentY - anchorY, 2));
         
-        if (stretchDist >= 90) {
+        if (stretchDist >= minStretch) {
             cutString();
         } else {
             // Not pulled enough: return to rope
             charmString.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-            charmString.style.height = '70px';
+            charmString.style.height = restH + 'px';
             charmString.style.transform = 'rotate(0deg)';
             
             charmObj.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
             const stringRect = charmString.getBoundingClientRect();
-            charmObj.style.left = (stringRect.left - 24 + stringRect.width / 2) + 'px';
-            charmObj.style.top = (stringRect.top + 70) + 'px';
+            charmObj.style.left = (stringRect.left - halfW + stringRect.width / 2) + 'px';
+            charmObj.style.top = (stringRect.top + restH) + 'px';
             
             setTimeout(() => {
                 charmString.style.transition = 'none';
                 charmObj.style.transition = 'none';
                 charmObj.style.position = 'absolute';
-                charmObj.style.left = '-24px';
-                charmObj.style.top = '70px';
+                charmObj.style.left = (-halfW) + 'px';
+                charmObj.style.top = restH + 'px';
                 charmString.appendChild(charmObj);
                 charmString.style.animation = 'swing 3s ease-in-out infinite alternate';
             }, 320);

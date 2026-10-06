@@ -101,20 +101,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Setup Mobile Mega-Menu Category Accordions
         if (navLinks) {
             const megaCols = navLinks.querySelectorAll('.mega-column');
-            megaCols.forEach((col, idx) => {
+            megaCols.forEach((col) => {
                 const header = col.querySelector('.mega-cat-header');
                 if (header && !header.dataset.accordionBound) {
                     header.dataset.accordionBound = "true";
-                    // First category open by default on mobile so user immediately sees options
-                    if (idx === 0) {
-                        col.classList.add('cat-open');
-                    }
-
+                    // Do NOT auto-open any category; keep all collapsed so HOME & ABOUT US stay visible!
                     header.addEventListener('click', (e) => {
                         if (window.innerWidth <= 1024) {
                             e.preventDefault();
                             e.stopPropagation();
-                            col.classList.toggle('cat-open');
+                            const wasOpen = col.classList.contains('cat-open');
+                            // Close other categories to keep mobile menu compact and keep HOME & ABOUT US in view
+                            megaCols.forEach(c => c.classList.remove('cat-open'));
+                            if (!wasOpen) {
+                                col.classList.add('cat-open');
+                            }
+                            navLinks.scrollTop = 0;
                         }
                     });
                 }
@@ -131,7 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (window.innerWidth <= 1024) {
                         e.preventDefault();
                         e.stopPropagation();
-                        servicesItem.classList.toggle('mob-sub-open');
+                        const isOpen = servicesItem.classList.toggle('mob-sub-open');
+                        // When opening or closing, reset categories and guarantee HOME & ABOUT US are in view
+                        if (isOpen) {
+                            navLinks.querySelectorAll('.mega-column').forEach(c => c.classList.remove('cat-open'));
+                        }
+                        navLinks.scrollTop = 0;
                     }
                 });
             }

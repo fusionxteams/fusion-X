@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brand Analyses & EEAT Competitor Audit Services | Fusion X</title>
-    <meta name="description" content="Gain unfair market advantage with comprehensive brand analyses and EEAT audits by Fusion X Chennai. Competitor keyword gap teardowns, Google trust scorecards, and executive revenue roadmaps.">
+    <title>Comprehensive Competitor Analysis & Market Intelligence | Fusion X</title>
+    <meta name="description" content="Deep competitor intelligence audits by Fusion X. Reverse-engineer competitor SEO keywords, paid ad funnels, pricing strategies, and market gaps to outrank rivals.">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -152,38 +152,59 @@
             font-weight: 700;
             font-size: 1rem;
             border-radius: 50px;
-            border: 2px solid #e2e8f0;
             text-decoration: none;
+            border: 1px solid #e2e8f0;
             transition: all 0.3s ease;
         }
 
         .btn-secondary-hero:hover {
-            border-color: #cbd5e1;
             background: #f8fafc;
+            border-color: #cbd5e1;
             transform: translateY(-2px);
         }
 
-        /* ── CONTENT CONTAINER ── */
+        /* ── MAIN CONTENT ── */
         .content-section {
-            padding: 90px 24px;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 90px 24px;
         }
 
+        .section-header {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto 70px;
+        }
+
+        .section-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--dev-muted);
+            line-height: 1.7;
+        }
+
+        /* ── SERVICE CARDS ── */
         .service-card-block {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            gap: 60px;
             align-items: center;
-            padding: 60px 0;
-            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 100px;
         }
 
         .service-card-block:nth-child(even) {
             direction: rtl;
         }
 
-        .service-card-block:nth-child(even) .card-text-col {
+        .service-card-block:nth-child(even) .card-content-box {
             direction: ltr;
         }
 
@@ -311,7 +332,7 @@
 
         .process-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 24px;
             max-width: 1200px;
             margin: 0 auto;
@@ -321,76 +342,95 @@
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            padding: 32px 24px;
-            position: relative;
+            padding: 36px 28px;
+            transition: all 0.3s ease;
+        }
+
+        .process-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 87, 34, 0.5);
+            transform: translateY(-5px);
         }
 
         .step-num {
             font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 900;
-            color: rgba(255, 87, 34, 0.4);
-            margin-bottom: 12px;
+            color: var(--dev-orange);
+            margin-bottom: 16px;
         }
 
         .step-title {
-            font-size: 1.15rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
             font-weight: 700;
             margin-bottom: 10px;
-            color: #ffffff;
         }
 
         .step-desc {
-            font-size: 0.92rem;
             color: #94a3b8;
+            font-size: 0.95rem;
             line-height: 1.6;
         }
 
         /* ── CTA BANNER ── */
         .cta-banner {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #ff5722 0%, #ff8a50 100%);
             border-radius: 28px;
-            padding: 60px 40px;
+            padding: 70px 40px;
             text-align: center;
             color: #ffffff;
-            margin: 60px auto 0;
+            margin: 60px auto 40px;
             max-width: 1100px;
-            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+            box-shadow: 0 20px 50px rgba(255, 87, 34, 0.25);
         }
 
         .cta-banner h2 {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2rem, 4vw, 3.2rem);
             font-weight: 900;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
         .cta-banner p {
-            font-size: 1.1rem;
-            color: #cbd5e1;
+            font-size: 1.15rem;
             max-width: 650px;
-            margin: 0 auto 30px;
+            margin: 0 auto 36px;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .cta-banner .btn-primary-hero {
+            background: #ffffff;
+            color: #ff5722;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-banner .btn-primary-hero:hover {
+            background: #f8fafc;
+            color: #e64a19;
+            transform: translateY(-2px);
         }
 
         @media (max-width: 900px) {
             .service-card-block {
                 grid-template-columns: 1fr;
-                gap: 30px;
-                padding: 40px 0;
+                gap: 40px;
             }
             .service-card-block:nth-child(even) {
                 direction: ltr;
             }
-            .process-grid {
-                grid-template-columns: 1fr;
+            .process-section {
+                padding: 60px 20px;
+                margin: 40px 16px;
+                border-radius: 24px;
             }
         }
     </style>
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 <body>
-
-    <!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
-        <nav class="navbar">
+    <nav class="navbar">
         <div class="logo-container">
             <a href="index.html">
                 <img src="logo_transparent.png" alt="Fusion X - Best Digital Marketing Company India" class="logo">
@@ -485,176 +525,129 @@
         </div>
     </nav>
 
-    <!-- ═══════════════════════ HERO ═══════════════════════ -->
+    <!-- ═══════════════════════ HERO SECTION ═══════════════════════ -->
     <header class="page-hero">
         <div class="badge-pill">
-            <i class="fa-solid fa-chart-pie"></i> BRAND INTELLIGENCE & EEAT AUDITING
+            <i class="fa-solid fa-magnifying-glass-chart"></i> Competitive Market Intelligence
         </div>
-        <h1 class="hero-title">
-            Expose Competitor Vulnerabilities & <span>Command Your Industry</span>
-        </h1>
-        <p class="hero-desc">
-            You cannot outperform market rivals without mapping their digital strategy. We conduct forensic 150-point brand intelligence audits, competitor keyword gap teardowns, and Google EEAT credibility audits that give leadership an unfair advantage.
-        </p>
+        <h1 class="hero-title">Deep Competitor Intelligence Audits <span>To Outmaneuver & Outrank Rivals</span></h1>
+        <p class="hero-desc">Know your competitors' playbooks better than they do. We reverse-engineer your rivals' organic keywords, paid ad funnels, backlink networks, pricing tiers, and vulnerability gaps.</p>
+        
         <div class="tech-chips">
-            <div class="tech-chip"><i class="fa-solid fa-file-shield"></i> 150-Point Digital Health Audit</div>
-            <div class="tech-chip"><i class="fa-solid fa-certificate"></i> Google EEAT Scorecard</div>
-            <div class="tech-chip"><i class="fa-solid fa-magnifying-glass-arrow-right"></i> Competitor Keyword Gap Analysis</div>
-            <div class="tech-chip"><i class="fa-solid fa-chart-simple"></i> Share of Voice (SOV) Metrics</div>
-            <div class="tech-chip"><i class="fa-solid fa-compass-drafting"></i> 90-Day Execution Roadmap</div>
+            <div class="tech-chip"><i class="fa-solid fa-magnifying-glass"></i> Keyword & Search Gap Intelligence</div>
+            <div class="tech-chip"><i class="fa-solid fa-rectangle-ad"></i> Paid Ad Funnel Reverse-Engineering</div>
+            <div class="tech-chip"><i class="fa-solid fa-link"></i> Backlink & Authority Takeover</div>
+            <div class="tech-chip"><i class="fa-solid fa-shield-virus"></i> Competitor Vulnerability Audit</div>
+            <div class="tech-chip"><i class="fa-solid fa-chess"></i> Counter-Positioning Strategy Matrix</div>
         </div>
+
         <div class="hero-ctas">
-            <a href="contact.html" class="btn-primary-hero">Request Comprehensive Brand Audit <i class="fa-solid fa-arrow-right"></i></a>
-            <a href="#competitor-gap" class="btn-secondary-hero">Explore Brand Audit Pillars</a>
+            <a href="contact.html" class="btn-primary-hero">Request Proposal <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="services.html" class="btn-secondary-hero">Explore All Services</a>
         </div>
     </header>
 
-    <!-- ═══════════════════════ SERVICES BREAKDOWN ═══════════════════════ -->
+    <!-- ═══════════════════════ DELIVERABLES / CORE ARCHITECTURE ═══════════════════════ -->
     <main class="content-section">
+        <div class="section-header">
+            <h2>Competitor Reconnaissance Frameworks</h2>
+            <p>Eliminate guesswork with forensic intelligence covering your top 5 competitors across search, ads, and offers.</p>
+        </div>
 
-        <!-- Card 1: Full-Spectrum Competitor Keyword Gap Analysis -->
-        <div class="service-card-block" id="competitor-gap">
-            <div class="card-text-col">
-                <span class="card-tag"><i class="fa-solid fa-crosshairs"></i> Market Teardown</span>
-                <h2 class="card-title">Competitor Keyword Gap Analysis & Traffic Mapping</h2>
-                <p class="card-desc">
-                    We reverse-engineer the digital footprints of your top 5 market rivals. We isolate their highest-yielding commercial keywords, dissect their backlink acquisition engines, identify their underperforming pages, and hand you the playbook to capture their organic customers.
-                </p>
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">SEARCH & KEYWORDS</span>
+                <h3 class="card-title">Organic Search & Keyword Gap Intelligence</h3>
+                <p class="card-desc">Discover the exact high-intent, high-margin search queries driving sales to your competitors. We reveal keyword ranking gaps, content weaknesses, and SERP takeover opportunities.</p>
                 <ul class="card-feature-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Complete organic keyword gap matrix identifying missed buyer queries</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Analysis of competitors' paid ad copy, targeting angles, and landing pages</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Identification of competitor content decay and ranking drop-off points</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Estimated organic revenue opportunity calculations per keyword silo</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Exhaustive Competitor Keyword Ranking Maps</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Content Quality & EEAT Vulnerability Breakdown</li>
+                    <li><i class="fa-solid fa-circle-check"></i> High-Volume / Low-Difficulty Gap Takeover Targets</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Google Maps Local 3-Pack Proximity Audits</li>
                 </ul>
-                <div class="card-tech-tags">
-                    <span class="card-tech-tag">Keyword Gap</span>
-                    <span class="card-tech-tag">Rival Teardown</span>
-                    <span class="card-tech-tag">Traffic Mapping</span>
-                    <span class="card-tech-tag">SERP Overlap</span>
+                <div style="margin-top: 20px;">
+                    <span class="card-tech-tag">Keyword Gap</span><span class="card-tech-tag">SERP Takeover</span><span class="card-tech-tag">Competitor Keywords</span><span class="card-tech-tag">EEAT Audit</span>
                 </div>
             </div>
             <div class="card-visual-box">
-                <i class="fa-solid fa-crosshairs card-visual-icon"></i>
-                <div class="card-visual-stat">$240K+</div>
-                <div class="card-visual-sub">Average Unclaimed Pipeline Uncovered</div>
+                <div class="card-visual-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="card-visual-stat">500+</div>
+                <div class="card-visual-sub">Keyword Gaps Uncovered</div>
             </div>
         </div>
-
-        <!-- Card 2: Google EEAT Credibility Scorecard -->
-        <div class="service-card-block" id="eeat-scorecard">
-            <div class="card-text-col">
-                <span class="card-tag"><i class="fa-solid fa-award"></i> Search Quality</span>
-                <h2 class="card-title">Google EEAT Scorecard & Authority Assessment</h2>
-                <p class="card-desc">
-                    Google's Search Quality Evaluator Guidelines weigh Experience, Expertise, Authoritativeness, and Trustworthiness above all else. We audit your leadership personas, schema entity associations, press footprint, and accreditation transparency to insulate your site from algorithm updates.
-                </p>
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">PAID AD RECONNAISSANCE</span>
+                <h3 class="card-title">Paid Ad Creative & Conversion Funnel Deconstruction</h3>
+                <p class="card-desc">Inspect your competitors' active Meta and Google ad campaigns. We analyze their highest-spending creative formats, hook angles, landing page copies, and checkout upsell structures.</p>
                 <ul class="card-feature-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Experience & Expertise review of your brand's editorial contributors</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Organization Schema markup connecting your brand to Google Knowledge Graph</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Third-party brand sentiment audit across Reddit, Quora, and review sites</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Action plan to align your content with Google Helpful Content standards</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Active Meta Ad Library Forensic Analysis</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Google Search & YouTube Ad Copy Deconstruction</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Competitor Landing Page Speed & Conversion Flaws</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Offer Structure & Pricing Comparison Matrices</li>
                 </ul>
-                <div class="card-tech-tags">
-                    <span class="card-tech-tag">EEAT Scorecard</span>
-                    <span class="card-tech-tag">Knowledge Graph</span>
-                    <span class="card-tech-tag">Author Authority</span>
-                    <span class="card-tech-tag">Helpful Content</span>
+                <div style="margin-top: 20px;">
+                    <span class="card-tech-tag">Meta Ad Intel</span><span class="card-tech-tag">Google Ads Recon</span><span class="card-tech-tag">Funnel Hacking</span><span class="card-tech-tag">Offer Audit</span>
                 </div>
             </div>
             <div class="card-visual-box">
-                <i class="fa-solid fa-shield-heart card-visual-icon"></i>
-                <div class="card-visual-stat">94/100</div>
-                <div class="card-visual-sub">Target EEAT Credibility Index</div>
+                <div class="card-visual-icon"><i class="fa-solid fa-bullseye"></i></div>
+                <div class="card-visual-stat">100%</div>
+                <div class="card-visual-sub">Ad Funnel Transparency</div>
             </div>
         </div>
-
-        <!-- Card 3: Share of Voice (SOV) & Digital Sentiment Mapping -->
-        <div class="service-card-block" id="share-of-voice">
-            <div class="card-text-col">
-                <span class="card-tag"><i class="fa-solid fa-chart-column"></i> Market Share</span>
-                <h2 class="card-title">Share of Voice (SOV) & Digital Sentiment Mapping</h2>
-                <p class="card-desc">
-                    Are customers thinking of your brand first when evaluating options in your niche? We track branded search volume growth, unlinked press mentions, industry sentiment trajectory, and calculate your exact organic market Share of Voice against direct competitors.
-                </p>
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">STRATEGIC COUNTER-PLAYBOOK</span>
+                <h3 class="card-title">Actionable Counter-Positioning Strategy Matrix</h3>
+                <p class="card-desc">Intelligence is meaningless without execution. We distill all competitive findings into a prioritized roadmap outlining how to systematically win market share and exploit rival weaknesses.</p>
                 <ul class="card-feature-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Monthly branded search volume trends across Google Search & Trends</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Organic Share of Voice calculation across high-intent industry terms</li>
-                    <li><i class="fa-solid fa-circle-check"></i> AI sentiment classification analyzing customer feedback and discussions</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Identification of unlinked brand mentions ready for link reclamation</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Step-by-Step Market Takeover Action Plan</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Immediate Quick-Win Search & Ad Targets</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Counter-Messaging & Objection-Handling Playbook</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Long-Term Domain Authority Catch-Up Roadmap</li>
                 </ul>
-                <div class="card-tech-tags">
-                    <span class="card-tech-tag">Share of Voice</span>
-                    <span class="card-tech-tag">Brand Search Growth</span>
-                    <span class="card-tech-tag">Sentiment Analysis</span>
-                    <span class="card-tech-tag">Brand Equity</span>
+                <div style="margin-top: 20px;">
+                    <span class="card-tech-tag">Counter-Strategy</span><span class="card-tech-tag">Action Roadmap</span><span class="card-tech-tag">Quick Wins</span><span class="card-tech-tag">Market Takeover</span>
                 </div>
             </div>
             <div class="card-visual-box">
-                <i class="fa-solid fa-chart-pie-simple card-visual-icon"></i>
-                <div class="card-visual-stat">#1 SOV</div>
-                <div class="card-visual-sub">Target Industry Visibility Share</div>
+                <div class="card-visual-icon"><i class="fa-solid fa-crosshairs"></i></div>
+                <div class="card-visual-stat">1-Plan</div>
+                <div class="card-visual-sub">Turnkey Market Takeover Roadmap</div>
             </div>
         </div>
-
-        <!-- Card 4: 150-Point Technical & Commercial Health Teardown -->
-        <div class="service-card-block" id="technical-teardown">
-            <div class="card-text-col">
-                <span class="card-tag"><i class="fa-solid fa-stethoscope"></i> Full Diagnostics</span>
-                <h2 class="card-title">150-Point Technical & Commercial Health Teardown</h2>
-                <p class="card-desc">
-                    A microscopic diagnostic evaluation of your website from server response times and schema markup to mobile conversion leaks and landing page drop-offs. Delivered as an executive-ready presentation with clear, prioritized ROI impact scoring.
-                </p>
-                <ul class="card-feature-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Full crawl diagnostic identifying indexation leaks and crawl waste</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Commercial conversion funnel teardown highlighting UX friction points</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Mobile responsiveness, accessibility, and Core Web Vitals profiling</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Prioritized ICE (Impact, Confidence, Ease) action matrix for your developers</li>
-                </ul>
-                <div class="card-tech-tags">
-                    <span class="card-tech-tag">150-Point Audit</span>
-                    <span class="card-tech-tag">ICE Matrix</span>
-                    <span class="card-tech-tag">Crawl Diagnostics</span>
-                    <span class="card-tech-tag">Conversion Audit</span>
-                </div>
-            </div>
-            <div class="card-visual-box">
-                <i class="fa-solid fa-clipboard-check card-visual-icon"></i>
-                <div class="card-visual-stat">150+</div>
-                <div class="card-visual-sub">Audit Vectors Inspected</div>
-            </div>
-        </div>
-
     </main>
 
     <!-- ═══════════════════════ PROCESS SECTION ═══════════════════════ -->
     <section class="process-section">
         <div class="process-header">
             <span class="badge-pill" style="background: rgba(255,87,34,0.15); border-color: rgba(255,87,34,0.35);">
-                AUDIT LIFECYCLE
+                EXECUTION PROTOCOL
             </span>
-            <h2>Our 4-Step Brand Intelligence Protocol</h2>
-            <p style="color: #94a3b8; font-size: 1.05rem;">From initial data ingestion to executive presentation and tactical execution.</p>
+            <h2>Our 4-Step Production Protocol</h2>
+            <p style="color: #94a3b8; font-size: 1.05rem;">Battle-tested workflows engineered for flawless delivery, maximum ROI, and rapid scale.</p>
         </div>
         <div class="process-grid">
             <div class="process-card">
                 <div class="step-num">01</div>
-                <h3 class="step-title">Data Ingestion</h3>
-                <p class="step-desc">Connect analytics, crawl the domain, and pull market share data on your top 5 direct competitors.</p>
+                <h3 class="step-title">Competitor Cohort Selection</h3>
+                <p class="step-desc">We define your top 3-5 direct, indirect, and aspirational competitors in your target territory.</p>
             </div>
             <div class="process-card">
                 <div class="step-num">02</div>
-                <h3 class="step-title">Forensic Analysis</h3>
-                <p class="step-desc">Execute the 150-point technical, EEAT, and commercial teardown across all digital assets.</p>
+                <h3 class="step-title">Forensic Data Scraping</h3>
+                <p class="step-desc">We analyze search rankings, ad libraries, backlink profiles, technical speed, and customer sentiment.</p>
             </div>
             <div class="process-card">
                 <div class="step-num">03</div>
-                <h3 class="step-title">Opportunity Modeling</h3>
-                <p class="step-desc">Quantify high-value keyword gaps, conversion friction leaks, and revenue acceleration models.</p>
+                <h3 class="step-title">Vulnerability Synthesis</h3>
+                <p class="step-desc">We uncover where rivals are vulnerable: slow websites, weak ad hooks, neglected keywords, or negative reviews.</p>
             </div>
             <div class="process-card">
                 <div class="step-num">04</div>
-                <h3 class="step-title">Executive Roadmap</h3>
-                <p class="step-desc">Deliver a comprehensive 90-day prioritized action blueprint with ICE scoring for immediate engineering action.</p>
+                <h3 class="step-title">Delivery & Strategy Session</h3>
+                <p class="step-desc">We deliver an executive competitor intelligence report and lead an action-planning session.</p>
             </div>
         </div>
     </section>
@@ -662,9 +655,9 @@
     <!-- ═══════════════════════ CTA BANNER ═══════════════════════ -->
     <div class="content-section" style="padding-top: 0;">
         <div class="cta-banner">
-            <h2>Ready for Complete Clarity on Your Market Standing?</h2>
-            <p>Commission a bespoke Brand Intelligence and EEAT Competitor Audit from Fusion X today.</p>
-            <a href="contact.html" class="btn-primary-hero" style="background: #ff5722;">Schedule Brand Intelligence Briefing <i class="fa-solid fa-arrow-right"></i></a>
+            <h2>Ready to Outsmart Your Competition?</h2>
+            <p>Get a comprehensive competitor analysis report that reveals exactly how to win market share from your rivals.</p>
+            <a href="contact.html" class="btn-primary-hero" style="background: #ff5722; color: #fff;">Request Competitor Audit <i class="fa-solid fa-arrow-right"></i></a>
         </div>
     </div>
 
@@ -673,7 +666,7 @@
         <div style="max-width:1200px;margin:0 auto;">
             <img src="logo_transparent.png" alt="Fusion X Logo" style="height:48px;margin-bottom:20px;">
             <p style="color:#888;max-width:600px;margin:0 auto 30px;font-size:0.95rem;">
-                Fusion X is India's leading brand intelligence and digital growth advisory firm — empowering market leaders with predictive data and search dominance.
+                Fusion X is India's leading digital engineering agency — specializing in high-performance web architecture, organic rank dominance, and performance marketing.
             </p>
             <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:30px;">
                 <a href="index.html" style="color:#ccc;text-decoration:none;font-size:0.9rem;">HOME</a>

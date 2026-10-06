@@ -204,9 +204,14 @@ body {
    SERVICES MEGA MENU DROPDOWN
    ========================================================================== */
 .nav-item-services {
-    position: relative;
     display: inline-flex;
     align-items: center;
+}
+
+@media (min-width: 1025px) {
+    .nav-item-services {
+        position: static;
+    }
 }
 
 .nav-chevron {
@@ -225,11 +230,13 @@ body {
     top: calc(100% + 14px);
     left: 50%;
     transform: translateX(-50%) translateY(10px);
-    width: 1080px;
+    width: 1260px;
+    max-width: calc(100vw - 48px);
+    box-sizing: border-box;
     background: #ffffff;
     border-radius: 18px;
     box-shadow: 0 24px 65px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.06);
-    padding: 26px 28px 18px;
+    padding: 24px 24px 18px;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -257,8 +264,19 @@ body {
 
 .mega-menu-inner {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+}
+
+@media (max-width: 1300px) and (min-width: 1025px) {
+    .services-mega-menu {
+        width: 980px;
+        padding: 20px;
+    }
+    .mega-menu-inner {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
 }
 
 .mega-column {
@@ -958,37 +976,16 @@ body {
     .hero-image {
         min-height: 300px;
     }
-}
-
-    
-
-    .navbar {
-
-        padding: 15px 20px;
-
-    }
-
-    
 
     .services-section {
-
         padding: 60px 0;
-
     }
-
-    
 
     /* Resize 3D Containers for Mobile */
-
     #globe-container {
-
         height: 450px;
-
         width: 100%;
-
     }
-
-    
 
     #spider-container {
         height: 540px !important;
@@ -1014,14 +1011,9 @@ body {
         touch-action: manipulation;
     }
 
-    
-
     .section-title h2 {
-
         font-size: 2rem;
-
     }
-
 }
 
 /* 3D HTML Carousel */
@@ -1246,7 +1238,9 @@ body {
 
     .nav-links.mob-open {
         display: flex !important;
-        flex-direction: column;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: stretch !important;
         position: fixed;
         top: 72px;
         left: 0;
@@ -1260,9 +1254,8 @@ body {
         -webkit-overflow-scrolling: touch;
         overscroll-behavior: contain;
         background: #ffffff;
-        padding: 18px 18px 140px;
+        padding: 16px 18px 140px;
         gap: 8px;
-        align-items: stretch;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         border-top: 1px solid #f1f5f9;
         z-index: 1005;

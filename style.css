@@ -1695,3 +1695,146 @@ body {
     transform: scale(0) !important;
     z-index: -999999 !important;
 }
+
+/* ==========================================================================
+   UNIVERSAL BLACK SITE THEME FOR SUB-SERVICES SECTIONS
+   ========================================================================== */
+.process-section {
+    background: #080808 !important;
+    background-color: #080808 !important;
+    color: #ffffff !important;
+    padding: 100px 24px !important;
+    border-radius: 36px !important;
+    margin: 60px 24px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45) !important;
+}
+
+.process-header,
+.process-grid {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.process-header h2 {
+    color: #ffffff !important;
+}
+
+.process-header p {
+    color: #94a3b8 !important;
+}
+
+.process-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    padding: 32px 24px !important;
+    position: relative !important;
+    z-index: 2 !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.process-card:hover {
+    transform: translateY(-6px) !important;
+    border-color: rgba(255, 87, 34, 0.45) !important;
+    box-shadow: 0 16px 36px rgba(255, 87, 34, 0.15) !important;
+}
+
+.step-num {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 2.5rem !important;
+    font-weight: 900 !important;
+    color: #ff5722 !important;
+    opacity: 0.8 !important;
+    margin-bottom: 12px !important;
+}
+
+.step-title {
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 10px !important;
+    color: #ffffff !important;
+}
+
+.step-desc {
+    font-size: 0.92rem !important;
+    color: #cbd5e1 !important;
+    line-height: 1.6 !important;
+}
+
+@media (max-width: 900px) {
+    .process-section {
+        padding: 60px 20px !important;
+        margin: 40px 16px !important;
+        border-radius: 24px !important;
+    }
+}
+
+/* Universal Obsidian CTA Banner */
+.cta-banner {
+    background: #080808 !important;
+    background-color: #080808 !important;
+    border: 1px solid rgba(255, 87, 34, 0.3) !important;
+    border-radius: 28px !important;
+    padding: 65px 40px !important;
+    text-align: center !important;
+    color: #ffffff !important;
+    margin: 60px auto 0 !important;
+    max-width: 1100px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 35px rgba(255, 87, 34, 0.08) !important;
+}
+
+.cta-banner > * {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.cta-banner h2 {
+    color: #ffffff !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 900 !important;
+}
+
+.cta-banner p {
+    color: #cbd5e1 !important;
+}
+
+.cta-banner .btn-primary-hero,
+.cta-banner a.btn-primary-hero,
+.cta-banner a[class*="btn"] {
+    background: #ff5722 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(255, 87, 34, 0.4) !important;
+}
+
+.cta-banner .btn-primary-hero:hover,
+.cta-banner a.btn-primary-hero:hover,
+.cta-banner a[class*="btn"]:hover {
+    background: #e64a19 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 24px rgba(255, 87, 34, 0.55) !important;
+}
+
+/* Footer Universal Black Theme with Canvas Support */
+footer,
+.site-footer,
+#main-footer {
+    background: #080808 !important;
+    background-color: #080808 !important;
+    color: #ffffff !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+footer > *,
+.site-footer > *,
+#main-footer > * {
+    position: relative !important;
+    z-index: 2 !important;
+}

@@ -284,8 +284,14 @@
             '.seo-keywords-section',
             '.seo-faq-section',
 
-            // Universal black footer
-            '#main-footer'
+            // Universal black footer & sub-services dark sections
+            '.process-section',
+            '.cta-banner',
+            '.tech-matrix-section',
+            '.comparison-section',
+            '#main-footer',
+            'footer',
+            '.site-footer'
         ];
 
         targetSelectors.forEach(sel => {

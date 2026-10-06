@@ -28,7 +28,7 @@
             this.canvas.className = 'fx-orange-dots-canvas';
             this.ctx = this.canvas.getContext('2d');
             
-            this.canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;';
+            this.canvas.style.cssText = 'position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; pointer-events: none !important; z-index: 1 !important; display: block !important; margin: 0 !important; padding: 0 !important; border: none !important;';
             
             const computedPos = window.getComputedStyle(this.container).position;
             if (computedPos === 'static') {

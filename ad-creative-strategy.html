@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEO Content Writing & Ranking Blog Services | Fusion X</title>
-    <meta name="description" content="Dominate search rankings with search-intent blog production and topical cluster content by Fusion X Chennai. Data-driven keyword research, semantic NLP optimization, and EEAT thought leadership.">
+    <title>Ad Creative Strategy Agency | High-ROAS Direct Response Creatives & UGC | Fusion X</title>
+    <meta name="description" content="Creative is the new targeting. Fusion X produces high-converting direct response ad creatives, UGC videos, 3-second hook variations, motion graphics, and rapid A/B testing matrices.">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,14 +15,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Universal Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=16">
+    <link rel="stylesheet" href="style.css?v=17">
 
     <style>
         :root {
             --dev-orange: #ff5722;
             --dev-orange-dark: #e64a19;
-            --dev-dark: #0f172a;
-            --dev-slate: #1e293b;
+            --dev-dark: #080808;
+            --dev-slate: #141414;
             --dev-muted: #64748b;
             --dev-bg-light: #f8fafc;
             --dev-border: rgba(226, 232, 240, 0.9);
@@ -40,7 +40,7 @@
         /* ── HERO ── */
         .page-hero {
             padding: 150px 24px 80px;
-            background: radial-gradient(circle at 50% 20%, rgba(255, 87, 34, 0.07) 0%, transparent 60%), #ffffff;
+            background: radial-gradient(circle at 50% 20%, rgba(255, 87, 34, 0.08) 0%, transparent 60%), #ffffff;
             text-align: center;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
@@ -115,20 +115,20 @@
         .hero-ctas {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 18px;
             flex-wrap: wrap;
         }
 
         .btn-primary-hero {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             padding: 16px 36px;
-            background: var(--dev-orange);
+            background: #ff5722;
             color: #ffffff;
             font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
             font-size: 1rem;
+            font-weight: 700;
             border-radius: 50px;
             text-decoration: none;
             box-shadow: 0 8px 25px rgba(255, 87, 34, 0.35);
@@ -136,7 +136,7 @@
         }
 
         .btn-primary-hero:hover {
-            background: var(--dev-orange-dark);
+            background: #e64a19;
             transform: translateY(-2px);
             box-shadow: 0 12px 30px rgba(255, 87, 34, 0.45);
         }
@@ -144,26 +144,27 @@
         .btn-secondary-hero {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             padding: 16px 36px;
             background: #ffffff;
             color: #0f172a;
             font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
             font-size: 1rem;
+            font-weight: 700;
             border-radius: 50px;
-            border: 2px solid #e2e8f0;
             text-decoration: none;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
             transition: all 0.3s ease;
         }
 
         .btn-secondary-hero:hover {
-            border-color: #cbd5e1;
             background: #f8fafc;
+            border-color: #cbd5e1;
             transform: translateY(-2px);
         }
 
-        /* ── CONTENT CONTAINER ── */
+        /* ── ARCHITECTURAL SERVICE CARDS ── */
         .content-section {
             padding: 90px 24px;
             max-width: 1200px;
@@ -172,44 +173,52 @@
 
         .service-card-block {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 60px;
             align-items: center;
-            padding: 60px 0;
-            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 90px;
+            padding: 50px;
+            background: #ffffff;
+            border: 1px solid var(--dev-border);
+            border-radius: 28px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card-block:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.06);
         }
 
         .service-card-block:nth-child(even) {
-            direction: rtl;
+            grid-template-columns: 0.85fr 1.15fr;
         }
 
-        .service-card-block:nth-child(even) .card-text-col {
-            direction: ltr;
+        .service-card-block:nth-child(even) .card-content-box {
+            order: 2;
         }
 
         .service-card-block:nth-child(even) .card-visual-box {
-            direction: ltr;
+            order: 1;
         }
 
         .card-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--dev-orange);
-            text-transform: uppercase;
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 800;
             letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--dev-orange);
             margin-bottom: 12px;
         }
 
         .card-title {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            font-size: clamp(1.8rem, 3.2vw, 2.4rem);
             font-weight: 800;
+            line-height: 1.15;
             color: #0f172a;
-            line-height: 1.2;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .card-desc {
@@ -222,7 +231,7 @@
         .card-feature-list {
             list-style: none;
             padding: 0;
-            margin: 0 0 30px;
+            margin: 0 0 24px 0;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -230,16 +239,16 @@
 
         .card-feature-list li {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 12px;
             font-size: 0.95rem;
-            font-weight: 600;
             color: #334155;
+            line-height: 1.5;
         }
 
         .card-feature-list li i {
             color: var(--dev-orange);
-            font-size: 1rem;
+            margin-top: 3px;
         }
 
         .card-tech-tag {
@@ -251,154 +260,72 @@
             font-weight: 700;
             color: #475569;
             margin-right: 8px;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .card-visual-box {
-            background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+            background: radial-gradient(circle at center, rgba(255, 87, 34, 0.08) 0%, rgba(248, 250, 252, 0.8) 100%);
             border: 1px solid #e2e8f0;
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 320px;
         }
 
         .card-visual-icon {
-            font-size: 3.8rem;
+            font-size: 3.5rem;
             color: var(--dev-orange);
             margin-bottom: 18px;
+            filter: drop-shadow(0 4px 12px rgba(255,87,34,0.3));
         }
 
         .card-visual-stat {
             font-family: 'Outfit', sans-serif;
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 900;
             color: #0f172a;
-            margin-bottom: 6px;
+            line-height: 1;
+            margin-bottom: 8px;
         }
 
         .card-visual-sub {
             font-size: 0.92rem;
-            color: var(--dev-muted);
             font-weight: 600;
+            color: var(--dev-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* ── PROTOCOL STEPS ── */
-        .process-section {
-            background: #080808;
-            color: #ffffff;
-            padding: 100px 24px;
-            border-radius: 36px;
-            margin: 60px 24px;
-        }
-
-        .process-header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 60px;
-        }
-
-        .process-header h2 {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 16px;
-        }
-
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .process-card {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 32px 24px;
-            position: relative;
-        }
-
-        .step-num {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: rgba(255, 87, 34, 0.4);
-            margin-bottom: 12px;
-        }
-
-        .step-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-
-        .step-desc {
-            font-size: 0.92rem;
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-
-        /* ── CTA BANNER ── */
-        .cta-banner {
-            background: #080808; border: 1px solid rgba(255, 87, 34, 0.3);
-            border-radius: 28px;
-            padding: 60px 40px;
-            text-align: center;
-            color: #ffffff;
-            margin: 60px auto 0;
-            max-width: 1100px;
-            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
-        }
-
-        .cta-banner h2 {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            margin-bottom: 14px;
-        }
-
-        .cta-banner p {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            max-width: 650px;
-            margin: 0 auto 30px;
+            letter-spacing: 0.8px;
         }
 
         @media (max-width: 900px) {
             .service-card-block {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
+                padding: 30px 20px;
                 gap: 30px;
-                padding: 40px 0;
             }
-            .service-card-block:nth-child(even) {
-                direction: ltr;
+            .service-card-block:nth-child(even) .card-content-box {
+                order: 1;
             }
-            .process-grid {
-                grid-template-columns: 1fr;
+            .service-card-block:nth-child(even) .card-visual-box {
+                order: 2;
             }
         }
     </style>
 </head>
 <body>
-
-    <!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
-        <nav class="navbar">
+    <!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
+    <nav class="navbar">
         <div class="logo-container">
             <a href="index.html">
-                <img src="logo_transparent.png" alt="Fusion X - Best Digital Marketing Company India" class="logo">
+                <img src="logo_transparent.png" alt="Fusion X Logo" class="logo">
             </a>
         </div>
         <ul class="nav-links">
-            <li><a href="index.html" >HOME</a></li>
-            <li><a href="about-us.html" >ABOUT US</a></li>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about-us.html">ABOUT US</a></li>
             <li class="nav-item-services">
                 <a href="services.html" class="active">SERVICES <i class="fa-solid fa-chevron-down nav-chevron"></i></a>
                 <div class="services-mega-menu">
@@ -463,10 +390,10 @@
                     </div>
                 </div>
             </li>
-            <li><a href="brands.html" >BRANDS</a></li>
-            <li><a href="our-team.html" >OUR TEAM</a></li>
-            <li><a href="our-works.html" >OUR WORKS</a></li>
-            <li><a href="careers.html" >CAREERS</a></li>
+            <li><a href="brands.html">BRANDS</a></li>
+            <li><a href="our-team.html">OUR TEAM</a></li>
+            <li><a href="our-works.html">OUR WORKS</a></li>
+            <li><a href="careers.html">CAREERS</a></li>
         </ul>
         <div class="nav-actions">
             <div class="dangling-container">
@@ -488,183 +415,165 @@
     <!-- ═══════════════════════ HERO ═══════════════════════ -->
     <header class="page-hero">
         <div class="badge-pill">
-            <i class="fa-solid fa-newspaper"></i> EEAT CONTENT & RANKING BLOG ENGINES
+            <i class="fa-solid fa-wand-magic-sparkles"></i> AD CREATIVE STRATEGY & DIRECT RESPONSE
         </div>
         <h1 class="hero-title">
-            Transform Search Queries into Revenue with <span>Authority Blog Writing</span>
+            Creative is the New Targeting: <span>High-ROAS Ad Creatives</span> & UGC Engines
         </h1>
         <p class="hero-desc">
-            Stop publishing generic articles that disappear in Google's graveyard. We produce deeply researched topic clusters, long-form pillar guides, and semantic entity content that dominates organic rankings and commands AI overview citations.
+            In modern algorithmic advertising, ad creative does 80% of the heavy lifting. We engineer scroll-stopping direct-response videos, UGC creator collaborations, 3-second hook matrices, and dynamic motion graphics designed scientifically to lower CPA and scale ad spend predictably.
         </p>
+
         <div class="tech-chips">
-            <div class="tech-chip"><i class="fa-solid fa-layer-group"></i> Topic Cluster Architecture</div>
-            <div class="tech-chip"><i class="fa-solid fa-bullseye"></i> Search Intent Alignment</div>
-            <div class="tech-chip"><i class="fa-solid fa-robot"></i> Google AI Overview Ready</div>
-            <div class="tech-chip"><i class="fa-solid fa-certificate"></i> EEAT Subject Matter Experts</div>
-            <div class="tech-chip"><i class="fa-solid fa-chart-line"></i> High-Intent Conversions</div>
+            <div class="tech-chip"><i class="fa-solid fa-video"></i> Direct-Response UGC</div>
+            <div class="tech-chip"><i class="fa-solid fa-stopwatch"></i> 3-Sec Hook Engineering</div>
+            <div class="tech-chip"><i class="fa-solid fa-flask"></i> A/B Modular Matrix</div>
+            <div class="tech-chip"><i class="fa-solid fa-cubes"></i> Motion Graphics & 3D</div>
+            <div class="tech-chip"><i class="fa-solid fa-chart-line"></i> +65% Purchase Velocity</div>
         </div>
+
         <div class="hero-ctas">
-            <a href="contact.html" class="btn-primary-hero">Order Content Strategy Audit <i class="fa-solid fa-arrow-right"></i></a>
-            <a href="#topic-clusters" class="btn-secondary-hero">Explore Content Pillars</a>
+            <a href="contact.html" class="btn-primary-hero">Request Creative Strategy Audit <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#services-breakdown" class="btn-secondary-hero">Explore Creative Frameworks</a>
         </div>
     </header>
 
-    <!-- ═══════════════════════ SERVICES BREAKDOWN ═══════════════════════ -->
-    <main class="content-section">
+    <!-- ═══════════════════════ ARCHITECTURAL CARDS ═══════════════════════ -->
+    <main class="content-section" id="services-breakdown">
 
-        <!-- Card 1: Topic Clusters & Pillar Content -->
-        <div class="service-card-block" id="topic-clusters">
-            <div class="card-text-col">
-                <span class="card-tag"><i class="fa-solid fa-cubes"></i> Authority Architecture</span>
-                <h2 class="card-title">Topic Clusters & Pillar Page Architecture</h2>
-                <p class="card-desc">
-                    Google rewards websites with deep topical authority, not scattered standalone posts. We engineer comprehensive 4,000+ word ultimate pillar guides interlinked with tightly themed sub-topic clusters that establish industry authority.
-                </p>
+        <!-- Card 1: Direct-Response UGC Production -->
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">AUTHENTIC SOCIAL PROOF</span>
+                <h2 class="card-title">Direct-Response UGC & Creator Network Production</h2>
+                <p class="card-desc">Stop using generic influencer posts that fail to convert. We recruit, script, and direct specialized direct-response UGC creators who speak the authentic language of TikTok, Instagram Reels, and YouTube Shorts while following proven psychological sales frameworks.</p>
                 <ul class="card-feature-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Complete topical map coverage of your entire product or service niche</li>
-                    <li><i class="fa-solid fa-circle-check"></i> High-intent internal linking hierarchy funneling authority to money pages</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Strategic cannibalization resolution and keyword consolidation</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Structured data article schema markup for enhanced SERP visibility</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Vetted network of 100+ native UGC creators across diverse demographics and niches</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Scripted problem-agitate-solve (PAS) and before-and-after conversion frameworks</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Raw b-roll capture, unboxings, authentic testimonials, and organic demonstrations</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Full commercial usage licensing rights for multi-platform ad deployment</li>
                 </ul>
-                <div class="card-tech-tags">
-                    <span class="card-tech-tag">Pillar Guides</span>
-                    <span class="card-tech-tag">Sub-Topic Silos</span>
-                    <span class="card-tech-tag">Internal Link Equity</span>
-                    <span class="card-tech-tag">Article Schema</span>
+                <div>
+                    <span class="card-tech-tag">UGC Production</span><span class="card-tech-tag">Creator Network</span><span class="card-tech-tag">Psychological Frameworks</span><span class="card-tech-tag">Commercial Rights</span>
                 </div>
             </div>
             <div class="card-visual-box">
-                <i class="fa-solid fa-folder-tree card-visual-icon"></i>
-                <div class="card-visual-stat">+310%</div>
-                <div class="card-visual-sub">Topical Authority Search Lift</div>
+                <div class="card-visual-icon"><i class="fa-solid fa-users-viewfinder"></i></div>
+                <div class="card-visual-stat">4.2x</div>
+                <div class="card-visual-sub">Higher Engagement vs Studio Ads</div>
             </div>
         </div>
 
-        <!-- Card 2: Semantic NLP & AI Overview Optimization -->
-        <div class="service-card-block" id="semantic-nlp">
-            <div class="card-text-col">
-                <span class="card-tag"><i class="fa-solid fa-brain"></i> Modern Search Science</span>
-                <h2 class="card-title">Semantic SEO & AI Overview Citations</h2>
-                <p class="card-desc">
-                    Search engines have transitioned from exact keyword matching to Large Language Model entities. We format content with conversational question-and-answer vectors, direct definitions, and table comparisons engineered to be cited in Google AI Overviews and Perplexity.
-                </p>
+        <!-- Card 2: 3-Second Hook Engineering -->
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">ATTENTION CAPTURE</span>
+                <h2 class="card-title">The 3-Second Hook Engineering System & Thumb-Stopping Visuals</h2>
+                <p class="card-desc">If viewers don't stop scrolling in the first 3 seconds, your offer never gets heard. We engineer 5 to 10 distinct visual and verbal hooks for every single video asset, testing pattern interrupts, curiosity gaps, shock factors, and text-hook overlays.</p>
                 <ul class="card-feature-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Direct Answer Block formatting for Google Featured Snippets</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Entity identification using Google's Natural Language API standards</li>
-                    <li><i class="fa-solid fa-circle-check"></i> FAQPage & HowTo structured data markup integration</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Optimization for generative answer engine citation visibility</li>
+                    <li><i class="fa-solid fa-circle-check"></i> High-contrast visual pattern interrupts breaking users' autopilot feed scrolling</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Audio-first hooks engineered for sound-on engagement and auto-caption retention</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Dynamic kinetic typography and high-visibility subtitle animations</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Systematic Hook Rate benchmark targeting: >40% 3-second video view rate</li>
                 </ul>
-                <div class="card-tech-tags">
-                    <span class="card-tech-tag">NLP Entities</span>
-                    <span class="card-tech-tag">AI Overviews (SGE)</span>
-                    <span class="card-tech-tag">Featured Snippets</span>
-                    <span class="card-tech-tag">Schema JSON-LD</span>
+                <div>
+                    <span class="card-tech-tag">Hook Rate</span><span class="card-tech-tag">Pattern Interrupts</span><span class="card-tech-tag">Kinetic Captions</span><span class="card-tech-tag">Scroll Stopping</span>
                 </div>
             </div>
             <div class="card-visual-box">
-                <i class="fa-solid fa-microchip card-visual-icon"></i>
-                <div class="card-visual-stat">4.6x</div>
-                <div class="card-visual-sub">AI Overview Citation Rate</div>
+                <div class="card-visual-icon"><i class="fa-solid fa-stopwatch-20"></i></div>
+                <div class="card-visual-stat">42%</div>
+                <div class="card-visual-sub">Target 3-Second Hook Rate</div>
             </div>
         </div>
 
-        <!-- Card 3: Search Intent & Conversion-Focused Copywriting -->
-        <div class="service-card-block" id="search-intent">
-            <div class="card-text-col">
-                <span class="card-tag"><i class="fa-solid fa-bullseye"></i> High Intent</span>
-                <h2 class="card-title">Commercial Intent & Bottom-Funnel Copywriting</h2>
-                <p class="card-desc">
-                    Traffic without conversions is a vanity metric. We produce bottom-of-the-funnel comparison guides, 'Best of' roundups, alternative reviews, and ROI teardowns that intercept prospective buyers at the exact moment of decision.
-                </p>
+        <!-- Card 3: Modular A/B Testing Matrix -->
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">SCIENTIFIC ITERATION</span>
+                <h2 class="card-title">Modular Creative Matrix & Rapid Iteration Testing Protocol</h2>
+                <p class="card-desc">Eliminate guesswork through modular creative architecture. By isolating hooks, body demonstrations, and calls-to-action into interchangeable components, we test 20+ variations from a single shoot, rapidly discovering 8-figure winning combinations.</p>
                 <ul class="card-feature-list">
-                    <li><i class="fa-solid fa-circle-check"></i> High-converting product comparison matrix tables</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Strategic CTA insertion points matching user scroll depth</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Transparent pricing and feature teardowns that solve buyer objections</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Case study integration with real quantified client outcomes</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Dynamic Hook × Body × CTA matrix producing 20+ unique ad permutations per round</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Low-budget sandbox ad testing isolating winning elements with statistical confidence</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Iteration on winning angles: testing fresh intros while preserving high-converting bodies</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Weekly creative performance telemetry dashboards tracking CTR, Hold Rate, and CPA</li>
                 </ul>
-                <div class="card-tech-tags">
-                    <span class="card-tech-tag">Bottom of Funnel (BOFU)</span>
-                    <span class="card-tech-tag">Versus Guides</span>
-                    <span class="card-tech-tag">Feature Comparisons</span>
-                    <span class="card-tech-tag">Lead Magnet CTAs</span>
+                <div>
+                    <span class="card-tech-tag">Modular Matrix</span><span class="card-tech-tag">Creative Sandboxing</span><span class="card-tech-tag">Statistical Testing</span><span class="card-tech-tag">Rapid Iterations</span>
                 </div>
             </div>
             <div class="card-visual-box">
-                <i class="fa-solid fa-chart-line-up card-visual-icon"></i>
-                <div class="card-visual-stat">3.8%</div>
-                <div class="card-visual-sub">Average Blog Lead Conversion Rate</div>
+                <div class="card-visual-icon"><i class="fa-solid fa-layer-group"></i></div>
+                <div class="card-visual-stat">15+</div>
+                <div class="card-visual-sub">Creative Variants Tested Weekly</div>
             </div>
         </div>
 
-        <!-- Card 4: EEAT Thought Leadership & Original Research -->
-        <div class="service-card-block" id="eeat-research">
-            <div class="card-text-col">
-                <span class="card-tag"><i class="fa-solid fa-award"></i> Credibility First</span>
-                <h2 class="card-title">EEAT Thought Leadership & Original Research</h2>
-                <p class="card-desc">
-                    Google's Helpful Content System penalizes unoriginal, AI-spun copy. We craft proprietary industry surveys, benchmark studies, and authoritative whitepapers attributed to verified subject matter experts with authentic author personas.
-                </p>
+        <!-- Card 4: Motion Graphics & 3D Explainer Assets -->
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">DYNAMIC VISUAL ASSETS</span>
+                <h2 class="card-title">High-Converting Motion Graphics, Static Carousels & 3D Renders</h2>
+                <p class="card-desc">Complement your video feed with thumb-stopping static graphics, dynamic comparison carousels, and 3D product exploding-view animations. We produce high-converting graphic assets tailored for Meta Carousels, Stories, and Google Display networks.</p>
                 <ul class="card-feature-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Proprietary data collection, original surveys, and industry benchmarks</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Author bio schema with verified LinkedIn credentials and publications</li>
-                    <li><i class="fa-solid fa-circle-check"></i> 100% human-edited, peer-reviewed, and plagiarism-certified writing</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Natural passive backlink magnet generation from journalists and media</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Us vs. Them comparison graphics visually demonstrating your market superiority</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Press and review badge collages establishing immediate instant credibility</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Multi-slide carousel storyboards engineered for high swipe-through rates</li>
+                    <li><i class="fa-solid fa-circle-check"></i> High-definition 3D product renders showcasing premium textures and internal features</li>
                 </ul>
-                <div class="card-tech-tags">
-                    <span class="card-tech-tag">Author Schema</span>
-                    <span class="card-tech-tag">Original Research</span>
-                    <span class="card-tech-tag">EEAT Certified</span>
-                    <span class="card-tech-tag">Fact Checked</span>
+                <div>
+                    <span class="card-tech-tag">Motion Graphics</span><span class="card-tech-tag">Comparison Ads</span><span class="card-tech-tag">Static Carousels</span><span class="card-tech-tag">3D Visuals</span>
                 </div>
             </div>
             <div class="card-visual-box">
-                <i class="fa-solid fa-magnifying-glass-dollar card-visual-icon"></i>
-                <div class="card-visual-stat">120+</div>
-                <div class="card-visual-sub">Passive Media Links Generated</div>
+                <div class="card-visual-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div class="card-visual-stat">+65%</div>
+                <div class="card-visual-sub">Click-To-Purchase Velocity</div>
             </div>
         </div>
 
     </main>
 
     <!-- ═══════════════════════ PROCESS SECTION ═══════════════════════ -->
-    <section class="process-section">
+    <section class="process-section fx-has-orange-dots">
         <div class="process-header">
             <span class="badge-pill" style="background: rgba(255,87,34,0.15); border-color: rgba(255,87,34,0.35);">
-                PRODUCTION PIPELINE
+                EXECUTION PROTOCOL
             </span>
-            <h2>Our 4-Step Ranking Content Protocol</h2>
-            <p style="color: #94a3b8; font-size: 1.05rem;">From initial SERP reverse-engineering to publication and link amplification.</p>
+            <h2>Our 4-Step Creative Engine Protocol</h2>
+            <p style="color: #94a3b8; font-size: 1.05rem;">From initial competitor reverse-engineering to rapid modular A/B testing, our creative flywheel delivers non-stop ROAS winners.</p>
         </div>
         <div class="process-grid">
             <div class="process-card">
                 <div class="step-num">01</div>
-                <h3 class="step-title">Intent Mapping</h3>
-                <p class="step-desc">Analyze SERP competitor gaps, search volume trajectory, semantic sub-questions, and transactional buyer intent.</p>
+                <h3 class="step-title">Market Intel & Angle Research</h3>
+                <p class="step-desc">Reverse-engineering competitor ad libraries, mining customer reviews, and mapping psychological objection angles.</p>
             </div>
             <div class="process-card">
                 <div class="step-num">02</div>
-                <h3 class="step-title">Cluster Blueprint</h3>
-                <p class="step-desc">Architect the master pillar guide and satellite supporting cluster articles with comprehensive brief outlines.</p>
+                <h3 class="step-title">Scripting & Creator Direction</h3>
+                <p class="step-desc">Writing high-converting PAS scripts, casting native creators, and directing visual pattern-interrupt hooks.</p>
             </div>
             <div class="process-card">
                 <div class="step-num">03</div>
-                <h3 class="step-title">Expert Drafting</h3>
-                <p class="step-desc">Subject matter authors write rich, original copy with custom data visuals, tables, and NLP keyword entities.</p>
+                <h3 class="step-title">Modular Post-Production</h3>
+                <p class="step-desc">Cutting 5+ hook variations, dynamic captions, kinetic animations, and sound design for rapid matrix testing.</p>
             </div>
             <div class="process-card">
                 <div class="step-num">04</div>
-                <h3 class="step-title">Publish & Interlink</h3>
-                <p class="step-desc">Deploy with article schema, establish internal links to high-converting pages, and track keyword ranking momentum.</p>
+                <h3 class="step-title">Sandbox Testing & Scaling</h3>
+                <p class="step-desc">Testing assets in isolated sandboxes, graduating high-ROAS winners, and iterating on winning angles weekly.</p>
             </div>
         </div>
     </section>
 
     <!-- ═══════════════════════ CTA BANNER ═══════════════════════ -->
     <div class="content-section" style="padding-top: 0;">
-        <div class="cta-banner">
-            <h2>Ready to Dominate Your Niche in Organic Search?</h2>
-            <p>Speak with our senior content strategists and receive a tailored 90-day topic cluster ranking roadmap.</p>
-            <a href="contact.html" class="btn-primary-hero" style="background: #ff5722;">Request Content Strategy Session <i class="fa-solid fa-arrow-right"></i></a>
+        <div class="cta-banner fx-has-orange-dots">
+            <h2>Ready to Build an Unstoppable Ad Creative Engine?</h2>
+            <p>Get a free 15-minute ad creative audit. We'll analyze your current ad creative fatigue, Hook Rates, and Hold Rates, and present 3 ready-to-test creative angles.</p>
+            <a href="contact.html" class="btn-primary-hero">Claim Your Free Creative Audit <i class="fa-solid fa-arrow-right"></i></a>
         </div>
     </div>
 
@@ -673,7 +582,7 @@
         <div style="max-width:1200px;margin:0 auto;">
             <img src="logo_transparent.png" alt="Fusion X Logo" style="height:48px;margin-bottom:20px;">
             <p style="color:#888;max-width:600px;margin:0 auto 30px;font-size:0.95rem;">
-                Fusion X is India's premier digital marketing agency — engineering high-converting content engines, search dominance, and predictable business scale.
+                Fusion X is India's premier digital performance agency — engineering high-ROAS paid media funnels, technical SEO dominance, and bespoke web applications.
             </p>
             <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:30px;">
                 <a href="index.html" style="color:#ccc;text-decoration:none;font-size:0.9rem;">HOME</a>
@@ -690,7 +599,7 @@
     </footer>
 
     <!-- Universal Scripts -->
-    <script src="orange-dots.js"></script>
+    <script src="orange-dots.js?v=2"></script>
     <script src="easter-egg.js?v=16"></script>
 </body>
 </html>

@@ -174,31 +174,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // Tooltip System
     const showCharmTooltip = (text, duration = 5000) => {
         let tt = document.getElementById('charm-tooltip');
+        let rope2 = null;
+        const danglingContainer = document.querySelector('.nav-actions .dangling-container') || charmString.parentElement;
+        if (!danglingContainer) return;
+
+        // Pause swinging while tooltip is shown so it hangs completely still and vertical (zero tilt!)
+        charmString.classList.add('swing-paused');
+        charmString.style.animation = 'none';
+        charmString.style.transform = 'rotate(0deg)';
+
         if (!tt) {
             tt = document.createElement('div');
             tt.id = 'charm-tooltip';
             tt.style.position = 'absolute';
             tt.style.background = '#ff5722';
             tt.style.color = '#fff';
-            tt.style.padding = '8px 14px';
             tt.style.borderRadius = '8px';
-            tt.style.fontSize = '13px';
             tt.style.fontWeight = 'bold';
-            tt.style.whiteSpace = 'nowrap';
-            tt.style.top = '145px';
-            tt.style.right = '-30px';
             tt.style.pointerEvents = 'none';
             tt.style.opacity = '0';
             tt.style.transition = 'opacity 0.3s ease';
-            tt.style.boxShadow = '0 4px 12px rgba(255,87,34,0.45)';
+            tt.style.boxShadow = '0 4px 16px rgba(255,87,34,0.5)';
             tt.style.zIndex = '100000';
+            tt.style.textAlign = 'center';
+            tt.style.boxSizing = 'border-box';
             
-            const rope2 = document.createElement('div');
+            rope2 = document.createElement('div');
+            rope2.className = 'charm-tooltip-rope';
             rope2.style.position = 'absolute';
-            rope2.style.right = '30px';
-            rope2.style.top = '-25px';
             rope2.style.width = '2px';
-            rope2.style.height = '25px';
             rope2.style.background = 'repeating-linear-gradient(to bottom, #ff5722, #ff5722 5px, #c24015 5px, #c24015 10px)';
             tt.appendChild(rope2);
             
@@ -206,16 +210,84 @@ document.addEventListener('DOMContentLoaded', () => {
             textSpan.id = 'charm-tooltip-text';
             tt.appendChild(textSpan);
             
-            charmString.appendChild(tt);
+            danglingContainer.appendChild(tt);
+        } else {
+            rope2 = tt.querySelector('.charm-tooltip-rope');
+            if (tt.parentElement !== danglingContainer) {
+                danglingContainer.appendChild(tt);
+            }
+        }
+
+        const isMob = window.innerWidth <= 1024;
+        const ropeLen = isMob ? 16 : 22;
+        
+        // Dynamically compute exact bottom of the charm object so the rope connects with NO GAP
+        const containerRect = danglingContainer.getBoundingClientRect();
+        const charmRect = charmObj.getBoundingClientRect();
+        const charmBottom = charmRect.bottom - containerRect.top;
+        
+        tt.style.top = (charmBottom + ropeLen) + 'px';
+        tt.style.left = '50%';
+        tt.style.transform = 'translateX(-50%)';
+        tt.style.right = 'auto';
+        
+        if (rope2) {
+            rope2.style.left = '50%';
+            rope2.style.transform = 'translateX(-50%)';
+            rope2.style.top = (-ropeLen) + 'px';
+            rope2.style.height = (ropeLen + 2) + 'px';
+            rope2.style.right = 'auto';
+            rope2.style.width = '2px';
         }
         
-        document.getElementById('charm-tooltip-text').innerText = text;
+        if (isMob) {
+            tt.style.whiteSpace = 'normal';
+            tt.style.width = '210px';
+            tt.style.maxWidth = 'calc(100vw - 28px)';
+            tt.style.fontSize = '12px';
+            tt.style.padding = '8px 14px';
+            tt.style.textAlign = 'center';
+            tt.style.lineHeight = '1.35';
+            
+            if (text === "Your offer still stays, pull me again!") {
+                document.getElementById('charm-tooltip-text').innerHTML = 'Your offer still stays,<br>pull me again!';
+            } else {
+                document.getElementById('charm-tooltip-text').innerText = text;
+            }
+        } else {
+            tt.style.whiteSpace = 'nowrap';
+            tt.style.width = 'auto';
+            tt.style.maxWidth = 'none';
+            tt.style.fontSize = '13px';
+            tt.style.padding = '8px 16px';
+            tt.style.lineHeight = '1.4';
+            document.getElementById('charm-tooltip-text').innerText = text;
+        }
+        
         tt.style.opacity = '1';
         
         if (window.charmTooltipTimeout) clearTimeout(window.charmTooltipTimeout);
         window.charmTooltipTimeout = setTimeout(() => {
             tt.style.opacity = '0';
+            setTimeout(() => {
+                if (!isCut && !isDragging) {
+                    charmString.classList.remove('swing-paused');
+                    charmString.style.animation = 'swing 3s ease-in-out infinite alternate';
+                    charmString.style.transform = '';
+                }
+            }, 350);
         }, duration);
+    };
+    window.showCharmTooltip = showCharmTooltip;
+
+    const getCoords = (e) => {
+        if (e.touches && e.touches.length > 0) {
+            return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+        if (e.changedTouches && e.changedTouches.length > 0) {
+            return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+        }
+        return { x: e.clientX !== undefined ? e.clientX : 0, y: e.clientY !== undefined ? e.clientY : 0 };
     };
 
     const onPointerDown = (e) => {
@@ -224,11 +296,14 @@ document.addEventListener('DOMContentLoaded', () => {
         isDragging = true;
         hasSettled = false;
         charmObj.style.cursor = 'grabbing';
+        charmObj.style.touchAction = 'none';
+        charmString.classList.add('swing-paused');
         charmString.style.animation = 'none';
         charmString.style.transform = 'none';
         
         const tt = document.getElementById('charm-tooltip');
         if (tt) tt.style.opacity = '0';
+        if (window.charmTooltipTimeout) clearTimeout(window.charmTooltipTimeout);
         
         const rect = charmObj.getBoundingClientRect();
         const stringRect = charmString.getBoundingClientRect();
@@ -236,8 +311,9 @@ document.addEventListener('DOMContentLoaded', () => {
         anchorX = stringRect.left + stringRect.width / 2;
         anchorY = stringRect.top;
         
-        dragStartX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0].clientX);
-        dragStartY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0].clientY);
+        const coords = getCoords(e);
+        dragStartX = coords.x;
+        dragStartY = coords.y;
         
         charmObj.style.position = 'fixed';
         charmObj.style.left = rect.left + 'px';
@@ -245,19 +321,27 @@ document.addEventListener('DOMContentLoaded', () => {
         charmObj.style.margin = '0';
         charmObj.style.zIndex = '999999';
         
-        document.body.appendChild(charmObj);
-        
         currentX = rect.left;
         currentY = rect.top;
         startX = currentX;
         startY = currentY;
+
+        if (e.pointerId !== undefined && charmObj.setPointerCapture) {
+            try { charmObj.setPointerCapture(e.pointerId); } catch(err){}
+        }
     };
 
     const getObjMetrics = () => {
-        const isMob = window.innerWidth < 900;
-        const w = charmObj.offsetWidth || (isMob ? 36 : 48);
-        const h = isMob ? 52 : 70;
-        return { halfW: w / 2, restH: h, minStretch: isMob ? 55 : 90, maxStretch: isMob ? 140 : 185 };
+        const isMob = window.innerWidth <= 1024;
+        const isTiny = window.innerWidth <= 400;
+        const w = charmObj.offsetWidth || (isMob ? (isTiny ? 32 : 36) : 48);
+        const h = isMob ? (isTiny ? 44 : 48) : 70;
+        return { 
+            halfW: w / 2, 
+            restH: h, 
+            minStretch: isMob ? 35 : 45, 
+            maxStretch: isMob ? 220 : 280 
+        };
     };
 
     const drawString = () => {
@@ -275,11 +359,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const onPointerMove = (e) => {
         if (!isDragging || isCut) return;
         if (e.cancelable) e.preventDefault();
-        const cx = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0].clientX);
-        const cy = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0].clientY);
         
-        const dx = cx - dragStartX;
-        const dy = cy - dragStartY;
+        const coords = getCoords(e);
+        const dx = coords.x - dragStartX;
+        const dy = coords.y - dragStartY;
         
         currentX = startX + dx;
         currentY = startY + dy;
@@ -296,10 +379,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const onPointerUp = () => {
+    const onPointerUp = (e) => {
         if (!isDragging || isCut) return;
         isDragging = false;
         charmObj.style.cursor = 'grab';
+        
+        if (e && e.pointerId !== undefined && charmObj.releasePointerCapture) {
+            try { charmObj.releasePointerCapture(e.pointerId); } catch(err){}
+        }
         
         const { halfW, restH, minStretch } = getObjMetrics();
         const stretchDist = Math.sqrt(Math.pow((currentX + halfW) - anchorX, 2) + Math.pow(currentY - anchorY, 2));
@@ -307,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (stretchDist >= minStretch) {
             cutString();
         } else {
-            // Not pulled enough: return to rope
+            // Not pulled enough: return smoothly to rope
             charmString.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
             charmString.style.height = restH + 'px';
             charmString.style.transform = 'rotate(0deg)';
@@ -324,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 charmObj.style.left = (-halfW) + 'px';
                 charmObj.style.top = restH + 'px';
                 charmString.appendChild(charmObj);
+                charmString.classList.remove('swing-paused');
                 charmString.style.animation = 'swing 3s ease-in-out infinite alternate';
             }, 320);
         }
@@ -338,29 +426,37 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!localStorage.getItem('fusionx_easter_egg')) {
             localStorage.setItem('fusionx_easter_egg', 'unlocked');
         }
+
+        // Attach charmObj to document.body for the full flight across the site
+        document.body.appendChild(charmObj);
         
-        const pullDx = anchorX - (currentX + 24);
+        const isMob = window.innerWidth <= 1024;
+        const { halfW } = getObjMetrics();
+        const pullDx = anchorX - (currentX + halfW);
         const pullDy = anchorY - currentY;
         
         // Calibrated launch velocity
-        vx = pullDx * 0.1;
-        vy = pullDy * 0.1;
+        const speedScale = isMob ? 0.16 : 0.14;
+        vx = pullDx * speedScale;
+        vy = pullDy * speedScale;
         
-        // Ensure healthy horizontal velocity towards screen center
+        // Ensure energetic horizontal & vertical launch across site
         const centerDirection = (window.innerWidth / 2 > currentX) ? 1 : -1;
-        if (Math.abs(vx) < 5) {
-            vx = centerDirection * (7 + Math.random() * 3);
+        if (Math.abs(vx) < (isMob ? 8 : 6)) {
+            vx = centerDirection * (isMob ? (10 + Math.random() * 3) : (8 + Math.random() * 3));
+        }
+        if (Math.abs(vy) < (isMob ? 7 : 5)) {
+            vy = (vy < 0 ? -1 : 1) * (isMob ? (9 + Math.random() * 3) : (7 + Math.random() * 3));
         }
         
-        // Cap velocities
-        const maxV = 16;
+        // Cap max velocity
+        const maxV = isMob ? 18 : 16;
         vx = Math.max(-maxV, Math.min(maxV, vx));
         vy = Math.max(-maxV, Math.min(maxV, vy));
         
-        spinVelocity = (vx > 0 ? 1 : -1) * 7;
+        spinVelocity = (vx > 0 ? 1 : -1) * 8;
         bounces = 0;
         
-        // Safety fallback: guarantee modal appears within 3.5s even if corner caught
         if (fallbackTimeout) clearTimeout(fallbackTimeout);
         fallbackTimeout = setTimeout(() => {
             if (!hasSettled) {
@@ -379,36 +475,44 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
+        const isMob = window.innerWidth <= 1024;
         currentX += vx;
         currentY += vy;
-        vy += gravity;
+        vy += (isMob ? 0.22 : gravity);
         spinAngle += spinVelocity;
         
-        const maxW = window.innerWidth - 50;
-        const maxH = window.innerHeight - 50;
+        const objW = charmObj.offsetWidth || (isMob ? 36 : 48);
+        const objH = charmObj.offsetHeight || (isMob ? 36 : 48);
+        const minX = 10;
+        const maxX = window.innerWidth - objW - 10;
+        const minY = isMob ? 55 : 12; // Keep below mobile navbar so it bounces clean off the header
+        const maxY = window.innerHeight - objH - 18;
         
         let bouncedThisFrame = false;
 
-        if (currentX < 0) {
-            currentX = 0;
-            vx *= -0.78;
-            spinVelocity = -spinVelocity * 0.9;
+        if (currentX <= minX) {
+            currentX = minX;
+            vx = Math.abs(vx) * 0.85;
+            if (vx < 7) vx = 8 + Math.random() * 3; // Guaranteed energetic rebound
+            spinVelocity = -spinVelocity * 0.95;
+            bouncedThisFrame = true;
+        } else if (currentX >= maxX) {
+            currentX = maxX;
+            vx = -Math.abs(vx) * 0.85;
+            if (vx > -7) vx = -(8 + Math.random() * 3); // Guaranteed energetic rebound
+            spinVelocity = -spinVelocity * 0.95;
             bouncedThisFrame = true;
         }
-        if (currentX > maxW) {
-            currentX = maxW;
-            vx *= -0.78;
-            spinVelocity = -spinVelocity * 0.9;
+        
+        if (currentY <= minY) {
+            currentY = minY;
+            vy = Math.abs(vy) * 0.85;
+            if (vy < 7) vy = 8 + Math.random() * 3;
             bouncedThisFrame = true;
-        }
-        if (currentY < 0) {
-            currentY = 0;
-            vy *= -0.78;
-            bouncedThisFrame = true;
-        }
-        if (currentY > maxH) {
-            currentY = maxH;
-            vy *= -0.78;
+        } else if (currentY >= maxY) {
+            currentY = maxY;
+            vy = -Math.abs(vy) * 0.85;
+            if (vy > -9) vy = -(10 + Math.random() * 4); // Strong bounce off floor
             bouncedThisFrame = true;
         }
         
@@ -428,10 +532,16 @@ document.addEventListener('DOMContentLoaded', () => {
         hasSettled = true;
         if (fallbackTimeout) clearTimeout(fallbackTimeout);
         
+        const isMob = window.innerWidth <= 1024;
+        const objW = charmObj.offsetWidth || (isMob ? 36 : 48);
+        const objH = charmObj.offsetHeight || (isMob ? 36 : 48);
+        const targetX = (window.innerWidth - objW) / 2;
+        const targetY = (window.innerHeight * 0.42) - (objH / 2);
+        
         charmObj.style.transition = 'all 0.85s cubic-bezier(0.25, 1, 0.5, 1)';
-        charmObj.style.left = 'calc(50vw - 25px)';
-        charmObj.style.top = 'calc(50vh - 25px)';
-        charmObj.style.transform = 'scale(2.2) rotate(720deg)';
+        charmObj.style.left = targetX + 'px';
+        charmObj.style.top = targetY + 'px';
+        charmObj.style.transform = (isMob ? 'scale(1.8)' : 'scale(2.2)') + ' rotate(720deg)';
         
         setTimeout(() => {
             showHiddenOffer();
@@ -441,25 +551,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const returnToNavbar = (message) => {
         const stringRect = charmString.getBoundingClientRect();
+        const isMobile = window.innerWidth <= 1024;
+        const targetTop = isMobile ? (window.innerWidth <= 400 ? 44 : 48) : 70;
+        const targetLeft = isMobile ? (window.innerWidth <= 400 ? -16 : -18) : -24;
         
         charmObj.style.display = 'block';
         charmObj.style.opacity = '1';
         charmObj.style.transition = 'all 0.85s cubic-bezier(0.5, 0, 0.2, 1)';
         charmObj.style.transform = 'scale(1) rotate(0deg)';
-        charmObj.style.left = (stringRect.left - 24 + stringRect.width / 2) + 'px';
-        charmObj.style.top = (stringRect.top + 70) + 'px';
+        charmObj.style.left = (stringRect.left + targetLeft + stringRect.width / 2) + 'px';
+        charmObj.style.top = (stringRect.top + targetTop) + 'px';
         
         setTimeout(() => {
             charmString.style.opacity = '1';
             charmObj.style.transition = 'none';
             charmObj.style.position = 'absolute';
-            charmObj.style.left = '-24px';
-            charmObj.style.top = '70px';
+            charmObj.style.left = targetLeft + 'px';
+            charmObj.style.top = targetTop + 'px';
             charmString.appendChild(charmObj);
             
-            charmString.style.height = '70px';
-            charmString.style.transform = 'none';
-            charmString.style.animation = 'swing 3s ease-in-out infinite alternate';
+            charmString.style.height = targetTop + 'px';
+            charmString.style.transform = 'rotate(0deg)';
+            charmString.classList.add('swing-paused');
+            charmString.style.animation = 'none';
             
             isCut = false;
             hasSettled = false;
@@ -627,18 +741,19 @@ document.addEventListener('DOMContentLoaded', () => {
         fwLoop();
     };
 
+    charmObj.addEventListener('pointerdown', onPointerDown);
     charmObj.addEventListener('mousedown', onPointerDown);
     charmObj.addEventListener('touchstart', onPointerDown, {passive: false});
 
+    window.addEventListener('pointermove', onPointerMove, {passive: false});
     window.addEventListener('mousemove', onPointerMove, {passive: false});
-    document.addEventListener('mousemove', onPointerMove, {passive: false});
-    window.addEventListener('mouseup', onPointerUp);
-    document.addEventListener('mouseup', onPointerUp);
-    
     window.addEventListener('touchmove', onPointerMove, {passive: false});
-    document.addEventListener('touchmove', onPointerMove, {passive: false});
+
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('mouseup', onPointerUp);
     window.addEventListener('touchend', onPointerUp);
-    document.addEventListener('touchend', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+    window.addEventListener('touchcancel', onPointerUp);
 
     // ==========================================================================
     // UNIVERSAL SCROLL REVEAL ANIMATION ENGINE

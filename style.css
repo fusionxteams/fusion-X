@@ -1138,6 +1138,7 @@ body {
     position: relative;
     display: flex;
     align-items: center;
+    touch-action: none !important;
 }
 
 .charm-string {
@@ -1151,6 +1152,7 @@ body {
     z-index: 1000;
     pointer-events: none;
     animation: swing 3s ease-in-out infinite alternate;
+    touch-action: none !important;
 }
 
 .charm-object {
@@ -1167,6 +1169,7 @@ body {
     -webkit-user-drag: none;
     z-index: 1001;
     transition: filter 0.2s ease;
+    touch-action: none !important;
 }
 
 .charm-object:hover {
@@ -1175,6 +1178,32 @@ body {
 
 .charm-object:active {
     cursor: grabbing;
+}
+
+#charm-tooltip {
+    position: absolute;
+    background: #ff5722 !important;
+    color: #ffffff !important;
+    padding: 8px 14px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 14px rgba(255, 87, 34, 0.5) !important;
+    z-index: 100000 !important;
+    pointer-events: none !important;
+    text-align: center;
+}
+
+.charm-tooltip-rope {
+    position: absolute;
+    width: 2px !important;
+    background: repeating-linear-gradient(to bottom, #ff5722, #ff5722 5px, #c24015 5px, #c24015 10px) !important;
+}
+
+.charm-string.swing-paused {
+    animation: none !important;
+    transform: rotate(0deg) !important;
 }
 
 @keyframes swing {
@@ -1293,38 +1322,130 @@ body {
         color: #ff5722 !important;
     }
 
-    /* Keep charm visible and interactive on mobile header when menu is closed */
+    /* Mobile Navbar Header: Orange 'LET'S CONNECT' button directly left to hamburger with hanging charm */
     .nav-actions {
-        gap: 12px;
-        display: flex;
-        align-items: center;
-    }
-
-    .nav-actions .nav-cta-btn {
-        display: none !important;
+        gap: 12px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        flex: 0 0 auto !important;
     }
 
     .nav-actions .dangling-container {
-        width: 38px;
-        height: 38px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        position: relative !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        width: auto !important;
+        height: auto !important;
+    }
+
+    .nav-actions .nav-cta-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #ff5722 !important;
+        background-color: #ff5722 !important;
+        color: #ffffff !important;
+        padding: 7px 14px !important;
+        border-radius: 50px !important;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+        font-weight: 800 !important;
+        font-size: 12px !important;
+        letter-spacing: 0.5px !important;
+        text-transform: uppercase !important;
+        box-shadow: 0 3px 12px rgba(255, 87, 34, 0.45) !important;
+        text-decoration: none !important;
+        white-space: nowrap !important;
+        transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease !important;
+    }
+
+    .nav-actions .nav-cta-btn:hover,
+    .nav-actions .nav-cta-btn:active {
+        background: #e64a19 !important;
+        background-color: #e64a19 !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 5px 16px rgba(255, 87, 34, 0.6) !important;
     }
 
     .charm-string {
         display: block !important;
-        top: 8px;
-        left: 50%;
-        height: 48px;
+        position: absolute !important;
+        top: 29px !important;
+        left: 50% !important;
+        width: 2px !important;
+        height: 48px !important;
+        background: repeating-linear-gradient(to bottom, #ff5722, #ff5722 5px, #c24015 5px, #c24015 10px) !important;
+        transform-origin: top center !important;
+        z-index: 1000 !important;
+        pointer-events: none !important;
+        animation: swing 3s ease-in-out infinite alternate !important;
     }
 
     .charm-object {
-        top: 48px;
-        left: -18px;
-        width: 36px;
         display: block !important;
+        position: absolute !important;
+        top: 48px !important;
+        left: -18px !important;
+        width: 36px !important;
+        height: auto !important;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25)) !important;
+        transform-origin: top center !important;
+        cursor: grab !important;
+        pointer-events: auto !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -webkit-user-drag: none !important;
+        -webkit-touch-callout: none !important;
+        touch-action: none !important;
+        z-index: 1001 !important;
+        transition: filter 0.2s ease !important;
+    }
+
+    .charm-object::after {
+        content: '';
+        position: absolute;
+        top: -12px;
+        left: -12px;
+        right: -12px;
+        bottom: -12px;
+        pointer-events: auto;
+    }
+
+    #charm-tooltip {
+        white-space: normal !important;
+        width: 210px !important;
+        max-width: calc(100vw - 28px) !important;
+        font-size: 12px !important;
+        padding: 8px 14px !important;
+        line-height: 1.35 !important;
+        text-align: center !important;
+    }
+
+    @media (max-width: 400px) {
+        .navbar {
+            padding: 10px 12px !important;
+        }
+        .logo-container .logo,
+        .logo-container img {
+            height: 38px !important;
+        }
+        .nav-actions {
+            gap: 8px !important;
+        }
+        .nav-actions .nav-cta-btn {
+            padding: 6px 11px !important;
+            font-size: 11px !important;
+            letter-spacing: 0.3px !important;
+        }
+        .charm-string {
+            top: 26px !important;
+            height: 44px !important;
+        }
+        .charm-object {
+            top: 44px !important;
+            left: -16px !important;
+            width: 32px !important;
+        }
     }
 
     /* CRITICAL FIX: Hide charm completely whenever mobile drawer is open so it NEVER obstructs menu items */

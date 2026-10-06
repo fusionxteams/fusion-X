@@ -315,11 +315,11 @@ document.addEventListener('DOMContentLoaded', () => {
         dragStartX = coords.x;
         dragStartY = coords.y;
         
-        charmObj.style.position = 'fixed';
-        charmObj.style.left = rect.left + 'px';
-        charmObj.style.top = rect.top + 'px';
-        charmObj.style.margin = '0';
-        charmObj.style.zIndex = '999999';
+        charmObj.style.setProperty('position', 'fixed', 'important');
+        charmObj.style.setProperty('left', rect.left + 'px', 'important');
+        charmObj.style.setProperty('top', rect.top + 'px', 'important');
+        charmObj.style.setProperty('margin', '0', 'important');
+        charmObj.style.setProperty('z-index', '999999', 'important');
         
         currentX = rect.left;
         currentY = rect.top;
@@ -367,8 +367,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentX = startX + dx;
         currentY = startY + dy;
         
-        charmObj.style.left = currentX + 'px';
-        charmObj.style.top = currentY + 'px';
+        charmObj.style.setProperty('left', currentX + 'px', 'important');
+        charmObj.style.setProperty('top', currentY + 'px', 'important');
         
         drawString();
         
@@ -399,14 +399,19 @@ document.addEventListener('DOMContentLoaded', () => {
             charmString.style.height = restH + 'px';
             charmString.style.transform = 'rotate(0deg)';
             
-            charmObj.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            charmObj.style.setProperty('transition', 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 'important');
             const stringRect = charmString.getBoundingClientRect();
-            charmObj.style.left = (stringRect.left - halfW + stringRect.width / 2) + 'px';
-            charmObj.style.top = (stringRect.top + restH) + 'px';
+            charmObj.style.setProperty('left', (stringRect.left - halfW + stringRect.width / 2) + 'px', 'important');
+            charmObj.style.setProperty('top', (stringRect.top + restH) + 'px', 'important');
             
             setTimeout(() => {
                 charmString.style.transition = 'none';
-                charmObj.style.transition = 'none';
+                charmObj.style.removeProperty('transition');
+                charmObj.style.removeProperty('position');
+                charmObj.style.removeProperty('left');
+                charmObj.style.removeProperty('top');
+                charmObj.style.removeProperty('margin');
+                charmObj.style.removeProperty('z-index');
                 charmObj.style.position = 'absolute';
                 charmObj.style.left = (-halfW) + 'px';
                 charmObj.style.top = restH + 'px';
@@ -429,6 +434,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Attach charmObj to document.body for the full flight across the site
         document.body.appendChild(charmObj);
+        charmObj.style.setProperty('position', 'fixed', 'important');
+        charmObj.style.setProperty('z-index', '999999', 'important');
         
         const isMob = window.innerWidth <= 1024;
         const { halfW } = getObjMetrics();
@@ -483,22 +490,22 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const objW = charmObj.offsetWidth || (isMob ? 36 : 48);
         const objH = charmObj.offsetHeight || (isMob ? 36 : 48);
-        const minX = 10;
-        const maxX = window.innerWidth - objW - 10;
-        const minY = isMob ? 55 : 12; // Keep below mobile navbar so it bounces clean off the header
-        const maxY = window.innerHeight - objH - 18;
+        const minX = 14;
+        const maxX = window.innerWidth - objW - 14;
+        const minY = isMob ? 65 : 12; // Keep below mobile navbar so it bounces clean off the header
+        const maxY = window.innerHeight - objH - 20;
         
         let bouncedThisFrame = false;
 
         if (currentX <= minX) {
             currentX = minX;
-            vx = Math.abs(vx) * 0.85;
+            vx = Math.abs(vx) * 0.86;
             if (vx < 7) vx = 8 + Math.random() * 3; // Guaranteed energetic rebound
             spinVelocity = -spinVelocity * 0.95;
             bouncedThisFrame = true;
         } else if (currentX >= maxX) {
             currentX = maxX;
-            vx = -Math.abs(vx) * 0.85;
+            vx = -Math.abs(vx) * 0.86;
             if (vx > -7) vx = -(8 + Math.random() * 3); // Guaranteed energetic rebound
             spinVelocity = -spinVelocity * 0.95;
             bouncedThisFrame = true;
@@ -506,12 +513,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (currentY <= minY) {
             currentY = minY;
-            vy = Math.abs(vy) * 0.85;
+            vy = Math.abs(vy) * 0.86;
             if (vy < 7) vy = 8 + Math.random() * 3;
             bouncedThisFrame = true;
         } else if (currentY >= maxY) {
             currentY = maxY;
-            vy = -Math.abs(vy) * 0.85;
+            vy = -Math.abs(vy) * 0.86;
             if (vy > -9) vy = -(10 + Math.random() * 4); // Strong bounce off floor
             bouncedThisFrame = true;
         }
@@ -520,9 +527,9 @@ document.addEventListener('DOMContentLoaded', () => {
             bounces++;
         }
         
-        charmObj.style.left = currentX + 'px';
-        charmObj.style.top = currentY + 'px';
-        charmObj.style.transform = `rotate(${spinAngle}deg)`;
+        charmObj.style.setProperty('left', currentX + 'px', 'important');
+        charmObj.style.setProperty('top', currentY + 'px', 'important');
+        charmObj.style.setProperty('transform', `rotate(${spinAngle}deg)`, 'important');
         
         requestAnimationFrame(physicsLoop);
     };
@@ -538,12 +545,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetX = (window.innerWidth - objW) / 2;
         const targetY = (window.innerHeight * 0.42) - (objH / 2);
         
-        charmObj.style.transition = 'all 0.85s cubic-bezier(0.25, 1, 0.5, 1)';
-        charmObj.style.left = targetX + 'px';
-        charmObj.style.top = targetY + 'px';
-        charmObj.style.transform = (isMob ? 'scale(1.8)' : 'scale(2.2)') + ' rotate(720deg)';
+        charmObj.style.setProperty('transition', 'all 0.85s cubic-bezier(0.25, 1, 0.5, 1)', 'important');
+        charmObj.style.setProperty('left', targetX + 'px', 'important');
+        charmObj.style.setProperty('top', targetY + 'px', 'important');
+        charmObj.style.setProperty('transform', (isMob ? 'scale(1.8)' : 'scale(2.2)') + ' rotate(720deg)', 'important');
         
         setTimeout(() => {
+            // Instantly hide and lower z-index of charm logo before opening modal
+            charmObj.style.setProperty('z-index', '-99999', 'important');
+            charmObj.style.setProperty('display', 'none', 'important');
+            charmObj.style.setProperty('opacity', '0', 'important');
+            charmObj.style.setProperty('visibility', 'hidden', 'important');
+            charmObj.style.setProperty('pointer-events', 'none', 'important');
             showHiddenOffer();
             triggerFireworks();
         }, 900);
@@ -555,16 +568,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetTop = isMobile ? (window.innerWidth <= 400 ? 44 : 48) : 70;
         const targetLeft = isMobile ? (window.innerWidth <= 400 ? -16 : -18) : -24;
         
-        charmObj.style.display = 'block';
-        charmObj.style.opacity = '1';
-        charmObj.style.transition = 'all 0.85s cubic-bezier(0.5, 0, 0.2, 1)';
-        charmObj.style.transform = 'scale(1) rotate(0deg)';
-        charmObj.style.left = (stringRect.left + targetLeft + stringRect.width / 2) + 'px';
-        charmObj.style.top = (stringRect.top + targetTop) + 'px';
+        charmObj.style.setProperty('display', 'block', 'important');
+        charmObj.style.setProperty('opacity', '1', 'important');
+        charmObj.style.setProperty('visibility', 'visible', 'important');
+        charmObj.style.setProperty('pointer-events', 'auto', 'important');
+        charmObj.style.setProperty('z-index', '1001', 'important');
+        charmObj.style.setProperty('transition', 'all 0.85s cubic-bezier(0.5, 0, 0.2, 1)', 'important');
+        charmObj.style.setProperty('transform', 'scale(1) rotate(0deg)', 'important');
+        charmObj.style.setProperty('left', (stringRect.left + targetLeft + stringRect.width / 2) + 'px', 'important');
+        charmObj.style.setProperty('top', (stringRect.top + targetTop) + 'px', 'important');
         
         setTimeout(() => {
             charmString.style.opacity = '1';
-            charmObj.style.transition = 'none';
+            charmObj.style.removeProperty('transition');
+            charmObj.style.removeProperty('position');
+            charmObj.style.removeProperty('left');
+            charmObj.style.removeProperty('top');
+            charmObj.style.removeProperty('transform');
+            charmObj.style.removeProperty('margin');
+            charmObj.style.removeProperty('z-index');
+            charmObj.style.removeProperty('display');
+            charmObj.style.removeProperty('visibility');
+            charmObj.style.removeProperty('pointer-events');
             charmObj.style.position = 'absolute';
             charmObj.style.left = targetLeft + 'px';
             charmObj.style.top = targetTop + 'px';
@@ -579,13 +604,20 @@ document.addEventListener('DOMContentLoaded', () => {
             hasSettled = false;
             
             showCharmTooltip(message, 5000);
+            updateCharmScrollVisibility();
         }, 900);
     };
 
     const showHiddenOffer = () => {
         // Eradicate any old or duplicate contact modal immediately
         document.querySelectorAll('#charm-contact-modal').forEach(el => el.remove());
-        charmObj.style.display = 'none';
+        
+        // Completely hide charm object and lower its z-index behind everything
+        charmObj.style.setProperty('display', 'none', 'important');
+        charmObj.style.setProperty('opacity', '0', 'important');
+        charmObj.style.setProperty('visibility', 'hidden', 'important');
+        charmObj.style.setProperty('pointer-events', 'none', 'important');
+        charmObj.style.setProperty('z-index', '-99999', 'important');
         
         if (document.getElementById('hidden-offer-overlay')) {
             document.getElementById('hidden-offer-overlay').remove();
@@ -597,7 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.style.top = '0'; overlay.style.left = '0';
         overlay.style.width = '100vw'; overlay.style.height = '100vh';
         overlay.style.background = 'rgba(0,0,0,0.85)';
-        overlay.style.zIndex = '100000';
+        overlay.style.zIndex = '1000000';
         overlay.style.display = 'flex';
         overlay.style.justifyContent = 'center';
         overlay.style.alignItems = 'center';
@@ -616,6 +648,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formBox.style.width = '90%';
         formBox.style.maxWidth = '440px';
         formBox.style.position = 'relative';
+        formBox.style.zIndex = '1000001';
         formBox.style.transform = 'scale(0.7)';
         formBox.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         formBox.style.boxShadow = '0 0 50px rgba(255, 87, 34, 0.5)';
@@ -754,6 +787,36 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('touchend', onPointerUp);
     window.addEventListener('pointercancel', onPointerUp);
     window.addEventListener('touchcancel', onPointerUp);
+
+    // Vanish charm when scrolling down so it doesn't obstruct reading content (both mobile & desktop)
+    let isCharmScrolledHidden = false;
+    const updateCharmScrollVisibility = () => {
+        // If user is actively dragging or charm is in flight, do not interrupt
+        if (isDragging || isCut) return;
+        
+        const currentScroll = window.pageYOffset || window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        const shouldHide = currentScroll > 45;
+        if (shouldHide !== isCharmScrolledHidden) {
+            isCharmScrolledHidden = shouldHide;
+            if (isCharmScrolledHidden) {
+                charmString.classList.add('charm-hidden-on-scroll');
+                charmObj.classList.add('charm-hidden-on-scroll');
+                const tt = document.getElementById('charm-tooltip');
+                if (tt) tt.classList.add('charm-hidden-on-scroll');
+            } else {
+                charmString.classList.remove('charm-hidden-on-scroll');
+                charmObj.classList.remove('charm-hidden-on-scroll');
+                const tt = document.getElementById('charm-tooltip');
+                if (tt) tt.classList.remove('charm-hidden-on-scroll');
+            }
+        }
+    };
+
+    window.addEventListener('scroll', updateCharmScrollVisibility, { passive: true });
+    document.addEventListener('scroll', updateCharmScrollVisibility, { passive: true });
+    window.addEventListener('touchmove', updateCharmScrollVisibility, { passive: true });
+    window.addEventListener('resize', updateCharmScrollVisibility, { passive: true });
+    updateCharmScrollVisibility();
 
     // ==========================================================================
     // UNIVERSAL SCROLL REVEAL ANIMATION ENGINE

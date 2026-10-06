@@ -1153,6 +1153,7 @@ body {
     pointer-events: none;
     animation: swing 3s ease-in-out infinite alternate;
     touch-action: none !important;
+    transition: opacity 0.3s ease;
 }
 
 .charm-object {
@@ -1168,8 +1169,18 @@ body {
     user-select: none;
     -webkit-user-drag: none;
     z-index: 1001;
-    transition: filter 0.2s ease;
+    transition: opacity 0.3s ease, filter 0.2s ease;
     touch-action: none !important;
+}
+
+/* Universal charm scroll vanishing for both mobile and desktop */
+.charm-string.charm-hidden-on-scroll,
+.charm-object.charm-hidden-on-scroll,
+#charm-tooltip.charm-hidden-on-scroll {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    transition: opacity 0.3s ease, visibility 0.3s ease !important;
 }
 
 .charm-object:hover {
@@ -1379,26 +1390,27 @@ body {
         z-index: 1000 !important;
         pointer-events: none !important;
         animation: swing 3s ease-in-out infinite alternate !important;
+        transition: opacity 0.3s ease !important;
     }
 
     .charm-object {
-        display: block !important;
-        position: absolute !important;
-        top: 48px !important;
-        left: -18px !important;
-        width: 36px !important;
-        height: auto !important;
-        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25)) !important;
-        transform-origin: top center !important;
-        cursor: grab !important;
-        pointer-events: auto !important;
-        user-select: none !important;
-        -webkit-user-select: none !important;
-        -webkit-user-drag: none !important;
-        -webkit-touch-callout: none !important;
-        touch-action: none !important;
-        z-index: 1001 !important;
-        transition: filter 0.2s ease !important;
+        display: block;
+        position: absolute;
+        top: 48px;
+        left: -18px;
+        width: 36px;
+        height: auto;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+        transform-origin: top center;
+        cursor: grab;
+        pointer-events: auto;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-user-drag: none;
+        -webkit-touch-callout: none;
+        touch-action: none;
+        z-index: 1001;
+        transition: opacity 0.3s ease, filter 0.2s ease;
     }
 
     .charm-object::after {
@@ -1409,6 +1421,15 @@ body {
         right: -12px;
         bottom: -12px;
         pointer-events: auto;
+    }
+
+    /* Vanish charm on scroll down so it does not obstruct reading content */
+    .charm-string.charm-hidden-on-scroll,
+    .charm-object.charm-hidden-on-scroll,
+    #charm-tooltip.charm-hidden-on-scroll {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transition: opacity 0.3s ease !important;
     }
 
     #charm-tooltip {
@@ -1442,9 +1463,9 @@ body {
             height: 44px !important;
         }
         .charm-object {
-            top: 44px !important;
-            left: -16px !important;
-            width: 32px !important;
+            top: 44px;
+            left: -16px;
+            width: 32px;
         }
     }
 

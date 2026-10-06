@@ -461,14 +461,14 @@
         <section class="member-section right-align light-mode-trigger" id="sec-saravana">
             <div class="member-content gsap-reveal">
                 <div class="member-header">
-                    <img src="team/saravana-sanjhay-m-seo-expert.webp" alt="Saravana" class="member-image">
+                    <img src="team/saravana-sanjhay-m-seo-expert.webp" alt="Saravana Sanjhay.M" class="member-image">
                     <div class="member-meta">
-                        <h2 class="member-name">Saravana S</h2>
+                        <h2 class="member-name">Saravana Sanjhay.M</h2>
                         <div class="member-role">Technical SEO Expert</div>
                     </div>
                 </div>
                 <div class="member-desc">
-                    Saravana is our undisputed master of search visibility and organic growth. As a <strong>leading Technical SEO specialist in Chennai</strong> and Certified Angular Developer, he brings over 2 years of experience in propelling enterprise brands to the absolute top of the SERPs. He doesn't chase vanity metrics; he excels in mapping user search intent to high-volume, low-difficulty semantic keyword clusters. From dominating the <strong>Google Maps 3-Pack for local businesses</strong> to executing rigorous technical SEO audits, backlink acquisition, and LSI keyword optimization, Saravana ensures your brand captures maximum high-intent organic search traffic.
+                    Saravana Sanjhay is our undisputed master of search visibility and organic growth. As a <strong>leading Technical SEO specialist in Chennai</strong> and Certified Angular Developer, he brings over 2 years of experience in propelling enterprise brands to the absolute top of the SERPs. He doesn't chase vanity metrics; he excels in mapping user search intent to high-volume, low-difficulty semantic keyword clusters. From dominating the <strong>Google Maps 3-Pack for local businesses</strong> to executing rigorous technical SEO audits, backlink acquisition, and LSI keyword optimization, Saravana ensures your brand captures maximum high-intent organic search traffic.
                 </div>
                 <div class="highlights">
                     <span class="highlight-tag">SEO Ranking</span>
@@ -853,81 +853,167 @@
         g1.visible = false;
         models.push(g1); mainGroup.add(g1);
 
-        // 2. JaiHaran (3D CapCut Symbol)
+        // 2. JaiHaran (3D Instagram & 3D YouTube Symbols)
         const g2 = new THREE.Group();
 
-        // Sleek Matte Black App Squircle Backing
-        const sqShape = new THREE.Shape();
-        const sqR = 0.85, sqW = 5.4, sqH = 5.4;
-        const sqX = -sqW/2, sqY = -sqH/2;
-        sqShape.moveTo(sqX + sqR, sqY);
-        sqShape.lineTo(sqX + sqW - sqR, sqY);
-        sqShape.quadraticCurveTo(sqX + sqW, sqY, sqX + sqW, sqY + sqR);
-        sqShape.lineTo(sqX + sqW, sqY + sqH - sqR);
-        sqShape.quadraticCurveTo(sqX + sqW, sqY + sqH, sqX + sqW - sqR, sqY + sqH);
-        sqShape.lineTo(sqX + sqR, sqY + sqH);
-        sqShape.quadraticCurveTo(sqX, sqY + sqH, sqX, sqY + sqH - sqR);
-        sqShape.lineTo(sqX, sqY + sqR);
-        sqShape.quadraticCurveTo(sqX, sqY, sqX + sqR, sqY);
+        const matInstaGradient = new THREE.MeshStandardMaterial({ color: 0xe1306c, roughness: 0.2, metalness: 0.45 });
+        const matInstaOrange = new THREE.MeshStandardMaterial({ color: 0xf56040, roughness: 0.25, metalness: 0.35 });
+        const matInstaWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.15, metalness: 0.2 });
+        const matInstaLens = new THREE.MeshPhysicalMaterial({ color: 0x1b092b, roughness: 0.1, metalness: 0.9, clearcoat: 1.0 });
 
-        const sqGeo = new THREE.ExtrudeGeometry(sqShape, { depth: 0.55, bevelEnabled: true, bevelSegments: 5, steps: 1, bevelSize: 0.15, bevelThickness: 0.15 });
-        const matCapCutBg = new THREE.MeshStandardMaterial({ color: 0x0b0d11, roughness: 0.35, metalness: 0.85 });
-        const squircleMesh = new THREE.Mesh(sqGeo, matCapCutBg);
-        squircleMesh.position.z = -0.45;
-        g2.add(squircleMesh);
+        const matYTDeepRed = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.18, metalness: 0.4 });
+        const matYTWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.15, metalness: 0.2 });
 
-        // Glowing Orange Outer Accent Rim
-        const ccRim = new THREE.Mesh(new THREE.BoxGeometry(5.6, 5.6, 0.05), new THREE.MeshStandardMaterial({ color: 0xff5722, wireframe: true, transparent: true, opacity: 0.45 }));
-        ccRim.position.z = -0.4;
-        g2.add(ccRim);
+        // --- INSTAGRAM 3D EMBLEM (Left side) ---
+        const instaGroup = new THREE.Group();
+        instaGroup.position.set(-1.8, 1.3, 0.3);
+        instaGroup.scale.set(0.92, 0.92, 0.92);
 
-        // CapCut Iconic Stylized Cutter Blades (Extruded 3D Polygons)
-        const matCapCutWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.15, metalness: 0.25 });
+        // Instagram Squircle Backing Body
+        const inShape = new THREE.Shape();
+        const inR = 0.85, inW = 3.8, inH = 3.8;
+        const inX = -inW/2, inY = -inH/2;
+        inShape.moveTo(inX + inR, inY);
+        inShape.lineTo(inX + inW - inR, inY);
+        inShape.quadraticCurveTo(inX + inW, inY, inX + inW, inY + inR);
+        inShape.lineTo(inX + inW, inY + inH - inR);
+        inShape.quadraticCurveTo(inX + inW, inY + inH, inX + inW - inR, inY + inH);
+        inShape.lineTo(inX + inR, inY + inH);
+        inShape.quadraticCurveTo(inX, inY + inH, inX, inY + inH - inR);
+        inShape.lineTo(inX, inY + inR);
+        inShape.quadraticCurveTo(inX, inY, inX + inR, inY);
 
-        // Top Blade (Cutter Shear)
-        const ccTopShape = new THREE.Shape();
-        ccTopShape.moveTo(-2.1, 1.7);
-        ccTopShape.lineTo(2.1, 1.7);
-        ccTopShape.lineTo(2.1, 0.85);
-        ccTopShape.lineTo(-0.8, -0.22);
-        ccTopShape.lineTo(-2.1, 0.35);
-        ccTopShape.closePath();
+        const inGeo = new THREE.ExtrudeGeometry(inShape, { depth: 0.52, bevelEnabled: true, bevelSegments: 4, steps: 1, bevelSize: 0.12, bevelThickness: 0.12 });
+        const inMesh = new THREE.Mesh(inGeo, matInstaGradient);
+        inMesh.position.z = -0.3;
+        instaGroup.add(inMesh);
 
-        // Bottom Blade (Inverted & Mirrored)
-        const ccBottomShape = new THREE.Shape();
-        ccBottomShape.moveTo(2.1, -1.7);
-        ccBottomShape.lineTo(-2.1, -1.7);
-        ccBottomShape.lineTo(-2.1, -0.85);
-        ccBottomShape.lineTo(0.8, 0.22);
-        ccBottomShape.lineTo(2.1, -0.35);
-        ccBottomShape.closePath();
+        // Glowing Outer Wireframe Accent Rim
+        const inRim = new THREE.Mesh(new THREE.BoxGeometry(4.2, 4.2, 0.05), new THREE.MeshStandardMaterial({ color: 0xf56040, wireframe: true, transparent: true, opacity: 0.4 }));
+        inRim.position.z = -0.28;
+        instaGroup.add(inRim);
 
-        const ccExtrude = { depth: 0.38, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.06, bevelThickness: 0.06 };
-        const topBlade = new THREE.Mesh(new THREE.ExtrudeGeometry(ccTopShape, ccExtrude), matCapCutWhite);
-        topBlade.position.set(0, 0.16, 0.15);
-        g2.add(topBlade);
+        // Inner Camera Rounded Box Outline
+        const camOuter = new THREE.Shape();
+        const coR = 0.55, coW = 2.5, coH = 2.5;
+        const coX = -coW/2, coY = -coH/2;
+        camOuter.moveTo(coX + coR, coY);
+        camOuter.lineTo(coX + coW - coR, coY);
+        camOuter.quadraticCurveTo(coX + coW, coY, coX + coW, coY + coR);
+        camOuter.lineTo(coX + coW, coY + coH - coR);
+        camOuter.quadraticCurveTo(coX + coW, coY + coH, coX + coW - coR, coY + coH);
+        camOuter.lineTo(coX + coR, coY + coH);
+        camOuter.quadraticCurveTo(coX, coY + coH, coX, coY + coH - coR);
+        camOuter.lineTo(coX, coY + coR);
+        camOuter.quadraticCurveTo(coX, coY, coX + coR, coY);
 
-        const bottomBlade = new THREE.Mesh(new THREE.ExtrudeGeometry(ccBottomShape, ccExtrude), matCapCutWhite);
-        bottomBlade.position.set(0, -0.16, 0.15);
-        g2.add(bottomBlade);
+        const camHole = new THREE.Path();
+        const ciR = 0.42, ciW = 2.1, ciH = 2.1;
+        const ciX = -ciW/2, ciY = -ciH/2;
+        camHole.moveTo(ciX + ciR, ciY);
+        camHole.lineTo(ciX + ciW - ciR, ciY);
+        camHole.quadraticCurveTo(ciX + ciW, ciY, ciX + ciW, ciY + ciR);
+        camHole.lineTo(ciX + ciW, ciY + ciH - ciR);
+        camHole.quadraticCurveTo(ciX + ciW, ciY + ciH, ciX + ciW - ciR, ciY + ciH);
+        camHole.lineTo(ciX + ciR, ciY + ciH);
+        camHole.quadraticCurveTo(ciX, ciY + ciH, ciX, ciY + ciH - ciR);
+        camHole.lineTo(ciX, ciY + ciR);
+        camHole.quadraticCurveTo(ciX, ciY, ciX + ciR, ciY);
+        camOuter.holes.push(camHole);
 
-        // Floating Video Editing Timeline & Keyframe Markers
-        const timeline = new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.16, 0.15), matOrange);
-        timeline.position.set(0, -3.2, 0.25);
-        g2.add(timeline);
+        const camFrameGeo = new THREE.ExtrudeGeometry(camOuter, { depth: 0.22, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.04, bevelThickness: 0.04 });
+        const camFrameMesh = new THREE.Mesh(camFrameGeo, matInstaWhite);
+        camFrameMesh.position.z = 0.22;
+        instaGroup.add(camFrameMesh);
 
-        for (let i = 0; i < 5; i++) {
-            const cutTick = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.45, 0.16), i === 2 ? matOrange : matWhite);
-            cutTick.position.set(-2.4 + i * 1.2, -3.2, 0.3);
-            g2.add(cutTick);
-        }
+        // Center Lens Ring
+        const lensRing = new THREE.Mesh(new THREE.TorusGeometry(0.66, 0.12, 16, 48), matInstaWhite);
+        lensRing.position.set(0, 0, 0.32);
+        instaGroup.add(lensRing);
 
-        // Diamond Keyframes at top
-        for (let i = 0; i < 3; i++) {
-            const kf = new THREE.Mesh(new THREE.OctahedronGeometry(0.22), matOrange);
-            kf.position.set(-1.6 + i * 1.6, 3.2, 0.2);
-            kf.rotation.z = Math.PI / 4;
-            g2.add(kf);
+        // Dark Glossy Camera Aperture Glass
+        const lensGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.54, 0.54, 0.12, 32), matInstaLens);
+        lensGlass.rotation.x = Math.PI / 2;
+        lensGlass.position.set(0, 0, 0.28);
+        instaGroup.add(lensGlass);
+
+        // Camera Flash Dot
+        const flashDot = new THREE.Mesh(new THREE.SphereGeometry(0.18, 20, 20), matInstaWhite);
+        flashDot.position.set(0.82, 0.82, 0.34);
+        instaGroup.add(flashDot);
+
+        // Instagram Base Plate
+        const instaBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+        instaBadge.position.set(0, -2.4, 0.12);
+        instaGroup.add(instaBadge);
+        const instaBadgeStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matInstaGradient);
+        instaBadgeStripe.position.set(0, -2.4, 0.15);
+        instaGroup.add(instaBadgeStripe);
+
+        g2.add(instaGroup);
+
+        // --- YOUTUBE 3D EMBLEM (Right side) ---
+        const ytGroup = new THREE.Group();
+        ytGroup.position.set(1.8, -1.3, -0.3);
+        ytGroup.scale.set(0.92, 0.92, 0.92);
+
+        // YouTube Rounded Rectangle Button
+        const ytShape = new THREE.Shape();
+        const ytR = 0.9, ytW = 4.2, ytH = 2.9;
+        const ytX = -ytW/2, ytY = -ytH/2;
+        ytShape.moveTo(ytX + ytR, ytY);
+        ytShape.lineTo(ytX + ytW - ytR, ytY);
+        ytShape.quadraticCurveTo(ytX + ytW, ytY, ytX + ytW, ytY + ytR);
+        ytShape.lineTo(ytX + ytW, ytY + ytH - ytR);
+        ytShape.quadraticCurveTo(ytX + ytW, ytY + ytH, ytX + ytW - ytR, ytY + ytH);
+        ytShape.lineTo(ytX + ytR, ytY + ytH);
+        ytShape.quadraticCurveTo(ytX, ytY + ytH, ytX, ytY + ytH - ytR);
+        ytShape.lineTo(ytX, ytY + ytR);
+        ytShape.quadraticCurveTo(ytX, ytY, ytX + ytR, ytY);
+
+        const ytGeo = new THREE.ExtrudeGeometry(ytShape, { depth: 0.55, bevelEnabled: true, bevelSegments: 4, steps: 1, bevelSize: 0.15, bevelThickness: 0.15 });
+        const ytMesh = new THREE.Mesh(ytGeo, matYTDeepRed);
+        ytMesh.position.z = -0.3;
+        ytGroup.add(ytMesh);
+
+        // Subtle dark rim backing
+        const ytBacking = new THREE.Mesh(new THREE.BoxGeometry(4.4, 3.1, 0.1), matDark);
+        ytBacking.position.z = -0.4;
+        ytGroup.add(ytBacking);
+
+        // Iconic 3D White Play Button Triangle (pointing right +X)
+        const triShape = new THREE.Shape();
+        triShape.moveTo(-0.65, 0.82);
+        triShape.lineTo(-0.65, -0.82);
+        triShape.lineTo(0.95, 0);
+        triShape.closePath();
+
+        const triGeo = new THREE.ExtrudeGeometry(triShape, { depth: 0.35, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.05, bevelThickness: 0.05 });
+        const triMesh = new THREE.Mesh(triGeo, matYTWhite);
+        triMesh.position.set(0.08, 0, 0.28);
+        ytGroup.add(triMesh);
+
+        // YouTube Base Plate
+        const ytBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+        ytBadge.position.set(0, -2.4, 0.12);
+        ytGroup.add(ytBadge);
+        const ytBadgeStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matYTDeepRed);
+        ytBadgeStripe.position.set(0, -2.4, 0.15);
+        ytGroup.add(ytBadgeStripe);
+
+        g2.add(ytGroup);
+
+        // Connecting Social Media Orbit Ring
+        const socialOrbit = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.05, 16, 100), matOrange);
+        socialOrbit.rotation.x = Math.PI / 2.3;
+        g2.add(socialOrbit);
+
+        // Floating Metric Nodes (alternating Instagram & YouTube colors)
+        for(let i = 0; i < 4; i++) {
+            const angle = (i * Math.PI) / 2;
+            const node = new THREE.Mesh(new THREE.SphereGeometry(0.18, 16, 16), i % 2 === 0 ? matInstaGradient : matYTDeepRed);
+            node.position.set(Math.cos(angle) * 3.6, Math.sin(angle) * 1.5, Math.sin(angle) * 0.8);
+            g2.add(node);
         }
 
         g2.visible = false;
@@ -1093,46 +1179,167 @@
 
         
         
-        // 4. Saravana (SEO Search Bar)
+        // 4. Saravana Sanjhay.M (3D SEMrush & 3D Google Symbols)
         const g4 = new THREE.Group();
-        // The Search Bar Base
-        const searchBase = new THREE.Mesh(new THREE.BoxGeometry(6, 1.2, 0.5), matWhite);
-        g4.add(searchBase);
-        
-        // Search Button (Right Side)
-        const searchBtn = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 0.6), matOrange);
-        searchBtn.position.set(2.4, 0, 0);
-        g4.add(searchBtn);
-        
-        // Tiny Magnifying Glass Icon inside the button
-        const iconRing = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.05, 16, 32), matWhite);
-        iconRing.position.set(2.4, 0.1, 0.35);
-        g4.add(iconRing);
-        const iconHandle = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.3), matWhite);
-        iconHandle.rotation.z = -Math.PI/4;
-        iconHandle.position.set(2.25, -0.1, 0.35);
-        g4.add(iconHandle);
-        
-        // Blinking Cursor
-        const cursor = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.6, 0.6), matDark);
-        cursor.position.set(-2.5, 0, 0.2);
-        
-        // Let's animate the cursor blinking in the render loop!
-        // We'll attach it to a global variable or just animate its material opacity
-        cursor.material.transparent = true;
-        g4.add(cursor);
-        
-        // Floating SEO keyword blocks
-        const kw1 = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.5, 0.2), matDark);
-        kw1.position.set(-3, 2, -1);
-        g4.add(kw1);
-        const kw2 = new THREE.Mesh(new THREE.BoxGeometry(2, 0.5, 0.2), matOrange);
-        kw2.position.set(2, -2, -1);
-        g4.add(kw2);
-        
-        g4.rotation.x = 0.2;
-        g4.rotation.y = -0.2;
-        
+
+        const matSemrushOrange = new THREE.MeshStandardMaterial({ color: 0xff642d, roughness: 0.2, metalness: 0.35 });
+        const matSemrushDarkNavy = new THREE.MeshStandardMaterial({ color: 0x0a101d, roughness: 0.35, metalness: 0.75 });
+        const matSemrushSpark = new THREE.MeshStandardMaterial({ color: 0xffa336, roughness: 0.2, metalness: 0.3 });
+
+        const matGoogleBlueSEO = new THREE.MeshStandardMaterial({ color: 0x4285f4, roughness: 0.2, metalness: 0.5 });
+        const matGoogleRedSEO = new THREE.MeshStandardMaterial({ color: 0xea4335, roughness: 0.2, metalness: 0.5 });
+        const matGoogleYellowSEO = new THREE.MeshStandardMaterial({ color: 0xfbbc05, roughness: 0.2, metalness: 0.5 });
+        const matGoogleGreenSEO = new THREE.MeshStandardMaterial({ color: 0x34a853, roughness: 0.2, metalness: 0.5 });
+
+        // --- SEMRUSH 3D EMBLEM (Left side - Official Right-Side-Up SVG Geometry) ---
+        const semrushGroup = new THREE.Group();
+        semrushGroup.position.set(-1.8, 1.3, 0.3);
+        semrushGroup.scale.set(0.92, 0.92, 0.92);
+
+        // Deep Navy Disc Base
+        const semrushCoin = new THREE.Mesh(new THREE.CylinderGeometry(2.35, 2.35, 0.42, 64), matSemrushDarkNavy);
+        semrushCoin.rotation.x = Math.PI / 2;
+        semrushGroup.add(semrushCoin);
+
+        // Glowing Orange Outer Accent Ring
+        const semrushOuterRing = new THREE.Mesh(new THREE.TorusGeometry(2.15, 0.08, 16, 64), matSemrushOrange);
+        semrushOuterRing.position.z = 0.22;
+        semrushGroup.add(semrushOuterRing);
+
+        // Official Semrush Iconic Fireball Shape (Right-Side-Up SVG Geometry)
+        const srShape = new THREE.Shape();
+        const srScale = 0.95;
+        srShape.moveTo(2.165 * srScale, 0.02 * srScale);
+        srShape.bezierCurveTo(2.165 * srScale, 0.64 * srScale, 1.745 * srScale, 1.30 * srScale, 0.765 * srScale, 1.30 * srScale);
+        srShape.lineTo(-1.165 * srScale, 1.30 * srScale);
+        srShape.bezierCurveTo(-1.205 * srScale, 1.30 * srScale, -1.235 * srScale, 1.28 * srScale, -1.235 * srScale, 1.24 * srScale);
+        srShape.bezierCurveTo(-1.235 * srScale, 1.22 * srScale, -1.225 * srScale, 1.20 * srScale, -1.205 * srScale, 1.19 * srScale);
+        srShape.bezierCurveTo(-1.135 * srScale, 1.13 * srScale, -1.035 * srScale, 1.07 * srScale, -0.895 * srScale, 1.00 * srScale);
+        srShape.bezierCurveTo(-0.765 * srScale, 0.93 * srScale, -0.655 * srScale, 0.89 * srScale, -0.555 * srScale, 0.85 * srScale);
+        srShape.bezierCurveTo(-0.515 * srScale, 0.83 * srScale, -0.495 * srScale, 0.81 * srScale, -0.495 * srScale, 0.79 * srScale);
+        srShape.bezierCurveTo(-0.495 * srScale, 0.76 * srScale, -0.515 * srScale, 0.73 * srScale, -0.565 * srScale, 0.73 * srScale);
+        srShape.lineTo(-2.095 * srScale, 0.73 * srScale);
+        srShape.bezierCurveTo(-2.145 * srScale, 0.74 * srScale, -2.165 * srScale, 0.71 * srScale, -2.165 * srScale, 0.68 * srScale);
+        srShape.bezierCurveTo(-2.165 * srScale, 0.65 * srScale, -2.155 * srScale, 0.63 * srScale, -2.135 * srScale, 0.61 * srScale);
+        srShape.bezierCurveTo(-2.015 * srScale, 0.48 * srScale, -1.815 * srScale, 0.32 * srScale, -1.525 * srScale, 0.14 * srScale);
+        srShape.bezierCurveTo(-1.275 * srScale, -0.02 * srScale, -0.955 * srScale, -0.19 * srScale, -0.705 * srScale, -0.31 * srScale);
+        srShape.bezierCurveTo(-0.665 * srScale, -0.33 * srScale, -0.645 * srScale, -0.35 * srScale, -0.645 * srScale, -0.38 * srScale);
+        srShape.bezierCurveTo(-0.645 * srScale, -0.41 * srScale, -0.665 * srScale, -0.43 * srScale, -0.715 * srScale, -0.43 * srScale);
+        srShape.lineTo(-1.425 * srScale, -0.43 * srScale);
+        srShape.bezierCurveTo(-1.465 * srScale, -0.43 * srScale, -1.485 * srScale, -0.45 * srScale, -1.485 * srScale, -0.48 * srScale);
+        srShape.bezierCurveTo(-1.485 * srScale, -0.50 * srScale, -1.475 * srScale, -0.52 * srScale, -1.455 * srScale, -0.54 * srScale);
+        srShape.bezierCurveTo(-1.295 * srScale, -0.69 * srScale, -1.035 * srScale, -0.84 * srScale, -0.695 * srScale, -0.99 * srScale);
+        srShape.bezierCurveTo(-0.235 * srScale, -1.18 * srScale, 0.225 * srScale, -1.30 * srScale, 0.745 * srScale, -1.30 * srScale);
+        srShape.bezierCurveTo(1.735 * srScale, -1.30 * srScale, 2.165 * srScale, -0.56 * srScale, 2.165 * srScale, 0.02 * srScale);
+        srShape.closePath();
+
+        // Semrush Fireball Inner Circular Hole
+        const srHole = new THREE.Path();
+        srHole.moveTo(0.875 * srScale, -0.87 * srScale);
+        srHole.bezierCurveTo(0.395 * srScale, -0.87 * srScale, -0.015 * srScale, -0.48 * srScale, -0.015 * srScale, 0.02 * srScale);
+        srHole.bezierCurveTo(-0.015 * srScale, 0.50 * srScale, 0.385 * srScale, 0.89 * srScale, 0.875 * srScale, 0.89 * srScale);
+        srHole.bezierCurveTo(1.375 * srScale, 0.89 * srScale, 1.765 * srScale, 0.50 * srScale, 1.765 * srScale, 0.02 * srScale);
+        srHole.bezierCurveTo(1.765 * srScale, -0.47 * srScale, 1.375 * srScale, -0.87 * srScale, 0.875 * srScale, -0.87 * srScale);
+        srShape.holes.push(srHole);
+
+        const srExtrude = { depth: 0.38, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.06, bevelThickness: 0.06 };
+        const srMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(srShape, srExtrude), matSemrushOrange);
+        srMesh.position.set(0, 0, 0.22);
+        semrushGroup.add(srMesh);
+
+        // Semrush Inner Glowing Spark Core
+        const sparkShape = new THREE.Shape();
+        sparkShape.moveTo(1.575 * srScale, 0.02 * srScale);
+        sparkShape.bezierCurveTo(1.575 * srScale, -0.06 * srScale, 1.535 * srScale, -0.07 * srScale, 1.435 * srScale, -0.07 * srScale);
+        sparkShape.bezierCurveTo(1.325 * srScale, -0.07 * srScale, 1.305 * srScale, -0.05 * srScale, 1.295 * srScale, 0.03 * srScale);
+        sparkShape.bezierCurveTo(1.275 * srScale, 0.24 * srScale, 1.135 * srScale, 0.42 * srScale, 0.895 * srScale, 0.43 * srScale);
+        sparkShape.bezierCurveTo(0.825 * srScale, 0.44 * srScale, 0.805 * srScale, 0.46 * srScale, 0.805 * srScale, 0.56 * srScale);
+        sparkShape.bezierCurveTo(0.805 * srScale, 0.65 * srScale, 0.815 * srScale, 0.69 * srScale, 0.885 * srScale, 0.69 * srScale);
+        sparkShape.bezierCurveTo(1.285 * srScale, 0.68 * srScale, 1.575 * srScale, 0.35 * srScale, 1.575 * srScale, 0.02 * srScale);
+        sparkShape.closePath();
+
+        const sparkMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(sparkShape, { depth: 0.42, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.04, bevelThickness: 0.04 }), matSemrushSpark);
+        sparkMesh.position.set(0, 0, 0.24);
+        semrushGroup.add(sparkMesh);
+
+        // SEMrush Base Plate
+        const semrushBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+        semrushBadge.position.set(0, -2.5, 0.12);
+        semrushGroup.add(semrushBadge);
+        const semrushStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matSemrushOrange);
+        semrushStripe.position.set(0, -2.5, 0.15);
+        semrushGroup.add(semrushStripe);
+
+        g4.add(semrushGroup);
+
+        // --- GOOGLE 3D "G" EMBLEM (Right side - Authentic Right-Side-Up Orientation) ---
+        const googleSEOGroup = new THREE.Group();
+        googleSEOGroup.position.set(1.8, -1.3, -0.3);
+        googleSEOGroup.scale.set(0.92, 0.92, 0.92);
+
+        // Tech Dark Plate Backing Disc
+        const gSEOCoin = new THREE.Mesh(new THREE.CylinderGeometry(2.35, 2.35, 0.38, 64), matPlateBg);
+        gSEOCoin.rotation.x = Math.PI / 2;
+        googleSEOGroup.add(gSEOCoin);
+
+        const gSEORing = new THREE.Mesh(new THREE.TorusGeometry(2.15, 0.08, 16, 64), matGoogleBlueSEO);
+        gSEORing.position.z = 0.2;
+        googleSEOGroup.add(gSEORing);
+
+        // Google 3D "G" Multi-color Segments (Right-Side-Up):
+        // 1. Blue Center Crossbar (from center to radius 1.35 entering from right)
+        const gBar = new THREE.Mesh(new THREE.BoxGeometry(1.35, 0.52, 0.36), matGoogleBlueSEO);
+        gBar.position.set(0.675, 0, 0.25);
+        googleSEOGroup.add(gBar);
+
+        // 2. Blue Bottom-Right Corner Arc (from 315 deg to 360 deg, connects bottom green to crossbar)
+        const gBlueArc = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.27, 16, 24, Math.PI * 0.25), matGoogleBlueSEO);
+        gBlueArc.position.set(0, 0, 0.25);
+        gBlueArc.rotation.z = Math.PI * 1.75; // 315 degrees
+        googleSEOGroup.add(gBlueArc);
+
+        // 3. Green Bottom Arc (from 225 deg to 315 deg)
+        const gGreenArc = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.27, 16, 28, Math.PI * 0.5), matGoogleGreenSEO);
+        gGreenArc.position.set(0, 0, 0.25);
+        gGreenArc.rotation.z = Math.PI * 1.25; // 225 degrees
+        googleSEOGroup.add(gGreenArc);
+
+        // 4. Yellow Left Arc (from 135 deg to 225 deg)
+        const gYellowArc = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.27, 16, 24, Math.PI * 0.5), matGoogleYellowSEO);
+        gYellowArc.position.set(0, 0, 0.25);
+        gYellowArc.rotation.z = Math.PI * 0.75; // 135 degrees
+        googleSEOGroup.add(gYellowArc);
+
+        // 5. Red Top Arc (from 45 deg to 135 deg - completely open above crossbar from 0 to 45 deg!)
+        const gRedArc = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.27, 16, 24, Math.PI * 0.5), matGoogleRedSEO);
+        gRedArc.position.set(0, 0, 0.25);
+        gRedArc.rotation.z = Math.PI * 0.25; // 45 degrees
+        googleSEOGroup.add(gRedArc);
+
+        // Google Base Plate
+        const gSEOBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+        gSEOBadge.position.set(0, -2.5, 0.12);
+        googleSEOGroup.add(gSEOBadge);
+        const gSEOStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matGoogleBlueSEO);
+        gSEOStripe.position.set(0, -2.5, 0.15);
+        googleSEOGroup.add(gSEOStripe);
+
+        g4.add(googleSEOGroup);
+
+        // Connecting SEO Search Orbit Ring
+        const seoOrbit = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.05, 16, 100), matGoogleYellowSEO);
+        seoOrbit.rotation.x = Math.PI / 2.3;
+        g4.add(seoOrbit);
+
+        // Floating Keyword / Ranking Metric Nodes
+        for(let i = 0; i < 4; i++) {
+            const angle = (i * Math.PI) / 2;
+            const node = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.26, 0.26), i % 2 === 0 ? matSemrushOrange : matGoogleBlueSEO);
+            node.position.set(Math.cos(angle) * 3.6, Math.sin(angle) * 1.5, Math.sin(angle) * 0.8);
+            node.rotation.set(angle, angle, 0);
+            g4.add(node);
+        }
+
         g4.visible = false;
         models.push(g4); mainGroup.add(g4);
 
@@ -1200,9 +1407,9 @@
         // Safe UserData initialization
         g0.userData = {rx: Math.PI/8, rz: -Math.PI/6, targetScale: 1.0}; // Rocket
         g1.userData = {rx: 0.15, ry: -0.2, targetScale: 0.92}; // Meta & Google Ads
-        g2.userData = {rx: 0.15, ry: -0.25, targetScale: 0.82}; // CapCut
+        g2.userData = {rx: 0.15, ry: -0.2, targetScale: 0.92}; // Instagram & YouTube
         g3.userData = {rx: 0.15, ry: -0.2, targetScale: 0.92}; // WordPress & Shopify
-        g4.userData = {rx: 0.2, ry: -0.2, targetScale: 1.0}; // SEO Search Bar
+        g4.userData = {rx: 0.15, ry: -0.2, targetScale: 0.92}; // SEMrush & Google
         g5.userData = {rx: 0.1, ry: -0.3, targetScale: 1.0}; // Clapperboard
         g6.userData = {rx: 0.2, ry: -0.3, targetScale: 1.0}; // Envelope
 
@@ -1307,11 +1514,6 @@
                 }
             });
 
-            
-            // SEO Cursor Blink
-            if (models[4] && models[4].visible) {
-                models[4].children[4].material.opacity = Math.sin(time * 5) > 0 ? 1 : 0;
-            }
 
             // Particles logic
             const positions = particles.geometry.attributes.position.array;

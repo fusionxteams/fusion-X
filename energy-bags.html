@@ -1,0 +1,2883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Energy Bags Case Study: D2C Scale | Fusion X</title>
+    <meta name="description" content="How Fusion X scaled The Energy Bags on Shopify: 398K Google impressions, 5.1 SERP rank, 4.2x Meta ROAS, product shoots, and E-E-A-T ranking blogs.">
+    <link rel="canonical" href="https://fusionxdigitalmarketing.in/energy-bags.html">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Three.js for 3D interactive bag model -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css?v=25">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo_transparent.png">
+    <link rel="shortcut icon" type="image/png" href="logo_transparent.png">
+    <link rel="apple-touch-icon" href="logo_transparent.png">
+
+    <style>
+        :root {
+            --brand-orange: #ff5722;
+            --brand-orange-light: #ff7043;
+            --brand-orange-glow: rgba(255, 87, 34, 0.45);
+            --bg-dark: #080808;
+            --bg-card: #111111;
+            --bg-card-hover: #181818;
+            --border-dark: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(255, 87, 34, 0.35);
+            --text-white: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        html, body {
+            overflow-x: hidden !important;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* ── INTERACTIVE PARTICLES CANVAS ── */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ── COMMON SECTION UTILITIES ── */
+        .case-section {
+            padding: 90px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 87, 34, 0.12);
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            color: var(--brand-orange-light);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 3.8vw, 3.1rem);
+            font-weight: 900;
+            line-height: 1.15;
+            color: #ffffff;
+            margin: 0 0 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title .text-orange {
+            color: var(--brand-orange);
+            background: linear-gradient(135deg, #ff7043 0%, #ff5722 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 760px;
+            margin: 0 0 45px;
+        }
+
+        .btn-orange {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 13px 26px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px var(--brand-orange-glow);
+        }
+
+        .btn-orange:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255, 87, 34, 0.65);
+            color: #ffffff;
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 13px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 87, 34, 0.1);
+            border-color: var(--brand-orange);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* ── HERO SECTION ── */
+        .case-hero {
+            padding: 140px 24px 70px;
+            position: relative;
+            z-index: 2;
+            background: radial-gradient(circle at 75% 20%, rgba(255, 87, 34, 0.15) 0%, rgba(8, 8, 8, 0) 65%);
+        }
+
+        .hero-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+        }
+
+        .breadcrumb-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb-nav a:hover {
+            color: var(--brand-orange);
+        }
+
+        .breadcrumb-nav span {
+            color: var(--brand-orange-light);
+            font-weight: 600;
+        }
+
+        .hero-badge-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        .flagship-badge {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #ffffff;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .origin-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dark);
+            color: #cbd5e1;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.3rem, 4.4vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.12;
+            color: #ffffff;
+            margin: 0 0 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-title .highlight {
+            color: var(--brand-orange);
+            background: linear-gradient(135deg, #ff7043 0%, #ff5722 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 34px;
+            max-width: 620px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* ── 3D INTERACTIVE BAG STAGE ── */
+        .stage-3d-wrapper {
+            position: relative;
+            width: 100%;
+            height: 460px;
+            border-radius: 24px;
+            background: radial-gradient(circle at 50% 45%, rgba(255, 87, 34, 0.14) 0%, rgba(12, 10, 8, 0.96) 70%);
+            border: 1px solid var(--border-glow);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+        }
+
+        #three-bag-container {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+
+        #three-bag-container:active {
+            cursor: grabbing;
+        }
+
+        .stage-hint-pill {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(14, 14, 14, 0.88);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 87, 34, 0.4);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 0.74rem;
+            color: var(--brand-orange-light);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .stage-badge-card {
+            position: absolute;
+            bottom: 14px;
+            left: 14px;
+            right: 14px;
+            background: rgba(15, 15, 15, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            border-radius: 14px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            pointer-events: none;
+        }
+
+        .stage-logo-thumb {
+            height: 28px;
+            width: auto;
+            object-fit: contain;
+            flex-shrink: 0;
+            background: #ffffff;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .stage-badge-text {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .stage-badge-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stage-badge-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ── STATS STRIP ── */
+        .stats-strip {
+            background: #0d0d0d;
+            border-top: 1px solid var(--border-dark);
+            border-bottom: 1px solid var(--border-dark);
+            padding: 40px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stats-grid {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: #141414;
+            border: 1px solid var(--border-dark);
+            border-radius: 18px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--brand-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(255, 87, 34, 0.15);
+        }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.2rem, 3.2vw, 3rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-number.orange-glow {
+            color: var(--brand-orange);
+            text-shadow: 0 0 25px rgba(255, 87, 34, 0.5);
+        }
+
+        .stat-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-subnote {
+            font-size: 0.76rem;
+            color: #64748b;
+        }
+
+        /* ── SHOPIFY 3-WAY ARCHITECTURE BENCHMARK ── */
+        .arch-benchmark-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 36px;
+        }
+
+        .arch-card {
+            background: #111111;
+            border: 1px solid var(--border-dark);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .arch-card.highlight-card {
+            background: linear-gradient(145deg, #161616 0%, #1c1410 100%);
+            border: 2px solid var(--brand-orange);
+            box-shadow: 0 16px 40px rgba(255, 87, 34, 0.18);
+        }
+
+        .arch-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+        }
+
+        .arch-badge.vanilla {
+            background: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+        }
+
+        .arch-badge.bespoke {
+            background: rgba(255, 179, 0, 0.15);
+            color: #ffb300;
+            border: 1px solid rgba(255, 179, 0, 0.3);
+        }
+
+        .arch-badge.hybrid {
+            background: var(--brand-orange);
+            color: #ffffff;
+            box-shadow: 0 4px 14px var(--brand-orange-glow);
+        }
+
+        .arch-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 10px;
+        }
+
+        .arch-card p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .arch-pills-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .arch-pill-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+
+        .arch-pill-item i {
+            color: var(--brand-orange-light);
+            font-size: 0.8rem;
+        }
+
+        /* ── PRODUCT CATEGORIES TRIPTYCH ── */
+        .category-triptych {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 36px;
+        }
+
+        .category-box {
+            background: #111111;
+            border: 1px solid var(--border-dark);
+            border-radius: 22px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-box:hover {
+            border-color: var(--brand-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        .category-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(255, 87, 34, 0.12);
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--brand-orange-light);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        .category-box h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 8px;
+        }
+
+        .category-box p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0 0 16px;
+        }
+
+        .cat-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cat-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dark);
+            color: #e2e8f0;
+            font-size: 0.74rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        /* ── INTERACTIVE VERIFIED ELEVATION GRAPH ── */
+        .graph-card {
+            background: #101010;
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            padding: 36px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75);
+            margin-top: 36px;
+            position: relative;
+        }
+
+        .graph-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .metric-toggle-pills {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #181818;
+            padding: 5px;
+            border-radius: 50px;
+            border: 1px solid var(--border-dark);
+        }
+
+        .metric-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .metric-tab-btn.active {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #ffffff;
+            font-weight: 800;
+            box-shadow: 0 4px 14px var(--brand-orange-glow);
+        }
+
+        .graph-badge-status {
+            font-size: 0.85rem;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .chart-svg-container {
+            width: 100%;
+            height: 360px;
+            position: relative;
+            user-select: none;
+        }
+
+        #elevation-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .chart-grid-line {
+            stroke: rgba(255, 255, 255, 0.06);
+            stroke-dasharray: 4, 4;
+        }
+
+        .chart-axis-label {
+            fill: #64748b;
+            font-size: 11px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .chart-area-fill {
+            fill: url(#energyAreaGrad);
+        }
+
+        .chart-path-line {
+            fill: none;
+            stroke: #ff5722;
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 4px 8px rgba(255, 87, 34, 0.5));
+        }
+
+        /* Glitch-Free Nodes */
+        .chart-data-node {
+            cursor: pointer;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            pointer-events: none !important;
+            background: rgba(18, 18, 18, 0.96);
+            border: 1px solid var(--brand-orange);
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 0.82rem;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.85);
+            z-index: 50;
+            white-space: nowrap;
+        }
+
+        /* Checkpoint Cards Timeline */
+        .checkpoints-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 36px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .checkpoints-header i {
+            color: var(--brand-orange-light);
+        }
+
+        .checkpoints-timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .checkpoint-card {
+            background: #141414;
+            border: 1px solid var(--border-dark);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .checkpoint-card:hover, .checkpoint-card.active {
+            border-color: var(--brand-orange);
+            background: #1c1c1c;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 87, 34, 0.15);
+        }
+
+        .cp-date {
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: var(--brand-orange-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .cp-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 4px;
+        }
+
+        .cp-metric {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+
+        .cp-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* ── DELIVERABLES GRID ── */
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 36px;
+        }
+
+        .deliverable-card {
+            background: #111111;
+            border: 1px solid var(--border-dark);
+            border-radius: 22px;
+            padding: 32px 26px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .deliverable-card:hover {
+            border-color: var(--brand-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .deliverable-icon-wrap {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(255, 87, 34, 0.12);
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--brand-orange-light);
+            margin-bottom: 22px;
+        }
+
+        .deliverable-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 12px;
+        }
+
+        .deliverable-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin: 0 0 20px;
+        }
+
+        .deliverable-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .d-tag {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-dark);
+            color: #cbd5e1;
+            font-size: 0.76rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* ── VISUAL PROOF GALLERY ── */
+        .gallery-container {
+            background: #101010;
+            border: 1px solid var(--border-dark);
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+        }
+
+        .gallery-tabs-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .gallery-tab-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-dark);
+            color: #cbd5e1;
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gallery-tab-btn:hover {
+            border-color: var(--brand-orange);
+            color: #ffffff;
+        }
+
+        .gallery-tab-btn.active {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            border-color: transparent;
+            color: #ffffff;
+            font-weight: 800;
+            box-shadow: 0 4px 14px var(--brand-orange-glow);
+        }
+
+        .gallery-view {
+            display: none;
+            padding: 10px;
+        }
+
+        .gallery-view.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gallery-img-wrap {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000000;
+            cursor: zoom-in;
+            text-align: center;
+            border: 1px solid var(--border-dark);
+        }
+
+        .gallery-img-wrap img {
+            width: 100%;
+            max-height: 560px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img-wrap:hover img {
+            transform: scale(1.02);
+        }
+
+        .gallery-caption-bar {
+            padding: 20px 10px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .gallery-caption-text h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            color: #ffffff;
+            margin: 0 0 6px;
+        }
+
+        .gallery-caption-text p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ── CLIENT INFO BANNER ── */
+        .client-info-banner {
+            background: linear-gradient(135deg, #121212 0%, #181818 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            padding: 44px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        .client-info-left h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 14px;
+        }
+
+        .client-info-left p {
+            font-size: 0.98rem;
+            color: #cbd5e1;
+            line-height: 1.65;
+            margin-bottom: 24px;
+        }
+
+        .client-meta-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.92rem;
+            color: #e2e8f0;
+        }
+
+        .meta-row i {
+            color: var(--brand-orange-light);
+            width: 20px;
+        }
+
+        .client-action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Lightbox */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .lightbox-modal.active {
+            display: flex;
+        }
+
+        .lightbox-modal img {
+            max-width: 95%;
+            max-height: 90vh;
+            border-radius: 12px;
+            border: 2px solid var(--brand-orange);
+            box-shadow: 0 0 50px rgba(255, 87, 34, 0.4);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            font-size: 2.4rem;
+            color: #ffffff;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .lightbox-close:hover {
+            color: var(--brand-orange);
+        }
+
+        /* ── RESPONSIVE MEDIA QUERIES ── */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+            .stage-3d-wrapper {
+                height: 380px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .arch-benchmark-grid {
+                grid-template-columns: 1fr;
+            }
+            .category-triptych {
+                grid-template-columns: 1fr;
+            }
+            .deliverables-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .checkpoints-timeline {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .client-info-banner {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .case-hero {
+                padding: 100px 16px 45px;
+                overflow: hidden;
+            }
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            .flagship-badge, .origin-pill {
+                white-space: normal;
+                text-align: center;
+                max-width: 100%;
+                box-sizing: border-box;
+                line-height: 1.35;
+                font-size: 0.72rem;
+            }
+            .hero-headline {
+                font-size: clamp(1.65rem, 6.2vw, 2.2rem) !important;
+                letter-spacing: -0.5px;
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+            .hero-cta-group a {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+            .stage-3d-wrapper {
+                height: 385px;
+            }
+            .stage-hint-pill {
+                top: 10px;
+                right: 10px;
+                padding: 4px 10px;
+                font-size: 0.68rem;
+            }
+            .stage-badge-card {
+                padding: 8px 12px;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                gap: 10px;
+            }
+            .stage-logo-thumb {
+                height: 22px;
+            }
+            .stage-badge-title {
+                font-size: 0.8rem;
+            }
+            .stage-badge-sub {
+                font-size: 0.66rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .stats-strip {
+                padding: 28px 16px;
+            }
+            .case-section {
+                padding: 55px 16px;
+            }
+            .section-header {
+                margin-bottom: 35px;
+            }
+            .deliverables-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .checkpoints-timeline {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .graph-card {
+                padding: 20px 14px;
+                border-radius: 20px;
+            }
+            .chart-svg-container {
+                height: 260px;
+            }
+            .metric-toggle-pills {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                justify-content: flex-start;
+                padding: 6px;
+                box-sizing: border-box;
+            }
+            .metric-tab-btn {
+                padding: 6px 12px;
+                font-size: 0.76rem;
+                white-space: nowrap;
+            }
+            .gallery-container {
+                padding: 20px 14px;
+                border-radius: 20px;
+            }
+            .gallery-tabs-nav {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                flex-wrap: nowrap;
+                padding-bottom: 12px;
+                box-sizing: border-box;
+            }
+            .gallery-tab-btn {
+                white-space: nowrap;
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .client-info-banner {
+                grid-template-columns: 1fr !important;
+                padding: 24px 16px !important;
+                border-radius: 20px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .client-info-banner > div {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .client-details-list {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .client-details-list li {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 4px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                word-break: break-word !important;
+                overflow-wrap: break-word !important;
+                box-sizing: border-box !important;
+            }
+            .client-details-list li div {
+                width: 100% !important;
+                max-width: 100% !important;
+                word-break: break-all !important;
+                overflow-wrap: break-word !important;
+            }
+            .client-details-list li a {
+                word-break: break-all !important;
+                overflow-wrap: break-word !important;
+                display: inline-block !important;
+                max-width: 100% !important;
+            }
+            .client-action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            .client-action-buttons a {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Orange Floating Dots Canvas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo_transparent.png" alt="Fusion X Logo" class="logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about-us.html">ABOUT US</a></li>
+            <li class="nav-item-services">
+                <a href="services.html">SERVICES <i class="fa-solid fa-chevron-down nav-chevron"></i></a>
+                <div class="services-mega-menu">
+                    <div class="mega-menu-inner">
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-code"></i><span>WEBSITE</span></div>
+                            <ul class="mega-links">
+                                <li><a href="portfolio-website.html"><span class="link-title">Portfolio Website</span><span class="link-sub">WordPress Custom Page</span></a></li>
+                                <li><a href="basic-website.html"><span class="link-title">Basic Website</span><span class="link-sub">WordPress Business Site</span></a></li>
+                                <li><a href="ecommerce-website.html"><span class="link-title">E-Commerce Website</span><span class="link-sub">Shopify & WooCommerce</span></a></li>
+                                <li><a href="landing-page.html"><span class="link-title">Landing Page</span><span class="link-sub">High-Converting Funnels</span></a></li>
+                                <li><a href="wedding-invitation.html"><span class="link-title">Wedding Digital Invitation</span><span class="link-sub">Bespoke Interactive E-Invites</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-magnifying-glass-chart"></i><span>SEO</span></div>
+                            <ul class="mega-links">
+                                <li><a href="seo-services.html"><span class="link-title">SEO for Website</span><span class="link-sub">On-Page & Off-Page SEO</span></a></li>
+                                <li><a href="site-reworking.html"><span class="link-title">Site Reworking</span><span class="link-sub">Speed & Architecture Fixes</span></a></li>
+                                <li><a href="content-blogs.html"><span class="link-title">Content & Blogs</span><span class="link-sub">Ranking Blog Production</span></a></li>
+                                <li><a href="backlinks-guest-blogs.html"><span class="link-title">Backlinks & Guest Blogs</span><span class="link-sub">Authority Link Building</span></a></li>
+                                <li><a href="local-seo.html"><span class="link-title">Local SEO for GMB</span><span class="link-sub">Google My Business Maps</span></a></li>
+                                <li><a href="social-video-seo.html"><span class="link-title">YouTube & Instagram SEO</span><span class="link-sub">Algorithm & Search Reach</span></a></li>
+                                <li><a href="brand-analysis.html"><span class="link-title">Brand Analyses</span><span class="link-sub">Competitor & EEAT Audit</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-share-nodes"></i><span>SOCIAL MEDIA MANAGEMENT</span></div>
+                            <ul class="mega-links">
+                                <li><a href="content-writing.html"><span class="link-title">Content Writing</span><span class="link-sub">Captions & Copywriting</span></a></li>
+                                <li><a href="video-editing.html"><span class="link-title">Video Editing</span><span class="link-sub">Reels, Shorts & Commercials</span></a></li>
+                                <li><a href="content-creation.html"><span class="link-title">Content Creation</span><span class="link-sub">Visuals, Graphics & Feeds</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-bullseye"></i><span>META & GOOGLE ADS</span></div>
+                            <ul class="mega-links">
+                                <li><a href="meta-ads.html"><span class="link-title">Meta Ads</span><span class="link-sub">Facebook & Instagram Scale</span></a></li>
+                                <li><a href="google-ads.html"><span class="link-title">Google Ads</span><span class="link-sub">Search, Display & PMax</span></a></li>
+                                <li><a href="youtube-ads.html"><span class="link-title">YouTube Ads</span><span class="link-sub">Video Campaigns & Retargeting</span></a></li>
+                                <li><a href="ad-creative-strategy.html"><span class="link-title">Ad Creative Strategy</span><span class="link-sub">A/B Testing & High ROAS</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-chart-line"></i><span>MARKETING</span></div>
+                            <ul class="mega-links">
+                                <li><a href="email-marketing.html"><span class="link-title">Email Marketing</span><span class="link-sub">Automations & Drip Flows</span></a></li>
+                                <li><a href="whatsapp-marketing.html"><span class="link-title">WhatsApp Marketing</span><span class="link-sub">Official API Broadcasts & Bots</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-lightbulb"></i><span>BRAND STRATEGIES</span></div>
+                            <ul class="mega-links">
+                                <li><a href="brand-strategy.html"><span class="link-title">Brand Strategy</span><span class="link-sub">Identity & Market Moat</span></a></li>
+                                <li><a href="competitor-analysis.html"><span class="link-title">Competitor Analyses</span><span class="link-sub">Intel & Market Share Audit</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mega-menu-footer">
+                        <span>Looking for customized agency scope?</span>
+                        <a href="services.html" class="mega-footer-cta">View All Services <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </li>
+            <li><a href="our-team.html">OUR TEAM</a></li>
+            <li><a href="portfolio.html" class="active">PORTFOLIO</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+            <li><a href="careers.html">CAREERS</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="dangling-container">
+                <a href="contact.html" class="nav-cta-btn">LET'S CONNECT</a>
+                <div class="charm-string">
+                    <img src="logo_transparent.png" class="charm-object" alt="Fusion X Charm" draggable="false">
+                </div>
+            </div>
+            <div class="hamburger">
+                <svg viewBox="0 0 100 80" width="30" height="30">
+                    <rect width="100" height="15" rx="8" fill="#ff5722"></rect>
+                    <rect y="30" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                    <rect y="60" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                </svg>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════ CASE STUDY HERO ═══════════════════════ -->
+    <header class="case-hero">
+        <div class="hero-container">
+            <div class="hero-left">
+                <div class="breadcrumb-nav">
+                    <a href="index.html">Home</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <a href="portfolio.html">Portfolio</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <span>The Energy Bags</span>
+                </div>
+
+                <div class="hero-badge-wrap">
+                    <span class="flagship-badge"><i class="fa-solid fa-bag-shopping"></i> D2C E-COMMERCE SCALE</span>
+                    <span class="origin-pill"><i class="fa-solid fa-layer-group"></i> All Bag Categories: Kids, Office & Ladies</span>
+                    <span class="origin-pill"><i class="fa-brands fa-shopify"></i> Hybrid Custom Shopify Architecture</span>
+                </div>
+
+                <h1 class="hero-title">
+                    The Energy Bags: <span class="highlight">398K Google Impressions & 4.2x Meta ROAS</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    How Fusion X scaled <strong>The Energy Bags</strong> into an omnichannel direct-to-consumer powerhouse: hybrid Shopify theme engineering, studio & model product photoshoots, high-converting Facebook/Instagram paid ad funnels, and AEO/GEO citational blogs ranking on Google Gemini and ChatGPT.
+                </p>
+
+                <div class="hero-cta-group">
+                    <a href="#interactive-graph" class="btn-orange"><i class="fa-solid fa-chart-line"></i> View Verified Growth Data</a>
+                    <a href="#proof-gallery" class="btn-outline"><i class="fa-solid fa-images"></i> Visual Proof Gallery</a>
+                    <a href="https://theenergybags.com/" target="_blank" rel="noopener noreferrer" class="btn-outline"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit theenergybags.com</a>
+                </div>
+            </div>
+
+            <!-- 3D Interactive Travel & Backpack Showcase Stage -->
+            <div class="hero-right">
+                <div class="stage-3d-wrapper">
+                    <div id="three-bag-container"></div>
+                    <div class="stage-hint-pill">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>Drag 3D Bag</span>
+                    </div>
+                    <div class="stage-badge-card">
+                        <img src="brands/energy-bags/logo.png" alt="The Energy Bags Logo" class="stage-logo-thumb">
+                        <div class="stage-badge-text">
+                            <h4 class="stage-badge-title">The Energy Bags</h4>
+                            <p class="stage-badge-sub">Bags That Match Your Energy &bull; Verified Partner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════ STATS STRIP ═══════════════════════ -->
+    <section class="stats-strip">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number orange-glow">398K</div>
+                <div class="stat-label">Google Search Impressions</div>
+                <div class="stat-subnote">Official Search Console Telemetry</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5.19K</div>
+                <div class="stat-label">Organic Search Clicks</div>
+                <div class="stat-subnote">Zero to Scale in 6 Months</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number orange-glow">5.1</div>
+                <div class="stat-label">Average SERP Rank</div>
+                <div class="stat-subnote">Page 1 National Category Ranking</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4.2x</div>
+                <div class="stat-label">Meta Paid Ads ROAS</div>
+                <div class="stat-subnote">68.5K Reach & 214+ Monthly Orders</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ SHOPIFY 3-WAY ARCHITECTURE BENCHMARK ═══════════════════════ -->
+    <section class="case-section" id="architecture-philosophy" style="background: #090909;">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fa-brands fa-shopify"></i> ENGINEERING SPECTRUM</span>
+                <h2 class="section-title">The Fusion X <span class="text-orange">Shopify Architecture</span> Spectrum</h2>
+                <p class="section-desc">
+                    Every e-commerce brand requires a tailored software foundation. From no-code catalogs to deep custom code, Fusion X selects the precise technological tier that delivers maximum conversion velocity and ROAS.
+                </p>
+            </div>
+
+            <div class="arch-benchmark-grid">
+                <!-- Bhawani Corner -->
+                <div class="arch-card">
+                    <span class="arch-badge vanilla">Tier 1 &bull; Vanilla Shopify</span>
+                    <h3>Bhawani Corner Glassware</h3>
+                    <p>
+                        Zero custom code overhead. Leveraged pure native Shopify architecture with deep structured product schema, lightning server response, and off-page GEO authority for 5,000+ glassware SKUs.
+                    </p>
+                    <div class="arch-pills-list">
+                        <div class="arch-pill-item"><i class="fa-solid fa-circle-check"></i> Pure Vanilla No-Code Setup</div>
+                        <div class="arch-pill-item"><i class="fa-solid fa-circle-check"></i> 5,000+ Physical Catalog SKUs</div>
+                        <div class="arch-pill-item"><i class="fa-solid fa-circle-check"></i> 900+ Monthly Inquiries</div>
+                    </div>
+                </div>
+
+                <!-- The Energy Bags (Highlighted) -->
+                <div class="arch-card highlight-card">
+                    <span class="arch-badge hybrid">Tier 2 &bull; Hybrid Custom (This Brand)</span>
+                    <h3>The Energy Bags</h3>
+                    <p>
+                        The ultimate high-converting sweet spot. Custom Liquid sections for flash sales and collections blended with robust Shopify apps, dynamic catalog feeds, and mobile speed optimizations.
+                    </p>
+                    <div class="arch-pills-list">
+                        <div class="arch-pill-item"><i class="fa-solid fa-circle-check"></i> Mixed Custom Liquid + App Suite</div>
+                        <div class="arch-pill-item"><i class="fa-solid fa-circle-check"></i> Flash Sale &amp; Color Swatch Funnels</div>
+                        <div class="arch-pill-item"><i class="fa-solid fa-circle-check"></i> 398K GSC Reach &amp; 4.2x Meta ROAS</div>
+                    </div>
+                </div>
+
+                <!-- Nilaro Coffee -->
+                <div class="arch-card">
+                    <span class="arch-badge bespoke">Tier 3 &bull; Fully Bespoke Coded</span>
+                    <h3>Nilaro Filter Coffee</h3>
+                    <p>
+                        100% custom-coded liquid and JavaScript architecture. Bespoke interactive roasting physics, origin storytelling timelines, and proprietary WhatsApp AI commerce concierge integrations.
+                    </p>
+                    <div class="arch-pills-list">
+                        <div class="arch-pill-item"><i class="fa-solid fa-circle-check"></i> 100% Custom Coded in Shopify</div>
+                        <div class="arch-pill-item"><i class="fa-solid fa-circle-check"></i> Interactive Grinder Physics</div>
+                        <div class="arch-pill-item"><i class="fa-solid fa-circle-check"></i> Top 8 SERP Rank From Zero</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ BAGS PORTFOLIO TRIPTYCH ═══════════════════════ -->
+    <section class="case-section" id="product-spectrum">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fa-solid fa-tags"></i> PRODUCT TAXONOMY</span>
+                <h2 class="section-title">All Categories of Bags: <span class="text-orange">Kids, Office & Ladies</span></h2>
+                <p class="section-desc">
+                    Energy Bags covers every modern lifestyle carrying requirement. Fusion X crafted dedicated visual funnels, photoshoot assets, and ranking blogs for each distinct demographic.
+                </p>
+            </div>
+
+            <div class="category-triptych">
+                <!-- Category 1: School & Kids -->
+                <div class="category-box">
+                    <div class="category-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <h4>Kids & School Bags</h4>
+                    <p>
+                        Engineered for heavy textbooks, ergonomic spine balance, and all-weather durability. Supported by our viral E-E-A-T article <em>"Best School Bag Company"</em> ranking nationally.
+                    </p>
+                    <div class="cat-tag-list">
+                        <span class="cat-tag">Spine Ergonomics</span>
+                        <span class="cat-tag">Waterproof Fabric</span>
+                        <span class="cat-tag">AEO Ranked Article</span>
+                    </div>
+                </div>
+
+                <!-- Category 2: Office & Laptop -->
+                <div class="category-box">
+                    <div class="category-icon"><i class="fa-solid fa-laptop"></i></div>
+                    <h4>Office & Laptop Bags</h4>
+                    <p>
+                        High-utility executive backpacks and sleeves featuring padded tech sleeves, TSA-friendly compartments, and minimalist corporate styling for working professionals.
+                    </p>
+                    <div class="cat-tag-list">
+                        <span class="cat-tag">Shockproof Pockets</span>
+                        <span class="cat-tag">Executive Aesthetic</span>
+                        <span class="cat-tag">High Direct Intent</span>
+                    </div>
+                </div>
+
+                <!-- Category 3: Ladies & Fashion -->
+                <div class="category-box">
+                    <div class="category-icon"><i class="fa-solid fa-heart"></i></div>
+                    <h4>Energy's LadyBee</h4>
+                    <p>
+                        Fashion-forward handbags, cross-body bags, and tote collections (such as the LadyBee Bella). Captured with custom model lifestyle shoots and scaled with 45% flash sale funnels.
+                    </p>
+                    <div class="cat-tag-list">
+                        <span class="cat-tag">Model Photoshoots</span>
+                        <span class="cat-tag">LadyBee Bella (Rs. 665)</span>
+                        <span class="cat-tag">Meta Carousel Ads</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ VERIFIED PERFORMANCE GRAPH ═══════════════════════ -->
+    <section class="case-section" id="interactive-graph" style="background: #090909;">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fa-solid fa-chart-line"></i> VERIFIED CAMPAIGN AUDIT</span>
+                <h2 class="section-title">6-Month Multi-Channel <span class="text-orange">Scale Telemetry</span></h2>
+                <p class="section-desc">
+                    Verified performance data across Google Search Console and Shopify analytics. Tracking Energy Bags from the baseline audit in December 2025 to 398K Google impressions and +315% revenue growth.
+                </p>
+            </div>
+
+            <div class="graph-card">
+                <div class="graph-toolbar">
+                    <div class="metric-toggle-pills">
+                        <button class="metric-tab-btn active" data-metric="sessions">
+                            <i class="fa-solid fa-arrow-trend-up"></i> E-Commerce Sessions
+                        </button>
+                        <button class="metric-tab-btn" data-metric="revenue">
+                            <i class="fa-solid fa-indian-rupee-sign"></i> Sales Revenue (₹)
+                        </button>
+                        <button class="metric-tab-btn" data-metric="reach">
+                            <i class="fa-solid fa-bullhorn"></i> Social Media Reach
+                        </button>
+                    </div>
+                    <div class="graph-badge-status">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Source: Verified GSC & Shopify Campaign Audit</span>
+                    </div>
+                </div>
+
+                <div class="chart-svg-container" id="chart-container">
+                    <svg id="elevation-svg" viewBox="0 0 1000 360" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="energyAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#ff5722" stop-opacity="0.45" />
+                                <stop offset="85%" stop-color="#ff5722" stop-opacity="0.03" />
+                                <stop offset="100%" stop-color="#080808" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Grid Lines -->
+                        <g id="chart-grid"></g>
+                        <!-- Area Fill -->
+                        <path id="chart-area" class="chart-area-fill" d=""></path>
+                        <!-- Stroke Line -->
+                        <path id="chart-line" class="chart-path-line" d=""></path>
+                        <!-- Data Nodes -->
+                        <g id="chart-nodes"></g>
+                    </svg>
+
+                    <!-- Tooltip with boundary awareness -->
+                    <div class="chart-tooltip" id="chart-tooltip">
+                        <div id="tooltip-date" style="font-weight: 700; color: #ff7043;"></div>
+                        <div id="tooltip-value" style="font-size: 1.1rem; font-weight: 900;"></div>
+                        <div id="tooltip-note" style="font-size: 0.75rem; color: #94a3b8;"></div>
+                    </div>
+                </div>
+
+                <!-- Checkpoints Timeline -->
+                <div class="checkpoints-header">
+                    <i class="fa-solid fa-flag-checkered"></i> Strategic Execution Milestones
+                </div>
+                <div class="checkpoints-timeline">
+                    <div class="checkpoint-card" data-index="0">
+                        <div>
+                            <div class="cp-date">Month 1 (Dec 2025)</div>
+                            <h4 class="cp-title">Baseline Audit</h4>
+                            <div class="cp-metric">380 Sessions &bull; ₹24K Rev</div>
+                            <div class="cp-desc">Full audit of Shopify theme, code bloat removal, catalog structuring, and audience persona setup.</div>
+                        </div>
+                    </div>
+                    <div class="checkpoint-card" data-index="1">
+                        <div>
+                            <div class="cp-date">Month 2 (Jan 2026)</div>
+                            <h4 class="cp-title">Shopify Speed & Theme</h4>
+                            <div class="cp-metric">+63% Traffic &bull; ₹58K Rev</div>
+                            <div class="cp-desc">Mobile speed optimization, custom Liquid product modules, and A/B testing travel bag video hooks.</div>
+                        </div>
+                    </div>
+                    <div class="checkpoint-card" data-index="2">
+                        <div>
+                            <div class="cp-date">Month 3 (Feb 2026)</div>
+                            <h4 class="cp-title">SEO Launch & Viral Reels</h4>
+                            <div class="cp-metric">1,140 Sessions &bull; ₹1.1L Rev</div>
+                            <div class="cp-desc">Product schema, E-E-A-T blogs ("Best School Bag Company"), and high-retention commercial Reels launched.</div>
+                        </div>
+                    </div>
+                    <div class="checkpoint-card" data-index="3">
+                        <div>
+                            <div class="cp-date">Month 4 (Mar 2026)</div>
+                            <h4 class="cp-title">Dynamic Catalog Ads</h4>
+                            <div class="cp-metric">1,820 Sessions &bull; 148 Orders</div>
+                            <div class="cp-desc">Instagram dynamic catalog ads and LadyBee collection promotions targeting pan-India bag shoppers.</div>
+                        </div>
+                    </div>
+                    <div class="checkpoint-card" data-index="4">
+                        <div>
+                            <div class="cp-date">Month 5 (Apr 2026)</div>
+                            <h4 class="cp-title">Warm Retargeting Flows</h4>
+                            <div class="cp-metric">2,340 Sessions &bull; ₹2.35L Rev</div>
+                            <div class="cp-desc">Klaviyo abandoned cart recovery flows and retargeting video viewers with flash sale discounts.</div>
+                        </div>
+                    </div>
+                    <div class="checkpoint-card active" data-index="5">
+                        <div>
+                            <div class="cp-date">Month 6 (May 2026)</div>
+                            <h4 class="cp-title">Peak Milestone Scale</h4>
+                            <div class="cp-metric">398K GSC Imp &bull; 4.2x ROAS</div>
+                            <div class="cp-desc">Peak scale: 2,804 sessions (+163%), ₹2.89L revenue (+315%), 5.1 avg rank, and 68.5K social reach.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ DELIVERABLES SECTION ═══════════════════════ -->
+    <section class="case-section" id="deliverables">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fa-solid fa-code"></i> SCOPE OF WORK</span>
+                <h2 class="section-title">What Fusion X <span class="text-orange">Engineered</span></h2>
+                <p class="section-desc">
+                    An integrated direct-to-consumer growth suite combining high-performance e-commerce software, professional photoshoots, content creation, and search algorithm domination.
+                </p>
+            </div>
+
+            <div class="deliverables-grid">
+                <!-- 1 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-brands fa-shopify"></i></div>
+                        <h3 class="deliverable-title">Hybrid Shopify Storefront</h3>
+                        <p class="deliverable-desc">
+                            Engineered a custom Liquid theme layer on Shopify (<a href="https://theenergybags.com/" target="_blank" style="color: var(--brand-orange-light); text-decoration: none;">theenergybags.com</a>) with color swatches, flash sale banners, and sub-second mobile page loads.
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">Custom Liquid</span>
+                        <span class="d-tag">Mobile Speed 95+</span>
+                        <span class="d-tag">Catalog Taxonomy</span>
+                    </div>
+                </div>
+
+                <!-- 2 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-solid fa-camera"></i></div>
+                        <h3 class="deliverable-title">Studio & Model Photoshoots</h3>
+                        <p class="deliverable-desc">
+                            Directed and executed professional studio and on-model photography for the LadyBee handbag collection, executive laptop bags, and school backpacks to maximize product page conversions.
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">Model Shoots</span>
+                        <span class="d-tag">Studio Lighting</span>
+                        <span class="d-tag">High-Res Assets</span>
+                    </div>
+                </div>
+
+                <!-- 3 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-solid fa-bullhorn"></i></div>
+                        <h3 class="deliverable-title">Meta Ads Funnels (4.2x ROAS)</h3>
+                        <p class="deliverable-desc">
+                            Ran strategic Facebook and Instagram paid ad campaigns using Advantage+ catalog carousels, video Reels angles, and retargeting matrices generating 214+ monthly orders and $312+ revenue.
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">4.2x Meta ROAS</span>
+                        <span class="d-tag">Catalog Carousels</span>
+                        <span class="d-tag">Advantage+ ASC</span>
+                    </div>
+                </div>
+
+                <!-- 4 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-solid fa-pen-nib"></i></div>
+                        <h3 class="deliverable-title">E-E-A-T, AEO & GEO Blogs</h3>
+                        <p class="deliverable-desc">
+                            Authored topical authority articles such as <em>"Best School Bag Company"</em>, structured with schema markups so AI engines like Google Gemini and ChatGPT cite Energy Bags for commercial queries.
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">AEO / GEO Engine</span>
+                        <span class="d-tag">Gemini Citations</span>
+                        <span class="d-tag">School Bag Authority</span>
+                    </div>
+                </div>
+
+                <!-- 5 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-solid fa-chart-pie"></i></div>
+                        <h3 class="deliverable-title">SEO Dominance (398K GSC)</h3>
+                        <p class="deliverable-desc">
+                            Comprehensive on-page and technical SEO execution: metadata optimization, XML sitemaps, canonical tags, and keyword clustering elevating the domain from zero to 398K impressions and a 5.1 average SERP rank.
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">398K Impressions</span>
+                        <span class="d-tag">5.19K Clicks</span>
+                        <span class="d-tag">Top First Page</span>
+                    </div>
+                </div>
+
+                <!-- 6 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-solid fa-cart-shopping"></i></div>
+                        <h3 class="deliverable-title">Conversion Rate Optimization</h3>
+                        <p class="deliverable-desc">
+                            Deployed flash sale urgency banners, multi-variant color selectors, sticky Add-to-Cart bars, and automated cart abandonment email flows that tripled revenue velocity (+315%).
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">+315% Revenue</span>
+                        <span class="d-tag">Flash Sale Funnels</span>
+                        <span class="d-tag">Klaviyo Retention</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ VISUAL PROOF GALLERY ═══════════════════════ -->
+    <section class="case-section" id="proof-gallery" style="background: #090909;">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fa-solid fa-camera"></i> VERIFIED DELIVERABLES</span>
+                <h2 class="section-title">Visual Proof &amp; <span class="text-orange">Asset Showcase</span></h2>
+                <p class="section-desc">
+                    Explore live verified screenshots of the Shopify storefront, LadyBee collection, product page with photoshoot assets, ranking E-E-A-T blog, and official brand identity.
+                </p>
+            </div>
+
+            <div class="gallery-container">
+                <div class="gallery-tabs-nav">
+                    <button class="gallery-tab-btn active" data-target="view-banner">
+                        <i class="fa-solid fa-desktop"></i> Home Banner & Flash Sale
+                    </button>
+                    <button class="gallery-tab-btn" data-target="view-collection">
+                        <i class="fa-solid fa-layer-group"></i> LadyBee Collection
+                    </button>
+                    <button class="gallery-tab-btn" data-target="view-product">
+                        <i class="fa-solid fa-bag-shopping"></i> Product Page & Photoshoot
+                    </button>
+                    <button class="gallery-tab-btn" data-target="view-blog">
+                        <i class="fa-solid fa-newspaper"></i> AEO Ranking Blog
+                    </button>
+                    <button class="gallery-tab-btn" data-target="view-logo">
+                        <i class="fa-solid fa-fingerprint"></i> Brand Identity
+                    </button>
+                </div>
+
+                <!-- Tab 1: Home Banner -->
+                <div class="gallery-view active" id="view-banner">
+                    <div class="gallery-img-wrap" onclick="openLightbox('brands/energy-bags/home-banner.png')">
+                        <img src="brands/energy-bags/home-banner.png" alt="The Energy Bags Storefront Hero Banner">
+                    </div>
+                    <div class="gallery-caption-bar">
+                        <div class="gallery-caption-text">
+                            <h4>High-Converting E-Commerce Storefront</h4>
+                            <p>"Bags That Match Your Energy" &mdash; custom LadyBee collection hero banner, 45% flash sale urgency banner, and model lifestyle asset.</p>
+                        </div>
+                        <a href="https://theenergybags.com/" target="_blank" rel="noopener noreferrer" class="btn-orange" style="padding: 10px 20px; font-size: 0.85rem;">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Live Store
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Collection Page -->
+                <div class="gallery-view" id="view-collection">
+                    <div class="gallery-img-wrap" onclick="openLightbox('brands/energy-bags/collection-page.png')">
+                        <img src="brands/energy-bags/collection-page.png" alt="Energy's LadyBee Collection Grid">
+                    </div>
+                    <div class="gallery-caption-bar">
+                        <div class="gallery-caption-text">
+                            <h4>Energy's Ladybee Collection Page</h4>
+                            <p>Seamless catalog taxonomy featuring 24 curated products, sorting filters, sale badges, and instant cart funnels.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Product Page -->
+                <div class="gallery-view" id="view-product">
+                    <div class="gallery-img-wrap" onclick="openLightbox('brands/energy-bags/product-page.png')">
+                        <img src="brands/energy-bags/product-page.png" alt="Energy's LadyBee Bella Product Page">
+                    </div>
+                    <div class="gallery-caption-bar">
+                        <div class="gallery-caption-text">
+                            <h4>Optimized Product Page &amp; Photoshoot Assets</h4>
+                            <p>Featuring Energy's LadyBee Bella (Rs. 665.00), dynamic multi-color selector swatches, model shoot gallery, and stock urgency telemetry.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 4: Blog Page -->
+                <div class="gallery-view" id="view-blog">
+                    <div class="gallery-img-wrap" onclick="openLightbox('brands/energy-bags/blog-page.png')">
+                        <img src="brands/energy-bags/blog-page.png" alt="Best School Bag Company E-E-A-T Blog">
+                    </div>
+                    <div class="gallery-caption-bar">
+                        <div class="gallery-caption-text">
+                            <h4>AEO, GEO &amp; E-E-A-T Ranking Blog: "Best School Bag Company"</h4>
+                            <p>Comprehensive article engineered for search dominance. Ranked on Google and cited by Google Gemini and ChatGPT for high-intent school bag queries.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 5: Brand Identity -->
+                <div class="gallery-view" id="view-logo">
+                    <div class="gallery-img-wrap" onclick="openLightbox('brands/energy-bags/logo.png')" style="background: #111111; padding: 40px;">
+                        <img src="brands/energy-bags/logo.png" alt="The Energy Bags Official Logo" style="max-height: 280px;">
+                    </div>
+                    <div class="gallery-caption-bar">
+                        <div class="gallery-caption-text">
+                            <h4>The Energy Bags Official Emblem</h4>
+                            <p>Distinctive soaring wings motif with clean white typography set against the signature vibrant orange brand canvas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Info & Action Banner -->
+            <div class="client-info-banner">
+                <div class="client-info-left">
+                    <span class="section-tag"><i class="fa-solid fa-award"></i> D2C SCALE SUCCESS</span>
+                    <h3>Scale Your Lifestyle Brand with Fusion X</h3>
+                    <p>
+                        The Energy Bags demonstrates how uniting custom Shopify architecture, high-end creative shoots, and algorithm-driven paid &amp; organic marketing creates an unbeatable e-commerce machine.
+                    </p>
+                    <div class="client-meta-list">
+                        <div class="meta-row">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span><strong>Brand:</strong> The Energy Bags</span>
+                        </div>
+                        <div class="meta-row">
+                            <i class="fa-solid fa-globe"></i>
+                            <span><strong>Online Store:</strong> <a href="https://theenergybags.com/" target="_blank" rel="noopener noreferrer" style="color: var(--brand-orange-light); text-decoration: none;">https://theenergybags.com/</a></span>
+                        </div>
+                        <div class="meta-row">
+                            <i class="fa-solid fa-cubes"></i>
+                            <span><strong>Product Range:</strong> Kids & School Bags, Office & Laptop Bags, Ladies Handbags (LadyBee)</span>
+                        </div>
+                        <div class="meta-row">
+                            <i class="fa-brands fa-shopify"></i>
+                            <span><strong>Platform:</strong> Shopify Hybrid Custom Liquid Architecture</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-action-buttons">
+                    <a href="https://theenergybags.com/" target="_blank" rel="noopener noreferrer" class="btn-orange" style="justify-content: center;">
+                        <i class="fa-solid fa-bag-shopping"></i> Visit The Energy Bags Store
+                    </a>
+                    <a href="https://www.instagram.com/energybags.in/" target="_blank" rel="noopener noreferrer" class="btn-outline" style="justify-content: center;">
+                        <i class="fa-brands fa-instagram"></i> Follow @energybags.in
+                    </a>
+                    <a href="contact.html" class="btn-outline" style="justify-content: center;">
+                        <i class="fa-solid fa-comments"></i> Partner With Fusion X
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ LIGHTBOX MODAL ═══════════════════════ -->
+    <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="Fullscreen Preview">
+    </div>
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+    <footer id="main-footer" class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                
+                <!-- Col 1: Brand & Socials -->
+                <div class="footer-col footer-col-brand">
+                    <a href="index.html" class="footer-logo-link">
+                        <img src="logo_transparent.png" alt="Fusion X Logo" class="footer-logo">
+                    </a>
+                    <p class="footer-brand-desc">
+                        India's premier digital performance agency - engineering high-ROAS paid media funnels, technical SEO dominance, bespoke web applications, and enterprise brand strategies.
+                    </p>
+                    <div class="footer-social-links">
+                        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook" class="footer-social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube" class="footer-social-btn"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://wa.me/919600096973" target="_blank" rel="noopener" aria-label="WhatsApp" class="footer-social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Top Services -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">TOP SERVICES</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="meta-ads.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Meta Ads Management</a></li>
+                        <li><a href="google-ads.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Google & PMax Ads</a></li>
+                        <li><a href="website-development.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Website Development</a></li>
+                        <li><a href="seo-services.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> SEO Services</a></li>
+                        <li><a href="whatsapp-marketing.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> WhatsApp Marketing API</a></li>
+                        <li><a href="brand-strategy.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Brand Strategy</a></li>
+                        <li><a href="youtube-ads.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> YouTube Ads & Shorts</a></li>
+                        <li><a href="ad-creative-strategy.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Ad Creative Strategy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Quick Links (All Navbar) -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">QUICK LINKS</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="index.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Home</a></li>
+                        <li><a href="about-us.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> About Us</a></li>
+                        <li><a href="services.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Services</a></li>
+                        <li><a href="our-team.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Our Team</a></li>
+                        <li><a href="portfolio.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Portfolio</a></li>
+                        <li><a href="blog.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Blog</a></li>
+                        <li><a href="careers.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Careers</a></li>
+                        <li><a href="contact.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Let's Connect</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Contact, Address & Mini Map -->
+                <div class="footer-col footer-col-contact">
+                    <h4 class="footer-heading">CONTACT & LOCATION</h4>
+                    <ul class="footer-contact-info">
+                        <li>
+                            <i class="fa-solid fa-location-dot footer-contact-icon"></i>
+                            <span>RC Enclave, Selvam Nagar Extn, Ponniammanmedu, Chennai 600110</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone footer-contact-icon"></i>
+                            <a href="tel:+919600096973">+91 96000 96973</a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope footer-contact-icon"></i>
+                            <a href="mailto:fusionxteams@gmail.com">fusionxteams@gmail.com</a>
+                        </li>
+                    </ul>
+                    <div class="footer-mini-map-box">
+                        <iframe 
+                            title="Fusion X Chennai Location"
+                            src="https://maps.google.com/maps?q=RC%20Enclave%2C%20Selvam%20Nagar%20Extn%2C%20Ponniammanmedu%2C%20Chennai%20600110&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom Bar -->
+            <div class="footer-bottom-bar">
+                <p>© 2026 Fusion X Digital Marketing Company. All Rights Reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="contact.html">Privacy Policy</a>
+                    <span>•</span>
+                    <a href="contact.html">Terms of Service</a>
+                    <span>•</span>
+                    <a href="contact.html">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Universal Scripts -->
+    <script src="orange-dots.js?v=25"></script>
+    <script src="easter-egg.js?v=18"></script>
+
+    <!-- ═══════════════════════ PAGE SCRIPTS ═══════════════════════ -->
+    <script>
+        // ── 1. THREE.JS REALISTIC 3D ERGONOMIC BACKPACK MODEL ──
+        (function init3DBag() {
+            const container = document.getElementById('three-bag-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, window.innerWidth < 768 ? 5.6 : 6.0);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.35;
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // ── STUDIO LIGHTING RIG ──
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.95);
+            scene.add(ambientLight);
+
+            // Key Light (Warm Orange)
+            const orangeKeyLight = new THREE.DirectionalLight(0xff5722, 2.8);
+            orangeKeyLight.position.set(4.5, 5, 4.5);
+            scene.add(orangeKeyLight);
+
+            // Fill Light (Cool Soft Slate)
+            const fillLight = new THREE.DirectionalLight(0xa5b4fc, 1.2);
+            fillLight.position.set(-4.5, 1, 3.5);
+            scene.add(fillLight);
+
+            // Rim Light (Top & Back Silhouette)
+            const rimLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            rimLight.position.set(0, 5, -4);
+            scene.add(rimLight);
+
+            // Bottom Glow
+            const orangeGlow = new THREE.PointLight(0xff7043, 2.5, 15);
+            orangeGlow.position.set(0, -3.5, 1);
+            scene.add(orangeGlow);
+
+            // ── PROCEDURAL TEXTURE GENERATORS ──
+            // 1. High-Resolution Ballistic Nylon Canvas Weave Texture
+            function createNylonCanvasTexture(baseHex, threadHex, isBump) {
+                const canvas = document.createElement('canvas');
+                canvas.width = 512;
+                canvas.height = 512;
+                const ctx = canvas.getContext('2d');
+
+                ctx.fillStyle = isBump ? '#808080' : baseHex;
+                ctx.fillRect(0, 0, 512, 512);
+
+                const step = 8;
+                for (let y = 0; y < 512; y += step) {
+                    for (let x = 0; x < 512; x += step) {
+                        const isWarp = ((x / step) + (y / step)) % 2 === 0;
+                        if (isBump) {
+                            ctx.fillStyle = isWarp ? '#b0b0b0' : '#505050';
+                        } else {
+                            ctx.fillStyle = isWarp ? threadHex : baseHex;
+                        }
+                        ctx.fillRect(x + 1, y + 1, step - 2, step - 2);
+
+                        if (!isBump) {
+                            ctx.fillStyle = 'rgba(255, 255, 255, 0.07)';
+                            ctx.fillRect(x + 1, y + 1, step - 2, 2);
+                        }
+                    }
+                }
+
+                // Micro-fiber noise grain
+                const imgData = ctx.getImageData(0, 0, 512, 512);
+                const d = imgData.data;
+                for (let i = 0; i < d.length; i += 4) {
+                    const noise = (Math.random() - 0.5) * (isBump ? 28 : 16);
+                    d[i] = Math.min(255, Math.max(0, d[i] + noise));
+                    d[i + 1] = Math.min(255, Math.max(0, d[i + 1] + noise));
+                    d[i + 2] = Math.min(255, Math.max(0, d[i + 2] + noise));
+                }
+                ctx.putImageData(imgData, 0, 0);
+
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.RepeatWrapping;
+                tex.repeat.set(6, 6);
+                return tex;
+            }
+
+            // 2. Honeycomb Mesh Texture (For side pockets)
+            function createMeshTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 256;
+                const ctx = canvas.getContext('2d');
+
+                ctx.fillStyle = '#121212';
+                ctx.fillRect(0, 0, 256, 256);
+
+                ctx.strokeStyle = '#2d2d2d';
+                ctx.lineWidth = 3;
+
+                for (let y = 0; y < 270; y += 22) {
+                    for (let x = 0; x < 270; x += 26) {
+                        const offsetX = (Math.floor(y / 22) % 2) * 13;
+                        ctx.beginPath();
+                        ctx.arc(x + offsetX, y, 6.5, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.fillStyle = '#050505';
+                        ctx.fill();
+                    }
+                }
+
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.RepeatWrapping;
+                tex.repeat.set(4, 4);
+                return tex;
+            }
+
+            // 3. Pebble Leather Texture (Bottom scuff guard, handle & pull tabs)
+            function createPebbleLeatherTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 256;
+                const ctx = canvas.getContext('2d');
+
+                ctx.fillStyle = '#161616';
+                ctx.fillRect(0, 0, 256, 256);
+
+                for (let i = 0; i < 450; i++) {
+                    const x = Math.random() * 256;
+                    const y = Math.random() * 256;
+                    const rad = 2 + Math.random() * 4;
+                    ctx.fillStyle = 'rgba(40, 40, 40, 0.7)';
+                    ctx.beginPath();
+                    ctx.arc(x, y, rad, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(10, 10, 10, 0.45)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.RepeatWrapping;
+                tex.repeat.set(4, 4);
+                return tex;
+            }
+
+            // 4. Energy Bags Rubber Emblem Patch
+            function createBadgeTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 130;
+                const ctx = canvas.getContext('2d');
+
+                // Matte rubber patch background
+                ctx.fillStyle = '#111111';
+                ctx.beginPath();
+                ctx.roundRect(4, 4, 248, 122, 14);
+                ctx.fill();
+
+                // Orange perimeter stitch / border
+                ctx.strokeStyle = '#ff5722';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.roundRect(8, 8, 240, 114, 10);
+                ctx.stroke();
+
+                // Energy Wings Logo
+                ctx.fillStyle = '#ff7043';
+                ctx.beginPath();
+                ctx.moveTo(128, 46);
+                ctx.lineTo(82, 26);
+                ctx.lineTo(100, 50);
+                ctx.lineTo(84, 42);
+                ctx.lineTo(106, 60);
+                ctx.lineTo(128, 54);
+                ctx.lineTo(150, 60);
+                ctx.lineTo(172, 42);
+                ctx.lineTo(156, 50);
+                ctx.lineTo(174, 26);
+                ctx.closePath();
+                ctx.fill();
+
+                // Text: THE ENERGY BAGS
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 18px "Outfit", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('ENERGY BAGS', 128, 84);
+
+                ctx.fillStyle = '#ff8a50';
+                ctx.font = '700 9px "Space Grotesk", sans-serif';
+                ctx.fillText('EST. PRO GEAR', 128, 102);
+
+                const tex = new THREE.CanvasTexture(canvas);
+                return tex;
+            }
+
+            // 5. Soft Ground Radial Shadow
+            function createGroundShadowTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 256;
+                const ctx = canvas.getContext('2d');
+
+                const grad = ctx.createRadialGradient(128, 128, 10, 128, 128, 120);
+                grad.addColorStop(0, 'rgba(0, 0, 0, 0.7)');
+                grad.addColorStop(0.5, 'rgba(0, 0, 0, 0.35)');
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 256, 256);
+
+                return new THREE.CanvasTexture(canvas);
+            }
+
+            // ── TEXTURES & MATERIALS ──
+            const nylonDiffuse = createNylonCanvasTexture('#1e2022', '#282b2e');
+            const nylonBump = createNylonCanvasTexture('#808080', '#b0b0b0', true);
+
+            const orangeNylonDiffuse = createNylonCanvasTexture('#d84315', '#f4511e');
+            const orangeNylonBump = createNylonCanvasTexture('#808080', '#b0b0b0', true);
+
+            const meshTex = createMeshTexture();
+            const leatherTex = createPebbleLeatherTexture();
+            const badgeTex = createBadgeTexture();
+            const shadowTex = createGroundShadowTexture();
+
+            // Materials
+            const mainBodyMat = new THREE.MeshStandardMaterial({
+                map: nylonDiffuse,
+                bumpMap: nylonBump,
+                bumpScale: 0.035,
+                roughness: 0.75,
+                metalness: 0.08,
+                color: 0x222428
+            });
+
+            const orangeAccentMat = new THREE.MeshStandardMaterial({
+                map: orangeNylonDiffuse,
+                bumpMap: orangeNylonBump,
+                bumpScale: 0.03,
+                roughness: 0.65,
+                metalness: 0.12,
+                color: 0xff5722
+            });
+
+            const leatherMat = new THREE.MeshStandardMaterial({
+                map: leatherTex,
+                roughness: 0.45,
+                metalness: 0.1,
+                color: 0x181818
+            });
+
+            const meshMat = new THREE.MeshStandardMaterial({
+                map: meshTex,
+                roughness: 0.8,
+                metalness: 0.05,
+                transparent: true,
+                opacity: 0.88,
+                color: 0x242424
+            });
+
+            const chromeMat = new THREE.MeshStandardMaterial({
+                roughness: 0.15,
+                metalness: 0.95,
+                color: 0xe0e0e0
+            });
+
+            const zipperTeethMat = new THREE.MeshStandardMaterial({
+                roughness: 0.35,
+                metalness: 0.85,
+                color: 0x888888
+            });
+
+            // ── MAIN BAG ASSEMBLY GROUP ──
+            const bagGroup = new THREE.Group();
+            scene.add(bagGroup);
+
+            // Ground Shadow Disc
+            const shadowGeo = new THREE.PlaneGeometry(3.0, 3.0);
+            const shadowMat = new THREE.MeshBasicMaterial({
+                map: shadowTex,
+                transparent: true,
+                opacity: 0.85,
+                depthWrite: false
+            });
+            const groundShadow = new THREE.Mesh(shadowGeo, shadowMat);
+            groundShadow.rotation.x = -Math.PI / 2;
+            groundShadow.position.y = -1.28;
+            bagGroup.add(groundShadow);
+
+            // 1. MAIN PACK BODY (Curved Contoured Teardrop Backpack)
+            // A. Upper Rounded Dome Crown
+            const domeGeo = new THREE.SphereGeometry(0.85, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+            const domeMesh = new THREE.Mesh(domeGeo, mainBodyMat);
+            domeMesh.scale.set(1.02, 0.78, 0.64);
+            domeMesh.position.set(0, 0.52, 0);
+            bagGroup.add(domeMesh);
+
+            // B. Middle / Lower Main Vault
+            const midBodyGeo = new THREE.CylinderGeometry(0.85, 0.94, 1.35, 32);
+            const midBodyMesh = new THREE.Mesh(midBodyGeo, mainBodyMat);
+            midBodyMesh.scale.set(1.02, 1.0, 0.64);
+            midBodyMesh.position.set(0, -0.15, 0);
+            bagGroup.add(midBodyMesh);
+
+            // C. Base Rounded Bottom Cap
+            const baseCapGeo = new THREE.SphereGeometry(0.94, 32, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+            const baseCapMesh = new THREE.Mesh(baseCapGeo, leatherMat);
+            baseCapMesh.scale.set(1.02, 0.28, 0.64);
+            baseCapMesh.position.set(0, -0.82, 0);
+            bagGroup.add(baseCapMesh);
+
+            // 2. MAIN TOP ZIPPER TRACK & METAL SLIDERS
+            const topZipGeo = new THREE.TorusGeometry(0.86, 0.024, 12, 40, Math.PI);
+            const topZipMesh = new THREE.Mesh(topZipGeo, zipperTeethMat);
+            topZipMesh.scale.set(1.02, 0.78, 0.64);
+            topZipMesh.position.set(0, 0.52, 0.04);
+            bagGroup.add(topZipMesh);
+
+            // Dual Top Sliders
+            const sliderGeo = new THREE.BoxGeometry(0.08, 0.12, 0.06);
+            const slider1 = new THREE.Mesh(sliderGeo, chromeMat);
+            slider1.position.set(-0.14, 1.12, 0.05);
+            bagGroup.add(slider1);
+
+            const slider2 = new THREE.Mesh(sliderGeo, chromeMat);
+            slider2.position.set(0.14, 1.12, 0.05);
+            bagGroup.add(slider2);
+
+            // 3. FRONT CONTOURED 3D UTILITY POCKET (Orange Cordura Contrast)
+            // A. Upper Curved Cap of Pocket
+            const pocketDomeGeo = new THREE.SphereGeometry(0.66, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+            const pocketDomeMesh = new THREE.Mesh(pocketDomeGeo, orangeAccentMat);
+            pocketDomeMesh.scale.set(0.96, 0.45, 0.38);
+            pocketDomeMesh.position.set(0, 0.06, 0.38);
+            bagGroup.add(pocketDomeMesh);
+
+            // B. Front Pocket Main Body
+            const pocketBodyGeo = new THREE.CylinderGeometry(0.66, 0.70, 0.72, 32);
+            const pocketBodyMesh = new THREE.Mesh(pocketBodyGeo, orangeAccentMat);
+            pocketBodyMesh.scale.set(0.96, 1.0, 0.38);
+            pocketBodyMesh.position.set(0, -0.30, 0.38);
+            bagGroup.add(pocketBodyMesh);
+
+            // C. Lower Curved Pocket Base
+            const pocketBaseGeo = new THREE.SphereGeometry(0.70, 32, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+            const pocketBaseMesh = new THREE.Mesh(pocketBaseGeo, orangeAccentMat);
+            pocketBaseMesh.scale.set(0.96, 0.22, 0.38);
+            pocketBaseMesh.position.set(0, -0.66, 0.38);
+            bagGroup.add(pocketBaseMesh);
+
+            // Pocket Perimeter Stitch Welt (Piping)
+            const weltGeo = new THREE.TorusGeometry(0.68, 0.022, 12, 32, Math.PI);
+            const weltMesh = new THREE.Mesh(weltGeo, leatherMat);
+            weltMesh.scale.set(0.96, 0.45, 0.38);
+            weltMesh.position.set(0, 0.06, 0.42);
+            bagGroup.add(weltMesh);
+
+            // Front Pocket Zipper Storm Flap & Pull
+            const stormFlapGeo = new THREE.BoxGeometry(0.95, 0.06, 0.04);
+            const stormFlap = new THREE.Mesh(stormFlapGeo, leatherMat);
+            stormFlap.position.set(0, 0.08, 0.54);
+            bagGroup.add(stormFlap);
+
+            const frontSlider = new THREE.Mesh(sliderGeo, chromeMat);
+            frontSlider.position.set(0.32, 0.07, 0.55);
+            bagGroup.add(frontSlider);
+
+            // Front Pull Cord with Orange Tag
+            const pullTagGeo = new THREE.BoxGeometry(0.04, 0.16, 0.02);
+            const pullTag = new THREE.Mesh(pullTagGeo, orangeAccentMat);
+            pullTag.position.set(0.32, -0.05, 0.56);
+            bagGroup.add(pullTag);
+
+            // 4. EMBOSSED ENERGY BAGS RUBBER EMBLEM BADGE
+            const badgeMat = new THREE.MeshStandardMaterial({
+                map: badgeTex,
+                roughness: 0.35,
+                metalness: 0.15
+            });
+            const badgeGeo = new THREE.BoxGeometry(0.56, 0.28, 0.03);
+            const emblemBadge = new THREE.Mesh(badgeGeo, badgeMat);
+            emblemBadge.position.set(0, -0.26, 0.54);
+            bagGroup.add(emblemBadge);
+
+            // 5. SIDE ELASTIC MESH WATER BOTTLE POCKETS
+            // A. Left Side Mesh Pocket
+            const sideMeshGeoL = new THREE.CylinderGeometry(0.24, 0.22, 0.68, 16, 1, false, 0, Math.PI);
+            const sideMeshL = new THREE.Mesh(sideMeshGeoL, meshMat);
+            sideMeshL.rotation.y = -Math.PI / 2;
+            sideMeshL.position.set(-0.90, -0.28, 0);
+            bagGroup.add(sideMeshL);
+
+            // Left Elastic Collar Band
+            const collarGeo = new THREE.TorusGeometry(0.24, 0.02, 8, 16, Math.PI);
+            const collarL = new THREE.Mesh(collarGeo, orangeAccentMat);
+            collarL.rotation.x = Math.PI / 2;
+            collarL.rotation.y = -Math.PI / 2;
+            collarL.position.set(-0.90, 0.06, 0);
+            bagGroup.add(collarL);
+
+            // Stainless Steel Water Bottle in Left Pocket
+            const bottleBodyGeo = new THREE.CylinderGeometry(0.14, 0.14, 0.85, 24);
+            const bottleBody = new THREE.Mesh(bottleBodyGeo, chromeMat);
+            bottleBody.position.set(-0.90, -0.05, 0);
+            bagGroup.add(bottleBody);
+
+            const bottleCapGeo = new THREE.CylinderGeometry(0.09, 0.14, 0.16, 24);
+            const bottleCap = new THREE.Mesh(bottleCapGeo, orangeAccentMat);
+            bottleCap.position.set(-0.90, 0.44, 0);
+            bagGroup.add(bottleCap);
+
+            // B. Right Side Mesh Pocket
+            const sideMeshGeoR = new THREE.CylinderGeometry(0.24, 0.22, 0.68, 16, 1, false, 0, Math.PI);
+            const sideMeshR = new THREE.Mesh(sideMeshGeoR, meshMat);
+            sideMeshR.rotation.y = Math.PI / 2;
+            sideMeshR.position.set(0.90, -0.28, 0);
+            bagGroup.add(sideMeshR);
+
+            const collarR = new THREE.Mesh(collarGeo, orangeAccentMat);
+            collarR.rotation.x = Math.PI / 2;
+            collarR.rotation.y = Math.PI / 2;
+            collarR.position.set(0.90, 0.06, 0);
+            bagGroup.add(collarR);
+
+            // 6. TOP REINFORCED ARCH CARRY HANDLE
+            const handleTubeGeo = new THREE.TorusGeometry(0.34, 0.038, 12, 32, Math.PI);
+            const handleTube = new THREE.Mesh(handleTubeGeo, orangeAccentMat);
+            handleTube.rotation.x = Math.PI;
+            handleTube.position.set(0, 1.08, 0);
+            bagGroup.add(handleTube);
+
+            // Padded Leather Grip Center Sleeve
+            const handleGripGeo = new THREE.CylinderGeometry(0.062, 0.062, 0.28, 16);
+            const handleGrip = new THREE.Mesh(handleGripGeo, leatherMat);
+            handleGrip.rotation.z = Math.PI / 2;
+            handleGrip.position.set(0, 1.42, 0);
+            bagGroup.add(handleGrip);
+
+            // 7. REAR ERGONOMIC S-CURVE PADDED SHOULDER STRAPS
+            function createShoulderStrap(isLeft) {
+                const strapGroup = new THREE.Group();
+                const sign = isLeft ? -1 : 1;
+
+                // Upper curved padded section
+                const upperPadGeo = new THREE.BoxGeometry(0.24, 1.15, 0.07);
+                const upperPad = new THREE.Mesh(upperPadGeo, mainBodyMat);
+                upperPad.rotation.z = sign * -0.08;
+                upperPad.position.set(sign * 0.42, 0.22, -0.46);
+                strapGroup.add(upperPad);
+
+                // Breathable Air-Mesh Cushion Inner Lining
+                const innerMeshGeo = new THREE.BoxGeometry(0.22, 1.12, 0.02);
+                const innerMesh = new THREE.Mesh(innerMeshGeo, meshMat);
+                innerMesh.position.set(sign * 0.42, 0.22, -0.49);
+                strapGroup.add(innerMesh);
+
+                // Orange Trim Edge Binding
+                const trimGeo = new THREE.BoxGeometry(0.02, 1.15, 0.075);
+                const trimMesh = new THREE.Mesh(trimGeo, orangeAccentMat);
+                trimMesh.position.set(sign * 0.54, 0.22, -0.46);
+                strapGroup.add(trimMesh);
+
+                // Tension Lock Buckle
+                const tensionBuckleGeo = new THREE.BoxGeometry(0.18, 0.08, 0.05);
+                const tensionBuckle = new THREE.Mesh(tensionBuckleGeo, chromeMat);
+                tensionBuckle.position.set(sign * 0.42, -0.38, -0.46);
+                strapGroup.add(tensionBuckle);
+
+                // Webbing Extension Tape
+                const tapeGeo = new THREE.BoxGeometry(0.12, 0.65, 0.02);
+                const tapeMesh = new THREE.Mesh(tapeGeo, leatherMat);
+                tapeMesh.position.set(sign * 0.42, -0.72, -0.46);
+                strapGroup.add(tapeMesh);
+
+                return strapGroup;
+            }
+
+            bagGroup.add(createShoulderStrap(true));
+            bagGroup.add(createShoulderStrap(false));
+
+            // Sternum / Chest Strap Across Straps
+            const sternumGeo = new THREE.BoxGeometry(0.68, 0.05, 0.03);
+            const sternumMesh = new THREE.Mesh(sternumGeo, orangeAccentMat);
+            sternumMesh.position.set(0, 0.15, -0.47);
+            bagGroup.add(sternumMesh);
+
+            const sternumBuckleGeo = new THREE.BoxGeometry(0.10, 0.08, 0.05);
+            const sternumBuckle = new THREE.Mesh(sternumBuckleGeo, chromeMat);
+            sternumBuckle.position.set(0, 0.15, -0.48);
+            bagGroup.add(sternumBuckle);
+
+            // 8. KINETIC ORBIT GLOW RING & ENERGY SPARK PARTICLES
+            const ringGeo = new THREE.RingGeometry(2.0, 2.05, 64);
+            const ringMat = new THREE.MeshBasicMaterial({
+                color: 0xff5722,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.38
+            });
+            const orbitRing = new THREE.Mesh(ringGeo, ringMat);
+            orbitRing.rotation.x = Math.PI / 2.15;
+            bagGroup.add(orbitRing);
+
+            const pCount = 55;
+            const pGeo = new THREE.BufferGeometry();
+            const pPos = new Float32Array(pCount * 3);
+            for (let i = 0; i < pCount * 3; i += 3) {
+                pPos[i] = (Math.random() - 0.5) * 4.4;
+                pPos[i + 1] = (Math.random() - 0.5) * 4.4;
+                pPos[i + 2] = (Math.random() - 0.5) * 4.4;
+            }
+            pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+            const pMat = new THREE.PointsMaterial({
+                color: 0xff7043,
+                size: 0.045,
+                transparent: true,
+                opacity: 0.65
+            });
+            const particles = new THREE.Points(pGeo, pMat);
+            bagGroup.add(particles);
+
+            // ── DRAG ROTATION WITH INERTIA DAMPING ──
+            let isDragging = false;
+            let prevX = 0;
+            let prevY = 0;
+            let targetRotY = 0.35;
+            let targetRotX = 0.12;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - prevX;
+                const deltaY = e.clientY - prevY;
+                targetRotY += deltaX * 0.008;
+                targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX + deltaY * 0.008));
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
+
+            // Touch interaction
+            container.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    prevX = e.touches[0].clientX;
+                    prevY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - prevX;
+                const deltaY = e.touches[0].clientY - prevY;
+                targetRotY += deltaX * 0.008;
+                targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX + deltaY * 0.008));
+                prevX = e.touches[0].clientX;
+                prevY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // ── RENDER LOOP ──
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                if (!isDragging) {
+                    targetRotY += 0.006;
+                    targetRotX = Math.sin(elapsedTime * 0.8) * 0.08;
+                    const yOffset = window.innerWidth < 768 ? 0.32 : 0.08;
+                    bagGroup.position.y = yOffset + Math.sin(elapsedTime * 1.5) * 0.05;
+                }
+
+                // Smooth damping
+                bagGroup.rotation.y += (targetRotY - bagGroup.rotation.y) * 0.08;
+                bagGroup.rotation.x += (targetRotX - bagGroup.rotation.x) * 0.08;
+
+                orbitRing.rotation.z += 0.004;
+
+                const pos = particles.geometry.attributes.position.array;
+                for (let i = 1; i < pCount * 3; i += 3) {
+                    pos[i] += 0.003;
+                    if (pos[i] > 2.2) pos[i] = -2.2;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Responsive Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.position.z = window.innerWidth < 768 ? 5.6 : 6.0;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        })();
+
+                // ── 2. REAL VERIFIED DATA & INTERACTIVE ELEVATION GRAPH ──
+        const energyTimelineData = [
+            { month: "Dec 2025", sessions: 380, revenue: 24000, reach: 4200, note: "Month 1: Baseline Shopify Theme Audit" },
+            { month: "Jan 2026", sessions: 620, revenue: 58000, reach: 14500, note: "Month 2: Mobile Speed Optimization & Theme (+63%)" },
+            { month: "Feb 2026", sessions: 1140, revenue: 110000, reach: 29800, note: "Month 3: E-E-A-T Blogs & Viral Reels (+84%)" },
+            { month: "Mar 2026", sessions: 1820, revenue: 178000, reach: 44200, note: "Month 4: Dynamic Meta Catalog Ads (148 Orders)" },
+            { month: "Apr 2026", sessions: 2340, revenue: 235000, reach: 56800, note: "Month 5: Warm Retargeting & Klaviyo Recovery" },
+            { month: "May 2026", sessions: 2804, revenue: 289000, reach: 68500, note: "Month 6: 🏆 Peak Milestone: 398K GSC Reach & 4.2x ROAS" }
+        ];
+
+        let currentMetric = 'sessions';
+        let computedChartPoints = [];
+
+        function showTooltip(p) {
+            const container = document.getElementById('chart-container');
+            const tooltip = document.getElementById('chart-tooltip');
+            if (!container || !tooltip) return;
+
+            const rect = container.getBoundingClientRect();
+            const W = 1000;
+            const H = 360;
+            const scaleX = rect.width / W;
+            const scaleY = rect.height / H;
+
+            const posX = p.x * scaleX;
+            const posY = p.y * scaleY;
+
+            tooltip.style.left = posX + 'px';
+            tooltip.style.top = posY + 'px';
+
+            // Smart Horizontal clamping: Prevent tooltip from clipping against container edges
+            let transX = '-50%';
+            if (posX < 110) {
+                transX = '0%';
+            } else if (posX > rect.width - 110) {
+                transX = '-100%';
+            }
+
+            // Smart Vertical flipping:
+            // When data point is near top of graph (posY < 105px), flip tooltip BELOW the point (18px)
+            let transY = '-125%';
+            if (posY < 105) {
+                transY = '18px';
+            }
+
+            tooltip.style.transform = `translate(${transX}, ${transY})`;
+            tooltip.style.opacity = '1';
+
+            document.getElementById('tooltip-date').textContent = p.data.month;
+            let label = currentMetric === 'sessions' ? 'E-Commerce Sessions' : currentMetric === 'revenue' ? 'Revenue' : 'Social Reach';
+            let formattedVal = currentMetric === 'revenue' ? `₹${p.data[currentMetric].toLocaleString()}` : p.data[currentMetric].toLocaleString();
+            document.getElementById('tooltip-value').textContent = `${formattedVal} ${currentMetric === 'revenue' ? '' : label}`;
+            document.getElementById('tooltip-note').textContent = p.data.note;
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('chart-tooltip');
+            if (tooltip) tooltip.style.opacity = '0';
+        }
+
+        function renderElevationGraph() {
+            const svg = document.getElementById('elevation-svg');
+            const gridGroup = document.getElementById('chart-grid');
+            const areaPath = document.getElementById('chart-area');
+            const linePath = document.getElementById('chart-line');
+            const nodesGroup = document.getElementById('chart-nodes');
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const W = 1000;
+            const H = 360;
+            const padL = 70;
+            const padR = 40;
+            const padT = 50;
+            const padB = 50;
+
+            const plotW = W - padL - padR;
+            const plotH = H - padT - padB;
+
+            const values = energyTimelineData.map(d => d[currentMetric]);
+            const maxVal = Math.max(...values) * 1.2 || 100;
+            const minVal = 0;
+
+            // Horizontal Grid Lines
+            const gridSteps = 4;
+            for (let i = 0; i <= gridSteps; i++) {
+                const y = padT + (plotH / gridSteps) * i;
+                const val = Math.round(maxVal - (maxVal / gridSteps) * i);
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padL);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', W - padR);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padL - 12);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'chart-axis-label');
+                let displayVal = currentMetric === 'revenue' ? `₹${(val / 1000).toFixed(0)}k` : currentMetric === 'reach' ? `${(val / 1000).toFixed(0)}k` : val.toLocaleString();
+                text.textContent = displayVal;
+                gridGroup.appendChild(text);
+            }
+
+            // Points
+            const points = energyTimelineData.map((d, i) => {
+                const x = padL + (plotW / (energyTimelineData.length - 1)) * i;
+                const y = padT + plotH - ((d[currentMetric] - minVal) / (maxVal - minVal)) * plotH;
+                return { x, y, data: d, index: i };
+            });
+            computedChartPoints = points;
+
+            // Smooth Bezier Curve
+            function getBezierPath(pts) {
+                if (pts.length === 0) return '';
+                let path = `M ${pts[0].x} ${pts[0].y}`;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i];
+                    const p1 = pts[i + 1];
+                    const cpX = (p0.x + p1.x) / 2;
+                    path += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+                }
+                return path;
+            }
+
+            const curvePath = getBezierPath(points);
+            linePath.setAttribute('d', curvePath);
+
+            const areaD = `${curvePath} L ${points[points.length - 1].x} ${padT + plotH} L ${points[0].x} ${padT + plotH} Z`;
+            areaPath.setAttribute('d', areaD);
+
+            // Nodes rendering with dedicated non-glitching Hit Area
+            points.forEach((p, idx) => {
+                // X axis label
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', p.x);
+                xLabel.setAttribute('y', H - 15);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.setAttribute('class', 'chart-axis-label');
+                xLabel.textContent = p.data.month;
+                gridGroup.appendChild(xLabel);
+
+                const nodeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                nodeG.setAttribute('class', 'chart-data-node');
+                nodeG.setAttribute('data-index', idx);
+
+                const isMilestone = idx === 0 || idx === 2 || idx === 5;
+
+                // Pulsing ring
+                if (isMilestone) {
+                    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    pulse.setAttribute('cx', p.x);
+                    pulse.setAttribute('cy', p.y);
+                    pulse.setAttribute('r', '12');
+                    pulse.setAttribute('fill', 'rgba(255, 87, 34, 0.35)');
+                    pulse.setAttribute('style', 'pointer-events: none;');
+                    pulse.innerHTML = '<animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="2s" repeatCount="indefinite"/>';
+                    nodeG.appendChild(pulse);
+                }
+
+                // Visible dot circle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', p.x);
+                circle.setAttribute('cy', p.y);
+                const baseR = isMilestone ? 7 : 5;
+                circle.setAttribute('r', baseR);
+                circle.setAttribute('fill', isMilestone ? '#ff7043' : '#ffffff');
+                circle.setAttribute('stroke', '#ff5722');
+                circle.setAttribute('stroke-width', '2');
+                circle.setAttribute('style', 'pointer-events: none; transition: r 0.15s ease;');
+                nodeG.appendChild(circle);
+
+                // Invisible large hit area
+                const hitCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                hitCircle.setAttribute('cx', p.x);
+                hitCircle.setAttribute('cy', p.y);
+                hitCircle.setAttribute('r', '20');
+                hitCircle.setAttribute('fill', 'transparent');
+                hitCircle.setAttribute('style', 'cursor: pointer;');
+                nodeG.appendChild(hitCircle);
+
+                // Events
+                hitCircle.addEventListener('mouseenter', () => {
+                    circle.setAttribute('r', baseR + 3);
+                    circle.setAttribute('fill', '#ff5722');
+                    showTooltip(p);
+                });
+
+                hitCircle.addEventListener('mouseleave', () => {
+                    circle.setAttribute('r', baseR);
+                    circle.setAttribute('fill', isMilestone ? '#ff7043' : '#ffffff');
+                    hideTooltip();
+                });
+
+                nodesGroup.appendChild(nodeG);
+            });
+        }
+
+        renderElevationGraph();
+
+        // Metric Toggle buttons
+        document.querySelectorAll('.metric-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.metric-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMetric = btn.getAttribute('data-metric');
+                renderElevationGraph();
+            });
+        });
+
+        // Checkpoint Card Clicks
+        document.querySelectorAll('.checkpoint-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.checkpoint-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+
+                const idx = parseInt(card.getAttribute('data-index'));
+                if (computedChartPoints && computedChartPoints[idx]) {
+                    showTooltip(computedChartPoints[idx]);
+                }
+            });
+        });
+
+        // ── 3. VISUAL PROOF GALLERY TABS ──
+        document.querySelectorAll('.gallery-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.gallery-tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.gallery-view').forEach(v => v.classList.remove('active'));
+
+                btn.classList.add('active');
+                const targetId = btn.getAttribute('data-target');
+                const targetView = document.getElementById(targetId);
+                if (targetView) targetView.classList.add('active');
+            });
+        });
+
+        // ── 4. LIGHTBOX HANDLERS ──
+        function openLightbox(src) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            modal.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('active');
+        }
+    </script>
+</body>
+</html>

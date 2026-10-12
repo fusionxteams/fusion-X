@@ -21,7 +21,7 @@
     const aspect = container.clientWidth / container.clientHeight;
     const camera = new THREE.PerspectiveCamera(38, aspect, 0.1, 1000);
     // Adjusted camera distance for optimal logo framing
-    camera.position.set(0, 0, 3.4);
+    camera.position.set(0, 0, 2.75);
 
     // 2. WebGL Renderer with High-Fidelity PBR Tone Mapping
     const renderer = new THREE.WebGLRenderer({ 
@@ -35,6 +35,11 @@
     renderer.toneMappingExposure = 1.25;
     renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild(renderer.domElement);
+    if (renderer.domElement) {
+        renderer.domElement.style.width = '100%';
+        renderer.domElement.style.maxWidth = '100%';
+        renderer.domElement.style.height = '100%';
+    }
 
     // 3. Studio Lighting Rig
     // Ambient fill light for base visibility
@@ -102,7 +107,7 @@
 
         // Normalize scale to fit the viewport comfortably
         const maxDim = Math.max(size.x, size.y, size.z);
-        const desiredSize = container.clientWidth < 600 ? 1.85 : 2.15;
+        const desiredSize = container.clientWidth < 600 ? 1.95 : 2.35;
         const scaleFactor = desiredSize / maxDim;
         logoMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
@@ -138,7 +143,7 @@
         }
     });
 
-    // 5. Interaction Physics (Mouse Parallax Tilt & Levitation — NO continuous spin)
+    // 5. Interaction Physics (Mouse Parallax Tilt & Levitation - NO continuous spin)
     let mouseX = 0;
     let mouseY = 0;
     let targetTiltY = 0;
@@ -256,15 +261,21 @@
         const w = container.clientWidth;
         const h = container.clientHeight;
         camera.aspect = w / h;
-        if (w < 500) {
-            camera.position.z = 4.0;
-        } else if (w < 800) {
-            camera.position.z = 3.6;
+        // Keep 3D logo prominently large and centered on both mobile and desktop
+        if (w < 600) {
+            camera.position.z = 3.25;
+        } else if (w < 900) {
+            camera.position.z = 2.90;
         } else {
-            camera.position.z = 3.2;
+            camera.position.z = 2.80;
         }
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
+        if (renderer.domElement) {
+            renderer.domElement.style.width = '100%';
+            renderer.domElement.style.maxWidth = '100%';
+            renderer.domElement.style.height = '100%';
+        }
     }
     window.addEventListener('resize', handleResize);
     handleResize();

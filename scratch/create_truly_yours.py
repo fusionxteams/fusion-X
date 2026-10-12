@@ -1,0 +1,2313 @@
+import os
+
+html_content = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truly Yours Case Study: Organic Skincare Growth | Fusion X</title>
+    <meta name="description" content="How Fusion X scaled Truly Yours organic skincare on Shopify: 471% traffic surge, 1,900% revenue lift, dermatology E-E-A-T SEO, and 4.8x peak ROAS.">
+    <link rel="canonical" href="https://fusionxdigitalmarketing.in/truly-yours.html">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Three.js for 3D interactive cosmetic serum bottle -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css?v=25">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo_transparent.png">
+    <link rel="shortcut icon" type="image/png" href="logo_transparent.png">
+    <link rel="apple-touch-icon" href="logo_transparent.png">
+
+    <style>
+        :root {
+            --brand-orange: #ff5722;
+            --brand-orange-light: #ff7043;
+            --brand-orange-glow: rgba(255, 87, 34, 0.45);
+            --bg-dark: #080808;
+            --bg-card: #111111;
+            --bg-card-hover: #181818;
+            --border-dark: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(255, 87, 34, 0.35);
+            --text-white: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ── INTERACTIVE PARTICLES CANVAS ── */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ── COMMON SECTION UTILITIES ── */
+        .case-section {
+            padding: 90px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 87, 34, 0.12);
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            color: var(--brand-orange-light);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 3.8vw, 3.1rem);
+            font-weight: 900;
+            line-height: 1.15;
+            color: #ffffff;
+            margin: 0 0 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title .text-orange {
+            color: var(--brand-orange);
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 760px;
+            margin: 0 0 45px;
+        }
+
+        .btn-orange {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #ff5722;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 13px 26px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px var(--brand-orange-glow);
+        }
+
+        .btn-orange:hover {
+            background: #ff7043;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255, 87, 34, 0.65);
+            color: #ffffff;
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 13px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 87, 34, 0.1);
+            border-color: var(--brand-orange);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* ── HERO SECTION ── */
+        .case-hero {
+            padding: 140px 24px 70px;
+            position: relative;
+            z-index: 2;
+            background: radial-gradient(circle at 75% 20%, rgba(255, 87, 34, 0.14) 0%, rgba(8, 8, 8, 0) 65%);
+        }
+
+        .hero-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+        }
+
+        .breadcrumb-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb-nav a:hover {
+            color: var(--brand-orange);
+        }
+
+        .breadcrumb-nav span {
+            color: var(--brand-orange-light);
+            font-weight: 600;
+        }
+
+        .hero-badge-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        .flagship-badge {
+            background: #ff5722;
+            color: #ffffff;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 14px var(--brand-orange-glow);
+        }
+
+        .origin-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dark);
+            color: #cbd5e1;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.3rem, 4.4vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.12;
+            color: #ffffff;
+            margin: 0 0 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-title .highlight {
+            color: var(--brand-orange);
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 34px;
+            max-width: 620px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* ── 3D INTERACTIVE COSMETIC STAGE ── */
+        .stage-3d-wrapper {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            border-radius: 24px;
+            background: radial-gradient(circle at 50% 45%, rgba(255, 87, 34, 0.16) 0%, rgba(12, 10, 8, 0.98) 75%);
+            border: 1px solid var(--border-glow);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+        }
+
+        #three-serum-container {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+
+        #three-serum-container:active {
+            cursor: grabbing;
+        }
+
+        .stage-hint-pill {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(14, 14, 14, 0.88);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 87, 34, 0.4);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 0.74rem;
+            color: var(--brand-orange-light);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .stage-badge-card {
+            position: absolute;
+            bottom: 14px;
+            left: 14px;
+            right: 14px;
+            background: rgba(15, 15, 15, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            border-radius: 14px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            pointer-events: none;
+        }
+
+        .stage-logo-thumb {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+            flex-shrink: 0;
+            background: #ffffff;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .stage-badge-text {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .stage-badge-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stage-badge-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ── STATS STRIP ── */
+        .stats-strip {
+            background: #0d0d0d;
+            border-top: 1px solid var(--border-dark);
+            border-bottom: 1px solid var(--border-dark);
+            padding: 40px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stats-grid {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: #141414;
+            border: 1px solid var(--border-dark);
+            border-radius: 18px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--brand-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(255, 87, 34, 0.18);
+        }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.2rem, 3.2vw, 3rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-number.orange-glow {
+            color: var(--brand-orange);
+            text-shadow: 0 0 25px rgba(255, 87, 34, 0.5);
+        }
+
+        .stat-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-subnote {
+            font-size: 0.76rem;
+            color: #64748b;
+        }
+
+        /* ── 4 GRANULAR VELOCITY KPI CARDS ── */
+        .velocity-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 36px;
+        }
+
+        .velocity-card {
+            background: #141414;
+            border: 1px solid var(--border-dark);
+            border-radius: 16px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .velocity-card:hover {
+            border-color: var(--brand-orange);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .velocity-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
+            color: var(--brand-orange);
+        }
+
+        .velocity-lbl {
+            font-size: 0.76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        /* ── INTERACTIVE ELEVATION GRAPH ── */
+        .graph-card {
+            background: #101010;
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            padding: 36px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            margin-top: 36px;
+            position: relative;
+        }
+
+        .graph-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .metric-toggle-pills {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #181818;
+            padding: 5px;
+            border-radius: 50px;
+            border: 1px solid var(--border-dark);
+        }
+
+        .metric-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .metric-tab-btn.active {
+            background: #ff5722;
+            color: #ffffff;
+            font-weight: 800;
+            box-shadow: 0 4px 14px var(--brand-orange-glow);
+        }
+
+        .graph-badge-status {
+            font-size: 0.85rem;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .chart-svg-container {
+            width: 100%;
+            height: 360px;
+            position: relative;
+            user-select: none;
+        }
+
+        #elevation-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .chart-grid-line {
+            stroke: rgba(255, 255, 255, 0.06);
+            stroke-dasharray: 4, 4;
+        }
+
+        .chart-axis-label {
+            fill: #64748b;
+            font-size: 11px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .chart-area-fill {
+            fill: url(#trulyAreaGrad);
+        }
+
+        .chart-path-line {
+            fill: none;
+            stroke: #ff5722;
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 4px 8px rgba(255, 87, 34, 0.5));
+        }
+
+        .chart-data-node {
+            cursor: pointer;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            pointer-events: none !important;
+            background: rgba(18, 18, 18, 0.96);
+            border: 1px solid var(--brand-orange);
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 0.82rem;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.85);
+            z-index: 50;
+            white-space: nowrap;
+        }
+
+        /* Checkpoint Cards Timeline */
+        .checkpoints-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 36px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .checkpoints-header i {
+            color: var(--brand-orange-light);
+        }
+
+        .checkpoints-timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .checkpoint-card {
+            background: #141414;
+            border: 1px solid var(--border-dark);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .checkpoint-card:hover, .checkpoint-card.active {
+            border-color: var(--brand-orange);
+            background: #1c1410;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 87, 34, 0.2);
+        }
+
+        .cp-date {
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: var(--brand-orange-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .cp-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 4px;
+        }
+
+        .cp-metric {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+
+        .cp-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* ── PERFORMANCE COMPARISON TABLE ── */
+        .table-card {
+            background: #111111;
+            border: 1px solid var(--border-dark);
+            border-radius: 24px;
+            padding: 32px;
+            margin-top: 36px;
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6);
+            overflow-x: auto;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 600px;
+        }
+
+        .custom-table th {
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 2px solid var(--border-dark);
+            color: #94a3b8;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .custom-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            font-size: 0.92rem;
+        }
+
+        .custom-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .table-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .table-pill.green {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .table-pill.orange {
+            background: rgba(255, 87, 34, 0.15);
+            color: #ff7043;
+            border: 1px solid rgba(255, 87, 34, 0.3);
+        }
+
+        /* ── DELIVERABLES GRID ── */
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 36px;
+        }
+
+        .deliverable-card {
+            background: #111111;
+            border: 1px solid var(--border-dark);
+            border-radius: 22px;
+            padding: 32px 26px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .deliverable-card:hover {
+            border-color: var(--brand-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .deliverable-icon-wrap {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(255, 87, 34, 0.12);
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--brand-orange-light);
+            margin-bottom: 22px;
+        }
+
+        .deliverable-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 12px;
+        }
+
+        .deliverable-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin: 0 0 20px;
+        }
+
+        .deliverable-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .d-tag {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-dark);
+            color: #cbd5e1;
+            font-size: 0.76rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* ── TESTIMONIAL BOX ── */
+        .testimonial-box {
+            background: #141414;
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 40px;
+            margin-top: 50px;
+            position: relative;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+        }
+
+        .quote-icon {
+            font-size: 2.2rem;
+            color: var(--brand-orange);
+            margin-bottom: 16px;
+            opacity: 0.85;
+        }
+
+        .quote-text {
+            font-size: 1.15rem;
+            color: #f1f5f9;
+            line-height: 1.8;
+            font-style: italic;
+            margin: 0 0 24px;
+        }
+
+        .quote-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .quote-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #ff5722;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px var(--brand-orange-glow);
+        }
+
+        .quote-name {
+            font-weight: 800;
+            font-size: 1rem;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .quote-role {
+            font-size: 0.82rem;
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        /* ── CLIENT INFO BANNER ── */
+        .client-info-banner {
+            background: #141414;
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            padding: 44px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        .client-info-left h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 14px;
+        }
+
+        .client-info-left p {
+            font-size: 0.98rem;
+            color: #cbd5e1;
+            line-height: 1.65;
+            margin-bottom: 24px;
+        }
+
+        .client-meta-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.92rem;
+            color: #e2e8f0;
+        }
+
+        .meta-row i {
+            color: var(--brand-orange-light);
+            width: 20px;
+        }
+
+        .client-action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* ── RESPONSIVE MEDIA QUERIES ── */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+            .stage-3d-wrapper {
+                height: 400px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .velocity-kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .deliverables-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .checkpoints-timeline {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .client-info-banner {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .case-hero {
+                padding: 100px 16px 45px;
+            }
+            .stage-3d-wrapper {
+                height: 385px;
+            }
+            .stage-hint-pill {
+                top: 10px;
+                right: 10px;
+                padding: 4px 10px;
+                font-size: 0.68rem;
+            }
+            .stage-badge-card {
+                padding: 8px 12px;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                gap: 10px;
+            }
+            .stage-logo-thumb {
+                height: 24px;
+            }
+            .stage-badge-title {
+                font-size: 0.8rem;
+            }
+            .stage-badge-sub {
+                font-size: 0.66rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .velocity-kpi-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .stats-strip {
+                padding: 28px 16px;
+            }
+            .case-section {
+                padding: 55px 16px;
+            }
+            .deliverables-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .checkpoints-timeline {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .graph-card {
+                padding: 20px 14px;
+                border-radius: 20px;
+            }
+            .chart-svg-container {
+                height: 260px;
+            }
+            .metric-toggle-pills {
+                width: 100%;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 6px;
+            }
+            .metric-tab-btn {
+                padding: 6px 12px;
+                font-size: 0.76rem;
+                white-space: nowrap;
+            }
+            .table-card {
+                padding: 20px 14px;
+                border-radius: 20px;
+            }
+            .client-info-banner {
+                padding: 26px 18px;
+                border-radius: 20px;
+            }
+            .client-action-buttons a {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Floating Particles Canvas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo_transparent.png" alt="Fusion X Logo" class="logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about-us.html">ABOUT US</a></li>
+            <li class="nav-item-services">
+                <a href="services.html">SERVICES <i class="fa-solid fa-chevron-down nav-chevron"></i></a>
+                <div class="services-mega-menu">
+                    <div class="mega-menu-inner">
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-code"></i><span>WEBSITE</span></div>
+                            <ul class="mega-links">
+                                <li><a href="portfolio-website.html"><span class="link-title">Portfolio Website</span><span class="link-sub">WordPress Custom Page</span></a></li>
+                                <li><a href="basic-website.html"><span class="link-title">Basic Website</span><span class="link-sub">WordPress Business Site</span></a></li>
+                                <li><a href="ecommerce-website.html"><span class="link-title">E-Commerce Website</span><span class="link-sub">Shopify & WooCommerce</span></a></li>
+                                <li><a href="landing-page.html"><span class="link-title">Landing Page</span><span class="link-sub">High-Converting Funnels</span></a></li>
+                                <li><a href="wedding-invitation.html"><span class="link-title">Wedding Digital Invitation</span><span class="link-sub">Bespoke Interactive E-Invites</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-magnifying-glass-chart"></i><span>SEO</span></div>
+                            <ul class="mega-links">
+                                <li><a href="seo-services.html"><span class="link-title">SEO for Website</span><span class="link-sub">On-Page & Off-Page SEO</span></a></li>
+                                <li><a href="site-reworking.html"><span class="link-title">Site Reworking</span><span class="link-sub">Speed & Architecture Fixes</span></a></li>
+                                <li><a href="content-blogs.html"><span class="link-title">Content & Blogs</span><span class="link-sub">Ranking Blog Production</span></a></li>
+                                <li><a href="backlinks-guest-blogs.html"><span class="link-title">Backlinks & Guest Blogs</span><span class="link-sub">Authority Link Building</span></a></li>
+                                <li><a href="local-seo.html"><span class="link-title">Local SEO for GMB</span><span class="link-sub">Google My Business Maps</span></a></li>
+                                <li><a href="social-video-seo.html"><span class="link-title">YouTube & Instagram SEO</span><span class="link-sub">Algorithm & Search Reach</span></a></li>
+                                <li><a href="brand-analysis.html"><span class="link-title">Brand Analyses</span><span class="link-sub">Competitor & EEAT Audit</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-share-nodes"></i><span>SOCIAL MEDIA MANAGEMENT</span></div>
+                            <ul class="mega-links">
+                                <li><a href="content-writing.html"><span class="link-title">Content Writing</span><span class="link-sub">Captions & Copywriting</span></a></li>
+                                <li><a href="video-editing.html"><span class="link-title">Video Editing</span><span class="link-sub">Reels, Shorts & Commercials</span></a></li>
+                                <li><a href="content-creation.html"><span class="link-title">Content Creation</span><span class="link-sub">Visuals, Graphics & Feeds</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-bullseye"></i><span>META & GOOGLE ADS</span></div>
+                            <ul class="mega-links">
+                                <li><a href="meta-ads.html"><span class="link-title">Meta Ads</span><span class="link-sub">Facebook & Instagram Scale</span></a></li>
+                                <li><a href="google-ads.html"><span class="link-title">Google Ads</span><span class="link-sub">Search, Display & PMax</span></a></li>
+                                <li><a href="youtube-ads.html"><span class="link-title">YouTube Ads</span><span class="link-sub">Video Campaigns & Retargeting</span></a></li>
+                                <li><a href="ad-creative-strategy.html"><span class="link-title">Ad Creative Strategy</span><span class="link-sub">A/B Testing & High ROAS</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-chart-line"></i><span>MARKETING</span></div>
+                            <ul class="mega-links">
+                                <li><a href="email-marketing.html"><span class="link-title">Email Marketing</span><span class="link-sub">Automations & Drip Flows</span></a></li>
+                                <li><a href="whatsapp-marketing.html"><span class="link-title">WhatsApp Marketing</span><span class="link-sub">Official API Broadcasts & Bots</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-column">
+                            <div class="mega-cat-header"><i class="fa-solid fa-lightbulb"></i><span>BRAND STRATEGIES</span></div>
+                            <ul class="mega-links">
+                                <li><a href="brand-strategy.html"><span class="link-title">Brand Strategy</span><span class="link-sub">Identity & Market Moat</span></a></li>
+                                <li><a href="competitor-analysis.html"><span class="link-title">Competitor Analyses</span><span class="link-sub">Intel & Market Share Audit</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mega-menu-footer">
+                        <span>Looking for customized agency scope?</span>
+                        <a href="services.html" class="mega-footer-cta">View All Services <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </li>
+            <li><a href="our-team.html">OUR TEAM</a></li>
+            <li><a href="portfolio.html" class="active">PORTFOLIO</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+            <li><a href="careers.html">CAREERS</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="dangling-container">
+                <a href="contact.html" class="nav-cta-btn">LET\'S CONNECT</a>
+                <div class="charm-string">
+                    <img src="logo_transparent.png" class="charm-object" alt="Fusion X Charm" draggable="false">
+                </div>
+            </div>
+            <div class="hamburger">
+                <svg viewBox="0 0 100 80" width="30" height="30">
+                    <rect width="100" height="15" rx="8" fill="#ff5722"></rect>
+                    <rect y="30" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                    <rect y="60" width="100" height="15" rx="8" fill="#ff5722"></rect>
+                </svg>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════ HERO SECTION ═══════════════════════ -->
+    <header class="case-hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="breadcrumb-nav">
+                    <a href="index.html">Home</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <a href="portfolio.html">Portfolio</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <span>Truly Yours Skincare</span>
+                </div>
+
+                <div class="hero-badge-wrap">
+                    <span class="flagship-badge">
+                        <i class="fa-solid fa-crown"></i> BEAUTY &amp; D2C SKINCARE SCALE
+                    </span>
+                    <span class="origin-pill">
+                        <i class="fa-brands fa-shopify" style="color: #ff7043;"></i> Shopify Custom Dev
+                    </span>
+                    <span class="origin-pill">
+                        <i class="fa-solid fa-user-shield" style="color: #ff7043;"></i> Founder: Sharmitha
+                    </span>
+                </div>
+
+                <h1 class="hero-title">
+                    Truly Yours: <span class="highlight">+471% Organic Traffic</span>, 1,900% Revenue Lift &amp; 2.77% Conv. Rate
+                </h1>
+
+                <p class="hero-subtitle">
+                    How Fusion X scaled an organic skincare cosmetics brand from low search visibility to an e-commerce powerhouse through dermatology-aligned E-E-A-T blogging, AEO/GEO generative AI citations, frictionless Shopify PDP architecture, and social video SEO.
+                </p>
+
+                <div class="hero-cta-group">
+                    <a href="#interactive-graph" class="btn-orange">
+                        <i class="fa-solid fa-chart-line"></i> View Elevation Graph
+                    </a>
+                    <a href="https://www.trulyyoursstore.com/" target="_blank" rel="noopener noreferrer" class="btn-outline">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Storefront
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3D Cosmetic Dropper Bottle Stage -->
+            <div class="stage-3d-wrapper">
+                <div class="stage-hint-pill">
+                    <i class="fa-solid fa-hand-pointer"></i> Drag to Rotate 3D Serum Bottle
+                </div>
+                <div id="three-serum-container"></div>
+                <div class="stage-badge-card">
+                    <img src="brands/truly-yours/logo.jpg" alt="Truly Yours Logo" class="stage-logo-thumb">
+                    <div class="stage-badge-text">
+                        <div class="stage-badge-title">Truly Yours &bull; Organic Skincare</div>
+                        <div class="stage-badge-sub">Botanical Active Serums &bull; E-Commerce Architecture</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════ STATS STRIP ═══════════════════════ -->
+    <section class="stats-strip">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number orange-glow">1,803</div>
+                <div class="stat-label">Store Sessions</div>
+                <div class="stat-subnote">↑ 471% Organic Traffic Surge</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number orange-glow">₹21.8K</div>
+                <div class="stat-label">Store Sales</div>
+                <div class="stat-subnote">↑ 1,900% Revenue Scaled</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number orange-glow">51</div>
+                <div class="stat-label">Direct Orders</div>
+                <div class="stat-subnote">↑ 1,600% Direct Customer Lift</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number orange-glow">2.77%</div>
+                <div class="stat-label">Checkout Conv. Rate</div>
+                <div class="stat-subnote">↑ 192% vs 0.95% Baseline</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ VELOCITY KPIS & ARCHITECTURE ═══════════════════════ -->
+    <section class="case-section" id="velocity-kpis">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fa-solid fa-bolt"></i> STORE VELOCITY TELEMETRY</span>
+                <h2 class="section-title">Granular Growth <span class="text-orange">Benchmarks</span></h2>
+                <p class="section-desc">
+                    Comprehensive performance telemetry tracking search acquisition, catalog cart-adds, mobile speed benchmarks, and buyer retention across the 6-month optimization window.
+                </p>
+            </div>
+
+            <div class="velocity-kpi-grid">
+                <div class="velocity-card">
+                    <div class="velocity-val">+180%</div>
+                    <div class="velocity-lbl">Organic Search Sessions</div>
+                </div>
+                <div class="velocity-card">
+                    <div class="velocity-val">3.2x</div>
+                    <div class="velocity-lbl">Catalog Add-to-Cart Surge</div>
+                </div>
+                <div class="velocity-card">
+                    <div class="velocity-val">1.5s</div>
+                    <div class="velocity-lbl">Mobile Storefront Speed</div>
+                </div>
+                <div class="velocity-card">
+                    <div class="velocity-val">28%</div>
+                    <div class="velocity-lbl">Repeat Skincare Buyers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ VERIFIED PERFORMANCE GRAPH ═══════════════════════ -->
+    <section class="case-section" id="interactive-graph" style="background: #090909;">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fa-solid fa-chart-line"></i> VERIFIED CAMPAIGN AUDIT</span>
+                <h2 class="section-title">Organic Search Traffic &amp; <span class="text-orange">Sales Trajectory</span></h2>
+                <p class="section-desc">
+                    6-Month Shopify E-Commerce Scale &bull; Organic SEO &amp; Social Search Funnels. Click any checkpoint below to inspect strategic milestones along the trajectory.
+                </p>
+            </div>
+
+            <div class="graph-card">
+                <div class="graph-toolbar">
+                    <div class="metric-toggle-pills">
+                        <button class="metric-tab-btn active" data-metric="sessions">
+                            <i class="fa-solid fa-arrow-trend-up"></i> Organic Sessions
+                        </button>
+                        <button class="metric-tab-btn" data-metric="revenue">
+                            <i class="fa-solid fa-indian-rupee-sign"></i> Store Sales (₹)
+                        </button>
+                        <button class="metric-tab-btn" data-metric="orders">
+                            <i class="fa-solid fa-bag-shopping"></i> Direct Orders &amp; ROAS
+                        </button>
+                    </div>
+                    <div class="graph-badge-status">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Source: Verified Analytics &bull; kamaleshj.com/portfolio-trulyyours</span>
+                    </div>
+                </div>
+
+                <div class="chart-svg-container" id="chart-container">
+                    <svg id="elevation-svg" viewBox="0 0 1000 360" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="trulyAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#ff5722" stop-opacity="0.45" />
+                                <stop offset="85%" stop-color="#ff5722" stop-opacity="0.03" />
+                                <stop offset="100%" stop-color="#080808" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Grid Lines -->
+                        <g id="chart-grid"></g>
+                        <!-- Area Fill -->
+                        <path id="chart-area" class="chart-area-fill" d=""></path>
+                        <!-- Stroke Line -->
+                        <path id="chart-line" class="chart-path-line" d=""></path>
+                        <!-- Data Nodes -->
+                        <g id="chart-nodes"></g>
+                    </svg>
+
+                    <!-- Tooltip with boundary awareness -->
+                    <div class="chart-tooltip" id="chart-tooltip">
+                        <div id="tooltip-date" style="font-weight: 700; color: #ff7043;"></div>
+                        <div id="tooltip-value" style="font-size: 1.1rem; font-weight: 900;"></div>
+                        <div id="tooltip-note" style="font-size: 0.75rem; color: #94a3b8;"></div>
+                    </div>
+                </div>
+
+                <!-- Checkpoints Timeline -->
+                <div class="checkpoints-header">
+                    <i class="fa-solid fa-flag-checkered"></i> Strategic Execution Milestones
+                </div>
+                <div class="checkpoints-timeline">
+                    <div class="checkpoint-card" data-index="0">
+                        <div>
+                            <div class="cp-date">Month 1 (Launch &amp; Audit)</div>
+                            <h4 class="cp-title">Audit &amp; Funnel Setup</h4>
+                            <div class="cp-metric">420 Visits &bull; 42 Orders &bull; 1.4x ROAS</div>
+                            <div class="cp-desc">Tracking pixels, Google Search Console indexing, and initial high-converting skincare landing page deployed.</div>
+                        </div>
+                    </div>
+                    <div class="checkpoint-card" data-index="1">
+                        <div>
+                            <div class="cp-date">Month 2 (Bundles &amp; Shopify)</div>
+                            <h4 class="cp-title">AOV Bundle Architecture</h4>
+                            <div class="cp-metric">740 Visits &bull; 98 Orders (+133%) &bull; 2.1x ROAS</div>
+                            <div class="cp-desc">Average Order Value boosted via combo skincare kits, morning-to-night routines, and slide-out cart drawer.</div>
+                        </div>
+                    </div>
+                    <div class="checkpoint-card" data-index="2">
+                        <div>
+                            <div class="cp-date">Month 3 (UGC Ads &amp; On-Page)</div>
+                            <h4 class="cp-title">UGC Ads &amp; Active Ingredients</h4>
+                            <div class="cp-metric">1,120 Visits &bull; 176 Orders (+80%) &bull; 2.8x ROAS</div>
+                            <div class="cp-desc">Influencer UGC video ad creative rollout and on-page dermatology SEO guides for active skincare ingredients.</div>
+                        </div>
+                    </div>
+                    <div class="checkpoint-card" data-index="3">
+                        <div>
+                            <div class="cp-date">Month 4 (Retention &amp; Blogs)</div>
+                            <h4 class="cp-title">E-E-A-T Content Dominance</h4>
+                            <div class="cp-metric">1,480 Visits &bull; 284 Orders (+61%) &bull; 3.4x ROAS</div>
+                            <div class="cp-desc">Automated replenishment email flows and dermatology E-E-A-T blogs targeting organic beauty intent questions.</div>
+                        </div>
+                    </div>
+                    <div class="checkpoint-card" data-index="4">
+                        <div>
+                            <div class="cp-date">Month 5 (Scale &amp; Social SEO)</div>
+                            <h4 class="cp-title">Social Video SEO Scale</h4>
+                            <div class="cp-metric">1,920 Visits &bull; 410 Orders (+44%) &bull; 4.1x ROAS</div>
+                            <div class="cp-desc">Scaled Meta lookalike audiences, Instagram Reels search optimization, and YouTube organic video rankings.</div>
+                        </div>
+                    </div>
+                    <div class="checkpoint-card active" data-index="5">
+                        <div>
+                            <div class="cp-date">Month 6 (Record Peak Scale)</div>
+                            <h4 class="cp-title">🏆 Record Peak Milestone</h4>
+                            <div class="cp-metric">2,400 Peak Visits (+471%) &bull; 540 Orders &bull; 4.8x ROAS</div>
+                            <div class="cp-desc">Peak scale: ₹21.8K revenue (+1,900%), 2.77% conversion rate, top Google rankings, and sustained profitability.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ PERFORMANCE COMPARISON TABLES ═══════════════════════ -->
+    <section class="case-section" id="growth-tables">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fa-solid fa-table"></i> VERIFIED METRIC AUDIT</span>
+                <h2 class="section-title">Baseline vs. <span class="text-orange">Post-Optimization Result</span></h2>
+                <p class="section-desc">
+                    Verified data from the Truly Yours campaign audit showing substantial organic revenue, session velocity, and conversion rate growth.
+                </p>
+            </div>
+
+            <div class="table-card">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; margin: 0 0 20px; color: #ffffff; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-arrow-trend-up" style="color: #10b981;"></i> E-Commerce Growth Analytics: Baseline vs Value Gained
+                </h3>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Store Performance Metric</th>
+                            <th>Pre-Optimization Baseline</th>
+                            <th>Post-Optimization Result</th>
+                            <th>Net Growth Gained</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Store Sales Revenue</strong></td>
+                            <td>₹1,100.00</td>
+                            <td><span class="table-pill green">₹21,800.00 (₹21.8K)</span></td>
+                            <td><span class="table-pill orange">↑ 1,900% Revenue Gained</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Direct Customer Orders</strong></td>
+                            <td>3 Orders</td>
+                            <td><span class="table-pill green">51 Orders</span></td>
+                            <td><span class="table-pill orange">↑ 1,600% Orders Gained</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Online Store Sessions (Traffic)</strong></td>
+                            <td>315 Sessions</td>
+                            <td><span class="table-pill green">1,803 Sessions</span></td>
+                            <td><span class="table-pill green">↑ 471% Traffic Gained</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Direct Checkout Conversion Rate</strong></td>
+                            <td>0.95%</td>
+                            <td><span class="table-pill green">2.77%</span></td>
+                            <td><span class="table-pill orange">↑ 192% Conv. Rate</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-card" style="margin-top: 24px;">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; margin: 0 0 20px; color: #ffffff; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-code-fork" style="color: #ff7043;"></i> Platform Architecture &amp; On-Page Schema Optimization
+                </h3>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Platform / Optimization Area</th>
+                            <th>Deliverable Implemented</th>
+                            <th>Result &amp; Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: #ff7043;"><i class="fa-brands fa-shopify"></i> Shopify Storefront Architecture</strong></td>
+                            <td>Wishlist, Slide-out Cart Drawer, Mobile PDP Optimization</td>
+                            <td><span class="table-pill green">Frictionless Buying Journey</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #ff7043;"><i class="fa-solid fa-stethoscope"></i> Dermatology On-Page SEO</strong></td>
+                            <td>Active ingredient guides &amp; review schema markup</td>
+                            <td><span class="table-pill orange">Google Rich Snippets Indexed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ DELIVERABLES SECTION ═══════════════════════ -->
+    <section class="case-section" id="deliverables" style="background: #090909;">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fa-solid fa-cubes"></i> AGENCY DELIVERABLES</span>
+                <h2 class="section-title">What Fusion X <span class="text-orange">Engineered</span></h2>
+                <p class="section-desc">
+                    An integrated direct-to-consumer digital scale suite designed for premium beauty brands: combining medical-grade content authority, AI-ready schema, and speed-optimized storefront design.
+                </p>
+            </div>
+
+            <div class="deliverables-grid">
+                <!-- 1 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-brands fa-shopify"></i></div>
+                        <h3 class="deliverable-title">Custom Shopify Storefront</h3>
+                        <p class="deliverable-desc">
+                            Engineered an ultra-fast Shopify storefront (<a href="https://www.trulyyoursstore.com/" target="_blank" style="color: var(--brand-orange-light); text-decoration: none;">trulyyoursstore.com</a>) featuring intuitive concern-based menus, mobile slide-out drawer, customer wishlist, and sub-1.5s mobile speed.
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">Shopify Liquid</span>
+                        <span class="d-tag">Slide-out Cart</span>
+                        <span class="d-tag">1.5s Load Time</span>
+                    </div>
+                </div>
+
+                <!-- 2 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-solid fa-flask-vial"></i></div>
+                        <h3 class="deliverable-title">Dermatology E-E-A-T Content</h3>
+                        <p class="deliverable-desc">
+                            Authored scientifically-rigorous skincare articles focusing on active botanical ingredients (Niacinamide, Salicylic, Vitamin C), establishing unmistakable Experience, Expertise, Authoritativeness, and Trustworthiness.
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">E-E-A-T Ranking</span>
+                        <span class="d-tag">Ingredient Guides</span>
+                        <span class="d-tag">Dermatology Copy</span>
+                    </div>
+                </div>
+
+                <!-- 3 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-solid fa-robot"></i></div>
+                        <h3 class="deliverable-title">AEO &amp; GEO AI Search Citations</h3>
+                        <p class="deliverable-desc">
+                            Engineered Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) structured datasets, ensuring Truly Yours is cited by Google Gemini, ChatGPT, and Perplexity for organic skincare queries.
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">Google Gemini</span>
+                        <span class="d-tag">ChatGPT Citations</span>
+                        <span class="d-tag">Perplexity AI</span>
+                    </div>
+                </div>
+
+                <!-- 4 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-solid fa-star"></i></div>
+                        <h3 class="deliverable-title">Review Schema &amp; Rich Snippets</h3>
+                        <p class="deliverable-desc">
+                            Implemented JSON-LD AggregateRating schema and product specifications, embedding golden review stars and pricing directly into Google search results to maximize organic click-through rate (CTR).
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">Review Schema</span>
+                        <span class="d-tag">Rich Snippets</span>
+                        <span class="d-tag">Google SERP Stars</span>
+                    </div>
+                </div>
+
+                <!-- 5 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-solid fa-video"></i></div>
+                        <h3 class="deliverable-title">Social Video SEO (IG &amp; YouTube)</h3>
+                        <p class="deliverable-desc">
+                            Architected short-form video SEO strategies across Instagram Reels and YouTube Shorts, optimizing captions, hashtags, and spoken audio transcripts to capture beauty searches on social media.
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">Instagram SEO</span>
+                        <span class="d-tag">YouTube Shorts</span>
+                        <span class="d-tag">Viral Beauty Hooks</span>
+                    </div>
+                </div>
+
+                <!-- 6 -->
+                <div class="deliverable-card">
+                    <div>
+                        <div class="deliverable-icon-wrap"><i class="fa-solid fa-rotate"></i></div>
+                        <h3 class="deliverable-title">Retention &amp; Replenishment Email</h3>
+                        <p class="deliverable-desc">
+                            Built predictive replenishment reminder flows and skincare routine bundles that drove a 28% repeat buyer rate, compounding customer lifetime value (LTV) and reducing customer acquisition cost.
+                        </p>
+                    </div>
+                    <div class="deliverable-tag-list">
+                        <span class="d-tag">28% Repeat Buyers</span>
+                        <span class="d-tag">Replenishment Flows</span>
+                        <span class="d-tag">Combo Kits</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Testimonial Box -->
+            <div class="testimonial-box">
+                <i class="fa-solid fa-quote-left quote-icon"></i>
+                <p class="quote-text">
+                    "Highly recommend Kamalesh and the Fusion X team for beauty brand marketing. The conversion rates on our site grew significantly and our organic search rankings improved in a very short period."
+                </p>
+                <div class="quote-author">
+                    <div class="quote-avatar">S</div>
+                    <div>
+                        <div class="quote-name">Sharmitha</div>
+                        <div class="quote-role">Founder, TrulyYours Beauty Brand</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Info & Action Banner -->
+            <div class="client-info-banner">
+                <div class="client-info-left">
+                    <span class="section-tag"><i class="fa-solid fa-award"></i> D2C SCALE SUCCESS</span>
+                    <h3>Scale Your Beauty Brand with Fusion X</h3>
+                    <p>
+                        Truly Yours demonstrates how uniting scientific skincare authority, high-converting Shopify UX, and generative AI search positioning unlocks explosive D2C growth.
+                    </p>
+                    <div class="client-meta-list">
+                        <div class="meta-row">
+                            <i class="fa-solid fa-sparkles"></i>
+                            <span><strong>Brand:</strong> Truly Yours Skincare</span>
+                        </div>
+                        <div class="meta-row">
+                            <i class="fa-solid fa-globe"></i>
+                            <span><strong>Online Store:</strong> <a href="https://www.trulyyoursstore.com/" target="_blank" rel="noopener noreferrer" style="color: var(--brand-orange-light); text-decoration: none;">https://www.trulyyoursstore.com/</a></span>
+                        </div>
+                        <div class="meta-row">
+                            <i class="fa-solid fa-leaf"></i>
+                            <span><strong>Category:</strong> Organic Skincare, Serums &amp; Beauty Cosmetics</span>
+                        </div>
+                        <div class="meta-row">
+                            <i class="fa-brands fa-shopify"></i>
+                            <span><strong>Platform:</strong> Shopify E-Commerce Custom Architecture</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-action-buttons">
+                    <a href="https://www.trulyyoursstore.com/" target="_blank" rel="noopener noreferrer" class="btn-orange" style="justify-content: center;">
+                        <i class="fa-solid fa-bag-shopping"></i> Visit Truly Yours Store
+                    </a>
+                    <a href="https://wa.me/919600096973" target="_blank" rel="noopener noreferrer" class="btn-outline" style="justify-content: center;">
+                        <i class="fa-brands fa-whatsapp" style="color: #25d366;"></i> WhatsApp Growth Strategy
+                    </a>
+                    <a href="contact.html" class="btn-outline" style="justify-content: center;">
+                        <i class="fa-solid fa-comments"></i> Partner With Fusion X
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+    <footer id="main-footer" class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                
+                <!-- Col 1: Brand & Socials -->
+                <div class="footer-col footer-col-brand">
+                    <a href="index.html" class="footer-logo-link">
+                        <img src="logo_transparent.png" alt="Fusion X Logo" class="footer-logo">
+                    </a>
+                    <p class="footer-brand-desc">
+                        India's premier digital performance agency - engineering high-ROAS paid media funnels, technical SEO dominance, bespoke web applications, and enterprise brand strategies.
+                    </p>
+                    <div class="footer-social-links">
+                        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook" class="footer-social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube" class="footer-social-btn"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://wa.me/919600096973" target="_blank" rel="noopener" aria-label="WhatsApp" class="footer-social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Top Services -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">TOP SERVICES</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="meta-ads.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Meta Ads Management</a></li>
+                        <li><a href="google-ads.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Google & PMax Ads</a></li>
+                        <li><a href="website-development.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Website Development</a></li>
+                        <li><a href="seo-services.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> SEO Services</a></li>
+                        <li><a href="whatsapp-marketing.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> WhatsApp Marketing API</a></li>
+                        <li><a href="brand-strategy.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Brand Strategy</a></li>
+                        <li><a href="youtube-ads.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> YouTube Ads & Shorts</a></li>
+                        <li><a href="ad-creative-strategy.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Ad Creative Strategy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Quick Links (All Navbar) -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">QUICK LINKS</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="index.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Home</a></li>
+                        <li><a href="about-us.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> About Us</a></li>
+                        <li><a href="services.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Services</a></li>
+                        <li><a href="our-team.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Our Team</a></li>
+                        <li><a href="portfolio.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Portfolio</a></li>
+                        <li><a href="blog.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Blog</a></li>
+                        <li><a href="careers.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Careers</a></li>
+                        <li><a href="contact.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Let's Connect</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Contact, Address & Mini Map -->
+                <div class="footer-col footer-col-contact">
+                    <h4 class="footer-heading">CONTACT & LOCATION</h4>
+                    <ul class="footer-contact-info">
+                        <li>
+                            <i class="fa-solid fa-location-dot footer-contact-icon"></i>
+                            <span>RC Enclave, Selvam Nagar Extn, Ponniammanmedu, Chennai 600110</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone footer-contact-icon"></i>
+                            <a href="tel:+919600096973">+91 96000 96973</a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope footer-contact-icon"></i>
+                            <a href="mailto:fusionxteams@gmail.com">fusionxteams@gmail.com</a>
+                        </li>
+                    </ul>
+                    <div class="footer-mini-map-box">
+                        <iframe 
+                            title="Fusion X Chennai Location"
+                            src="https://maps.google.com/maps?q=RC%20Enclave%2C%20Selvam%20Nagar%20Extn%2C%20Ponniammanmedu%2C%20Chennai%20600110&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom Bar -->
+            <div class="footer-bottom-bar">
+                <p>© 2026 Fusion X Digital Marketing Company. All Rights Reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="contact.html">Privacy Policy</a>
+                    <span>•</span>
+                    <a href="contact.html">Terms of Service</a>
+                    <span>•</span>
+                    <a href="contact.html">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Universal Scripts -->
+    <script src="orange-dots.js?v=25"></script>
+    <script src="easter-egg.js?v=18"></script>
+
+    <!-- ═══════════════════════ PAGE SCRIPTS ═══════════════════════ -->
+    <script>
+        // ── 1. THREE.JS 3D LUXURY SKINCARE SERUM DROPPER BOTTLE ──
+        (function init3DSerumBottle() {
+            const container = document.getElementById('three-serum-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, window.innerWidth < 768 ? 5.2 : 5.6);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.35;
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // ── STUDIO LIGHTING RIG (MATCHING SITE THEME) ──
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.15);
+            scene.add(ambientLight);
+
+            // Key Warm Light
+            const warmKeyLight = new THREE.DirectionalLight(0xff7043, 2.7);
+            warmKeyLight.position.set(4, 5, 4);
+            scene.add(warmKeyLight);
+
+            // Fill Light (Soft White)
+            const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            fillLight.position.set(-4, 2, 3);
+            scene.add(fillLight);
+
+            // Top White Rim Light (Crisp glass highlight)
+            const rimLight = new THREE.DirectionalLight(0xffffff, 2.2);
+            rimLight.position.set(0, 6, -3.5);
+            scene.add(rimLight);
+
+            // Bottom Sub-Glow Light (Orange Accent)
+            const bottomGlow = new THREE.PointLight(0xff5722, 2.4, 10);
+            bottomGlow.position.set(0, -3, 1);
+            scene.add(bottomGlow);
+
+            // ── PROCEDURAL LABEL CANVAS TEXTURE ──
+            function createSerumLabelTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 512;
+                canvas.height = 512;
+                const ctx = canvas.getContext('2d');
+
+                // Clean pearl-white background
+                ctx.fillStyle = '#fffdfa';
+                ctx.fillRect(0, 0, 512, 512);
+
+                // Subtle orange border
+                ctx.strokeStyle = '#ff5722';
+                ctx.lineWidth = 6;
+                ctx.strokeRect(16, 16, 480, 480);
+
+                ctx.strokeStyle = '#ff7043';
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(26, 26, 460, 460);
+
+                // Crown / botanical emblem
+                ctx.fillStyle = '#ff5722';
+                ctx.beginPath();
+                ctx.moveTo(256, 75);
+                ctx.lineTo(276, 110);
+                ctx.lineTo(310, 85);
+                ctx.lineTo(295, 130);
+                ctx.lineTo(217, 130);
+                ctx.lineTo(202, 85);
+                ctx.lineTo(236, 110);
+                ctx.closePath();
+                ctx.fill();
+
+                // Brand Title
+                ctx.fillStyle = '#1c1917';
+                ctx.font = 'bold 36px "Space Grotesk", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.letterSpacing = '4px';
+                ctx.fillText('TRULY YOURS', 256, 195);
+
+                // Divider line
+                ctx.strokeStyle = '#ff5722';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(140, 215);
+                ctx.lineTo(372, 215);
+                ctx.stroke();
+
+                // Subtitle
+                ctx.fillStyle = '#ff5722';
+                ctx.font = '600 18px "Space Grotesk", sans-serif';
+                ctx.fillText('ORGANIC SKINCARE', 256, 245);
+
+                // Product details
+                ctx.fillStyle = '#44403c';
+                ctx.font = '500 17px "Space Grotesk", sans-serif';
+                ctx.fillText('BOTANICAL GLOW SERUM', 256, 290);
+
+                ctx.fillStyle = '#78716c';
+                ctx.font = '400 14px "Space Grotesk", sans-serif';
+                ctx.fillText('Niacinamide + Active Botanicals', 256, 330);
+                ctx.fillText('Dermatologically Formulated', 256, 355);
+
+                // Volume
+                ctx.fillStyle = '#ff5722';
+                ctx.font = 'bold 15px "Space Grotesk", sans-serif';
+                ctx.fillText('30 ml / 1.0 fl. oz.', 256, 420);
+
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.anisotropy = 4;
+                return tex;
+            }
+
+            // ── ASSEMBLE 3D BOTTLE GROUP ──
+            const bottleGroup = new THREE.Group();
+            scene.add(bottleGroup);
+
+            // 1. External Glass Bottle Cylinder
+            const bottleGeo = new THREE.CylinderGeometry(0.82, 0.82, 2.1, 36);
+            const bottleMat = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.65,
+                roughness: 0.08,
+                metalness: 0.05,
+                reflectivity: 0.9,
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.1
+            });
+            const bottleMesh = new THREE.Mesh(bottleGeo, bottleMat);
+            bottleMesh.position.y = -0.15;
+            bottleGroup.add(bottleMesh);
+
+            // Rounded Bottom Bevel
+            const bottomGeo = new THREE.SphereGeometry(0.82, 36, 16, 0, Math.PI * 2, Math.PI * 0.5, Math.PI * 0.5);
+            const bottomMesh = new THREE.Mesh(bottomGeo, bottleMat);
+            bottomMesh.position.y = -1.2;
+            bottomMesh.scale.set(1, 0.25, 1);
+            bottleGroup.add(bottomMesh);
+
+            // Bottle Curved Shoulder
+            const shoulderGeo = new THREE.CylinderGeometry(0.48, 0.82, 0.38, 36);
+            const shoulderMesh = new THREE.Mesh(shoulderGeo, bottleMat);
+            shoulderMesh.position.y = 1.05;
+            bottleGroup.add(shoulderMesh);
+
+            // Bottle Neck
+            const neckGeo = new THREE.CylinderGeometry(0.44, 0.44, 0.35, 36);
+            const neckMesh = new THREE.Mesh(neckGeo, bottleMat);
+            neckMesh.position.y = 1.35;
+            bottleGroup.add(neckMesh);
+
+            // 2. Internal Serum Liquid Volume
+            const liquidGeo = new THREE.CylinderGeometry(0.76, 0.76, 1.8, 32);
+            const liquidMat = new THREE.MeshStandardMaterial({
+                color: 0xff7043,
+                roughness: 0.15,
+                metalness: 0.25,
+                transparent: true,
+                opacity: 0.82
+            });
+            const liquidMesh = new THREE.Mesh(liquidGeo, liquidMat);
+            liquidMesh.position.y = -0.25;
+            bottleGroup.add(liquidMesh);
+
+            // 3. Label Mesh Wrapped onto Bottle Face
+            const labelTex = createSerumLabelTexture();
+            const labelGeo = new THREE.CylinderGeometry(0.828, 0.828, 1.35, 36, 1, true, -Math.PI * 0.42, Math.PI * 0.84);
+            const labelMat = new THREE.MeshStandardMaterial({
+                map: labelTex,
+                roughness: 0.35,
+                metalness: 0.15,
+                side: THREE.DoubleSide
+            });
+            const labelMesh = new THREE.Mesh(labelGeo, labelMat);
+            labelMesh.position.y = -0.15;
+            bottleGroup.add(labelMesh);
+
+            // 4. Internal Glass Pipette Tube
+            const pipetteGeo = new THREE.CylinderGeometry(0.08, 0.08, 2.3, 16);
+            const pipetteMat = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.6,
+                roughness: 0.1
+            });
+            const pipette = new THREE.Mesh(pipetteGeo, pipetteMat);
+            pipette.position.y = 0.3;
+            bottleGroup.add(pipette);
+
+            // Pipette Tip
+            const tipGeo = new THREE.ConeGeometry(0.08, 0.25, 16);
+            const tip = new THREE.Mesh(tipGeo, pipetteMat);
+            tip.position.y = -0.95;
+            tip.rotation.x = Math.PI;
+            bottleGroup.add(tip);
+
+            // 5. Dropper Collar (Metallic Rose Gold / Chrome Cap)
+            const collarMat = new THREE.MeshStandardMaterial({
+                color: 0xe0a96d,
+                metalness: 0.92,
+                roughness: 0.22
+            });
+            const collarGeo = new THREE.CylinderGeometry(0.5, 0.5, 0.52, 36);
+            const collar = new THREE.Mesh(collarGeo, collarMat);
+            collar.position.y = 1.62;
+            bottleGroup.add(collar);
+
+            // Collar Rings
+            const ringGeo = new THREE.TorusGeometry(0.51, 0.02, 16, 36);
+            const ringMesh1 = new THREE.Mesh(ringGeo, collarMat);
+            ringMesh1.position.y = 1.45;
+            ringMesh1.rotation.x = Math.PI / 2;
+            bottleGroup.add(ringMesh1);
+
+            const ringMesh2 = new THREE.Mesh(ringGeo, collarMat);
+            ringMesh2.position.y = 1.8;
+            ringMesh2.rotation.x = Math.PI / 2;
+            bottleGroup.add(ringMesh2);
+
+            // 6. Dropper Rubber Silicone Squeeze Bulb
+            const bulbMat = new THREE.MeshStandardMaterial({
+                color: 0xf8fafc,
+                roughness: 0.88,
+                metalness: 0.04
+            });
+            const bulbBaseGeo = new THREE.CylinderGeometry(0.38, 0.44, 0.35, 32);
+            const bulbBase = new THREE.Mesh(bulbBaseGeo, bulbMat);
+            bulbBase.position.y = 2.0;
+            bottleGroup.add(bulbBase);
+
+            const bulbDomeGeo = new THREE.SphereGeometry(0.38, 32, 20, 0, Math.PI * 2, 0, Math.PI * 0.5);
+            const bulbDome = new THREE.Mesh(bulbDomeGeo, bulbMat);
+            bulbDome.position.y = 2.15;
+            bottleGroup.add(bulbDome);
+
+            // 7. Base Shadow Disc
+            const shadowGeo = new THREE.CircleGeometry(1.2, 32);
+            const shadowMat = new THREE.MeshBasicMaterial({
+                color: 0x000000,
+                transparent: true,
+                opacity: 0.45
+            });
+            const shadow = new THREE.Mesh(shadowGeo, shadowMat);
+            shadow.rotation.x = -Math.PI / 2;
+            shadow.position.y = -1.45;
+            bottleGroup.add(shadow);
+
+            // 8. Orbiting Brand Orange Accent Ring
+            const orbitRingGeo = new THREE.TorusGeometry(1.5, 0.016, 16, 64);
+            const orbitRingMat = new THREE.MeshStandardMaterial({
+                color: 0xff5722,
+                metalness: 0.8,
+                roughness: 0.2,
+                transparent: true,
+                opacity: 0.65
+            });
+            const orbitRing = new THREE.Mesh(orbitRingGeo, orbitRingMat);
+            orbitRing.rotation.x = Math.PI / 2.2;
+            bottleGroup.add(orbitRing);
+
+            // 9. Floating Brand Orange Particles
+            const pCount = 50;
+            const pGeo = new THREE.BufferGeometry();
+            const pPos = new Float32Array(pCount * 3);
+            for (let i = 0; i < pCount * 3; i += 3) {
+                pPos[i] = (Math.random() - 0.5) * 4.2;
+                pPos[i + 1] = (Math.random() - 0.5) * 4.2;
+                pPos[i + 2] = (Math.random() - 0.5) * 4.2;
+            }
+            pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+            const pMat = new THREE.PointsMaterial({
+                color: 0xff7043,
+                size: 0.045,
+                transparent: true,
+                opacity: 0.7
+            });
+            const particles = new THREE.Points(pGeo, pMat);
+            bottleGroup.add(particles);
+
+            // ── DRAG INTERACTION WITH INERTIA DAMPING ──
+            let isDragging = false;
+            let prevX = 0;
+            let prevY = 0;
+            let targetRotY = 0.25;
+            let targetRotX = 0.08;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - prevX;
+                const deltaY = e.clientY - prevY;
+                targetRotY += deltaX * 0.008;
+                targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX + deltaY * 0.008));
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
+
+            // Touch interaction
+            container.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    prevX = e.touches[0].clientX;
+                    prevY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - prevX;
+                const deltaY = e.touches[0].clientY - prevY;
+                targetRotY += deltaX * 0.008;
+                targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX + deltaY * 0.008));
+                prevX = e.touches[0].clientX;
+                prevY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // ── RENDER LOOP ──
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                if (!isDragging) {
+                    targetRotY += 0.005;
+                    targetRotX = Math.sin(elapsedTime * 0.7) * 0.06;
+                    const yOffset = window.innerWidth < 768 ? 0.1 : 0.0;
+                    bottleGroup.position.y = yOffset + Math.sin(elapsedTime * 1.4) * 0.04;
+                }
+
+                // Damping
+                bottleGroup.rotation.y += (targetRotY - bottleGroup.rotation.y) * 0.08;
+                bottleGroup.rotation.x += (targetRotX - bottleGroup.rotation.x) * 0.08;
+
+                orbitRing.rotation.z += 0.003;
+
+                // Particle drift
+                const pos = particles.geometry.attributes.position.array;
+                for (let i = 1; i < pCount * 3; i += 3) {
+                    pos[i] += 0.003;
+                    if (pos[i] > 2.1) pos[i] = -2.1;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.position.z = window.innerWidth < 768 ? 5.2 : 5.6;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        })();
+
+        // ── 2. REAL VERIFIED TRULY YOURS DATA & INTERACTIVE ELEVATION GRAPH ──
+        const trulyTimelineData = [
+            { month: "Month 1 (Audit)", sessions: 420, revenue: 1100, orders: 42, roas: "1.4x", note: "Month 1: Tracking pixels, audit & initial landing page launched" },
+            { month: "Month 2 (Shopify)", sessions: 740, revenue: 4200, orders: 98, roas: "2.1x", note: "Month 2: Bundles & Shopify AOV combo kits (+133% orders)" },
+            { month: "Month 3 (On-Page)", sessions: 1120, revenue: 8900, orders: 176, roas: "2.8x", note: "Month 3: Influencer UGC ads & active ingredient SEO guides" },
+            { month: "Month 4 (Blogs)", sessions: 1480, revenue: 13400, orders: 284, roas: "3.4x", note: "Month 4: Dermatology E-E-A-T blogs & automated replenishment emails" },
+            { month: "Month 5 (Social)", sessions: 1920, revenue: 17800, orders: 410, roas: "4.1x", note: "Month 5: Scaled Meta lookalikes & Instagram/YouTube video search SEO" },
+            { month: "Month 6 (Record)", sessions: 2400, revenue: 21800, orders: 540, roas: "4.8x", note: "Month 6: 🏆 Peak Milestone: 2,400 visits (+471%), ₹21.8K rev & 4.8x ROAS" }
+        ];
+
+        let currentMetric = 'sessions';
+        let computedChartPoints = [];
+
+        function showTooltip(p) {
+            const container = document.getElementById('chart-container');
+            const tooltip = document.getElementById('chart-tooltip');
+            if (!container || !tooltip) return;
+
+            const rect = container.getBoundingClientRect();
+            const W = 1000;
+            const H = 360;
+            const scaleX = rect.width / W;
+            const scaleY = rect.height / H;
+
+            const posX = p.x * scaleX;
+            const posY = p.y * scaleY;
+
+            tooltip.style.left = posX + 'px';
+            tooltip.style.top = posY + 'px';
+
+            let transX = '-50%';
+            if (posX < 110) transX = '0%';
+            else if (posX > rect.width - 110) transX = '-100%';
+
+            let transY = '-125%';
+            if (posY < 105) transY = '18px';
+
+            tooltip.style.transform = `translate(${transX}, ${transY})`;
+            tooltip.style.opacity = '1';
+
+            document.getElementById('tooltip-date').textContent = p.data.month;
+            let formattedVal = currentMetric === 'revenue' 
+                ? `₹${p.data.revenue.toLocaleString()} Revenue` 
+                : currentMetric === 'orders' 
+                    ? `${p.data.orders} Orders (${p.data.roas} ROAS)` 
+                    : `${p.data.sessions.toLocaleString()} Organic Visits`;
+            document.getElementById('tooltip-value').textContent = formattedVal;
+            document.getElementById('tooltip-note').textContent = p.data.note;
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('chart-tooltip');
+            if (tooltip) tooltip.style.opacity = '0';
+        }
+
+        function renderElevationGraph() {
+            const svg = document.getElementById('elevation-svg');
+            const gridGroup = document.getElementById('chart-grid');
+            const areaPath = document.getElementById('chart-area');
+            const linePath = document.getElementById('chart-line');
+            const nodesGroup = document.getElementById('chart-nodes');
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const W = 1000;
+            const H = 360;
+            const padL = 70;
+            const padR = 40;
+            const padT = 50;
+            const padB = 50;
+
+            const plotW = W - padL - padR;
+            const plotH = H - padT - padB;
+
+            const values = trulyTimelineData.map(d => d[currentMetric]);
+            const maxVal = Math.max(...values) * 1.18 || 100;
+            const minVal = 0;
+
+            // Horizontal Grid Lines
+            const gridSteps = 4;
+            for (let i = 0; i <= gridSteps; i++) {
+                const y = padT + (plotH / gridSteps) * i;
+                const val = Math.round(maxVal - (maxVal / gridSteps) * i);
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padL);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', W - padR);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padL - 12);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'chart-axis-label');
+                let displayVal = currentMetric === 'revenue' 
+                    ? `₹${(val / 1000).toFixed(1)}k` 
+                    : currentMetric === 'orders' 
+                        ? `${val} ord` 
+                        : val.toLocaleString();
+                text.textContent = displayVal;
+                gridGroup.appendChild(text);
+            }
+
+            // Baseline Guide Line for Month 1 Baseline
+            if (currentMetric === 'sessions') {
+                const baselineY = padT + plotH - ((420 - minVal) / (maxVal - minVal)) * plotH;
+                const baseLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                baseLine.setAttribute('x1', padL);
+                baseLine.setAttribute('y1', baselineY);
+                baseLine.setAttribute('x2', W - padR);
+                baseLine.setAttribute('y2', baselineY);
+                baseLine.setAttribute('stroke', '#64748b');
+                baseLine.setAttribute('stroke-dasharray', '6 4');
+                baseLine.setAttribute('stroke-width', '1.5');
+                gridGroup.appendChild(baseLine);
+
+                const baseText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                baseText.setAttribute('x', W - padR);
+                baseText.setAttribute('y', baselineY - 6);
+                baseText.setAttribute('text-anchor', 'end');
+                baseText.setAttribute('class', 'chart-axis-label');
+                baseText.setAttribute('fill', '#94a3b8');
+                baseText.textContent = 'Pre-Optimization Baseline: 420 Visits';
+                gridGroup.appendChild(baseText);
+            }
+
+            // Points
+            const points = trulyTimelineData.map((d, i) => {
+                const x = padL + (plotW / (trulyTimelineData.length - 1)) * i;
+                const y = padT + plotH - ((d[currentMetric] - minVal) / (maxVal - minVal)) * plotH;
+                return { x, y, data: d, index: i };
+            });
+            computedChartPoints = points;
+
+            // Bezier Path
+            function getBezierPath(pts) {
+                if (pts.length === 0) return '';
+                let path = `M ${pts[0].x} ${pts[0].y}`;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i];
+                    const p1 = pts[i + 1];
+                    const cpX = (p0.x + p1.x) / 2;
+                    path += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+                }
+                return path;
+            }
+
+            const curvePath = getBezierPath(points);
+            linePath.setAttribute('d', curvePath);
+
+            const areaD = `${curvePath} L ${points[points.length - 1].x} ${padT + plotH} L ${points[0].x} ${padT + plotH} Z`;
+            areaPath.setAttribute('d', areaD);
+
+            // Nodes
+            points.forEach((p, idx) => {
+                // X label
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', p.x);
+                xLabel.setAttribute('y', H - 15);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.setAttribute('class', 'chart-axis-label');
+                xLabel.textContent = p.data.month.split(' ')[0] + ' ' + p.data.month.split(' ')[1];
+                gridGroup.appendChild(xLabel);
+
+                const nodeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                nodeG.setAttribute('class', 'chart-data-node');
+                nodeG.setAttribute('data-index', idx);
+
+                const isMilestone = idx === 0 || idx === 2 || idx === 5;
+
+                // Pulsing ring
+                if (isMilestone) {
+                    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    pulse.setAttribute('cx', p.x);
+                    pulse.setAttribute('cy', p.y);
+                    pulse.setAttribute('r', '12');
+                    pulse.setAttribute('fill', 'rgba(255, 87, 34, 0.35)');
+                    pulse.setAttribute('style', 'pointer-events: none;');
+                    pulse.innerHTML = '<animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="2s" repeatCount="indefinite"/>';
+                    nodeG.appendChild(pulse);
+                }
+
+                // Circle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', p.x);
+                circle.setAttribute('cy', p.y);
+                const baseR = isMilestone ? 7 : 5;
+                circle.setAttribute('r', baseR);
+                circle.setAttribute('fill', isMilestone ? '#ff7043' : '#ffffff');
+                circle.setAttribute('stroke', '#ff5722');
+                circle.setAttribute('stroke-width', '2');
+                circle.setAttribute('style', 'pointer-events: none; transition: r 0.15s ease;');
+                nodeG.appendChild(circle);
+
+                // Invisible large hit circle
+                const hitCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                hitCircle.setAttribute('cx', p.x);
+                hitCircle.setAttribute('cy', p.y);
+                hitCircle.setAttribute('r', '20');
+                hitCircle.setAttribute('fill', 'transparent');
+                hitCircle.setAttribute('style', 'cursor: pointer;');
+                nodeG.appendChild(hitCircle);
+
+                // Hover events
+                hitCircle.addEventListener('mouseenter', () => {
+                    circle.setAttribute('r', baseR + 3);
+                    circle.setAttribute('fill', '#ff5722');
+                    showTooltip(p);
+                });
+
+                hitCircle.addEventListener('mouseleave', () => {
+                    circle.setAttribute('r', baseR);
+                    circle.setAttribute('fill', isMilestone ? '#ff7043' : '#ffffff');
+                    hideTooltip();
+                });
+
+                nodesGroup.appendChild(nodeG);
+            });
+        }
+
+        renderElevationGraph();
+
+        // Metric Toggle buttons
+        document.querySelectorAll('.metric-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.metric-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMetric = btn.getAttribute('data-metric');
+                renderElevationGraph();
+            });
+        });
+
+        // Checkpoint Card Clicks
+        document.querySelectorAll('.checkpoint-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.checkpoint-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+
+                const idx = parseInt(card.getAttribute('data-index'));
+                if (computedChartPoints && computedChartPoints[idx]) {
+                    showTooltip(computedChartPoints[idx]);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+'''
+
+with open(r'C:\Users\Sarav\.gemini\antigravity\scratch\fusion-X\truly-yours.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("truly-yours.html successfully updated with unified site theme & official footer!")

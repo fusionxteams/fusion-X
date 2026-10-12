@@ -4,33 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Best Digital Marketing Company in India | Fusion X Chennai</title>
-    <meta name="description" content="Fusion X is the best digital marketing company in India and Chennai. We engineer brand growth, AI-visible websites, EEAT-optimized SEO, and high-converting paid media to dominate organic traffic globally.">
+    <meta name="description" content="Fusion X is India's leading digital marketing company in Chennai. We engineer AI-visible websites, EEAT SEO, and high-ROAS paid media to scale brands.">
+    <link rel="canonical" href="https://fusionxdigitalmarketing.in/">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
     <meta name="keywords" content="best digital marketing company in India, best digital marketing agency in Chennai, digital marketing near me, web development, brand consulting, SEO expert, AEO, GEO, EEAT, AI visible websites, Meta Ads, Google Ads">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=21">
+    <link rel="stylesheet" href="style.css?v=31">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
     <style>
-        
-        
-        
-        
-
-        @media (max-width: 768px) {
-            
-        }
-
-        
-            100% { transform: rotate(-12deg); }
-        }
-    
-        
-        
-
-    
         .elegant-reveal {
             opacity: 0;
             transform: translateY(60px) rotateX(-30deg);
@@ -42,8 +28,172 @@
             transform: translateY(0) rotateX(0);
         }
 
-        </style>
+        /* ─── SECTION 2 FLYING WORDS & STRICT BOUNDARY CONTAINMENT ─── */
+        #impact {
+            position: relative !important;
+            overflow: hidden !important;
+            z-index: 1 !important;
+        }
 
+        #services {
+            position: relative !important;
+            z-index: 5 !important;
+            background-color: #070707 !important;
+        }
+
+        #impact > div:not(.scroll-flying-stream-wrapper) {
+            position: relative !important;
+            z-index: 2 !important;
+        }
+
+        #scroll-flying-stream-container.scroll-flying-stream-wrapper {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            pointer-events: none !important;
+            overflow: hidden !important;
+            z-index: 1 !important;
+        }
+
+        .flying-headline-wrap {
+            perspective: 1200px;
+            display: inline-flex !important;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flying-headline-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 14px;
+            width: 100%;
+        }
+
+        .flying-word-unit {
+            display: inline-block;
+            will-change: transform, opacity;
+            transform-style: preserve-3d;
+            transition: color 0.3s ease;
+        }
+
+        .flying-word-unit.highlight-orange {
+            color: #ff5722 !important;
+            text-shadow: 0 0 25px rgba(255, 87, 34, 0.4);
+        }
+
+        .flying-words-rail {
+            position: absolute;
+            width: 250%;
+            left: -60%;
+            white-space: nowrap;
+            pointer-events: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.16;
+            font-size: clamp(2.4rem, 5vw, 4.6rem);
+            -webkit-text-stroke: 1.5px rgba(255, 87, 34, 0.65);
+            color: rgba(255, 87, 34, 0.08);
+            user-select: none;
+        }
+
+        .rail-top {
+            top: 6%;
+            transform: rotate(-2deg);
+        }
+
+        .rail-mid {
+            top: 48%;
+            transform: rotate(1.5deg);
+        }
+
+        .rail-bottom {
+            bottom: 6%;
+            transform: rotate(-1.5deg);
+        }
+
+        .flying-words-inner {
+            display: inline-block;
+            will-change: transform;
+        }
+
+        .flying-words-inner span {
+            margin-right: 48px;
+            display: inline-block;
+        }
+
+        .flying-floating-word {
+            position: absolute;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2rem, 5vw, 4.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 87, 34, 0.14);
+            -webkit-text-stroke: 1.5px rgba(255, 87, 34, 0.45);
+            text-shadow: 0 0 25px rgba(255, 87, 34, 0.15);
+            will-change: transform;
+            pointer-events: none;
+            z-index: 1;
+            user-select: none;
+        }
+
+        .f-word-1 { top: 12%; left: 3%; }
+        .f-word-2 { top: 30%; right: 4%; }
+        .f-word-3 { top: 52%; left: 4%; }
+        .f-word-4 { top: 72%; right: 5%; }
+        .f-word-5 { top: 90%; left: 5%; }
+
+        #impact h2 {
+            font-size: clamp(1.8rem, 5.2vw, 2.8rem) !important;
+        }
+
+        @media (max-width: 768px) {
+            #impact {
+                padding: 50px 16px 60px 16px !important;
+            }
+            .flying-words-rail {
+                font-size: clamp(1.8rem, 6.5vw, 2.8rem) !important;
+                opacity: 0.25 !important;
+                -webkit-text-stroke: 1.5px rgba(255, 87, 34, 0.8) !important;
+                color: rgba(255, 87, 34, 0.14) !important;
+                letter-spacing: 2.5px;
+            }
+            .flying-floating-word {
+                font-size: clamp(2.2rem, 8.5vw, 3.4rem) !important;
+                opacity: 0.9 !important;
+                color: rgba(255, 87, 34, 0.2) !important;
+                -webkit-text-stroke: 1.5px rgba(255, 87, 34, 0.6) !important;
+            }
+            .flying-headline-wrap {
+                gap: 4px 6px;
+            }
+            .flying-headline-row {
+                gap: 4px 6px;
+            }
+        }
+
+        .flying-scroll-heading {
+            perspective: 1000px;
+        }
+
+        .flying-sub-word {
+            display: inline-block;
+            will-change: transform, opacity;
+            transform-style: preserve-3d;
+        }
+
+        .flying-sub-word-group {
+            display: inline;
+        }
+    </style>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="logo_transparent.png">
@@ -124,9 +274,9 @@
                     </div>
                 </div>
             </li>
-            <li><a href="brands.html" >BRANDS</a></li>
             <li><a href="our-team.html" >OUR TEAM</a></li>
             <li><a href="portfolio.html" >PORTFOLIO</a></li>
+            <li><a href="blog.html" >BLOG</a></li>
             <li><a href="careers.html" >CAREERS</a></li>
         </ul>
         <div class="nav-actions">
@@ -147,6 +297,58 @@
     </nav>
 
     <header id="home" class="hero">
+        <!-- AMBIENT DATA & HUD TELEMETRY BACKDROP (Pure Background Layer) -->
+        <div class="hero-data-backdrop" aria-hidden="true">
+            <!-- 1. Technical Coordinate HUD Markers -->
+            <div class="hero-hud-coord top-left">
+                <span class="hud-tag-line"><span class="hud-accent-dot"></span> LAT 13.0827° N / LON 80.2707° E</span>
+                <span class="hud-sub-line">SYS_NODE: CHENNAI_HQ // AEO_CORE_ACTIVE</span>
+            </div>
+            <div class="hero-hud-coord top-right">
+                <span class="hud-tag-line">TRAFFIC_STREAM: REAL-TIME <span class="hud-accent-dot live"></span></span>
+                <span class="hud-sub-line">INDEX_SYNC: 99.98% // 2026_PROTOCOL</span>
+            </div>
+
+            <!-- 2. Faint Architectural Cyber Crosshairs -->
+            <div class="hero-grid-crosshair ch-1">+</div>
+            <div class="hero-grid-crosshair ch-2">+</div>
+            <div class="hero-grid-crosshair ch-3">+</div>
+            <div class="hero-grid-crosshair ch-4">+</div>
+
+            <!-- 4. Subtle Ambient Data Stream Bar (Bottom Horizon Ticker) -->
+            <div class="hero-data-ticker">
+                <div class="ticker-content">
+                    <span><i class="fa-solid fa-signal"></i> LIVE TELEMETRY</span>
+                    <span class="t-sep">/</span>
+                    <span>AI OVERVIEWS: RANK #1</span>
+                    <span class="t-sep">•</span>
+                    <span>ORGANIC CALLS: 900+ IN 90 DAYS</span>
+                    <span class="t-sep">•</span>
+                    <span>ANSWER ENGINE OPTIMIZATION (AEO): ACTIVE</span>
+                    <span class="t-sep">•</span>
+                    <span>TECHNICAL SEO ARCHITECTURE: 99+ SPEED</span>
+                    <span class="t-sep">•</span>
+                    <span>HIGH-INTENT LEAD CONVERSION: MAXIMIZED</span>
+                    <span class="t-sep">/</span>
+                    <span><i class="fa-solid fa-signal"></i> LIVE TELEMETRY</span>
+                    <span class="t-sep">/</span>
+                    <span>AI OVERVIEWS: RANK #1</span>
+                    <span class="t-sep">•</span>
+                    <span>ORGANIC CALLS: 900+ IN 90 DAYS</span>
+                    <span class="t-sep">•</span>
+                    <span>ANSWER ENGINE OPTIMIZATION (AEO): ACTIVE</span>
+                    <span class="t-sep">•</span>
+                    <span>TECHNICAL SEO ARCHITECTURE: 99+ SPEED</span>
+                    <span class="t-sep">•</span>
+                    <span>HIGH-INTENT LEAD CONVERSION: MAXIMIZED</span>
+                </div>
+            </div>
+
+            <!-- 5. Ambient Glowing Orbs -->
+            <div class="hero-ambient-pulse-orb orb-1"></div>
+            <div class="hero-ambient-pulse-orb orb-2"></div>
+        </div>
+
         <div class="hero-content">
             <div class="agency-tag"><span class="pulse-dot"></span> 2026 DIGITAL COMPANY</div>
             <h1>Best Digital Marketing <span>Company in India</span></h1>
@@ -164,11 +366,11 @@
     <!-- IMPACT & STATS SECTION -->
     <section id="impact" style="padding: 100px 20px; background-color: #ffffff; color: #333; text-align: center; border-bottom: 2px solid #f0f0f0; overflow: hidden;">
         <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 style="font-size: 2.8rem; margin-bottom: 25px; font-weight: 800; line-height: 1.2; color: #111;">
+            <h2 class="impact-main-heading" style="margin-bottom: 25px; font-weight: 800; line-height: 1.2; color: #111;">
                 Boost Your <span style="color: #ff5722;">Digital Presence</span> Throughout All Digital Space
             </h2>
             <p style="font-size: 1.15rem; color: #555; max-width: 850px; margin: 0 auto 60px auto; line-height: 1.7;">
-                As India's fastest-growing <strong>digital marketing agency</strong>, we don't just build websites—we engineer complete digital ecosystems optimized for AEO (Answer Engine Optimization) and GEO (Generative Engine Optimization). Through advanced <strong>search engine optimization (SEO)</strong>, technical web development, and strategic brand positioning, we ensure your brand dominates the digital space. We deliver EEAT-rich content that drives high-intent organic traffic, aggressive lead generation, and sustainable digital growth globally.
+                As India's fastest-growing <strong>digital marketing agency</strong>, we don't just build websites - we engineer complete digital ecosystems optimized for AEO (Answer Engine Optimization) and GEO (Generative Engine Optimization). Through advanced <strong>search engine optimization (SEO)</strong>, technical web development, and strategic brand positioning, we ensure your brand dominates the digital space. We deliver EEAT-rich content that drives high-intent organic traffic, aggressive lead generation, and sustainable digital growth globally.
             </p>
             
             <div class="impact-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 30px;">
@@ -242,8 +444,6 @@
         </div>
     </section>
 
-    
-    
     <!-- ========================================================
          FUSION X 3D LOGO & PROVEN ACHIEVEMENTS SHOWCASE
          Replaces legacy globe/flight banner with interactive 3D logo & verified metrics
@@ -369,7 +569,15 @@
                 height: 480px;
                 position: relative;
                 cursor: grab;
-                touch-action: none;
+                touch-action: pan-y;
+                max-width: 100%;
+            }
+
+            .fusion-3d-box canvas {
+                max-width: 100% !important;
+                width: 100% !important;
+                height: 100% !important;
+                display: block !important;
             }
 
             .fusion-3d-box:active {
@@ -407,7 +615,8 @@
             .interaction-hint-tag {
                 display: inline-flex;
                 align-items: center;
-                gap: 10px;
+                justify-content: center;
+                gap: 8px;
                 background: rgba(255, 255, 255, 0.05);
                 border: 1px solid rgba(255, 255, 255, 0.12);
                 border-radius: 30px;
@@ -418,6 +627,13 @@
                 margin-top: 10px;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
                 pointer-events: none;
+                max-width: 95%;
+                box-sizing: border-box;
+                text-align: center;
+            }
+
+            .hint-text-mobile {
+                display: none;
             }
 
             .hint-pulse-dot {
@@ -485,47 +701,88 @@
             /* Responsive Cockpit Layout */
             @media (max-width: 1100px) {
                 .achieve-cockpit-grid {
-                    grid-template-columns: 1fr;
-                    gap: 36px;
+                    grid-template-columns: minmax(0, 1fr) !important;
+                    width: 100% !important;
+                    gap: 32px !important;
                 }
                 .achieve-center-stage {
                     order: 1;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    min-width: 0 !important;
+                }
+                .model-canvas-wrapper {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                }
+                .fusion-3d-box {
+                    height: 440px !important;
+                    max-width: 100% !important;
+                    width: 100% !important;
                 }
                 .achieve-col.left-col {
                     order: 2;
                     display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 18px;
+                    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                    gap: 16px;
+                    width: 100% !important;
+                    min-width: 0 !important;
                 }
                 .achieve-col.right-col {
                     order: 3;
                     display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 18px;
-                }
-                .fusion-3d-box {
-                    height: 380px;
-                    max-width: 480px;
+                    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                    gap: 16px;
+                    width: 100% !important;
+                    min-width: 0 !important;
                 }
             }
 
             @media (max-width: 860px) {
                 .achieve-col.left-col,
                 .achieve-col.right-col {
-                    grid-template-columns: repeat(2, 1fr);
+                    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                }
+                .fusion-3d-box {
+                    height: 400px !important;
                 }
             }
 
             @media (max-width: 600px) {
                 .achieve-col.left-col,
                 .achieve-col.right-col {
-                    grid-template-columns: 1fr;
+                    grid-template-columns: minmax(0, 1fr) !important;
+                    width: 100% !important;
+                }
+                .achievement-card-box {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    box-sizing: border-box !important;
+                    padding: 22px 18px !important;
+                }
+                .card-desc-text {
+                    word-break: normal !important;
+                    overflow-wrap: break-word !important;
                 }
                 .fusion-3d-box {
-                    height: 310px;
+                    height: 320px !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
                 }
                 .achieve-cockpit-grid {
-                    gap: 22px;
+                    gap: 20px !important;
+                    width: 100% !important;
+                }
+                .hint-text-full {
+                    display: none !important;
+                }
+                .hint-text-mobile {
+                    display: inline !important;
+                }
+                .interaction-hint-tag {
+                    font-size: 0.74rem !important;
+                    padding: 6px 14px !important;
+                    gap: 6px !important;
                 }
             }
         </style>
@@ -599,7 +856,8 @@
                         <div class="interaction-hint-tag">
                             <span class="hint-pulse-dot"></span>
                             <i class="fas fa-compass" style="color:#ff5722;"></i>
-                            <span>Interactive 3D Emblem • Move cursor or drag to tilt</span>
+                            <span class="hint-text-full">Interactive 3D Emblem • Move cursor or drag to tilt</span>
+                            <span class="hint-text-mobile">Interactive 3D • Drag to tilt</span>
                         </div>
                     </div>
                 </div>
@@ -655,7 +913,6 @@
 
         </div>
     </section>
-
 
     <!-- DIGITAL MARKETING SEO SECTION -->
     <section id="expertise" class="content-section" style="padding: 100px 20px; background-color: #080808; color: #fff; line-height: 1.6; position: relative; overflow: hidden;" class="dark-theme">
@@ -731,28 +988,18 @@
         </div>
     </section>
 
-    <!-- OUR TRUSTED BRANDS 3D WEBGL -->
-    <section id="brands" class="brands-section" style="padding: 0; background-color: #ffffff; position: relative; overflow: hidden;">
-        <div class="section-title" style="position: absolute; top: 40px; width: 100%; z-index: 10; pointer-events: none;">
-            <h2 style="text-align: center; margin-bottom: 10px;">Our Trusted Brands</h2>
-            <p style="text-align: center; color: #ff5722;">Drag to explore</p>
+    <!-- OUR TRUSTED BRANDS 3D HORIZON SHOWCASE -->
+    <section id="brands" class="brands-section">
+        <div class="brands-header-wrap">
+            <span class="brands-pill-tag"><i class="fa-solid fa-gem"></i> Client Partnerships</span>
+            <h2 class="brands-main-title">Our Trusted <span class="brands-orange-gradient">Brands</span></h2>
+            <p class="brands-subtitle">Accelerating market leaders, high-growth startups & visionary enterprises</p>
         </div>
-        <div id="brands-3d-container" style="width: 100%; height: 400px; cursor: grab;"></div>
+        <div id="brands-3d-container"></div>
     </section>
 
-    
     <!-- FAQ SECTION WITH SCHEMA -->
-    
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
     <!-- NEW KINETIC SLAM ANIMATION SEQUENCE -->
     <section id="fusion-shatter" style="background: #080808; width: 100%; min-height: 60vh; padding: 20px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; position: relative;" class="dark-theme">
         
@@ -804,11 +1051,6 @@
                 #fusion-shatter { padding: 50px 10px !important; min-height: auto !important; }
             }
 
-        
-        
-        
-
-    
         .elegant-reveal {
             opacity: 0;
             transform: translateY(60px) rotateX(-30deg);
@@ -842,14 +1084,6 @@
             <a href="contact.html" style="display: inline-block; background: #ff5722; color: #fff; text-decoration: none; font-size: 1.2rem; font-weight: bold; padding: 15px 40px; border-radius: 50px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4); transition: transform 0.2s, box-shadow 0.2s;">Take Your Brand Worldwide</a>
         </div>
     </section>
-
-
-
-
-
-
-
-
 
     <section id="faq" style="padding: 100px 20px; background-color: #ffffff; border-top: 1px solid #eee;">
         <div style="max-width: 900px; margin: 0 auto;">
@@ -951,7 +1185,7 @@
                     </button>
                     <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1);">
                         <p style="padding: 0 25px 25px 25px; margin: 0; color: #555; line-height: 1.7; font-size: 1rem;">
-                            When comparing local SEO service providers, prioritize agencies that emphasize technical SEO, high-quality content creation, and authoritative local link building. Look closely at exactly what is included in their packages—such as ongoing technical audits and AI optimization (GEO)—rather than just the bottom-line price.
+                            When comparing local SEO service providers, prioritize agencies that emphasize technical SEO, high-quality content creation, and authoritative local link building. Look closely at exactly what is included in their packages - such as ongoing technical audits and AI optimization (GEO) - rather than just the bottom-line price.
                         </p>
                     </div>
                 </div>
@@ -1119,12 +1353,12 @@
     </script>
 
     <!-- Scripts -->
-    <script src="main.js?v=globe2"></script><script src="logo_b64.js"></script>
+    <script src="main.js?v=satellite_depth_perfect"></script><script src="logo_b64.js"></script>
     <script src="spider.js?v=crawlers2"></script>
     <script src="brands_b64.js"></script>
     <script src="seo-cards.js"></script>
     <script src="impact-animation.js?v=2"></script>
-    <script src="brands.js"></script>
+    <script src="brands.js?v=horizon3d_v3"></script>
     <script src="fusion-3d-logo.js"></script>
     <script src="shatter-animation.js"></script>
         <footer id="main-footer" class="site-footer">
@@ -1137,7 +1371,7 @@
                         <img src="logo_transparent.png" alt="Fusion X Logo" class="footer-logo">
                     </a>
                     <p class="footer-brand-desc">
-                        India's premier digital performance agency — engineering high-ROAS paid media funnels, technical SEO dominance, bespoke web applications, and enterprise brand strategies.
+                        India's premier digital performance agency - engineering high-ROAS paid media funnels, technical SEO dominance, bespoke web applications, and enterprise brand strategies.
                     </p>
                     <div class="footer-social-links">
                         <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social-btn"><i class="fa-brands fa-instagram"></i></a>
@@ -1170,9 +1404,9 @@
                         <li><a href="index.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Home</a></li>
                         <li><a href="about-us.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> About Us</a></li>
                         <li><a href="services.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Services</a></li>
-                        <li><a href="brands.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Brands</a></li>
                         <li><a href="our-team.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Our Team</a></li>
                         <li><a href="portfolio.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Portfolio</a></li>
+                        <li><a href="blog.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Blog</a></li>
                         <li><a href="careers.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Careers</a></li>
                         <li><a href="contact.html"><i class="fa-solid fa-chevron-right footer-chevron"></i> Let's Connect</a></li>
                     </ul>
@@ -1224,5 +1458,6 @@
 
     <script src="orange-dots.js?v=3"></script>
     <script src="easter-egg.js?v=18"></script>
+    <script src="scroll-flying-words.js?v=7"></script>
 </body>
 </html>

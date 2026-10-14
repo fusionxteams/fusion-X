@@ -1050,6 +1050,184 @@
 
         }
 
+        /* ── TOUCH-TO-ZOOM LIGHTBOX MODAL WITH CROSS BUTTON (MOBILE OPTIMIZED) ── */
+        .ai-zoomable-img-wrap {
+            cursor: zoom-in;
+            position: relative;
+        }
+
+        .ai-zoom-hint-pill {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 87, 34, 0.45);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            pointer-events: none;
+            z-index: 5;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .ai-zoomable-img-wrap:hover .ai-zoom-hint-pill {
+            background: #ff5722;
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .ai-lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 8, 15, 0.95);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 999999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .ai-lightbox-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .ai-lightbox-close-btn {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            font-size: 2.2rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 87, 34, 0.6), 0 4px 12px rgba(0, 0, 0, 0.7);
+            transition: transform 0.25s ease, background 0.25s ease;
+            z-index: 1000000000;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ai-lightbox-close-btn:hover,
+        .ai-lightbox-close-btn:active {
+            transform: scale(1.12) rotate(90deg);
+            background: #ff3d00;
+        }
+
+        .ai-lightbox-scroll-area {
+            max-width: 98vw;
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .ai-lightbox-img-el {
+            max-width: 100%;
+            max-height: 82vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 87, 34, 0.45);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 87, 34, 0.3);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: zoom-in;
+        }
+
+        .ai-lightbox-img-el.is-zoomed {
+            max-width: none;
+            max-height: none;
+            width: 160%;
+            cursor: zoom-out;
+        }
+
+        .ai-lightbox-caption-text {
+            margin-top: 14px;
+            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            padding: 8px 22px;
+            border-radius: 50px;
+            color: #ffffff;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-align: center;
+            max-width: 90vw;
+            letter-spacing: 0.3px;
+        }
+
+        .ai-lightbox-zoom-hint {
+            margin-top: 6px;
+            font-size: 0.72rem;
+            color: #94a3b8;
+            letter-spacing: 0.4px;
+        }
+
+        @media (max-width: 768px) {
+            .ai-lightbox-modal {
+                padding: 12px;
+            }
+            .ai-lightbox-close-btn {
+                top: 16px;
+                right: 16px;
+                width: 48px;
+                height: 48px;
+                font-size: 2rem;
+            }
+            .ai-lightbox-scroll-area {
+                padding-top: 64px;
+                max-height: 94vh;
+            }
+            .ai-lightbox-img-el {
+                max-height: 75vh;
+                width: 100%;
+                border-radius: 12px;
+            }
+            .ai-lightbox-img-el.is-zoomed {
+                width: 220%;
+                max-width: none;
+                max-height: none;
+            }
+            .ai-lightbox-caption-text {
+                font-size: 0.8rem;
+                padding: 6px 16px;
+            }
+            .ai-zoom-hint-pill {
+                top: 8px;
+                right: 8px;
+                font-size: 0.68rem;
+                padding: 3px 8px;
+            }
+        }
+
     </style>
 
     <!-- Favicon -->
@@ -1290,7 +1468,7 @@
 
             <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-border-all"></i> All Brands (10)</button>
 
-            <button class="filter-btn" data-filter="ai-geo"><i class="fa-solid fa-microchip"></i> AI Search &amp; GEO Proof (AEO)</button>
+            <button class="filter-btn" data-filter="ai-geo"><i class="fa-solid fa-microchip"></i> ChatGPT, Gemini &amp; AI Search (AEO)</button>
 
             <button class="filter-btn" data-filter="ecommerce"><i class="fa-solid fa-bag-shopping"></i> D2C &amp; E-Commerce (6)</button>
 
@@ -1360,7 +1538,7 @@
 
 
 
-            <!-- ═════════ DEDICATED FLAGSHIP AI SEARCH & GEO/AEO PROOF SHOWCASE ═════════ -->
+            <!-- ═════════ DEDICATED FLAGSHIP CHATGPT, GEMINI & AI SEARCH PROOF SHOWCASE ═════════ -->
             <div id="ai-geo-proof" class="portfolio-card featured-client-card" data-category="ai-geo seo all" style="background: linear-gradient(135deg, #0a0e17 0%, #161b26 100%) !important; border: 2px solid #ff5722 !important; box-shadow: 0 20px 60px rgba(255, 87, 34, 0.2) !important;">
                 <div class="featured-client-header">
                     <div class="featured-brand-left">
@@ -1369,12 +1547,15 @@
                             <img src="brands/bhawani/logo.png" alt="Bhawani Logo" class="featured-brand-logo" style="height: 42px; background: #fff; padding: 4px; border-radius: 8px;">
                         </div>
                         <span class="featured-brand-pill" style="background: rgba(255, 87, 34, 0.2); color: #ff8a50; border: 1px solid rgba(255, 87, 34, 0.45);">
-                            ★ 100% PROVEN AI SEARCH &amp; GEO (AEO) PROOF • GOOGLE GEMINI &amp; AI OVERVIEWS
+                            ★ 100% PROVEN AI DOMINANCE • OPENAI CHATGPT, GOOGLE GEMINI &amp; AI OVERVIEWS
                         </span>
                     </div>
                     <div class="featured-meta-badges">
+                        <span class="featured-badge-pill" style="color: #34d399; background: rgba(16, 163, 127, 0.2); border-color: rgba(16, 163, 127, 0.5);">
+                            <i class="fa-solid fa-robot"></i> ChatGPT Search #1
+                        </span>
                         <span class="featured-badge-pill" style="color: #34d399; background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4);">
-                            <i class="fa-solid fa-circle-check"></i> #1 Ranked in AI Search
+                            <i class="fa-solid fa-circle-check"></i> Gemini AI #1
                         </span>
                         <span class="featured-badge-pill orange-tone">
                             <i class="fa-solid fa-fire"></i> 900+ Monthly Inbound Calls Record
@@ -1385,10 +1566,10 @@
                 <div class="featured-card-grid">
                     <div>
                         <h2 class="featured-card-title">
-                            Ranked In AI Search: <span class="featured-title-gradient">Nilaro Coffee &amp; Bhawani Corner</span> Dominate Google Gemini &amp; AI Overviews
+                            Ranked In ChatGPT &amp; AI Search: <span class="featured-title-gradient">Nilaro Coffee &amp; Bhawani Corner</span> Dominate Generative AI
                         </h2>
                         <p class="featured-card-desc">
-                            We bring our client brands directly into generative AI search recommendations. By conducting precision keyword and natural language prompt research, authoring authoritative EEAT blogs structured for AI extraction, and constructing high-trust contextual backlinks, we do all possible ways to ensure AI tools cite and recommend our clients.
+                            We bring our client brands and blogs directly into generative AI search recommendations. By conducting precision prompt research, authoring authoritative EEAT blogs structured for AI extraction across ChatGPT and Gemini, and constructing high-trust contextual backlinks, we do all possible ways to ensure AI tools cite and recommend our clients.
                         </p>
 
                         <!-- Key Proof Points -->
@@ -1396,53 +1577,72 @@
                             <div style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
                                 <i class="fa-solid fa-check" style="color: #ff5722; margin-top: 4px;"></i>
                                 <div style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.5;">
-                                    <strong style="color: #ffffff;">Bhawani Corner Glassware:</strong> Ranked #1 in Google AI Overviews with map pack under 'Premium &amp; Modern Retail Favorites'. Generated over <strong>900 inbound direct calls in a single month record</strong> — 3 months of SEO delivered <strong>4x the investment</strong> the brand made!
+                                    <strong style="color: #ffffff;">OpenAI ChatGPT Search:</strong> Bhawani Corner ranked #1 for <em>"Best Crockery Shops in Chennai"</em> in ChatGPT Search &amp; interactive Map Search, citing our blog and store data.
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
+                                <i class="fa-solid fa-check" style="color: #ff5722; margin-top: 4px;"></i>
+                                <div style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.5;">
+                                    <strong style="color: #ffffff;">Google AI Overviews &amp; Maps:</strong> Bhawani Corner ranked #1 retail favorite, driving over <strong>900 inbound direct calls in a single month record</strong> — 3 months of SEO delivered <strong>4x the investment</strong>!
                                 </div>
                             </div>
                             <div style="display: flex; align-items: flex-start; gap: 10px;">
                                 <i class="fa-solid fa-check" style="color: #ff5722; margin-top: 4px;"></i>
                                 <div style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.5;">
-                                    <strong style="color: #ffffff;">Nilaro Coffee:</strong> Ranked #1 in Google Gemini for <em>"Best Chicory Coffee"</em> and recommended in Google AI Overviews alongside 100-year heritage giants for <em>"Best Coffee Brands in Chennai"</em> and <em>"Best Filter Coffee Powder"</em>.
+                                    <strong style="color: #ffffff;">Google Gemini AI:</strong> Ranked Nilaro Coffee #1 for <em>"Best Chicory Coffee"</em> and cited Bhawani's ranking blog for <em>"Best Kitchenware Shops in Chennai"</em>.
                                 </div>
                             </div>
                         </div>
 
                         <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">OpenAI ChatGPT #1</span>
                             <span class="featured-pill-accent">Google Gemini AI #1</span>
                             <span class="featured-pill-accent">Google AI Overviews</span>
+                            <span class="featured-pill-accent">Ranking Blog Citations</span>
                             <span class="featured-pill-accent">900+ Calls/Mo Record</span>
                             <span class="featured-pill-accent">4x Investment ROI</span>
-                            <span class="featured-pill-accent">Prompt Keyword Research</span>
-                            <span class="featured-pill-accent">Authority Backlinks</span>
                         </div>
 
                         <div class="featured-actions-row">
                             <a href="ai-search-results.html" class="featured-btn-primary" style="background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);">
-                                <span>Explore Detailed AI Results &amp; Proof</span>
+                                <span>Explore All 10 Detailed AI &amp; ChatGPT Results</span>
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Right Column: Dual AI Proof Images -->
-                    <div style="display: flex; flex-direction: column; gap: 16px;">
-                        <div style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 87, 34, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
+                    <!-- Right Column: AI Proof Images -->
+                    <div style="display: flex; flex-direction: column; gap: 14px;">
+                        <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(16, 163, 127, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
+                            <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
+                            <picture>
+                                <source srcset="ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.webp" type="image/webp">
+                                <img src="ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.png" alt="OpenAI ChatGPT Search Bhawani Corner Ranking #1" style="width: 100%; height: auto; display: block;" loading="lazy">
+                            </picture>
+                            <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 14px; border: 1px solid rgba(16, 163, 127, 0.45); font-size: 0.72rem; font-weight: 700; color: #34d399;">
+                                <i class="fa-solid fa-robot"></i> ChatGPT: Bhawani Corner Ranked #1
+                            </div>
+                        </div>
+
+                        <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 87, 34, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
+                            <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                             <picture>
                                 <source srcset="ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.webp" type="image/webp">
                                 <img src="ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.png" alt="Google Gemini Nilaro Coffee Ranking #1" style="width: 100%; height: auto; display: block;" loading="lazy">
                             </picture>
                             <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 14px; border: 1px solid rgba(255, 87, 34, 0.4); font-size: 0.72rem; font-weight: 700; color: #ff7043;">
-                                <i class="fa-solid fa-robot"></i> Google Gemini: Nilaro Coffee Ranked #1
+                                <i class="fa-solid fa-sparkles"></i> Google Gemini: Nilaro Ranked #1
                             </div>
                         </div>
 
-                        <div style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 87, 34, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
+                        <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 87, 34, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
+                            <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big map</span>
                             <picture>
                                 <source srcset="ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.webp" type="image/webp">
                                 <img src="ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.png" alt="Google AI Overviews Bhawani Corner 900+ Calls Record" style="width: 100%; height: auto; display: block;" loading="lazy">
                             </picture>
                             <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 14px; border: 1px solid rgba(255, 87, 34, 0.4); font-size: 0.72rem; font-weight: 700; color: #ff7043;">
-                                <i class="fa-solid fa-phone-volume"></i> Google AI Overviews: Bhawani 900+ Calls Record
+                                <i class="fa-solid fa-phone-volume"></i> AI Overviews: 900+ Calls/Mo Record
                             </div>
                         </div>
                     </div>
@@ -2716,9 +2916,89 @@
 
             }
 
+            // ── AI Proof Touch-To-Zoom Lightbox with Prominent Cross Button ──
+            (function initAILightbox() {
+                const overlay = document.getElementById('ai-image-lightbox');
+                if (!overlay) return;
+                const lightboxImg = document.getElementById('ai-lightbox-img');
+                const lightboxCaption = document.getElementById('ai-lightbox-caption');
+                const closeBtn = overlay.querySelector('.ai-lightbox-close-btn');
+
+                function openLightbox(src, caption) {
+                    lightboxImg.src = src;
+                    lightboxImg.classList.remove('is-zoomed');
+                    lightboxCaption.textContent = caption || 'AI Search Result & Map Proof';
+                    overlay.style.display = 'flex';
+                    overlay.offsetHeight; // force reflow
+                    overlay.classList.add('active');
+                    overlay.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeLightbox() {
+                    overlay.classList.remove('active');
+                    overlay.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                    lightboxImg.classList.remove('is-zoomed');
+                    setTimeout(() => {
+                        if (!overlay.classList.contains('active')) {
+                            overlay.style.display = 'none';
+                            lightboxImg.src = '';
+                        }
+                    }, 300);
+                }
+
+                closeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeLightbox();
+                });
+
+                // Tap image inside lightbox to toggle extra zoom
+                lightboxImg.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    lightboxImg.classList.toggle('is-zoomed');
+                });
+
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay || e.target.classList.contains('ai-lightbox-scroll-area')) {
+                        closeLightbox();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                        closeLightbox();
+                    }
+                });
+
+                // Attach click/touch listeners to AI proof images
+                document.querySelectorAll('#ai-geo-proof .ai-zoomable-img-wrap, #ai-geo-proof picture').forEach(wrapper => {
+                    wrapper.addEventListener('click', (e) => {
+                        const img = wrapper.querySelector('img') || wrapper;
+                        if (!img) return;
+
+                        const pictureSource = wrapper.querySelector('source');
+                        const fullSrc = (pictureSource && pictureSource.srcset) ? pictureSource.srcset : img.currentSrc || img.src;
+                        let caption = img.alt || 'AI Search Result & Map Proof';
+
+                        openLightbox(fullSrc, caption);
+                    });
+                });
+            })();
+
         });
 
     </script>
+
+    <!-- ═══════════════════════ TOUCH-TO-ENLARGE MAP & PROOF LIGHTBOX MODAL ═══════════════════════ -->
+    <div id="ai-image-lightbox" class="ai-lightbox-modal" style="display: none;" aria-hidden="true">
+        <button class="ai-lightbox-close-btn" aria-label="Close enlarged map" title="Close (Esc)">&times;</button>
+        <div class="ai-lightbox-scroll-area">
+            <img id="ai-lightbox-img" class="ai-lightbox-img-el" src="" alt="Enlarged AI Proof Map">
+            <div id="ai-lightbox-caption" class="ai-lightbox-caption-text"></div>
+            <div class="ai-lightbox-zoom-hint"><i class="fa-solid fa-hand-pointer"></i> Tap map/image to toggle extra zoom</div>
+        </div>
+    </div>
 
 </body>
 

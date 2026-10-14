@@ -1594,7 +1594,7 @@ body {
 }
 
 .fx-card-top-header {
-    padding: 14px 18px;
+    padding: 12px 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1602,23 +1602,20 @@ body {
     border-bottom: 1px solid #f1f5f9;
 }
 
-.fx-brand-logo-pill {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    display: flex;
+.fx-verified-pill {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    padding: 6px;
-    box-sizing: border-box;
-}
-
-.fx-brand-mini-logo {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    gap: 6px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #ff5722;
+    background: rgba(255, 87, 34, 0.08);
+    border: 1px solid rgba(255, 87, 34, 0.2);
+    padding: 3px 10px;
+    border-radius: 20px;
 }
 
 .fx-category-badge {
@@ -1633,28 +1630,32 @@ body {
     border-radius: 20px;
 }
 
-/* Product Media Preview Box */
-.fx-product-preview-box {
+/* Big Brand Logo Stage - Prominently displays client brand logo */
+.fx-brand-logo-stage {
     position: relative;
     width: 100%;
-    height: 185px;
-    background: #f8fafc;
+    height: 190px;
+    background: #ffffff;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid #f1f5f9;
+    padding: 24px;
+    box-sizing: border-box;
+    border-bottom: 1.5px solid #f1f5f9;
+    transition: background-color 0.35s ease;
 }
 
-.fx-product-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.45s ease;
+.fx-brand-stage-logo {
+    max-width: 82%;
+    max-height: 82%;
+    object-fit: contain;
+    border-radius: 12px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.fx-brand-card:hover .fx-product-img {
-    transform: scale(1.06);
+.fx-brand-card:hover .fx-brand-stage-logo {
+    transform: scale(1.08);
 }
 
 .fx-preview-overlay {

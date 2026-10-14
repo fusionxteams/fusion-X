@@ -29,7 +29,7 @@
             categoryLabel: "D2C & E-Commerce",
             tag: "Eco Luggage & Carry Gear",
             logo: "brands/the-energy-bags.png",
-            productImage: "brands/energy-bags/product-page.png",
+            productImage: "brands/the-energy-bags.png",
             productTitle: "Durable Eco Luggage & Travel Backpacks",
             metric: "+320% Order Volume",
             metricLabel: "E-Commerce Growth",
@@ -43,7 +43,7 @@
             categoryLabel: "Food & Beverages",
             tag: "Artisanal Specialty Filter Coffee",
             logo: "brands/nilaro.png",
-            productImage: "brands/nilaro/package.png",
+            productImage: "brands/nilaro.png",
             productTitle: "Single-Origin Dark Roast Coffee Pouches",
             metric: "+220% Subscriptions",
             metricLabel: "D2C Retention",
@@ -56,8 +56,8 @@
             category: "ecommerce",
             categoryLabel: "D2C & E-Commerce",
             tag: "Automotive & Riding Gear",
-            logo: "brands/the-bikerz-module.jpg",
-            productImage: "brands/the-bikerz-module.jpg",
+            logo: "brands/bikerz/logo.jpg",
+            productImage: "brands/bikerz/logo.jpg",
             productTitle: "High-Performance Riding Helmets & Gear",
             metric: "+310% Online Checkouts",
             metricLabel: "Checkout Volume",
@@ -71,7 +71,7 @@
             categoryLabel: "D2C & E-Commerce",
             tag: "India's No. 1 Glassware Brand",
             logo: "brands/bhawani-corner.png",
-            productImage: "brands/bhawani/homepage.png",
+            productImage: "brands/bhawani-corner.png",
             productTitle: "Premium Hospitality & Kitchen Glassware",
             metric: "900+ Inbound Calls",
             metricLabel: "Local Lead Volume",
@@ -98,8 +98,8 @@
             category: "healthcare",
             categoryLabel: "Healthcare & Clinics",
             tag: "Clinical Dermatological Skincare",
-            logo: "brands/truly-yours.jpg",
-            productImage: "brands/truly-yours.jpg",
+            logo: "brands/truly-yours/logo.jpg",
+            productImage: "brands/truly-yours/logo.jpg",
             productTitle: "Dermatologist-Formulated Face Serums",
             metric: "+180% Repeat Sales",
             metricLabel: "Brand Loyalty",
@@ -113,7 +113,7 @@
             categoryLabel: "Food & Beverages",
             tag: "Heritage Chaat & Street Food",
             logo: "brands/sridhar-food-house.jpg",
-            productImage: "brands/sridhar/cart-showcase.jpg",
+            productImage: "brands/sridhar-food-house.jpg",
             productTitle: "Authentic North Indian Chaat & Delicacies",
             metric: "+240% Footfall Surge",
             metricLabel: "In-Store Traffic",
@@ -126,11 +126,11 @@
             category: "media",
             categoryLabel: "Media & Studios",
             tag: "Film & Commercial Production",
-            logo: "brands/tk-cinematic-studio.png",
-            productImage: "brands/tk-cinematic-studio.png",
-            productTitle: "4K Cinema Production & Viral Ad Creatives",
-            metric: "2.5M+ Reel Views",
-            metricLabel: "Organic Reach",
+            logo: "brands/tk/logo.png",
+            productImage: "brands/tk/logo.png",
+            productTitle: "Commercial Film & Creator Studio",
+            metric: "7.9% Organic CTR",
+            metricLabel: "Search Performance",
             deliverable: "Creator Portfolio Platform, Video Production SEO & Client Booking Engine",
             link: "tk-cinematic-studio.html"
         },
@@ -140,8 +140,8 @@
             category: "media",
             categoryLabel: "Media & Studios",
             tag: "Luxury Bridal & Salon Booking",
-            logo: "brands/meeras-beauty-parlour.webp",
-            productImage: "brands/meeras-beauty-parlour.webp",
+            logo: "brands/meeras/logo.webp",
+            productImage: "brands/meeras/logo.webp",
             productTitle: "Bespoke Bridal Makeover & Spa Packages",
             metric: "+190% Bridal Bookings",
             metricLabel: "Appointment Growth",
@@ -272,16 +272,14 @@
 
             card.innerHTML = `
                 <div class="fx-card-top-header">
-                    <div class="fx-brand-logo-pill">
-                        <img src="${brand.logo}" alt="${brand.name} Logo" class="fx-brand-mini-logo" loading="lazy">
-                    </div>
+                    <span class="fx-verified-pill"><i class="fa-solid fa-gem"></i> Verified Client</span>
                     <span class="fx-category-badge">${brand.categoryLabel}</span>
                 </div>
 
-                <div class="fx-product-preview-box">
-                    <img src="${brand.productImage}" alt="${brand.name} Product Showcase" class="fx-product-img" loading="lazy">
+                <div class="fx-brand-logo-stage">
+                    <img src="${brand.logo}" alt="${brand.name} Logo" class="fx-brand-stage-logo" loading="lazy">
                     <div class="fx-preview-overlay">
-                        <span class="fx-overlay-tag"><i class="fa-solid fa-eye"></i> ${brand.productTitle}</span>
+                        <span class="fx-overlay-tag"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${brand.tag}</span>
                     </div>
                 </div>
 

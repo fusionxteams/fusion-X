@@ -268,6 +268,7 @@
         const targetSelectors = [
             // Home page black background section & footer
             '#expertise',
+            '.ai-proof-black-box',
             
             // Services page black background sections
             '.eeat-authority-bar',

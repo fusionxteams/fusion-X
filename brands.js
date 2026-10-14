@@ -1,452 +1,361 @@
-// brands.js - Fusion X Next-Gen 3D Horizon Showcase with Dynamic Physics & Holographic Pedestal
+// brands.js - Fusion X Next-Gen Multi-Brand & Product Showcase System
+// Displays multiple brands simultaneously with infinite logo ticker, category filters, and product cards
 (function() {
-    const brandsContainer = document.getElementById('brands-3d-container');
+    'use strict';
+
+    const brandsContainer = document.getElementById('brands-3d-container') || document.getElementById('brands');
     if (!brandsContainer) return;
 
-    // Master Client Brand Registry with verified live routes
+    // Master Client Brand & Product Registry
     const brandList = [
         {
-            name: "The Energy Bags",
-            tag: "Eco & Luggage Brand",
-            image: "brands/the-energy-bags.png",
-            link: "energy-bags.html"
-        },
-        {
-            name: "Bikerz Module",
-            tag: "Automotive & Riding Gear",
-            image: "brands/the-bikerz-module.jpg",
-            link: "bikerz-module.html"
-        },
-        {
-            name: "Truly Yours",
-            tag: "Dermatological Skincare",
-            image: "brands/truly-yours.jpg",
-            link: "truly-yours.html"
-        },
-        {
-            name: "TK Cinematic Studio",
-            tag: "Film & Creator Studio",
-            image: "brands/tk-cinematic-studio.png",
-            link: "tk-cinematic-studio.html"
-        },
-        {
-            name: "Nilaro",
-            tag: "Artisanal Filter Coffee",
-            image: "brands/nilaro.png",
-            link: "nilaro.html"
-        },
-        {
-            name: "Bhawani Corner Glassware",
-            tag: "India's No. 1 Glassware Brand",
-            image: "brands/bhawani-corner.png",
-            link: "bhawani-corner.html"
-        },
-        {
+            id: "off-human",
             name: "Off Human",
-            tag: "Luxury Streetwear Brand",
-            image: "brands/off-human.jpg",
+            category: "ecommerce",
+            categoryLabel: "D2C & E-Commerce",
+            tag: "Luxury Heavyweight Streetwear",
+            logo: "brands/off-human/logo.jpg",
+            productImage: "brands/off-human/logo.jpg",
+            productTitle: "Heavyweight Oversized Streetwear Drops",
+            metric: "4.8x Meta Ad ROAS",
+            metricLabel: "Ad Performance",
+            deliverable: "Custom Shopify D2C Storefront, Meta CAPI Tracking & Instant Sellout Launch Strategy",
             link: "off-human.html"
         },
         {
-            name: "Dr. Madhavi",
-            tag: "Laser & Aesthetic Clinic",
-            image: "",
+            id: "energy-bags",
+            name: "The Energy Bags",
+            category: "ecommerce",
+            categoryLabel: "D2C & E-Commerce",
+            tag: "Eco Luggage & Carry Gear",
+            logo: "brands/the-energy-bags.png",
+            productImage: "brands/energy-bags/product-page.png",
+            productTitle: "Durable Eco Luggage & Travel Backpacks",
+            metric: "+320% Order Volume",
+            metricLabel: "E-Commerce Growth",
+            deliverable: "Custom Shopify Store, Collection Page Architecture & High-Converting Paid Media",
+            link: "energy-bags.html"
+        },
+        {
+            id: "nilaro",
+            name: "Nilaro",
+            category: "fnb",
+            categoryLabel: "Food & Beverages",
+            tag: "Artisanal Specialty Filter Coffee",
+            logo: "brands/nilaro.png",
+            productImage: "brands/nilaro/package.png",
+            productTitle: "Single-Origin Dark Roast Coffee Pouches",
+            metric: "+220% Subscriptions",
+            metricLabel: "D2C Retention",
+            deliverable: "Brand Identity, Bespoke Retail Packaging & Subscription E-Commerce Architecture",
+            link: "nilaro.html"
+        },
+        {
+            id: "bikerz-module",
+            name: "Bikerz Module",
+            category: "ecommerce",
+            categoryLabel: "D2C & E-Commerce",
+            tag: "Automotive & Riding Gear",
+            logo: "brands/the-bikerz-module.jpg",
+            productImage: "brands/the-bikerz-module.jpg",
+            productTitle: "High-Performance Riding Helmets & Gear",
+            metric: "+310% Online Checkouts",
+            metricLabel: "Checkout Volume",
+            deliverable: "High-Speed WooCommerce Store, Meta Catalog Sales & Cart Abandonment Retargeting",
+            link: "bikerz-module.html"
+        },
+        {
+            id: "bhawani-corner",
+            name: "Bhawani Corner Glassware",
+            category: "ecommerce",
+            categoryLabel: "D2C & E-Commerce",
+            tag: "India's No. 1 Glassware Brand",
+            logo: "brands/bhawani-corner.png",
+            productImage: "brands/bhawani/homepage.png",
+            productTitle: "Premium Hospitality & Kitchen Glassware",
+            metric: "900+ Inbound Calls",
+            metricLabel: "Local Lead Volume",
+            deliverable: "Local SEO 3-Pack Rank Dominance in T Nagar & High-Speed Product Catalog Web App",
+            link: "bhawani-corner.html"
+        },
+        {
+            id: "dr-madhavi",
+            name: "Dr. Madhavi Clinic",
+            category: "healthcare",
+            categoryLabel: "Healthcare & Clinics",
+            tag: "Laser & Aesthetic Dermatology Clinic",
+            logo: "brands/dr-madhavi/logo.svg",
+            productImage: "brands/dr-madhavi/logo.svg",
+            productTitle: "Advanced Clinical Laser & Skin Treatments",
+            metric: "400+ Patient Leads",
+            metricLabel: "Qualified Inquiries",
+            deliverable: "Full-Funnel Meta & Google Patient Acquisition, GA4 Tracking & Lead Conversion Engine",
             link: "dr-madhavi.html"
         },
         {
-            name: "Meera's Beauty Parlour",
-            tag: "Bridal & Beauty Salon",
-            image: "brands/meeras-beauty-parlour.webp",
-            link: "meeras-beauty-parlour.html"
+            id: "truly-yours",
+            name: "Truly Yours",
+            category: "healthcare",
+            categoryLabel: "Healthcare & Clinics",
+            tag: "Clinical Dermatological Skincare",
+            logo: "brands/truly-yours.jpg",
+            productImage: "brands/truly-yours.jpg",
+            productTitle: "Dermatologist-Formulated Face Serums",
+            metric: "+180% Repeat Sales",
+            metricLabel: "Brand Loyalty",
+            deliverable: "Brand Identity Moat, Customer Messaging Matrix & High-LTV D2C Funnels",
+            link: "truly-yours.html"
         },
         {
+            id: "sridhar-food-house",
             name: "Sridhar Food House",
+            category: "fnb",
+            categoryLabel: "Food & Beverages",
             tag: "Heritage Chaat & Street Food",
-            image: "brands/sridhar-food-house.jpg",
+            logo: "brands/sridhar-food-house.jpg",
+            productImage: "brands/sridhar/cart-showcase.jpg",
+            productTitle: "Authentic North Indian Chaat & Delicacies",
+            metric: "+240% Footfall Surge",
+            metricLabel: "In-Store Traffic",
+            deliverable: "Google Maps 3-Pack Kolathur Dominance, Viral Food Reels & Local Citation Engine",
             link: "sridhar-food-house.html"
+        },
+        {
+            id: "tk-cinematic",
+            name: "TK Cinematic Studio",
+            category: "media",
+            categoryLabel: "Media & Studios",
+            tag: "Film & Commercial Production",
+            logo: "brands/tk-cinematic-studio.png",
+            productImage: "brands/tk-cinematic-studio.png",
+            productTitle: "4K Cinema Production & Viral Ad Creatives",
+            metric: "2.5M+ Reel Views",
+            metricLabel: "Organic Reach",
+            deliverable: "Creator Portfolio Platform, Video Production SEO & Client Booking Engine",
+            link: "tk-cinematic-studio.html"
+        },
+        {
+            id: "meeras-parlour",
+            name: "Meera's Beauty Parlour",
+            category: "media",
+            categoryLabel: "Media & Studios",
+            tag: "Luxury Bridal & Salon Booking",
+            logo: "brands/meeras-beauty-parlour.webp",
+            productImage: "brands/meeras-beauty-parlour.webp",
+            productTitle: "Bespoke Bridal Makeover & Spa Packages",
+            metric: "+190% Bridal Bookings",
+            metricLabel: "Appointment Growth",
+            deliverable: "Local SEO GMB Ranking, Social Media Creative Feeds & WhatsApp Appointment Bot",
+            link: "meeras-beauty-parlour.html"
         }
     ];
 
-    const totalBrands = brandList.length;
-    const angleStep = 360 / totalBrands;
-
-    // Clean & Prepare Stage
+    // Clear existing container content
     brandsContainer.innerHTML = '';
-    brandsContainer.style.background = 'transparent';
-    brandsContainer.style.width = '100%';
-    brandsContainer.style.position = 'relative';
 
-    const stage = document.createElement('div');
-    stage.className = 'brands-stage-container';
+    // Create Main Wrapper
+    const showcaseWrapper = document.createElement('div');
+    showcaseWrapper.className = 'fx-brands-showcase-wrap';
 
-    // 3D Viewport
-    const viewport = document.createElement('div');
-    viewport.className = 'brands-viewport';
+    // ── 1. DUAL-ROW INFINITE LOGO STREAM MARQUEE ──
+    const marqueeSection = document.createElement('div');
+    marqueeSection.className = 'fx-brands-marquee-wrap';
 
-    // Holographic Cyber Pedestal
-    const pedestal = document.createElement('div');
-    pedestal.className = 'brands-pedestal';
-    pedestal.innerHTML = `
-        <div class="pedestal-track-outer"></div>
-        <div class="pedestal-track-inner"></div>
-        <div class="pedestal-core-hotspot"></div>
+    const marqueeRow1 = document.createElement('div');
+    marqueeRow1.className = 'fx-marquee-row fx-marquee-left';
+
+    const marqueeTrack1 = document.createElement('div');
+    marqueeTrack1.className = 'fx-marquee-track';
+
+    // Duplicate list 3 times for continuous infinite seamless scrolling
+    const repeatedBrands = [...brandList, ...brandList, ...brandList];
+
+    repeatedBrands.forEach(b => {
+        const item = document.createElement('div');
+        item.className = 'fx-marquee-item';
+        item.innerHTML = `
+            <a href="${b.link}" class="fx-marquee-link" title="${b.name} - ${b.tag}">
+                <img src="${b.logo}" alt="${b.name}" class="fx-marquee-logo" loading="lazy">
+                <span class="fx-marquee-name">${b.name}</span>
+            </a>
+        `;
+        marqueeTrack1.appendChild(item);
+    });
+
+    marqueeRow1.appendChild(marqueeTrack1);
+    marqueeSection.appendChild(marqueeRow1);
+    showcaseWrapper.appendChild(marqueeSection);
+
+    // ── 2. INTERACTIVE CONTROLS BAR (FILTERS & VIEW SWITCHER) ──
+    const controlsBar = document.createElement('div');
+    controlsBar.className = 'fx-brands-controls-bar';
+
+    // Category Filter Pills
+    const filterTabs = document.createElement('div');
+    filterTabs.className = 'fx-brands-filters';
+
+    const categories = [
+        { key: "all", label: "All Brands", count: brandList.length },
+        { key: "ecommerce", label: "D2C & E-Commerce", count: brandList.filter(b => b.category === 'ecommerce').length },
+        { key: "healthcare", label: "Healthcare & Clinics", count: brandList.filter(b => b.category === 'healthcare').length },
+        { key: "fnb", label: "Food & Beverages", count: brandList.filter(b => b.category === 'fnb').length },
+        { key: "media", label: "Media & Studios", count: brandList.filter(b => b.category === 'media').length }
+    ];
+
+    let currentCategory = "all";
+    let currentViewMode = "grid"; // "grid" or "carousel"
+
+    categories.forEach((cat, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `fx-filter-pill ${index === 0 ? 'active' : ''}`;
+        btn.dataset.category = cat.key;
+        btn.innerHTML = `<span>${cat.label}</span><span class="fx-filter-count">${cat.count}</span>`;
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.fx-filter-pill').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentCategory = cat.key;
+            renderCards();
+        });
+        filterTabs.appendChild(btn);
+    });
+
+    // View Switcher Buttons
+    const viewSwitcher = document.createElement('div');
+    viewSwitcher.className = 'fx-view-switcher';
+    viewSwitcher.innerHTML = `
+        <button type="button" class="fx-view-btn active" data-view="grid" title="Show All Brands in Grid View">
+            <i class="fa-solid fa-grip"></i> Grid View
+        </button>
+        <button type="button" class="fx-view-btn" data-view="carousel" title="Browse in Multi-Card Carousel View">
+            <i class="fa-solid fa-arrows-left-right"></i> Slider View
+        </button>
     `;
-    viewport.appendChild(pedestal);
 
-    // 3D Revolving Ring
-    const ring = document.createElement('div');
-    ring.className = 'brands-ring';
-    viewport.appendChild(ring);
+    controlsBar.appendChild(filterTabs);
+    controlsBar.appendChild(viewSwitcher);
+    showcaseWrapper.appendChild(controlsBar);
 
-    // Build Brand Cards
-    const cardElements = [];
-    for (let i = 0; i < totalBrands; i++) {
-        const item = brandList[i];
-        const card = document.createElement('div');
-        card.className = 'brand-card-3d';
-        card.dataset.index = i;
+    // Carousel Navigation Bar (Used when in Carousel View)
+    const carouselNav = document.createElement('div');
+    carouselNav.className = 'fx-carousel-nav';
+    carouselNav.style.display = 'none';
+    carouselNav.innerHTML = `
+        <button type="button" class="fx-carousel-arrow fx-arrow-prev" aria-label="Previous Brand">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <span class="fx-carousel-counter">Showing Multiple Brands</span>
+        <button type="button" class="fx-carousel-arrow fx-arrow-next" aria-label="Next Brand">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    `;
+    showcaseWrapper.appendChild(carouselNav);
 
-        // Card Glass Inner Shell
-        const innerShell = document.createElement('div');
-        innerShell.className = 'brand-card-inner';
+    // ── 3. MULTI-BRAND SHOWCASE CARDS CONTAINER ──
+    const cardsContainer = document.createElement('div');
+    cardsContainer.className = 'fx-brands-grid fx-view-grid';
+    showcaseWrapper.appendChild(cardsContainer);
 
-        if (!item.image || item.image.trim() === '') {
-            // High-Tech Specialist Card for Dr. Madhavi
-            const textWrap = document.createElement('div');
-            textWrap.className = 'brand-card-text';
-            textWrap.innerHTML = `
-                <div class="brand-text-icon-wrap">
-                    <i class="fa-solid fa-user-doctor brand-card-text-icon"></i>
+    // Function to Render Multi-Brand Product Cards
+    function renderCards() {
+        cardsContainer.innerHTML = '';
+
+        const filteredList = currentCategory === "all" 
+            ? brandList 
+            : brandList.filter(b => b.category === currentCategory);
+
+        filteredList.forEach((brand, idx) => {
+            const card = document.createElement('div');
+            card.className = 'fx-brand-card';
+            card.dataset.category = brand.category;
+            card.style.animationDelay = `${idx * 0.05}s`;
+
+            card.innerHTML = `
+                <div class="fx-card-top-header">
+                    <div class="fx-brand-logo-pill">
+                        <img src="${brand.logo}" alt="${brand.name} Logo" class="fx-brand-mini-logo" loading="lazy">
+                    </div>
+                    <span class="fx-category-badge">${brand.categoryLabel}</span>
                 </div>
-                <div class="brand-card-text-name">${item.name}</div>
-                <div class="brand-card-text-tag">${item.tag}</div>
-            `;
-            innerShell.appendChild(textWrap);
-        } else {
-            const imgWrap = document.createElement('div');
-            imgWrap.className = 'brand-img-wrap';
-            const img = document.createElement('img');
-            img.src = item.image;
-            img.alt = item.name;
-            img.draggable = false;
-            img.loading = "lazy";
-            imgWrap.appendChild(img);
-            innerShell.appendChild(imgWrap);
-        }
 
-        // Floating Action Link Badge
-        if (item.link) {
-            const linkBadge = document.createElement('div');
-            linkBadge.className = 'brand-card-link-badge';
-            linkBadge.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square"></i>';
-            linkBadge.title = `Explore ${item.name} Case Study`;
-            innerShell.appendChild(linkBadge);
-        }
-
-        card.appendChild(innerShell);
-        ring.appendChild(card);
-        cardElements.push(card);
-    }
-
-    stage.appendChild(viewport);
-
-    // Interactive Nav Deck
-    const navDeck = document.createElement('div');
-    navDeck.className = 'brands-nav-deck';
-
-    const prevBtn = document.createElement('button');
-    prevBtn.className = 'brands-arrow-btn';
-    prevBtn.setAttribute('aria-label', 'Previous Brand');
-    prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
-
-    const activeChip = document.createElement('div');
-    activeChip.className = 'brands-active-chip';
-
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'brands-arrow-btn';
-    nextBtn.setAttribute('aria-label', 'Next Brand');
-    nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
-
-    navDeck.appendChild(prevBtn);
-    navDeck.appendChild(activeChip);
-    navDeck.appendChild(nextBtn);
-    stage.appendChild(navDeck);
-
-    // Pagination Dots
-    const dotsRow = document.createElement('div');
-    dotsRow.className = 'brands-dots-row';
-    const dotElements = [];
-    for (let i = 0; i < totalBrands; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'brand-dot' + (i === 0 ? ' active' : '');
-        dot.dataset.index = i;
-        dot.title = brandList[i].name;
-        dotsRow.appendChild(dot);
-        dotElements.push(dot);
-    }
-    stage.appendChild(dotsRow);
-
-    // Swipe Hint with live motion icon
-    const hint = document.createElement('div');
-    hint.className = 'brands-hint';
-    hint.innerHTML = '<i class="fa-solid fa-hand-pointer"></i> Click any card to rotate into focus • Drag or swipe horizontally';
-    stage.appendChild(hint);
-
-    brandsContainer.appendChild(stage);
-
-    // Physics & State Engine
-    let currentAngle = 0;
-    let targetAngle = 0;
-    let isInteractingTarget = false;
-    let isDragging = false;
-    let startX = 0;
-    let lastX = 0;
-    let velocity = 0;
-    let isHovered = false;
-    let currentFrontIndex = -1;
-    let dragDistance = 0;
-
-    // Mouse tilt perspective
-    let mouseTiltX = 8; // Default subtle pitch forward
-    let mouseTiltY = 0;
-
-    function getRadius() {
-        const w = window.innerWidth;
-        if (w < 480) return 195;
-        if (w < 768) return 250;
-        if (w < 1024) return 330;
-        return 400;
-    }
-
-    let radius = getRadius();
-
-    function updateCardPositions() {
-        radius = getRadius();
-        for (let i = 0; i < totalBrands; i++) {
-            const card = cardElements[i];
-            const baseAngle = i * angleStep;
-            card.style.transform = `rotateY(${baseAngle}deg) translateZ(${radius}px)`;
-        }
-    }
-
-    updateCardPositions();
-    window.addEventListener('resize', updateCardPositions);
-
-    // Active Brand Controller
-    function setActiveBrand(index) {
-        if (index === currentFrontIndex) return;
-        currentFrontIndex = index;
-
-        const item = brandList[index];
-        if (item) {
-            let linkHtml = '';
-            if (item.link) {
-                const isInternal = item.link.endsWith('.html');
-                const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener noreferrer"';
-                const label = isInternal ? 'Case Study' : 'Visit Brand';
-                linkHtml = `<a href="${item.link}" ${targetAttr} class="brands-chip-btn" title="${label}">${label} <i class="fa-solid fa-arrow-right"></i></a>`;
-            }
-
-            activeChip.innerHTML = `
-                <div class="brands-chip-left">
-                    <span class="brands-chip-pulse"></span>
-                    <span class="brands-chip-name">${item.name}</span>
-                    <span class="brands-chip-tag">${item.tag}</span>
+                <div class="fx-product-preview-box">
+                    <img src="${brand.productImage}" alt="${brand.name} Product Showcase" class="fx-product-img" loading="lazy">
+                    <div class="fx-preview-overlay">
+                        <span class="fx-overlay-tag"><i class="fa-solid fa-eye"></i> ${brand.productTitle}</span>
+                    </div>
                 </div>
-                ${linkHtml}
+
+                <div class="fx-card-content">
+                    <div class="fx-title-row">
+                        <h3 class="fx-brand-name">${brand.name}</h3>
+                        <span class="fx-verified-badge" title="Verified Client Partner"><i class="fa-solid fa-circle-check"></i></span>
+                    </div>
+                    <span class="fx-brand-tagline">${brand.tag}</span>
+
+                    <div class="fx-metric-pill">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                        <strong>${brand.metric}</strong>
+                        <span class="fx-metric-lbl">(${brand.metricLabel})</span>
+                    </div>
+
+                    <p class="fx-deliverable-desc">${brand.deliverable}</p>
+
+                    <a href="${brand.link}" class="fx-case-study-btn">
+                        <span>Explore Case Study</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
             `;
-        }
-
-        dotElements.forEach((dot, idx) => {
-            if (idx === index) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
+            cardsContainer.appendChild(card);
         });
+
+        // Update carousel state
+        updateCarouselControls();
     }
 
-    setActiveBrand(0);
+    // View Switcher Handler
+    viewSwitcher.querySelectorAll('.fx-view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            viewSwitcher.querySelectorAll('.fx-view-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentViewMode = btn.dataset.view;
 
-    // 60FPS Hardware-Accelerated Physics Loop
-    const idleSpeed = -0.16; // Smooth cinematic rotation
-
-    function animate() {
-        if (!isDragging) {
-            if (isInteractingTarget) {
-                const diff = targetAngle - currentAngle;
-                if (Math.abs(diff) < 0.04) {
-                    currentAngle = targetAngle;
-                    isInteractingTarget = false;
-                } else {
-                    currentAngle += diff * 0.14; // Snappier spring transition
-                }
-            } else if (Math.abs(velocity) > 0.05) {
-                currentAngle += velocity;
-                velocity *= 0.92;
+            if (currentViewMode === 'carousel') {
+                cardsContainer.className = 'fx-brands-grid fx-view-carousel';
+                carouselNav.style.display = 'flex';
             } else {
-                if (!isHovered) {
-                    currentAngle += idleSpeed;
-                }
+                cardsContainer.className = 'fx-brands-grid fx-view-grid';
+                carouselNav.style.display = 'none';
             }
-        }
-
-        // Apply 3D perspective rotation with dynamic tilt
-        ring.style.transform = `rotateX(${mouseTiltX}deg) rotateY(${currentAngle}deg)`;
-
-        // Calculate card depth, opacity, and scale
-        let bestCos = -2;
-        let bestIndex = 0;
-
-        for (let i = 0; i < totalBrands; i++) {
-            const card = cardElements[i];
-            const normAngle = ((i * angleStep + currentAngle) % 360 + 540) % 360 - 180;
-            const rad = (normAngle * Math.PI) / 180;
-            const cos = Math.cos(rad);
-
-            if (cos > bestCos) {
-                bestCos = cos;
-                bestIndex = i;
-            }
-
-            if (cos > 0) {
-                card.style.display = 'flex';
-                const opacity = Math.min(1, Math.max(0.3, Math.pow(cos, 0.7)));
-                card.style.opacity = opacity.toFixed(3);
-                card.style.pointerEvents = 'auto';
-
-                // Scale card based on depth (front is larger, side cards recede)
-                const cardScale = 0.86 + (0.22 * cos);
-                card.dataset.scale = cardScale.toFixed(3);
-
-                if (Math.abs(normAngle) < 18) {
-                    card.classList.add('is-front');
-                    card.style.zIndex = '10';
-                } else {
-                    card.classList.remove('is-front');
-                    card.style.zIndex = Math.round(cos * 8);
-                }
-            } else {
-                card.style.opacity = '0';
-                card.style.pointerEvents = 'none';
-                card.classList.remove('is-front');
-            }
-        }
-
-        setActiveBrand(bestIndex);
-        requestAnimationFrame(animate);
-    }
-
-    requestAnimationFrame(animate);
-
-    // Mouse Tracking for 3D Stage Tilt
-    viewport.addEventListener('mousemove', (e) => {
-        const rect = viewport.getBoundingClientRect();
-        const yNorm = (e.clientY - rect.top) / rect.height; // 0 to 1
-        mouseTiltX = 4 + (yNorm * 8); // Tilt between 4deg and 12deg
-    });
-
-    viewport.addEventListener('mouseleave', () => {
-        mouseTiltX = 8;
-    });
-
-    // Pointer Drag & Swipe Handling
-    function onPointerDown(e) {
-        isDragging = true;
-        isInteractingTarget = false;
-        startX = e.clientX;
-        lastX = e.clientX;
-        dragDistance = 0;
-        velocity = 0;
-        viewport.style.cursor = 'grabbing';
-    }
-
-    function onPointerMove(e) {
-        if (!isDragging) return;
-        const currentX = e.clientX;
-        const deltaX = currentX - lastX;
-        lastX = currentX;
-        dragDistance += Math.abs(deltaX);
-
-        const sensitivity = window.innerWidth < 768 ? 0.45 : 0.35;
-        currentAngle += deltaX * sensitivity;
-        velocity = deltaX * sensitivity;
-    }
-
-    function onPointerUp() {
-        if (!isDragging) return;
-        isDragging = false;
-        viewport.style.cursor = 'grab';
-    }
-
-    viewport.addEventListener('pointerdown', onPointerDown);
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', onPointerUp);
-    window.addEventListener('pointercancel', onPointerUp);
-
-    // Hover detection to pause idle orbit
-    viewport.addEventListener('mouseenter', () => { isHovered = true; });
-    viewport.addEventListener('mouseleave', () => { isHovered = false; });
-
-    // Rotate directly to brand index
-    function rotateToIndex(index) {
-        isInteractingTarget = true;
-        velocity = 0;
-        const normAngle = ((index * angleStep + currentAngle) % 360 + 540) % 360 - 180;
-        targetAngle = currentAngle - normAngle;
-    }
-
-    // Card Click Handler
-    cardElements.forEach((card, index) => {
-        card.addEventListener('click', (e) => {
-            if (dragDistance > 8) return; // Ignore drag release
-            const item = brandList[index];
-            if (card.classList.contains('is-front') && item.link) {
-                if (item.link.endsWith('.html')) {
-                    window.location.href = item.link;
-                } else {
-                    window.open(item.link, '_blank');
-                }
-            } else {
-                rotateToIndex(index);
-            }
+            updateCarouselControls();
         });
     });
 
-    // Arrow Buttons
-    prevBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        isInteractingTarget = true;
-        velocity = 0;
-        targetAngle = Math.round((currentAngle + angleStep) / angleStep) * angleStep;
-    });
+    // Carousel Arrow Handlers
+    const prevArrow = carouselNav.querySelector('.fx-arrow-prev');
+    const nextArrow = carouselNav.querySelector('.fx-arrow-next');
 
-    nextBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        isInteractingTarget = true;
-        velocity = 0;
-        targetAngle = Math.round((currentAngle - angleStep) / angleStep) * angleStep;
-    });
-
-    // Keyboard Arrow Navigation
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-            isInteractingTarget = true;
-            velocity = 0;
-            targetAngle = Math.round((currentAngle + angleStep) / angleStep) * angleStep;
-        } else if (e.key === 'ArrowRight') {
-            isInteractingTarget = true;
-            velocity = 0;
-            targetAngle = Math.round((currentAngle - angleStep) / angleStep) * angleStep;
-        }
-    });
-
-    // Pagination Dots
-    dotElements.forEach((dot, index) => {
-        dot.addEventListener('click', (e) => {
-            e.stopPropagation();
-            rotateToIndex(index);
+    if (prevArrow && nextArrow) {
+        prevArrow.addEventListener('click', () => {
+            cardsContainer.scrollBy({ left: -360, behavior: 'smooth' });
         });
-    });
+        nextArrow.addEventListener('click', () => {
+            cardsContainer.scrollBy({ left: 360, behavior: 'smooth' });
+        });
+    }
+
+    function updateCarouselControls() {
+        const counter = carouselNav.querySelector('.fx-carousel-counter');
+        if (counter) {
+            const count = cardsContainer.children.length;
+            counter.textContent = `${count} Multiple Brands Live`;
+        }
+    }
+
+    // Append Showcase System to Target Container
+    brandsContainer.appendChild(showcaseWrapper);
+
+    // Initial Card Render
+    renderCards();
 
 })();

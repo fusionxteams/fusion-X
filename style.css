@@ -1286,575 +1286,536 @@ body {
     line-height: 1.6;
 }
 
-/* 3D Showcase Stage */
-.brands-stage-container {
-    position: relative;
+/* ========================================================
+   FUSION-X NEXT-GEN MULTI-BRAND & PRODUCT SHOWCASE SYSTEM
+   Simultaneously displays multiple client brands & products
+   ======================================================== */
+.fx-brands-showcase-wrap {
     width: 100%;
-    max-width: 1240px;
+    max-width: 1320px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    user-select: none;
-}
-
-.brands-viewport {
-    position: relative;
-    width: 100%;
-    height: 440px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    perspective: 1200px;
-    perspective-origin: 50% 46%;
-    cursor: grab;
-    touch-action: pan-y;
-}
-
-.brands-viewport:active {
-    cursor: grabbing;
-}
-
-/* 3D Stage Holographic Pedestal */
-.brands-pedestal {
-    position: absolute;
-    width: 680px;
-    height: 680px;
-    border-radius: 50%;
-    transform: rotateX(76deg) translateZ(-115px);
-    pointer-events: none;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.pedestal-track-outer {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 87, 34, 0.45);
-    box-shadow: 0 0 45px rgba(255, 87, 34, 0.35), inset 0 0 35px rgba(255, 87, 34, 0.15);
-    background: radial-gradient(circle, rgba(255, 87, 34, 0.15) 0%, rgba(255, 87, 34, 0.04) 50%, transparent 72%);
-}
-
-.pedestal-track-inner {
-    position: absolute;
-    inset: 60px;
-    border-radius: 50%;
-    border: 1.5px dashed rgba(255, 87, 34, 0.4);
-    animation: rotatePedestal 32s linear infinite;
-    box-shadow: inset 0 0 25px rgba(255, 87, 34, 0.12);
-}
-
-@keyframes rotatePedestal {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.pedestal-core-hotspot {
-    position: absolute;
-    width: 320px;
-    height: 200px;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: radial-gradient(ellipse at center, rgba(255, 87, 34, 0.45) 0%, rgba(255, 87, 34, 0.12) 55%, transparent 75%);
-    filter: blur(14px);
-    border-radius: 50%;
-    animation: pulseHotspot 3s ease-in-out infinite alternate;
-}
-
-@keyframes pulseHotspot {
-    0% { opacity: 0.7; transform: translateX(-50%) scale(0.95); }
-    100% { opacity: 1; transform: translateX(-50%) scale(1.08); }
-}
-
-/* 3D Revolving Ring */
-.brands-ring {
-    position: relative;
-    width: 220px;
-    height: 220px;
-    transform-style: preserve-3d;
-    z-index: 2;
-    will-change: transform;
-}
-
-/* Individual 3D Brand Card */
-.brand-card-3d {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 220px;
-    height: 220px;
-    border-radius: 26px;
-    backface-visibility: hidden;
-    cursor: pointer;
-    transform-style: preserve-3d;
-    transition: filter 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, opacity;
-}
-
-.brand-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 26px;
-    border: 1.5px solid rgba(226, 232, 240, 0.9);
-    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.9) inset;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    box-sizing: border-box;
-    overflow: hidden;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.brand-card-inner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 45%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
-    border-radius: 26px 26px 0 0;
-    pointer-events: none;
-}
-
-.brand-card-3d:not(.is-front) {
-    filter: grayscale(40%) contrast(0.95);
-}
-
-.brand-card-3d:hover .brand-card-inner {
-    border-color: rgba(255, 87, 34, 0.65);
-    box-shadow: 0 20px 45px -5px rgba(255, 87, 34, 0.25), 0 0 25px rgba(255, 87, 34, 0.15);
-    transform: translateY(-4px);
-}
-
-.brand-card-3d.is-front {
-    filter: grayscale(0%) contrast(1);
-}
-
-.brand-card-3d.is-front .brand-card-inner {
-    border: 2px solid #ff5722;
-    background: #ffffff;
-    box-shadow: 0 25px 60px -8px rgba(255, 87, 34, 0.38), 0 0 35px rgba(255, 87, 34, 0.25), 0 0 0 2px rgba(255, 87, 34, 0.2);
-    transform: translateY(-6px);
-}
-
-.brand-img-wrap {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2;
-}
-
-.brand-img-wrap img {
-    max-width: 85%;
-    max-height: 85%;
-    object-fit: contain;
-    pointer-events: none;
-    user-select: none;
-    transition: transform 0.35s ease;
-}
-
-.brand-card-3d.is-front .brand-img-wrap img {
-    transform: scale(1.08);
-}
-
-/* Floating Action Link Badge */
-.brand-card-link-badge {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(255, 87, 34, 0.12);
-    color: #ff5722;
-    border: 1px solid rgba(255, 87, 34, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.25s ease;
-    z-index: 3;
-}
-
-.brand-card-3d.is-front .brand-card-link-badge,
-.brand-card-3d:hover .brand-card-link-badge {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.brand-card-3d.is-front:hover .brand-card-link-badge {
-    background: #ff5722;
-    color: #ffffff;
-    box-shadow: 0 0 15px rgba(255, 87, 34, 0.5);
-}
-
-/* Dr. Madhavi Layout */
-.brand-card-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    z-index: 2;
-}
-
-.brand-text-icon-wrap {
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    background: rgba(255, 87, 34, 0.1);
-    border: 1px solid rgba(255, 87, 34, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 12px;
-}
-
-.brand-card-text-icon {
-    font-size: 1.6rem;
-    color: #ff5722;
-}
-
-.brand-card-text-name {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: 1.25rem;
-    color: #0f172a;
-    line-height: 1.2;
-}
-
-.brand-card-text-tag {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.72rem;
-    color: #64748b;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-top: 6px;
-}
-
-/* Nav Controls Deck */
-.brands-nav-deck {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    margin-top: 30px;
+    gap: 32px;
     position: relative;
     z-index: 5;
 }
 
-.brands-arrow-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: 1.5px solid rgba(226, 232, 240, 0.9);
+/* 1. Seamless Infinite Logo Marquee */
+.fx-brands-marquee-wrap {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 0;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+.fx-marquee-row {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #0f172a;
-    font-size: 1.05rem;
-    cursor: pointer;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    outline: none;
+    width: 100%;
+    overflow: hidden;
+    user-select: none;
 }
 
-.brands-arrow-btn:hover {
-    background: #ff5722;
-    color: #ffffff;
-    border-color: #ff5722;
-    transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(255, 87, 34, 0.4);
-}
-
-.brands-active-chip {
+.fx-marquee-track {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 10px 24px;
-    border-radius: 50px;
-    background: #ffffff;
-    border: 1.5px solid rgba(255, 87, 34, 0.3);
-    box-shadow: 0 8px 28px rgba(255, 87, 34, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
-    transition: all 0.3s ease;
+    width: max-content;
+    animation: fxMarqueeScroll 40s linear infinite;
+    will-change: transform;
 }
 
-.brands-chip-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.fx-marquee-track:hover {
+    animation-play-state: paused;
 }
 
-.brands-chip-pulse {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #ff5722;
-    box-shadow: 0 0 12px #ff5722;
-    animation: chipPulse 1.8s infinite ease-in-out;
+@keyframes fxMarqueeScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-33.3333%);
+    }
+}
+
+.fx-marquee-item {
     flex-shrink: 0;
 }
 
-@keyframes chipPulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.3); opacity: 0.6; }
+.fx-marquee-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    padding: 8px 18px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.brands-chip-name {
+.fx-marquee-link:hover {
+    border-color: #ff5722;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(255, 87, 34, 0.2);
+}
+
+.fx-marquee-logo {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.fx-marquee-name {
     font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: 1.05rem;
+    font-size: 0.9rem;
+    font-weight: 700;
     color: #0f172a;
     white-space: nowrap;
 }
 
-.brands-chip-tag {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.85rem;
-    color: #64748b;
-    font-weight: 600;
-    white-space: nowrap;
-    border-left: 1px solid #e2e8f0;
-    padding-left: 10px;
+/* 2. Interactive Filter & View Bar */
+.fx-brands-controls-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 14px 20px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
 }
 
-.brands-chip-btn {
+.fx-brands-filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.fx-filter-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
-    color: #ffffff !important;
-    padding: 8px 18px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    padding: 8px 16px;
     border-radius: 50px;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 0.85rem;
-    font-weight: 800;
-    text-decoration: none;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.35);
-    transition: all 0.25s ease;
-    white-space: nowrap;
-}
-
-.brands-chip-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 22px rgba(255, 87, 34, 0.5);
-}
-
-/* Pagination Dots */
-.brands-dots-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 20px;
-    position: relative;
-    z-index: 5;
-}
-
-.brand-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #cbd5e1;
+    font-weight: 600;
+    color: #475569;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.25s ease;
+    outline: none;
 }
 
-.brand-dot:hover {
-    background: #94a3b8;
-    transform: scale(1.2);
+.fx-filter-pill:hover {
+    border-color: #ff5722;
+    color: #ff5722;
+    background: #fff;
+    transform: translateY(-1px);
 }
 
-.brand-dot.active {
-    width: 32px;
-    border-radius: 12px;
+.fx-filter-pill.active {
     background: #ff5722;
-    box-shadow: 0 0 12px rgba(255, 87, 34, 0.6);
+    border-color: #ff5722;
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgba(255, 87, 34, 0.35);
 }
 
-/* Hint */
-.brands-hint {
-    display: flex;
+.fx-filter-count {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    margin-top: 14px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.06);
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.fx-filter-pill.active .fx-filter-count {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.fx-view-switcher {
+    display: inline-flex;
+    align-items: center;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 12px;
+    gap: 4px;
+}
+
+.fx-view-btn {
+    border: none;
+    background: transparent;
+    padding: 7px 14px;
+    border-radius: 8px;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 0.82rem;
-    color: #94a3b8;
-    font-weight: 500;
-    position: relative;
-    z-index: 5;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
-/* Mobile Responsiveness */
+.fx-view-btn.active {
+    background: #ffffff;
+    color: #0f172a;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 3. Slider Nav (When Slider Mode is Active) */
+.fx-carousel-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: -8px;
+}
+
+.fx-carousel-arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    color: #0f172a;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.fx-carousel-arrow:hover {
+    background: #ff5722;
+    border-color: #ff5722;
+    color: #ffffff;
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(255, 87, 34, 0.35);
+}
+
+.fx-carousel-counter {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #ff5722;
+    background: rgba(255, 87, 34, 0.08);
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 87, 34, 0.2);
+}
+
+/* 4. Multi-Brand Cards Grid View */
+.fx-brands-grid.fx-view-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 24px;
+    width: 100%;
+}
+
+/* Multi-Brand Cards Carousel View */
+.fx-brands-grid.fx-view-carousel {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px 4px 24px 4px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.fx-brands-grid.fx-view-carousel .fx-brand-card {
+    flex: 0 0 320px;
+    scroll-snap-align: start;
+}
+
+/* Custom Scrollbar for Carousel View */
+.fx-brands-grid.fx-view-carousel::-webkit-scrollbar {
+    height: 8px;
+}
+.fx-brands-grid.fx-view-carousel::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 8px;
+}
+.fx-brands-grid.fx-view-carousel::-webkit-scrollbar-thumb {
+    background: #ff5722;
+    border-radius: 8px;
+}
+
+/* 5. Brand & Product Showcase Card */
+.fx-brand-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+    position: relative;
+    animation: fxCardFadeIn 0.4s ease forwards;
+}
+
+@keyframes fxCardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fx-brand-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 87, 34, 0.5);
+    box-shadow: 0 22px 50px -10px rgba(255, 87, 34, 0.2), 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.fx-card-top-header {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.fx-brand-logo-pill {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    box-sizing: border-box;
+}
+
+.fx-brand-mini-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.fx-category-badge {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+/* Product Media Preview Box */
+.fx-product-preview-box {
+    position: relative;
+    width: 100%;
+    height: 185px;
+    background: #f8fafc;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.fx-product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.45s ease;
+}
+
+.fx-brand-card:hover .fx-product-img {
+    transform: scale(1.06);
+}
+
+.fx-preview-overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    right: 12px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.fx-overlay-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(15, 23, 42, 0.88);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.fx-overlay-tag i {
+    color: #ff5722;
+}
+
+/* Card Content Details */
+.fx-card-content {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.fx-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.fx-brand-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.fx-verified-badge {
+    color: #ff5722;
+    font-size: 0.95rem;
+}
+
+.fx-brand-tagline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.fx-metric-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 87, 34, 0.08);
+    border: 1px solid rgba(255, 87, 34, 0.25);
+    border-radius: 8px;
+    padding: 7px 12px;
+    margin-bottom: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.84rem;
+    color: #ff5722;
+}
+
+.fx-metric-pill strong {
+    font-weight: 800;
+    color: #d94110;
+}
+
+.fx-metric-lbl {
+    font-size: 0.76rem;
+    color: #64748b;
+}
+
+.fx-deliverable-desc {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.84rem;
+    line-height: 1.5;
+    color: #475569;
+    margin: 0 0 16px 0;
+    flex-grow: 1;
+}
+
+.fx-case-study-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0f172a;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+    transition: all 0.25s ease;
+    margin-top: auto;
+}
+
+.fx-case-study-btn:hover {
+    background: #ff5722;
+    box-shadow: 0 6px 18px rgba(255, 87, 34, 0.4);
+    transform: translateX(3px);
+}
+
+/* 6. Responsive Adaptations */
+@media (max-width: 992px) {
+    .fx-brands-grid.fx-view-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 18px;
+    }
+}
+
 @media (max-width: 768px) {
     .brands-section {
         padding: 60px 15px 70px 15px;
     }
-    .brands-main-title {
-        font-size: 2.1rem;
+    .fx-brands-controls-bar {
+        flex-direction: column;
+        align-items: stretch;
     }
-    .brands-subtitle {
-        font-size: 0.95rem;
+    .fx-brands-filters {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        flex-wrap: nowrap;
     }
-    .brands-viewport {
-        height: 350px;
-        perspective: 800px;
+    .fx-filter-pill {
+        flex-shrink: 0;
     }
-    .brands-pedestal {
-        width: 440px;
-        height: 440px;
-        transform: rotateX(76deg) translateZ(-85px);
+    .fx-view-switcher {
+        align-self: flex-start;
     }
-    .pedestal-track-inner {
-        inset: 40px;
-    }
-    .pedestal-core-hotspot {
-        width: 240px;
-        height: 140px;
-    }
-    .brand-card-3d {
-        width: 150px;
-        height: 150px;
-        border-radius: 20px;
-    }
-    .brand-card-inner {
-        border-radius: 20px;
-        padding: 16px;
-    }
-    .brand-text-icon-wrap {
-        width: 42px;
-        height: 42px;
-        border-radius: 12px;
-        margin-bottom: 8px;
-    }
-    .brand-card-text-icon {
-        font-size: 1.3rem;
-    }
-    .brand-card-text-name {
-        font-size: 1.05rem;
-    }
-    .brand-card-text-tag {
-        font-size: 0.65rem;
-    }
-    .brands-arrow-btn {
-        width: 44px;
-        height: 44px;
-        font-size: 0.95rem;
-    }
-    .brands-active-chip {
-        padding: 8px 16px;
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .brands-chip-name {
-        font-size: 0.92rem;
-    }
-    .brands-chip-tag {
-        display: none;
-    }
-    .brands-chip-btn {
-        padding: 6px 14px;
-        font-size: 0.78rem;
+    .fx-brands-grid.fx-view-grid {
+        grid-template-columns: 1fr;
     }
 }
-
-@media (max-width: 480px) {
-    .hero-image {
-        min-height: 380px;
-    }
-    #globe-container {
-        height: 420px;
-    }
-    .brands-section {
-        padding: 50px 10px 60px 10px;
-    }
-    .brands-main-title {
-        font-size: 1.8rem;
-    }
-    .brands-subtitle {
-        font-size: 0.88rem;
-    }
-    .brands-viewport {
-        height: 310px;
-        perspective: 700px;
-    }
-    .brands-pedestal {
-        width: 330px;
-        height: 330px;
-        transform: rotateX(76deg) translateZ(-65px);
-    }
-    .pedestal-track-inner {
-        inset: 30px;
-    }
-    .pedestal-core-hotspot {
-        width: 180px;
-        height: 110px;
-    }
-    .brand-card-3d {
-        width: 125px;
-        height: 125px;
-        border-radius: 18px;
-    }
-    .brand-card-inner {
-        border-radius: 18px;
-        padding: 12px;
-    }
-    .brands-nav-deck {
-        gap: 10px;
-    }
-    .brands-arrow-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 0.85rem;
-    }
-    .brands-active-chip {
-        padding: 6px 12px;
-        gap: 8px;
-    }
-    .brands-chip-name {
-        font-size: 0.85rem;
-    }
-    .brands-chip-btn {
-        padding: 5px 12px;
-        font-size: 0.75rem;
-    }
-    .brands-hint {
-        font-size: 0.74rem;
-        text-align: center;
-        padding: 0 10px;
-    }
-}
-
-
 
 .seo-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(255, 87, 34, 0.15) !important; }
-
-
 
 /* Dangling Charm & Slingshot Easter Egg */
 

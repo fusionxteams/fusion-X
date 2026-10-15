@@ -47,6 +47,9 @@ if ( is_front_page() ) {
     ?>
     <title><?php echo esc_html( $cur_seo['title'] ); ?></title>
     <meta name="description" content="<?php echo esc_attr( $cur_seo['desc'] ); ?>">
+    <?php if ( ! empty( $cur_seo['keywords'] ) ) : ?>
+    <meta name="keywords" content="<?php echo esc_attr( $cur_seo['keywords'] ); ?>">
+    <?php endif; ?>
     <link rel="canonical" href="<?php echo esc_url( $cur_seo['canonical'] ); ?>">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:locale" content="en_US">

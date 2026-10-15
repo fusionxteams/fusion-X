@@ -17,15 +17,30 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // --- Three.js: 3D Spinning Globe Earth Model with Digital Marketing Arcs & Tooltips ---
-// Replaces the flat world map with the interactive 3D Globe Earth model
-const container = document.getElementById('globe-container');
+// Safe dimension detection and smooth fade-in completely prevents the page-load globe glitch.
+function initGlobe() {
+    const container = document.getElementById('globe-container');
+    if (!container || typeof THREE === 'undefined' || container.__globeInitialized) return;
+    container.__globeInitialized = true;
 
-if (container && typeof THREE !== 'undefined') {
     container.style.cursor = 'grab';
     const scene = new THREE.Scene();
-    
-    // Transparent background so it blends seamlessly with the hero section
-    const aspect = container.clientWidth / container.clientHeight;
+
+    // Helper: Safely resolve dimensions to ensure non-zero aspect ratio and prevent NaN projection glitches
+    function getContainerDimensions() {
+        let w = container.clientWidth;
+        let h = container.clientHeight;
+        if (!w || w < 80) {
+            w = container.parentElement ? container.parentElement.clientWidth : window.innerWidth;
+        }
+        if (!h || h < 80) {
+            h = Math.max(420, Math.min(window.innerHeight * 0.65, 600));
+        }
+        return { w: Math.max(280, w), h: Math.max(320, h) };
+    }
+
+    const initialDims = getContainerDimensions();
+    const aspect = initialDims.w / initialDims.h;
     const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
     
     let hudSprite = null;
@@ -33,7 +48,8 @@ if (container && typeof THREE !== 'undefined') {
     function updateGlobeCamera() {
         if (!container) return;
         const width = window.innerWidth;
-        const curAspect = container.clientWidth / container.clientHeight;
+        const dims = getContainerDimensions();
+        const curAspect = dims.w / dims.h;
         if (width <= 360) {
             camera.position.z = 60; // Extra narrow mobile (e.g. 320px)
         } else if (width <= 480 || curAspect < 0.75) {
@@ -62,9 +78,16 @@ if (container && typeof THREE !== 'undefined') {
     }
     updateGlobeCamera();
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer.setSize(initialDims.w, initialDims.h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Smooth entry to completely eliminate layout snap
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
+    renderer.domElement.style.display = 'block';
+    renderer.domElement.style.opacity = '0';
+    renderer.domElement.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
     container.appendChild(renderer.domElement);
 
     // High-Quality Studio Lights
@@ -79,20 +102,28 @@ if (container && typeof THREE !== 'undefined') {
     rimLight.position.set(-10, -5, 5);
     scene.add(rimLight);
 
-    // Create the 3D Sphere (Globe)
+    // Create the 3D Sphere (Globe) with instant deep-cyber blue fallback so it never flashes black
     const globeRadius = 10;
     const geometry = new THREE.SphereGeometry(globeRadius, 64, 64);
     
-    const textureLoader = new THREE.TextureLoader();
-    const mapTexture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
-    const bumpTexture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-topology.png');
-    
     const material = new THREE.MeshStandardMaterial({ 
-        map: mapTexture,
-        bumpMap: bumpTexture,
-        bumpScale: 0.18,
+        color: 0x091d36,
         roughness: 0.55,
-        metalness: 0.12
+        metalness: 0.15,
+        emissive: 0x040e1a
+    });
+    
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg', (tex) => {
+        material.map = tex;
+        material.color.setHex(0xffffff);
+        material.emissive.setHex(0x000000);
+        material.needsUpdate = true;
+    });
+    textureLoader.load('https://unpkg.com/three-globe/example/img/earth-topology.png', (bump) => {
+        material.bumpMap = bump;
+        material.bumpScale = 0.18;
+        material.needsUpdate = true;
     });
     
     const globe = new THREE.Mesh(geometry, material);
@@ -883,14 +914,20 @@ if (container && typeof THREE !== 'undefined') {
         }
     }, { passive: false });
 
-    window.addEventListener('resize', () => {
-        if (!container) return;
-        const newAspect = container.clientWidth / container.clientHeight;
-        camera.aspect = newAspect;
+    function handleGlobeResize() {
+        if (!container || !renderer) return;
+        const dims = getContainerDimensions();
+        camera.aspect = dims.w / dims.h;
         camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setSize(dims.w, dims.h);
         updateGlobeCamera();
-    });
+    }
+    window.addEventListener('resize', handleGlobeResize);
+    if (window.ResizeObserver && container) {
+        try {
+            new ResizeObserver(handleGlobeResize).observe(container);
+        } catch (e) {}
+    }
 
     // Orbit State
     let satAngle = 0;
@@ -1027,4 +1064,18 @@ if (container && typeof THREE !== 'undefined') {
     }
     
     animateGlobe();
+    requestAnimationFrame(() => {
+        if (renderer && renderer.domElement) {
+            renderer.domElement.style.opacity = '1';
+        }
+    });
 }
+
+// Safely boot globe whether script runs before or after DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGlobe);
+} else {
+    initGlobe();
+}
+window.addEventListener('load', initGlobe);
+

@@ -52,6 +52,7 @@ function fusion_x_get_current_seo_meta() {
     $title = '';
     $desc = '';
     $canonical = '';
+    $keywords = '';
 
     // 1. Resolve slug from REQUEST_URI directly for bulletproof accuracy
     $raw_uri = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
@@ -70,30 +71,37 @@ function fusion_x_get_current_seo_meta() {
     if ( ! empty( $slug ) && isset( $map[ $slug ] ) ) {
         $title = $map[ $slug ]['title'];
         $desc  = $map[ $slug ]['desc'];
+        $keywords = isset( $map[ $slug ]['keywords'] ) ? $map[ $slug ]['keywords'] : '';
         $canonical = home_url( '/' . $slug . '/' );
     } elseif ( empty( $slug ) || $slug === 'index' || ( is_front_page() && empty( $url_slug ) ) ) {
         // True front page
         $data = isset( $map['index'] ) ? $map['index'] : null;
         $title = $data ? $data['title'] : 'Best Digital Marketing Company in India | Fusion X Chennai';
         $desc = $data ? $data['desc'] : "Fusion X is India's leading digital marketing company in Chennai. We engineer AI-visible websites, EEAT SEO, and high-ROAS paid media to scale brands.";
+        $keywords = $data && isset( $data['keywords'] ) ? $data['keywords'] : 'best digital marketing company in India, best digital marketing agency in Chennai, digital marketing near me, web development, brand consulting, SEO expert, AEO, GEO, EEAT, AI visible websites, Meta Ads, Google Ads';
         $canonical = home_url( '/' );
     } elseif ( is_page() ) {
         $page_title = $queried ? get_the_title( $queried ) : ( ! empty( $slug ) ? ucwords( str_replace( '-', ' ', $slug ) ) : '' );
         $title = ! empty( $page_title ) ? $page_title . ' | Best Digital Marketing Agency | Fusion X' : 'Best Digital Marketing Company in India | Fusion X Chennai';
         $desc  = 'Scale your digital presence, search visibility, and paid media ROAS with Fusion X Digital Marketing Agency.';
+        $keywords = 'digital marketing agency Chennai, SEO expert Chennai, performance marketing, high ROAS ads';
         $canonical = home_url( '/' . ( $slug ? $slug . '/' : '' ) );
     } elseif ( is_singular( 'post' ) ) {
         $title = $queried ? get_the_title( $queried ) . ' | Fusion X Insights' : get_the_title() . ' | Fusion X Insights';
         $desc  = has_excerpt() ? get_the_excerpt() : wp_trim_words( get_the_content(), 25, '...' );
+        $tags = get_the_tags();
+        $keywords = $tags ? implode( ', ', wp_list_pluck( $tags, 'name' ) ) : 'digital marketing insights, SEO playbooks, GEO framework, paid media strategy';
         $canonical = $queried ? get_permalink( $queried ) : ( ! empty( $slug ) ? home_url( '/' . $slug . '/' ) : home_url( '/' ) );
     } elseif ( is_category() || is_archive() ) {
         $title = single_term_title( '', false ) . ' | Fusion X Digital Marketing';
         $desc  = 'Explore industry insights, case studies, and digital marketing strategies from Fusion X.';
+        $keywords = 'digital marketing blog, SEO insights, performance marketing, case studies';
         $canonical = $queried ? get_term_link( $queried ) : home_url( '/blog/' );
     } else {
         // Universal self-referencing canonical fallback (NEVER defaults to homepage unless root!)
         $title = ! empty( $slug ) ? ucwords( str_replace( '-', ' ', $slug ) ) . ' | Best Digital Marketing Agency | Fusion X' : 'Best Digital Marketing Company in India | Fusion X Chennai';
         $desc  = "Fusion X is India's premier digital performance agency engineering high-ROAS funnels and AI search rankings.";
+        $keywords = 'digital marketing agency Chennai, SEO expert Chennai, performance marketing';
         $canonical = ! empty( $slug ) ? home_url( '/' . $slug . '/' ) : home_url( '/' );
     }
 
@@ -101,6 +109,7 @@ function fusion_x_get_current_seo_meta() {
         'title'     => $title,
         'desc'      => $desc,
         'canonical' => $canonical,
+        'keywords'  => $keywords,
     );
 }
 

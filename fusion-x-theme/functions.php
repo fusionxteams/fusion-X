@@ -134,14 +134,14 @@ function fusion_x_scripts() {
     // Theme Main Stylesheet
     wp_enqueue_style( 'fusion-x-style', get_stylesheet_uri(), array(), $theme_version );
 
-    // Three.js and libraries
-    wp_enqueue_script( 'three-js', 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', array(), 'r128', true );
-    wp_enqueue_script( 'three-orbit-controls', 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js', array( 'three-js' ), '0.128.0', true );
-    wp_enqueue_script( 'three-gltf-loader', 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js', array( 'three-js' ), '0.128.0', true );
+    // Three.js and libraries (Loaded in <head> so inline page scripts have immediate access)
+    wp_enqueue_script( 'three-js', 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', array(), 'r128', false );
+    wp_enqueue_script( 'three-orbit-controls', 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js', array( 'three-js' ), '0.128.0', false );
+    wp_enqueue_script( 'three-gltf-loader', 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js', array( 'three-js' ), '0.128.0', false );
 
-    // GSAP
-    wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', array(), '3.12.2', true );
-    wp_enqueue_script( 'gsap-scroll-trigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js', array( 'gsap' ), '3.12.2', true );
+    // GSAP (Loaded in <head> so ScrollTrigger is immediately available to templates)
+    wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', array(), '3.12.2', false );
+    wp_enqueue_script( 'gsap-scroll-trigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js', array( 'gsap' ), '3.12.2', false );
 
     // Custom Interactive Core Scripts
     wp_enqueue_script( 'fusion-x-logo-b64', $uri . '/logo_b64.js', array(), $theme_version, true );

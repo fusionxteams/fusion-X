@@ -1460,5 +1460,15 @@ get_header();
         });
     </script>
 
+    <!-- ═══════════════════════ TOUCH-TO-ENLARGE MAP & PROOF LIGHTBOX MODAL ═══════════════════════ -->
+    <div id="ai-image-lightbox" class="ai-lightbox-modal" style="display: none;" aria-hidden="true">
+        <button class="ai-lightbox-close-btn" aria-label="Close enlarged map" title="Close (Esc)">&times;</button>
+        <div class="ai-lightbox-scroll-area">
+            <img id="ai-lightbox-img" class="ai-lightbox-img-el" src="" alt="Enlarged AI Proof Map">
+            <div id="ai-lightbox-caption" class="ai-lightbox-caption-text"></div>
+            <div class="ai-lightbox-zoom-hint"><i class="fa-solid fa-hand-pointer"></i> Tap map/image to toggle extra zoom</div>
+        </div>
+    </div>
+
 <?php
 get_footer();

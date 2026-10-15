@@ -8,6 +8,8 @@
 get_header();
 ?>
 
+<canvas id="dots-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"></canvas>
+
 <!-- Blog Hero Section -->
 <header class="blog-hub-hero">
     <div class="blog-container" style="position: relative; z-index: 2;">
@@ -69,57 +71,70 @@ get_header();
                             <span class="featured-pill"><i class="fa-solid fa-star"></i> Featured Guide</span>
                             <h2 class="featured-title"><?php the_title(); ?></h2>
                             <p class="featured-excerpt">
-                                <?php echo has_excerpt() ? get_the_excerpt() : wp_trim_words( get_the_content(), 30, '...' ); ?>
+                                <?php echo wp_trim_words( get_the_excerpt(), 28, '...' ); ?>
                             </p>
                             <div class="featured-meta">
                                 <div class="featured-author">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/team/kamalesh-j-digital-marketing-expert.webp' ); ?>" alt="<?php the_author(); ?>">
+                                    <?php echo get_avatar( get_the_author_meta( 'ID' ), 28 ); ?>
                                     <span><?php the_author(); ?></span>
                                 </div>
                                 <span>•</span>
-                                <span><?php echo get_the_date( 'F j, Y' ); ?></span>
+                                <span><?php echo get_the_date(); ?></span>
                                 <span>•</span>
-                                <span><i class="fa-solid fa-clock"></i> 5 min read</span>
+                                <span><i class="fa-solid fa-clock"></i> 7 min read</span>
                             </div>
                             <div class="featured-cta-btn">
                                 Read Full Article <i class="fa-solid fa-arrow-right"></i>
                             </div>
                         </div>
                         <div class="featured-visual-box" style="background-image: url('<?php echo esc_url( $thumb_url ); ?>'); background-size: cover; background-position: center;">
-                            <div style="background: rgba(0,0,0,0.65); padding: 20px; border-radius: 12px; backdrop-filter: blur(4px);">
-                                <i class="fa-solid fa-brain-circuit" style="font-size: 2rem; color: #ff5722; margin-bottom: 8px;"></i>
-                                <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 700; margin: 0;"><?php the_title(); ?></h3>
+                            <div style="background: rgba(0,0,0,0.65); width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 12px;">
+                                <i class="fa-solid fa-brain-circuit" style="font-size: 2.2rem; color: #ff5722; margin-bottom: 12px;"></i>
+                                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 700; margin: 0 0 6px 0; text-align: center;"><?php the_title(); ?></h3>
+                                <p style="color: #94a3b8; font-size: 0.85rem; margin: 0; text-align: center;">Verified Growth Playbook</p>
                             </div>
                         </div>
                     </a>
 
-                    <div class="blog-articles-grid" style="margin-top: 40px;">
-                <?php
-                else :
-                    if ( $post_idx === 2 && $paged === 1 && empty( $current_cat ) ) {
-                        // Already inside .blog-articles-grid
-                    } elseif ( $post_idx === 1 ) {
-                        echo '<div class="blog-articles-grid">';
-                    }
-                    ?>
+                    <div class="blog-articles-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 30px; margin-top: 50px;">
+                <?php else : ?>
+                    <?php if ( $post_idx === 1 ) : ?>
+                        <div class="blog-articles-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 30px;">
+                    <?php endif; ?>
+
+                    <!-- Standard Post Card -->
                     <article class="blog-article-card">
-                        <div class="article-badge-row">
+                        <div class="article-thumb-wrap">
+                            <?php if ( has_post_thumbnail() ) : ?>
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php the_post_thumbnail( 'medium_large', array( 'class' => 'article-thumb-img' ) ); ?>
+                                </a>
+                            <?php else : ?>
+                                <a href="<?php the_permalink(); ?>" style="display: flex; height: 100%; align-items: center; justify-content: center; background: #121826;">
+                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/logo_transparent.png' ); ?>" alt="Fusion X" style="max-height: 80px; opacity: 0.8;">
+                                </a>
+                            <?php endif; ?>
+
                             <?php
-                            $categories = get_the_category();
-                            $cat_name = ! empty( $categories ) ? esc_html( $categories[0]->name ) : 'Digital Growth';
-                            ?>
-                            <span class="article-cat-badge"><?php echo $cat_name; ?></span>
-                            <span class="article-read-time"><i class="fa-solid fa-clock"></i> 5 min read</span>
+                            $post_cats = get_the_category();
+                            if ( ! empty( $post_cats ) ) :
+                                ?>
+                                <span class="article-card-badge"><?php echo esc_html( $post_cats[0]->name ); ?></span>
+                            <?php endif; ?>
                         </div>
-                        <h3 class="article-title">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                        </h3>
-                        <p class="article-excerpt">
-                            <?php echo has_excerpt() ? get_the_excerpt() : wp_trim_words( get_the_content(), 22, '...' ); ?>
-                        </p>
+
+                        <div class="article-body">
+                            <h3 class="article-card-title">
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            </h3>
+                            <p class="article-card-excerpt">
+                                <?php echo wp_trim_words( get_the_excerpt(), 18, '...' ); ?>
+                            </p>
+                        </div>
+
                         <div class="article-footer">
                             <div class="article-author">
-                                <img src="<?php echo esc_url( get_template_directory_uri() . '/team/saravana-sanjhay-m-seo-expert.webp' ); ?>" alt="<?php the_author(); ?>">
+                                <?php echo get_avatar( get_the_author_meta( 'ID' ), 32, '', '', array( 'style' => 'border-radius: 50%; border: 1px solid #ff5722;' ) ); ?>
                                 <div>
                                     <div class="article-author-name"><?php the_author(); ?></div>
                                     <div class="article-date"><?php echo get_the_date( 'M j, Y' ); ?></div>
@@ -158,10 +173,89 @@ get_header();
 
         else :
             ?>
-            <div class="no-posts" style="text-align: center; padding: 60px; background: rgba(18, 18, 20, 0.7); border-radius: 16px; border: 1px dashed rgba(255, 87, 34, 0.3);">
-                <i class="fa-regular fa-newspaper" style="font-size: 3rem; color: #ff5722; margin-bottom: 20px; display: block;"></i>
-                <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 10px;">No Insights Published In This Category</h3>
-                <p style="color: #94a3b8;">Publish a post in WordPress Admin &gt; Posts &gt; Add New, and it will appear here immediately!</p>
+            <!-- Default Flagship Showcase when no WP posts created yet -->
+            <a href="<?php echo esc_url( home_url( '/blog-post/' ) ); ?>" class="blog-featured-card">
+                <div>
+                    <span class="featured-pill"><i class="fa-solid fa-star"></i> Featured Guide</span>
+                    <h2 class="featured-title">The 2026 Blueprint for AI Engine Optimization (GEO): Dominating ChatGPT, Perplexity & Google SGE</h2>
+                    <p class="featured-excerpt">
+                        Traditional 10-blue-link search is transforming rapidly. Discover how enterprise brands are re-architecting content and entity authority to win direct citations in AI-powered conversational search engines.
+                    </p>
+                    <div class="featured-meta">
+                        <div class="featured-author">
+                            <img src="<?php echo esc_url( get_template_directory_uri() . '/team/kamalesh-j-digital-marketing-expert.webp' ); ?>" alt="Kamalesh J">
+                            <span>Kamalesh J</span>
+                        </div>
+                        <span>•</span>
+                        <span>October 7, 2026</span>
+                        <span>•</span>
+                        <span><i class="fa-solid fa-clock"></i> 7 min read</span>
+                    </div>
+                    <div class="featured-cta-btn">
+                        Read Full Article <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="featured-visual-box">
+                    <i class="fa-solid fa-brain-circuit" style="font-size: 2.5rem; color: #ff5722; margin-bottom: 15px;"></i>
+                    <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 700; margin: 0 0 8px 0;">GEO Framework 2026</h3>
+                    <p style="color: #94a3b8; font-size: 0.88rem; margin: 0;">Multi-Modal Retrieval & Citations</p>
+                </div>
+            </a>
+
+            <div class="blog-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 30px; margin-top: 40px;">
+                <!-- Card 1 -->
+                <a href="<?php echo esc_url( home_url( '/blog-post/' ) ); ?>" class="blog-card" style="text-decoration: none;">
+                    <div class="blog-card-thumb" style="background: rgba(255, 87, 34, 0.1); display: flex; align-items: center; justify-content: center; height: 180px; position: relative;">
+                        <span class="blog-card-category">Paid Advertising</span>
+                        <i class="fa-solid fa-bullseye" style="font-size: 3rem; color: #ff5722;"></i>
+                    </div>
+                    <div class="blog-card-body" style="padding: 24px;">
+                        <h3 class="blog-card-title" style="color: #fff; margin-bottom: 12px; font-size: 1.2rem;">Scaling Meta & Google Ads: How We Achieved 8.4x Blended ROAS</h3>
+                        <p class="blog-card-desc" style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">
+                            A deep dive into cross-platform attribution, Advantage+ shopping campaigns, and ruthless creative iteration cycles that maximize enterprise revenue.
+                        </p>
+                        <div class="blog-card-footer" style="display: flex; justify-content: space-between; margin-top: 15px; color: #64748b; font-size: 0.85rem;">
+                            <span>5 min read</span>
+                            <span class="blog-read-more" style="color: #ff5722; font-weight: 600;">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 2 -->
+                <a href="<?php echo esc_url( home_url( '/blog-post/' ) ); ?>" class="blog-card" style="text-decoration: none;">
+                    <div class="blog-card-thumb" style="background: rgba(255, 87, 34, 0.1); display: flex; align-items: center; justify-content: center; height: 180px; position: relative;">
+                        <span class="blog-card-category">Technical SEO</span>
+                        <i class="fa-solid fa-gauge-high" style="font-size: 3rem; color: #ff5722;"></i>
+                    </div>
+                    <div class="blog-card-body" style="padding: 24px;">
+                        <h3 class="blog-card-title" style="color: #fff; margin-bottom: 12px; font-size: 1.2rem;">Core Web Vitals & Hydration: Why Site Speed Decides Your Rankings</h3>
+                        <p class="blog-card-desc" style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">
+                            Learn how optimizing Interaction to Next Paint (INP), DOM depth, and server-side caching directly correlates to first-page ranking dominance.
+                        </p>
+                        <div class="blog-card-footer" style="display: flex; justify-content: space-between; margin-top: 15px; color: #64748b; font-size: 0.85rem;">
+                            <span>6 min read</span>
+                            <span class="blog-read-more" style="color: #ff5722; font-weight: 600;">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 3 -->
+                <a href="<?php echo esc_url( home_url( '/blog-post/' ) ); ?>" class="blog-card" style="text-decoration: none;">
+                    <div class="blog-card-thumb" style="background: rgba(255, 87, 34, 0.1); display: flex; align-items: center; justify-content: center; height: 180px; position: relative;">
+                        <span class="blog-card-category">Brand Strategy</span>
+                        <i class="fa-solid fa-chess-knight" style="font-size: 3rem; color: #ff5722;"></i>
+                    </div>
+                    <div class="blog-card-body" style="padding: 24px;">
+                        <h3 class="blog-card-title" style="color: #fff; margin-bottom: 12px; font-size: 1.2rem;">Building an Unshakable Brand Moat in an Era of Commodity AI</h3>
+                        <p class="blog-card-desc" style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">
+                            When anyone can generate copy in seconds, unique perspective and high-EEAT authority become your company's greatest competitive moat.
+                        </p>
+                        <div class="blog-card-footer" style="display: flex; justify-content: space-between; margin-top: 15px; color: #64748b; font-size: 0.85rem;">
+                            <span>4 min read</span>
+                            <span class="blog-read-more" style="color: #ff5722; font-weight: 600;">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </a>
             </div>
         <?php endif; ?>
 

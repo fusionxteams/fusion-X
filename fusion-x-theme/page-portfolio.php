@@ -1376,7 +1376,7 @@ get_header();
                         <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(16, 163, 127, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
                             <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                             <picture>
-                                <source srcset="ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.webp" type="image/webp">
+                                <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.webp" type="image/webp">
                                 <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.png" alt="OpenAI ChatGPT Search Bhawani Corner Ranking #1" style="width: 100%; height: auto; display: block;" loading="lazy">
                             </picture>
                             <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 14px; border: 1px solid rgba(16, 163, 127, 0.45); font-size: 0.72rem; font-weight: 700; color: #34d399;">
@@ -1387,7 +1387,7 @@ get_header();
                         <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 87, 34, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
                             <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                             <picture>
-                                <source srcset="ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.webp" type="image/webp">
+                                <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.webp" type="image/webp">
                                 <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.png" alt="Google Gemini Nilaro Coffee Ranking #1" style="width: 100%; height: auto; display: block;" loading="lazy">
                             </picture>
                             <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 14px; border: 1px solid rgba(255, 87, 34, 0.4); font-size: 0.72rem; font-weight: 700; color: #ff7043;">
@@ -1398,7 +1398,7 @@ get_header();
                         <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 87, 34, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
                             <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big map</span>
                             <picture>
-                                <source srcset="ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.webp" type="image/webp">
+                                <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.webp" type="image/webp">
                                 <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.png" alt="Google AI Overviews Bhawani Corner 900+ Calls Record" style="width: 100%; height: auto; display: block;" loading="lazy">
                             </picture>
                             <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 14px; border: 1px solid rgba(255, 87, 34, 0.4); font-size: 0.72rem; font-weight: 700; color: #ff7043;">
@@ -2549,6 +2549,16 @@ get_header();
         });
 
     </script>
+
+    <!-- ═══════════════════════ TOUCH-TO-ENLARGE MAP & PROOF LIGHTBOX MODAL ═══════════════════════ -->
+    <div id="ai-image-lightbox" class="ai-lightbox-modal" style="display: none;" aria-hidden="true">
+        <button class="ai-lightbox-close-btn" aria-label="Close enlarged map" title="Close (Esc)">&times;</button>
+        <div class="ai-lightbox-scroll-area">
+            <img id="ai-lightbox-img" class="ai-lightbox-img-el" src="" alt="Enlarged AI Proof Map">
+            <div id="ai-lightbox-caption" class="ai-lightbox-caption-text"></div>
+            <div class="ai-lightbox-zoom-hint"><i class="fa-solid fa-hand-pointer"></i> Tap map/image to toggle extra zoom</div>
+        </div>
+    </div>
 
 <?php
 get_footer();

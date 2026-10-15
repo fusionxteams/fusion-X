@@ -1229,6 +1229,9 @@ get_header();
         }
     </style>
 
+    <!-- Background Orange Floating Dots Canvas -->
+    <canvas id="particles-canvas"></canvas>
+
 <!-- ═══════════════════════ CASE STUDY HERO ═══════════════════════ -->
     <header class="case-hero">
         <div class="hero-container">

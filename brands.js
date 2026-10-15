@@ -3,6 +3,19 @@
 (function() {
     'use strict';
 
+    
+    function resolveAsset(path) {
+        if (!path) return '';
+        if (path.startsWith('http') || path.startsWith('//') || path.startsWith('data:')) return path;
+        return themeUri + path.replace(/^\//, '');
+    }
+    function resolveLink(slug) {
+        if (!slug) return homeUrl;
+        if (slug.startsWith('http') || slug.startsWith('//')) return slug;
+        const cleanSlug = slug.replace(/\.html$/i, '').replace(/^\//, '');
+        return homeUrl + cleanSlug + '/';
+    }
+    
     const brandsContainer = document.getElementById('brands-3d-container') || document.getElementById('brands');
     if (!brandsContainer) return;
 
@@ -424,5 +437,177 @@
     marqueeSection.appendChild(marqueeRow1);
     showcaseWrapper.appendChild(marqueeSection);
 
+    const controlsBar = document.createElement('div');
+    controlsBar.className = 'fx-brands-controls-bar';
+
+    // Category Filter Pills
+    const filterTabs = document.createElement('div');
+    filterTabs.className = 'fx-brands-filters';
+
+    const categories = [
+        { key: "all", label: "All Brands", count: brandList.length },
+        { key: "ecommerce", label: "D2C & E-Commerce", count: brandList.filter(b => b.category === 'ecommerce').length },
+        { key: "healthcare", label: "Healthcare & Clinics", count: brandList.filter(b => b.category === 'healthcare').length },
+        { key: "fnb", label: "Food & Beverages", count: brandList.filter(b => b.category === 'fnb').length },
+        { key: "media", label: "Media & Studios", count: brandList.filter(b => b.category === 'media').length }
+    ];
+
+    let currentCategory = "all";
+    let currentViewMode = "grid"; // "grid" or "carousel"
+
+    categories.forEach((cat, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `fx-filter-pill ${index === 0 ? 'active' : ''}`;
+        btn.dataset.category = cat.key;
+        btn.innerHTML = `<span>${cat.label}</span><span class="fx-filter-count">${cat.count}</span>`;
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.fx-filter-pill').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentCategory = cat.key;
+            renderCards();
+        });
+        filterTabs.appendChild(btn);
+    });
+
+    // View Switcher Buttons
+    const viewSwitcher = document.createElement('div');
+    viewSwitcher.className = 'fx-view-switcher';
+    viewSwitcher.innerHTML = `
+        <button type="button" class="fx-view-btn active" data-view="grid" title="Show All Brands in Grid View">
+            <i class="fa-solid fa-grip"></i> Grid View
+        </button>
+        <button type="button" class="fx-view-btn" data-view="carousel" title="Browse in Multi-Card Carousel View">
+            <i class="fa-solid fa-arrows-left-right"></i> Slider View
+        </button>
+    `;
+
+    controlsBar.appendChild(filterTabs);
+    controlsBar.appendChild(viewSwitcher);
+    showcaseWrapper.appendChild(controlsBar);
+
+    // Carousel Navigation Bar (Used when in Carousel View)
+    const carouselNav = document.createElement('div');
+    carouselNav.className = 'fx-carousel-nav';
+    carouselNav.style.display = 'none';
+    carouselNav.innerHTML = `
+        <button type="button" class="fx-carousel-arrow fx-arrow-prev" aria-label="Previous Brand">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <span class="fx-carousel-counter">Showing Multiple Brands</span>
+        <button type="button" class="fx-carousel-arrow fx-arrow-next" aria-label="Next Brand">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    `;
+    showcaseWrapper.appendChild(carouselNav);
+
+    // â”€â”€ 3. MULTI-BRAND SHOWCASE CARDS CONTAINER â”€â”€
+    const cardsContainer = document.createElement('div');
+    cardsContainer.className = 'fx-brands-grid fx-view-grid';
+    showcaseWrapper.appendChild(cardsContainer);
+
+    // Function to Render Multi-Brand Product Cards
+    function renderCards() {
+        cardsContainer.innerHTML = '';
+
+        const filteredList = currentCategory === "all" 
+            ? brandList 
+            : brandList.filter(b => b.category === currentCategory);
+
+        filteredList.forEach((brand, idx) => {
+            const card = document.createElement('div');
+            card.className = 'fx-brand-card';
+            card.dataset.category = brand.category;
+            card.style.animationDelay = `${idx * 0.05}s`;
+
+            card.innerHTML = `
+                <div class="fx-card-top-header">
+                    <span class="fx-verified-pill"><i class="fa-solid fa-gem"></i> Verified Client</span>
+                    <span class="fx-category-badge">${brand.categoryLabel}</span>
+                </div>
+
+                <div class="fx-brand-logo-stage">
+                    <img src="${brand.logo}" alt="${brand.name} Logo" class="fx-brand-stage-logo" loading="lazy">
+                    <div class="fx-preview-overlay">
+                        <span class="fx-overlay-tag"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${brand.tag}</span>
+                    </div>
+                </div>
+
+                <div class="fx-card-content">
+                    <div class="fx-title-row">
+                        <h3 class="fx-brand-name">${brand.name}</h3>
+                        <span class="fx-verified-badge" title="Verified Client Partner"><i class="fa-solid fa-circle-check"></i></span>
+                    </div>
+                    <span class="fx-brand-tagline">${brand.tag}</span>
+
+                    <div class="fx-metric-pill">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                        <strong>${brand.metric}</strong>
+                        <span class="fx-metric-lbl">(${brand.metricLabel})</span>
+                    </div>
+
+                    <p class="fx-deliverable-desc">${brand.deliverable}</p>
+
+                    <a href="${brand.link}" class="fx-case-study-btn">
+                        <span>Explore Case Study</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            `;
+            cardsContainer.appendChild(card);
+        });
+
+        // Update carousel state
+        updateCarouselControls();
+    }
+
+    // View Switcher Handler
+    viewSwitcher.querySelectorAll('.fx-view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            viewSwitcher.querySelectorAll('.fx-view-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentViewMode = btn.dataset.view;
+
+            if (currentViewMode === 'carousel') {
+                cardsContainer.className = 'fx-brands-grid fx-view-carousel';
+                carouselNav.style.display = 'flex';
+            } else {
+                cardsContainer.className = 'fx-brands-grid fx-view-grid';
+                carouselNav.style.display = 'none';
+            }
+            updateCarouselControls();
+        });
+    });
+
+    // Carousel Arrow Handlers
+    const prevArrow = carouselNav.querySelector('.fx-arrow-prev');
+    const nextArrow = carouselNav.querySelector('.fx-arrow-next');
+
+    if (prevArrow && nextArrow) {
+        prevArrow.addEventListener('click', () => {
+            cardsContainer.scrollBy({ left: -360, behavior: 'smooth' });
+        });
+        nextArrow.addEventListener('click', () => {
+            cardsContainer.scrollBy({ left: 360, behavior: 'smooth' });
+        });
+    }
+
+    function updateCarouselControls() {
+        const counter = carouselNav.querySelector('.fx-carousel-counter');
+        if (counter) {
+            const count = cardsContainer.children.length;
+            counter.textContent = `${count} Multiple Brands Live`;
+        }
+    }
+
+    // Append Showcase System to Target Container
     brandsContainer.appendChild(showcaseWrapper);
+
+    // Initial Card Render
+    renderCards();
+
+    brandsContainer.appendChild(showcaseWrapper);
+
+    // Initial Card Render
+    renderCards();
 })();

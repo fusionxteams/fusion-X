@@ -8,6 +8,11 @@
 get_header();
 ?>
 
+<!-- Reading Progress Bar -->
+<div id="reading-progress-bar" style="position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #ff5722, #ff8a50); width: 0%; z-index: 9999; transition: width 0.1s ease;"></div>
+
+<canvas id="dots-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"></canvas>
+
 <!-- ARTICLE HERO SECTION -->
     <header class="article-hero-section">
         <div class="article-hero-wrap">

@@ -72,12 +72,13 @@
     let logoMesh = null;
     let isLoaded = false;
 
-    // Loading overlay indicator
-    const loaderSpinner = document.getElementById('fusion-3d-loader');
+    const themeUri = (window.fusionXData && window.fusionXData.themeUri) 
+        ? (window.fusionXData.themeUri.replace(/\/$/, '') + '/') 
+        : (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI.replace(/\/$/, '') + '/' : '');
+    const modelUrl = themeUri + 'fusion-x-3d.glb';
 
     const loader = new THREE.GLTFLoader();
-    // Use the copied project asset
-    loader.load('fusion-x-3d.glb', function(gltf) {
+    loader.load(modelUrl, function(gltf) {
         logoMesh = gltf.scene;
 
         // Traverse mesh materials for pristine rendering

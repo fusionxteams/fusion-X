@@ -1548,11 +1548,15 @@ get_header();
                 Enter your website and target location. Saravana Sanjhay M will personally crawl your site, detect crawl blockers, identify keyword gaps, and send a custom action plan within 24 hours.
             </p>
 
-            <form onsubmit="handleAuditSubmit(event)">
+            <form id="seo-audit-form">
+                <input type="hidden" name="action" value="fusion_x_submit_form">
+                <input type="hidden" name="form_type" value="SEO Audit Form">
+                <input type="hidden" name="service" value="Local & AI SEO Audit">
+                <input type="hidden" name="source_page" value="<?php echo esc_attr( ['REQUEST_URI'] ); ?>">
                 <div class="form-row-grid">
-                    <input type="url" id="audit-website" class="input-dark" placeholder="https://yourwebsite.com" required>
-                    <input type="text" id="audit-locality" class="input-dark" placeholder="Target Locality (e.g. Vadapalani, Chennai)" required>
-                    <input type="tel" id="audit-phone" class="input-dark" placeholder="Phone Number / WhatsApp" required>
+                    <input type="url" id="audit-website" name="message" class="input-dark" placeholder="https://yourwebsite.com" required>
+                    <input type="text" id="audit-locality" name="name" class="input-dark" placeholder="Target Locality (e.g. Vadapalani, Chennai)" required>
+                    <input type="tel" id="audit-phone" name="phone" class="input-dark" placeholder="Phone Number / WhatsApp" required>
                 </div>
                 <button type="submit" class="btn-seo-primary" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 16px;">
                     <i class="fas fa-search-location"></i> Run Diagnostic Crawl Audit &rarr;

@@ -475,59 +475,64 @@ get_header();
                     <p class="form-card-desc">Fill out your project details below and our team will get back to you within 2 business hours with an initial audit and proposal.</p>
                 </div>
 
-                <form id="contact-inquiry-form" onsubmit="event.preventDefault(); alert('Thank you! Your message has been received. Our team will contact you shortly.');">
+                <form id="contact-inquiry-form">
+                    <input type="hidden" name="action" value="fusion_x_submit_form">
+                    <input type="hidden" name="form_type" value="Contact Page Form">
+                    <input type="hidden" name="source_page" value="<?php echo esc_attr( $_SERVER['REQUEST_URI'] ); ?>">
+
                     <div class="form-group-row">
                         <div>
                             <label class="form-label">Full Name *</label>
-                            <input type="text" class="form-input" placeholder="e.g. Arun Kumar" required>
+                            <input type="text" name="name" class="form-input" placeholder="e.g. Arun Kumar" required>
                         </div>
                         <div>
                             <label class="form-label">Work Email *</label>
-                            <input type="email" class="form-input" placeholder="arun@brand.com" required>
+                            <input type="email" name="email" class="form-input" placeholder="arun@brand.com" required>
                         </div>
                     </div>
 
                     <div class="form-group-row">
                         <div>
                             <label class="form-label">Phone Number *</label>
-                            <input type="tel" class="form-input" placeholder="+91 98765 43210" required>
+                            <input type="tel" name="phone" class="form-input" placeholder="+91 98765 43210" required>
                         </div>
                         <div>
                             <label class="form-label">Company / Website URL</label>
-                            <input type="text" class="form-input" placeholder="https://yourbrand.com">
+                            <input type="text" name="company" class="form-input" placeholder="https://yourbrand.com">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Services of Interest</label>
-                        <div class="service-chips-grid">
-                            <label class="chip-label"><input type="checkbox" name="services" value="meta-ads"> Meta Ads</label>
-                            <label class="chip-label"><input type="checkbox" name="services" value="google-ads"> Google Ads</label>
-                            <label class="chip-label"><input type="checkbox" name="services" value="web-dev"> Website Dev</label>
-                            <label class="chip-label"><input type="checkbox" name="services" value="seo"> SEO Services</label>
-                            <label class="chip-label"><input type="checkbox" name="services" value="whatsapp"> WhatsApp API</label>
-                            <label class="chip-label"><input type="checkbox" name="services" value="brand"> Brand Strategy</label>
-                        </div>
+                        <select name="service" class="form-select" required>
+                            <option value="Meta & Google Ads Funnels">Meta &amp; Google Ads Funnels</option>
+                            <option value="AI Search (AEO & GEO) & Technical SEO">AI Search (AEO &amp; GEO) &amp; Technical SEO</option>
+                            <option value="Bespoke Web Development & Shopify Plus">Bespoke Web Development &amp; Shopify Plus</option>
+                            <option value="WhatsApp Business API & Automation">WhatsApp Business API &amp; Automation</option>
+                            <option value="Brand Strategy & Creative Direction">Brand Strategy &amp; Creative Direction</option>
+                            <option value="Full Performance Marketing Retainer">Full Performance Marketing Retainer</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Estimated Monthly Ad Spend / Project Scope</label>
-                        <select class="form-select">
-                            <option value="under-1L">Under ₹1,00,000 / month</option>
-                            <option value="1L-5L">₹1,00,000 – ₹5,00,000 / month</option>
-                            <option value="5L-20L">₹5,00,000 – ₹20,00,000 / month</option>
-                            <option value="20L-plus">₹20,00,000+ / month (Enterprise)</option>
+                        <select name="budget" class="form-select">
+                            <option value="Under ₹1,00,000 / month">Under ₹1,00,000 / month</option>
+                            <option value="₹1,00,000 – ₹5,00,000 / month">₹1,00,000 – ₹5,00,000 / month</option>
+                            <option value="₹5,00,000 – ₹20,00,000 / month">₹5,00,000 – ₹20,00,000 / month</option>
+                            <option value="₹20,00,000+ / month (Enterprise)">₹20,00,000+ / month (Enterprise)</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Tell Us About Your Project & Goals</label>
-                        <textarea class="form-textarea" rows="4" placeholder="Briefly describe your current bottlenecks, target audience, and revenue goals..."></textarea>
+                        <textarea name="message" class="form-textarea" rows="4" placeholder="Briefly describe your current bottlenecks, target audience, and revenue goals..."></textarea>
                     </div>
 
                     <button type="submit" class="btn-submit-inquiry">
-                        Submit Project Inquiry <i class="fa-solid fa-arrow-right"></i>
+                        <span>Submit Project Inquiry</span> <i class="fa-solid fa-arrow-right"></i>
                     </button>
+                    <div id="contact-form-status" style="display:none; margin-top:15px; padding:12px; border-radius:10px; font-weight:600;"></div>
                 </form>
             </div>
 

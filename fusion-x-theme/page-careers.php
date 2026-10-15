@@ -1488,33 +1488,36 @@ get_header();
                 <i class="fa-solid fa-circle-check"></i> Application received successfully! Our program coordinator will reach out via WhatsApp/Email within 24 hours.
             </div>
 
-            <form id="onlineApplicationForm" onsubmit="handleApplicationSubmit(event)">
+            <form id="onlineApplicationForm">
+                <input type="hidden" name="action" value="fusion_x_submit_form">
+                <input type="hidden" name="form_type" value="Career / Internship Application">
+                <input type="hidden" name="source_page" value="<?php echo esc_attr( ['REQUEST_URI'] ); ?>">
                 <div class="form-grid-2">
                     <div class="form-group">
                         <label class="form-label" for="applicantName">Full Name *</label>
-                        <input type="text" id="applicantName" class="form-input" placeholder="e.g. Saravanan Kumar" required>
+                        <input type="text" id="applicantName" name="name" class="form-input" placeholder="e.g. Saravanan Kumar" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="applicantEmail">Email Address *</label>
-                        <input type="email" id="applicantEmail" class="form-input" placeholder="e.g. saravanan@gmail.com" required>
+                        <input type="email" id="applicantEmail" name="email" class="form-input" placeholder="e.g. saravanan@gmail.com" required>
                     </div>
                 </div>
 
                 <div class="form-grid-2">
                     <div class="form-group">
                         <label class="form-label" for="applicantPhone">Phone / WhatsApp Number *</label>
-                        <input type="tel" id="applicantPhone" class="form-input" placeholder="e.g. +91 98765 43210" required>
+                        <input type="tel" id="applicantPhone" name="phone" class="form-input" placeholder="e.g. +91 98765 43210" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="applicantCollege">College / University / Workplace *</label>
-                        <input type="text" id="applicantCollege" class="form-input" placeholder="e.g. Anna University / Loyola College / Professional" required>
+                        <input type="text" id="applicantCollege" name="college" class="form-input" placeholder="e.g. Anna University / Loyola College / Professional" required>
                     </div>
                 </div>
 
                 <div class="form-grid-2">
                     <div class="form-group">
                         <label class="form-label" for="programType">Program Type *</label>
-                        <select id="programType" class="form-select" required onchange="handleProgramChange()">
+                        <select id="programType" name="program_type" class="form-select" required onchange="handleProgramChange()">
                             <option value="">Select Category...</option>
                             <option value="course">Certification Course</option>
                             <option value="internship">Live Project Internship</option>
@@ -1522,7 +1525,7 @@ get_header();
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="programDuration">Duration *</label>
-                        <select id="programDuration" class="form-select" required>
+                        <select id="programDuration" name="duration" class="form-select" required>
                             <option value="">Select Duration...</option>
                             <option value="3 Months Course + 1 Month Internship">3 Months Course Package (3 Months Training + 1 Month Guaranteed Internship)</option>
                             <option value="1 Month Fast-Track Course">1 Month Fast-Track Foundation Course</option>
@@ -1534,7 +1537,7 @@ get_header();
 
                 <div class="form-group">
                     <label class="form-label" for="specializationTrack">Department Specialization Track *</label>
-                    <select id="specializationTrack" class="form-select" required>
+                    <select id="specializationTrack" name="service" class="form-select" required>
                         <option value="">Select Specialization...</option>
                         <option value="Digital Marketing Mastercourse">Digital Marketing (Omnichannel Funnels, Content &amp; Automation)</option>
                         <option value="Performance Marketing (Google Ads &amp; Meta Ads)">Performance Marketing (Google Ads, Meta Ads &amp; PMax Scaling)</option>
@@ -1547,7 +1550,7 @@ get_header();
 
                 <div class="form-group">
                     <label class="form-label" for="applicantNotes">Why do you want to join Fusion X Academy? (Goals, prior skills or portfolio link)</label>
-                    <textarea id="applicantNotes" class="form-textarea" rows="3" placeholder="Tell us about your career goals, any prior tools you know, or link your portfolio/GitHub/LinkedIn..."></textarea>
+                    <textarea id="applicantNotes" name="message" class="form-textarea" rows="3" placeholder="Tell us about your career goals, any prior tools you know, or link your portfolio/GitHub/LinkedIn..."></textarea>
                 </div>
 
                 <button type="submit" class="btn-car-primary" style="width: 100%; justify-content: center; padding: 18px;">

@@ -42,6 +42,24 @@ if ( is_front_page() ) {
         window.FUSION_X_THEME_URI = '<?php echo esc_js( get_template_directory_uri() ); ?>';
         window.FUSION_X_HOME_URL = '<?php echo esc_js( home_url( '/' ) ); ?>';
     </script>
+    <?php
+    $cur_seo = fusion_x_get_current_seo_meta();
+    ?>
+    <title><?php echo esc_html( $cur_seo['title'] ); ?></title>
+    <meta name="description" content="<?php echo esc_attr( $cur_seo['desc'] ); ?>">
+    <link rel="canonical" href="<?php echo esc_url( $cur_seo['canonical'] ); ?>">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="<?php echo is_singular( 'post' ) ? 'article' : 'website'; ?>">
+    <meta property="og:title" content="<?php echo esc_attr( $cur_seo['title'] ); ?>">
+    <meta property="og:description" content="<?php echo esc_attr( $cur_seo['desc'] ); ?>">
+    <meta property="og:url" content="<?php echo esc_url( $cur_seo['canonical'] ); ?>">
+    <meta property="og:site_name" content="Fusion X Digital Marketing">
+    <meta property="og:image" content="<?php echo esc_url( get_template_directory_uri() . '/logo_transparent.png' ); ?>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php echo esc_attr( $cur_seo['title'] ); ?>">
+    <meta name="twitter:description" content="<?php echo esc_attr( $cur_seo['desc'] ); ?>">
+    <meta name="twitter:image" content="<?php echo esc_url( get_template_directory_uri() . '/logo_transparent.png' ); ?>">
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>

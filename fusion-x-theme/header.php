@@ -60,11 +60,11 @@ if ( is_front_page() ) {
     <meta name="twitter:title" content="<?php echo esc_attr( $cur_seo['title'] ); ?>">
     <meta name="twitter:description" content="<?php echo esc_attr( $cur_seo['desc'] ); ?>">
     <meta name="twitter:image" content="<?php echo esc_url( get_template_directory_uri() . '/logo_transparent.png' ); ?>">
+    <link rel="stylesheet" href="<?php echo esc_url( get_stylesheet_uri() ); ?>?v=<?php echo esc_attr( wp_get_theme()->get( 'Version' ) ); ?>">
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
-    <canvas id="bg-canvas"></canvas>
 
     <nav class="navbar" id="navbar">
         <div class="logo-container">

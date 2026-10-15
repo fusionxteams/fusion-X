@@ -1971,5 +1971,469 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER (Authentic Fusion X) ═══════════════════════ -->
 
+<script>
+    (function initCinemaLens3D() {
+        const container = document.getElementById('lens-canvas-container');
+        if (!container || typeof THREE === 'undefined') return;
+
+        const width = container.clientWidth || 440;
+        const height = container.clientHeight || 440;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+        camera.position.set(0, 0, 8.5);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Lighting (Fusion X Orange Warm Glow)
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+        scene.add(ambientLight);
+
+        const orangeKeyLight = new THREE.DirectionalLight(0xff5722, 3.2);
+        orangeKeyLight.position.set(5, 5, 4);
+        scene.add(orangeKeyLight);
+
+        const warmFillLight = new THREE.DirectionalLight(0xff8a50, 2.2);
+        warmFillLight.position.set(-5, -3, 3);
+        scene.add(warmFillLight);
+
+        const amberBackLight = new THREE.PointLight(0xff5722, 2.5, 20);
+        amberBackLight.position.set(0, -4, -3);
+        scene.add(amberBackLight);
+
+        // Master Group
+        const lensMasterGroup = new THREE.Group();
+        scene.add(lensMasterGroup);
+
+        // 1. Cinema Lens Barrel Cylinders (Stepped Machined Matte Aluminum with Orange Accent)
+        const barrelMat = new THREE.MeshStandardMaterial({
+            color: 0x111318,
+            metalness: 0.9,
+            roughness: 0.25
+        });
+
+        // Main body
+        const bodyGeo = new THREE.CylinderGeometry(1.65, 1.75, 2.8, 48);
+        const bodyMesh = new THREE.Mesh(bodyGeo, barrelMat);
+        bodyMesh.rotation.x = Math.PI / 2;
+        lensMasterGroup.add(bodyMesh);
+
+        // Front lens hood
+        const hoodGeo = new THREE.CylinderGeometry(2.1, 1.8, 0.8, 48);
+        const hoodMesh = new THREE.Mesh(hoodGeo, barrelMat);
+        hoodMesh.rotation.x = Math.PI / 2;
+        hoodMesh.position.z = 1.6;
+        lensMasterGroup.add(hoodMesh);
+
+        // 2. Optical Glass Front Element (Multi-coated with Orange/Amber flare)
+        const glassGeo = new THREE.SphereGeometry(1.7, 36, 18, 0, Math.PI * 2, 0, Math.PI / 3);
+        const glassMat = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            transmission: 0.88,
+            opacity: 0.95,
+            transparent: true,
+            roughness: 0.05,
+            metalness: 0.85,
+            reflectivity: 0.95,
+            clearcoat: 1.0,
+            clearcoatRoughness: 0.1
+        });
+        const glassMesh = new THREE.Mesh(glassGeo, glassMat);
+        glassMesh.position.z = 1.35;
+        lensMasterGroup.add(glassMesh);
+
+        // Internal glowing iris ring (Fusion X Orange)
+        const irisGeo = new THREE.RingGeometry(0.5, 1.3, 32);
+        const irisMat = new THREE.MeshStandardMaterial({
+            color: 0xff5722,
+            emissive: 0xff5722,
+            emissiveIntensity: 0.6,
+            side: THREE.DoubleSide
+        });
+        const irisMesh = new THREE.Mesh(irisGeo, irisMat);
+        irisMesh.position.z = 0.5;
+        lensMasterGroup.add(irisMesh);
+
+        // 3. Geared Focus Ring & Aperture Ring with Indicators
+        const gearGeo = new THREE.TorusGeometry(1.82, 0.05, 16, 64);
+        const gearMat = new THREE.MeshStandardMaterial({
+            color: 0xff5722,
+            emissive: 0xff5722,
+            emissiveIntensity: 0.5,
+            metalness: 0.6,
+            roughness: 0.3
+        });
+        const focusRing = new THREE.Mesh(gearGeo, gearMat);
+        focusRing.position.z = 0.4;
+        lensMasterGroup.add(focusRing);
+
+        const apertureRing = new THREE.Mesh(gearGeo, new THREE.MeshStandardMaterial({
+            color: 0xff8a50,
+            emissive: 0xff8a50,
+            emissiveIntensity: 0.45,
+            metalness: 0.7,
+            roughness: 0.3
+        }));
+        apertureRing.position.z = -0.6;
+        lensMasterGroup.add(apertureRing);
+
+        // 4. Rotating 35mm Golden Film Reel around Lens
+        const reelGroup = new THREE.Group();
+        const reelGeo = new THREE.RingGeometry(2.4, 3.2, 48);
+        const reelMat = new THREE.MeshStandardMaterial({
+            color: 0xf59e0b,
+            emissive: 0xd97706,
+            emissiveIntensity: 0.25,
+            metalness: 0.9,
+            roughness: 0.2,
+            side: THREE.DoubleSide
+        });
+        const reelMesh1 = new THREE.Mesh(reelGeo, reelMat);
+        reelMesh1.position.z = 0.1;
+        reelGroup.add(reelMesh1);
+
+        const reelMesh2 = new THREE.Mesh(reelGeo, reelMat);
+        reelMesh2.position.z = -0.1;
+        reelGroup.add(reelMesh2);
+
+        // 6 Spoke Struts in the Film Reel
+        for (let i = 0; i < 6; i++) {
+            const angle = (i / 6) * Math.PI * 2;
+            const spokeGeo = new THREE.BoxGeometry(0.12, 1.2, 0.2);
+            const spokeMesh = new THREE.Mesh(spokeGeo, reelMat);
+            spokeMesh.position.set(Math.cos(angle) * 1.8, Math.sin(angle) * 1.8, 0);
+            spokeMesh.rotation.z = angle + Math.PI / 2;
+            reelGroup.add(spokeMesh);
+        }
+
+        lensMasterGroup.add(reelGroup);
+
+        // 5. Cinematic Orange Dust & Light Streak Particle Ring
+        const particleGeo = new THREE.BufferGeometry();
+        const particleCount = 75;
+        const particlePos = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount; i++) {
+            const theta = (i / particleCount) * Math.PI * 2;
+            const rad = 3.5 + (Math.random() - 0.5) * 0.5;
+            particlePos[i * 3] = Math.cos(theta) * rad;
+            particlePos[i * 3 + 1] = Math.sin(theta) * rad;
+            particlePos[i * 3 + 2] = (Math.random() - 0.5) * 2.0;
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+        const particleMat = new THREE.PointsMaterial({
+            color: 0xff7043,
+            size: 0.08,
+            transparent: true,
+            opacity: 0.85
+        });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        lensMasterGroup.add(particles);
+
+        // Tilt for director's perspective
+        lensMasterGroup.rotation.x = 0.25;
+        lensMasterGroup.rotation.y = -0.55;
+
+        // Interaction
+        let isDragging = false;
+        let prevMouseX = 0;
+        let prevMouseY = 0;
+        let targetRotX = 0.25;
+        let targetRotY = -0.55;
+
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            prevMouseX = e.clientX;
+            prevMouseY = e.clientY;
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = false; });
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.clientX - prevMouseX;
+            const deltaY = e.clientY - prevMouseY;
+            targetRotY += deltaX * 0.008;
+            targetRotX += deltaY * 0.008;
+            targetRotX = Math.max(-0.6, Math.min(0.6, targetRotX));
+            prevMouseX = e.clientX;
+            prevMouseY = e.clientY;
+        });
+
+        container.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                prevMouseX = e.touches[0].clientX;
+                prevMouseY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => { isDragging = false; });
+        window.addEventListener('touchmove', (e) => {
+            if (!isDragging || e.touches.length !== 1) return;
+            const deltaX = e.touches[0].clientX - prevMouseX;
+            const deltaY = e.touches[0].clientY - prevMouseY;
+            targetRotY += deltaX * 0.008;
+            targetRotX += deltaY * 0.008;
+            prevMouseX = e.touches[0].clientX;
+            prevMouseY = e.touches[0].clientY;
+        }, { passive: true });
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            const time = clock.getElapsedTime();
+
+            if (!isDragging) {
+                targetRotY += 0.004;
+            }
+
+            lensMasterGroup.rotation.y += (targetRotY - lensMasterGroup.rotation.y) * 0.08;
+            lensMasterGroup.rotation.x += (targetRotX - lensMasterGroup.rotation.x) * 0.08;
+
+            // Subtle floating breathing
+            lensMasterGroup.position.y = Math.sin(time * 1.5) * 0.12;
+
+            // Spin 35mm film reel
+            reelGroup.rotation.z += 0.01;
+            particles.rotation.z -= 0.005;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
+    })();
+    </script>
+
+<script>
+    (function initElevationGraph() {
+        const svg = document.getElementById('elevation-svg');
+        const gridGroup = document.getElementById('chart-grid');
+        const areaPath = document.getElementById('chart-area');
+        const linePath = document.getElementById('chart-line');
+        const nodesGroup = document.getElementById('chart-nodes');
+        const tooltip = document.getElementById('chart-tooltip');
+        const tooltipPhase = document.getElementById('tooltip-phase');
+        const tooltipValue = document.getElementById('tooltip-value');
+        const tooltipNote = document.getElementById('tooltip-note');
+        const tabs = document.querySelectorAll('.metric-tab-btn');
+        const checkpoints = document.querySelectorAll('.checkpoint-card');
+
+        if (!svg || !linePath) return;
+
+        // Verified datasets from Search Console audit
+        const graphData = {
+            impressions: {
+                label: 'Search Impressions',
+                unit: 'Imp',
+                color: '#ff5722',
+                gradId: 'url(#orangeAreaGrad)',
+                yMin: 0,
+                yMax: 65,
+                points: [
+                    { xLabel: '13/08', value: 2, displayVal: '2 Imp • 0 Clicks', note: 'Initial launch & sitemap ping' },
+                    { xLabel: '17/08', value: 18, displayVal: '18 Imp • 4 Clicks', note: 'Commercial reel indexing began' },
+                    { xLabel: '23/08', value: 35, displayVal: '35 Imp • 6 Clicks', note: 'Page 1 rank for wedding cinematography' },
+                    { xLabel: '04/09', value: 48, displayVal: '48 Imp • 5 Clicks', note: 'Ad agencies exploring showreel' },
+                    { xLabel: '11/09', value: 55, displayVal: '55 Imp • 5 Clicks', note: 'Peak search impression volume' },
+                    { xLabel: '18/09', value: 58, displayVal: '58 Imp • 8 Clicks (Peak)', note: '🏆 8 shoot inquiries in a single day' }
+                ]
+            },
+            discovery: {
+                label: 'Discovery & High-Intent Impressions',
+                unit: 'Imp',
+                color: '#ff7043',
+                gradId: 'url(#orangeAreaGrad)',
+                yMin: 0,
+                yMax: 8,
+                points: [
+                    { xLabel: '13/08', value: 0, displayVal: '0 Discovery Imp', note: 'Pre-ranking baseline' },
+                    { xLabel: '21/08', value: 2, displayVal: '2 Discovery Imp', note: 'Targeted creator studio queries' },
+                    { xLabel: '29/08', value: 5, displayVal: '5 Discovery Imp', note: 'Local commercial shoot discovery' },
+                    { xLabel: '05/09', value: 6, displayVal: '6 Discovery Imp (Peak)', note: '🔥 Top rank position for Porur ad studios' },
+                    { xLabel: '10/09', value: 5, displayVal: '5 Discovery Imp', note: 'Direct brand discussion leads' },
+                    { xLabel: '18/09', value: 4, displayVal: '4 Discovery Imp', note: '64 total discovery impressions reached' }
+                ]
+            },
+            ctr: {
+                label: 'Average Search CTR',
+                unit: '%',
+                color: '#ff5722',
+                gradId: 'url(#orangeAreaGrad)',
+                yMin: 0,
+                yMax: 10,
+                points: [
+                    { xLabel: '13/08', value: 0, displayVal: '0% CTR • Rank 28.4', note: 'Baseline unranked status' },
+                    { xLabel: '17/08', value: 4.2, displayVal: '4.2% CTR • Rank 18.2', note: 'Rich snippet thumbnail display' },
+                    { xLabel: '23/08', value: 6.1, displayVal: '6.1% CTR • Rank 11.5', note: 'Surpassing industry standard' },
+                    { xLabel: '04/09', value: 7.2, displayVal: '7.2% CTR • Rank 8.7', note: 'Entering Page 1 commercial SERPs' },
+                    { xLabel: '11/09', value: 7.8, displayVal: '7.8% CTR • Rank 6.8', note: 'Top tier click conversion' },
+                    { xLabel: '18/09', value: 7.9, displayVal: '7.9% CTR • Rank 6.3', note: '🚀 79 clicks from 1K impressions' }
+                ]
+            }
+        };
+
+        let currentMetric = 'impressions';
+
+        function renderGraph(metricKey) {
+            const dataset = graphData[metricKey];
+            currentMetric = metricKey;
+
+            const width = 1000;
+            const height = 360;
+            const padLeft = 80;
+            const padRight = 60;
+            const padTop = 40;
+            const padBottom = 60;
+            const plotW = width - padLeft - padRight;
+            const plotH = height - padTop - padBottom;
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const gridLines = 5;
+            for (let i = 0; i <= gridLines; i++) {
+                const yVal = dataset.yMin + ((dataset.yMax - dataset.yMin) / gridLines) * i;
+                const yPos = height - padBottom - (plotH / gridLines) * i;
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padLeft);
+                line.setAttribute('y1', yPos);
+                line.setAttribute('x2', width - padRight);
+                line.setAttribute('y2', yPos);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                txt.setAttribute('x', padLeft - 16);
+                txt.setAttribute('y', yPos + 4);
+                txt.setAttribute('text-anchor', 'end');
+                txt.setAttribute('class', 'chart-axis-label');
+                txt.textContent = metricKey === 'ctr' ? yVal.toFixed(1) + '%' : Math.round(yVal) + (metricKey === 'discovery' ? ' Imp' : '');
+                gridGroup.appendChild(txt);
+            }
+
+            const points = dataset.points;
+            const count = points.length;
+            const coords = points.map((pt, idx) => {
+                const x = padLeft + (plotW / (count - 1)) * idx;
+                let norm = (pt.value - dataset.yMin) / (dataset.yMax - dataset.yMin);
+                if (norm < 0) norm = 0;
+                if (norm > 1) norm = 1;
+                const y = height - padBottom - (plotH * norm);
+                return { x, y, pt, idx };
+            });
+
+            function getCubicBezierPath(arr) {
+                let d = `M ${arr[0].x} ${arr[0].y}`;
+                for (let i = 0; i < arr.length - 1; i++) {
+                    const curr = arr[i];
+                    const next = arr[i + 1];
+                    const cp1x = curr.x + (next.x - curr.x) * 0.45;
+                    const cp1y = curr.y;
+                    const cp2x = curr.x + (next.x - curr.x) * 0.55;
+                    const cp2y = next.y;
+                    d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${next.x} ${next.y}`;
+                }
+                return d;
+            }
+
+            const pathD = getCubicBezierPath(coords);
+            const areaD = `${pathD} L ${coords[coords.length - 1].x} ${height - padBottom} L ${coords[0].x} ${height - padBottom} Z`;
+
+            linePath.setAttribute('d', pathD);
+            linePath.setAttribute('stroke', dataset.color);
+            areaPath.setAttribute('d', areaD);
+            areaPath.setAttribute('fill', dataset.gradId);
+
+            coords.forEach(c => {
+                const xTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xTxt.setAttribute('x', c.x);
+                xTxt.setAttribute('y', height - 22);
+                xTxt.setAttribute('text-anchor', 'middle');
+                xTxt.setAttribute('class', 'chart-axis-label');
+                xTxt.textContent = c.pt.xLabel;
+                gridGroup.appendChild(xTxt);
+
+                const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                halo.setAttribute('cx', c.x);
+                halo.setAttribute('cy', c.y);
+                halo.setAttribute('r', 10);
+                halo.setAttribute('fill', dataset.color);
+                halo.setAttribute('fill-opacity', '0.22');
+                nodesGroup.appendChild(halo);
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', c.x);
+                circle.setAttribute('cy', c.y);
+                circle.setAttribute('r', 5.5);
+                circle.setAttribute('fill', '#0f172a');
+                circle.setAttribute('stroke', dataset.color);
+                circle.setAttribute('stroke-width', '3');
+                circle.setAttribute('class', 'chart-data-node');
+
+                circle.addEventListener('mouseenter', () => {
+                    const rect = svg.getBoundingClientRect();
+                    const tooltipX = (c.x / width) * rect.width;
+                    const tooltipY = (c.y / height) * rect.height;
+
+                    tooltipPhase.textContent = `${c.pt.xLabel} Milestone`;
+                    tooltipPhase.style.color = dataset.color;
+                    tooltipValue.textContent = c.pt.displayVal;
+                    tooltipNote.textContent = c.pt.note;
+
+                    tooltip.style.left = `${tooltipX}px`;
+                    tooltip.style.top = `${tooltipY}px`;
+                    tooltip.style.display = 'block';
+                    tooltip.style.borderColor = dataset.color;
+                });
+
+                circle.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+
+                nodesGroup.appendChild(circle);
+            });
+        }
+
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+                renderGraph(btn.getAttribute('data-metric'));
+            });
+        });
+
+        checkpoints.forEach(cp => {
+            cp.addEventListener('click', () => {
+                checkpoints.forEach(c => c.classList.remove('active'));
+                cp.classList.add('active');
+                const idx = parseInt(cp.getAttribute('data-index'), 10);
+                const nodes = nodesGroup.querySelectorAll('.chart-data-node');
+                if (nodes[idx]) {
+                    const evt = new MouseEvent('mouseenter', { bubbles: true });
+                    nodes[idx].dispatchEvent(evt);
+                    setTimeout(() => {
+                        const leave = new MouseEvent('mouseleave', { bubbles: true });
+                        nodes[idx].dispatchEvent(leave);
+                    }, 3500);
+                }
+            });
+        });
+
+        renderGraph('impressions');
+    })();
+    </script>
+
 <?php
 get_footer();

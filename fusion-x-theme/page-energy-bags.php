@@ -1797,5 +1797,871 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+        // ── 1. THREE.JS REALISTIC 3D ERGONOMIC BACKPACK MODEL ──
+        (function init3DBag() {
+            const container = document.getElementById('three-bag-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, window.innerWidth < 768 ? 5.6 : 6.0);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.35;
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // ── STUDIO LIGHTING RIG ──
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.95);
+            scene.add(ambientLight);
+
+            // Key Light (Warm Orange)
+            const orangeKeyLight = new THREE.DirectionalLight(0xff5722, 2.8);
+            orangeKeyLight.position.set(4.5, 5, 4.5);
+            scene.add(orangeKeyLight);
+
+            // Fill Light (Cool Soft Slate)
+            const fillLight = new THREE.DirectionalLight(0xa5b4fc, 1.2);
+            fillLight.position.set(-4.5, 1, 3.5);
+            scene.add(fillLight);
+
+            // Rim Light (Top & Back Silhouette)
+            const rimLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            rimLight.position.set(0, 5, -4);
+            scene.add(rimLight);
+
+            // Bottom Glow
+            const orangeGlow = new THREE.PointLight(0xff7043, 2.5, 15);
+            orangeGlow.position.set(0, -3.5, 1);
+            scene.add(orangeGlow);
+
+            // ── PROCEDURAL TEXTURE GENERATORS ──
+            // 1. High-Resolution Ballistic Nylon Canvas Weave Texture
+            function createNylonCanvasTexture(baseHex, threadHex, isBump) {
+                const canvas = document.createElement('canvas');
+                canvas.width = 512;
+                canvas.height = 512;
+                const ctx = canvas.getContext('2d');
+
+                ctx.fillStyle = isBump ? '#808080' : baseHex;
+                ctx.fillRect(0, 0, 512, 512);
+
+                const step = 8;
+                for (let y = 0; y < 512; y += step) {
+                    for (let x = 0; x < 512; x += step) {
+                        const isWarp = ((x / step) + (y / step)) % 2 === 0;
+                        if (isBump) {
+                            ctx.fillStyle = isWarp ? '#b0b0b0' : '#505050';
+                        } else {
+                            ctx.fillStyle = isWarp ? threadHex : baseHex;
+                        }
+                        ctx.fillRect(x + 1, y + 1, step - 2, step - 2);
+
+                        if (!isBump) {
+                            ctx.fillStyle = 'rgba(255, 255, 255, 0.07)';
+                            ctx.fillRect(x + 1, y + 1, step - 2, 2);
+                        }
+                    }
+                }
+
+                // Micro-fiber noise grain
+                const imgData = ctx.getImageData(0, 0, 512, 512);
+                const d = imgData.data;
+                for (let i = 0; i < d.length; i += 4) {
+                    const noise = (Math.random() - 0.5) * (isBump ? 28 : 16);
+                    d[i] = Math.min(255, Math.max(0, d[i] + noise));
+                    d[i + 1] = Math.min(255, Math.max(0, d[i + 1] + noise));
+                    d[i + 2] = Math.min(255, Math.max(0, d[i + 2] + noise));
+                }
+                ctx.putImageData(imgData, 0, 0);
+
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.RepeatWrapping;
+                tex.repeat.set(6, 6);
+                return tex;
+            }
+
+            // 2. Honeycomb Mesh Texture (For side pockets)
+            function createMeshTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 256;
+                const ctx = canvas.getContext('2d');
+
+                ctx.fillStyle = '#121212';
+                ctx.fillRect(0, 0, 256, 256);
+
+                ctx.strokeStyle = '#2d2d2d';
+                ctx.lineWidth = 3;
+
+                for (let y = 0; y < 270; y += 22) {
+                    for (let x = 0; x < 270; x += 26) {
+                        const offsetX = (Math.floor(y / 22) % 2) * 13;
+                        ctx.beginPath();
+                        ctx.arc(x + offsetX, y, 6.5, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.fillStyle = '#050505';
+                        ctx.fill();
+                    }
+                }
+
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.RepeatWrapping;
+                tex.repeat.set(4, 4);
+                return tex;
+            }
+
+            // 3. Pebble Leather Texture (Bottom scuff guard, handle & pull tabs)
+            function createPebbleLeatherTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 256;
+                const ctx = canvas.getContext('2d');
+
+                ctx.fillStyle = '#161616';
+                ctx.fillRect(0, 0, 256, 256);
+
+                for (let i = 0; i < 450; i++) {
+                    const x = Math.random() * 256;
+                    const y = Math.random() * 256;
+                    const rad = 2 + Math.random() * 4;
+                    ctx.fillStyle = 'rgba(40, 40, 40, 0.7)';
+                    ctx.beginPath();
+                    ctx.arc(x, y, rad, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(10, 10, 10, 0.45)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.RepeatWrapping;
+                tex.repeat.set(4, 4);
+                return tex;
+            }
+
+            // 4. Energy Bags Rubber Emblem Patch
+            function createBadgeTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 130;
+                const ctx = canvas.getContext('2d');
+
+                // Matte rubber patch background
+                ctx.fillStyle = '#111111';
+                ctx.beginPath();
+                ctx.roundRect(4, 4, 248, 122, 14);
+                ctx.fill();
+
+                // Orange perimeter stitch / border
+                ctx.strokeStyle = '#ff5722';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.roundRect(8, 8, 240, 114, 10);
+                ctx.stroke();
+
+                // Energy Wings Logo
+                ctx.fillStyle = '#ff7043';
+                ctx.beginPath();
+                ctx.moveTo(128, 46);
+                ctx.lineTo(82, 26);
+                ctx.lineTo(100, 50);
+                ctx.lineTo(84, 42);
+                ctx.lineTo(106, 60);
+                ctx.lineTo(128, 54);
+                ctx.lineTo(150, 60);
+                ctx.lineTo(172, 42);
+                ctx.lineTo(156, 50);
+                ctx.lineTo(174, 26);
+                ctx.closePath();
+                ctx.fill();
+
+                // Text: THE ENERGY BAGS
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 18px "Outfit", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('ENERGY BAGS', 128, 84);
+
+                ctx.fillStyle = '#ff8a50';
+                ctx.font = '700 9px "Space Grotesk", sans-serif';
+                ctx.fillText('EST. PRO GEAR', 128, 102);
+
+                const tex = new THREE.CanvasTexture(canvas);
+                return tex;
+            }
+
+            // 5. Soft Ground Radial Shadow
+            function createGroundShadowTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 256;
+                const ctx = canvas.getContext('2d');
+
+                const grad = ctx.createRadialGradient(128, 128, 10, 128, 128, 120);
+                grad.addColorStop(0, 'rgba(0, 0, 0, 0.7)');
+                grad.addColorStop(0.5, 'rgba(0, 0, 0, 0.35)');
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 256, 256);
+
+                return new THREE.CanvasTexture(canvas);
+            }
+
+            // ── TEXTURES & MATERIALS ──
+            const nylonDiffuse = createNylonCanvasTexture('#1e2022', '#282b2e');
+            const nylonBump = createNylonCanvasTexture('#808080', '#b0b0b0', true);
+
+            const orangeNylonDiffuse = createNylonCanvasTexture('#d84315', '#f4511e');
+            const orangeNylonBump = createNylonCanvasTexture('#808080', '#b0b0b0', true);
+
+            const meshTex = createMeshTexture();
+            const leatherTex = createPebbleLeatherTexture();
+            const badgeTex = createBadgeTexture();
+            const shadowTex = createGroundShadowTexture();
+
+            // Materials
+            const mainBodyMat = new THREE.MeshStandardMaterial({
+                map: nylonDiffuse,
+                bumpMap: nylonBump,
+                bumpScale: 0.035,
+                roughness: 0.75,
+                metalness: 0.08,
+                color: 0x222428
+            });
+
+            const orangeAccentMat = new THREE.MeshStandardMaterial({
+                map: orangeNylonDiffuse,
+                bumpMap: orangeNylonBump,
+                bumpScale: 0.03,
+                roughness: 0.65,
+                metalness: 0.12,
+                color: 0xff5722
+            });
+
+            const leatherMat = new THREE.MeshStandardMaterial({
+                map: leatherTex,
+                roughness: 0.45,
+                metalness: 0.1,
+                color: 0x181818
+            });
+
+            const meshMat = new THREE.MeshStandardMaterial({
+                map: meshTex,
+                roughness: 0.8,
+                metalness: 0.05,
+                transparent: true,
+                opacity: 0.88,
+                color: 0x242424
+            });
+
+            const chromeMat = new THREE.MeshStandardMaterial({
+                roughness: 0.15,
+                metalness: 0.95,
+                color: 0xe0e0e0
+            });
+
+            const zipperTeethMat = new THREE.MeshStandardMaterial({
+                roughness: 0.35,
+                metalness: 0.85,
+                color: 0x888888
+            });
+
+            // ── MAIN BAG ASSEMBLY GROUP ──
+            const bagGroup = new THREE.Group();
+            scene.add(bagGroup);
+
+            // Ground Shadow Disc
+            const shadowGeo = new THREE.PlaneGeometry(3.0, 3.0);
+            const shadowMat = new THREE.MeshBasicMaterial({
+                map: shadowTex,
+                transparent: true,
+                opacity: 0.85,
+                depthWrite: false
+            });
+            const groundShadow = new THREE.Mesh(shadowGeo, shadowMat);
+            groundShadow.rotation.x = -Math.PI / 2;
+            groundShadow.position.y = -1.28;
+            bagGroup.add(groundShadow);
+
+            // 1. MAIN PACK BODY (Curved Contoured Teardrop Backpack)
+            // A. Upper Rounded Dome Crown
+            const domeGeo = new THREE.SphereGeometry(0.85, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+            const domeMesh = new THREE.Mesh(domeGeo, mainBodyMat);
+            domeMesh.scale.set(1.02, 0.78, 0.64);
+            domeMesh.position.set(0, 0.52, 0);
+            bagGroup.add(domeMesh);
+
+            // B. Middle / Lower Main Vault
+            const midBodyGeo = new THREE.CylinderGeometry(0.85, 0.94, 1.35, 32);
+            const midBodyMesh = new THREE.Mesh(midBodyGeo, mainBodyMat);
+            midBodyMesh.scale.set(1.02, 1.0, 0.64);
+            midBodyMesh.position.set(0, -0.15, 0);
+            bagGroup.add(midBodyMesh);
+
+            // C. Base Rounded Bottom Cap
+            const baseCapGeo = new THREE.SphereGeometry(0.94, 32, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+            const baseCapMesh = new THREE.Mesh(baseCapGeo, leatherMat);
+            baseCapMesh.scale.set(1.02, 0.28, 0.64);
+            baseCapMesh.position.set(0, -0.82, 0);
+            bagGroup.add(baseCapMesh);
+
+            // 2. MAIN TOP ZIPPER TRACK & METAL SLIDERS
+            const topZipGeo = new THREE.TorusGeometry(0.86, 0.024, 12, 40, Math.PI);
+            const topZipMesh = new THREE.Mesh(topZipGeo, zipperTeethMat);
+            topZipMesh.scale.set(1.02, 0.78, 0.64);
+            topZipMesh.position.set(0, 0.52, 0.04);
+            bagGroup.add(topZipMesh);
+
+            // Dual Top Sliders
+            const sliderGeo = new THREE.BoxGeometry(0.08, 0.12, 0.06);
+            const slider1 = new THREE.Mesh(sliderGeo, chromeMat);
+            slider1.position.set(-0.14, 1.12, 0.05);
+            bagGroup.add(slider1);
+
+            const slider2 = new THREE.Mesh(sliderGeo, chromeMat);
+            slider2.position.set(0.14, 1.12, 0.05);
+            bagGroup.add(slider2);
+
+            // 3. FRONT CONTOURED 3D UTILITY POCKET (Orange Cordura Contrast)
+            // A. Upper Curved Cap of Pocket
+            const pocketDomeGeo = new THREE.SphereGeometry(0.66, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+            const pocketDomeMesh = new THREE.Mesh(pocketDomeGeo, orangeAccentMat);
+            pocketDomeMesh.scale.set(0.96, 0.45, 0.38);
+            pocketDomeMesh.position.set(0, 0.06, 0.38);
+            bagGroup.add(pocketDomeMesh);
+
+            // B. Front Pocket Main Body
+            const pocketBodyGeo = new THREE.CylinderGeometry(0.66, 0.70, 0.72, 32);
+            const pocketBodyMesh = new THREE.Mesh(pocketBodyGeo, orangeAccentMat);
+            pocketBodyMesh.scale.set(0.96, 1.0, 0.38);
+            pocketBodyMesh.position.set(0, -0.30, 0.38);
+            bagGroup.add(pocketBodyMesh);
+
+            // C. Lower Curved Pocket Base
+            const pocketBaseGeo = new THREE.SphereGeometry(0.70, 32, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+            const pocketBaseMesh = new THREE.Mesh(pocketBaseGeo, orangeAccentMat);
+            pocketBaseMesh.scale.set(0.96, 0.22, 0.38);
+            pocketBaseMesh.position.set(0, -0.66, 0.38);
+            bagGroup.add(pocketBaseMesh);
+
+            // Pocket Perimeter Stitch Welt (Piping)
+            const weltGeo = new THREE.TorusGeometry(0.68, 0.022, 12, 32, Math.PI);
+            const weltMesh = new THREE.Mesh(weltGeo, leatherMat);
+            weltMesh.scale.set(0.96, 0.45, 0.38);
+            weltMesh.position.set(0, 0.06, 0.42);
+            bagGroup.add(weltMesh);
+
+            // Front Pocket Zipper Storm Flap & Pull
+            const stormFlapGeo = new THREE.BoxGeometry(0.95, 0.06, 0.04);
+            const stormFlap = new THREE.Mesh(stormFlapGeo, leatherMat);
+            stormFlap.position.set(0, 0.08, 0.54);
+            bagGroup.add(stormFlap);
+
+            const frontSlider = new THREE.Mesh(sliderGeo, chromeMat);
+            frontSlider.position.set(0.32, 0.07, 0.55);
+            bagGroup.add(frontSlider);
+
+            // Front Pull Cord with Orange Tag
+            const pullTagGeo = new THREE.BoxGeometry(0.04, 0.16, 0.02);
+            const pullTag = new THREE.Mesh(pullTagGeo, orangeAccentMat);
+            pullTag.position.set(0.32, -0.05, 0.56);
+            bagGroup.add(pullTag);
+
+            // 4. EMBOSSED ENERGY BAGS RUBBER EMBLEM BADGE
+            const badgeMat = new THREE.MeshStandardMaterial({
+                map: badgeTex,
+                roughness: 0.35,
+                metalness: 0.15
+            });
+            const badgeGeo = new THREE.BoxGeometry(0.56, 0.28, 0.03);
+            const emblemBadge = new THREE.Mesh(badgeGeo, badgeMat);
+            emblemBadge.position.set(0, -0.26, 0.54);
+            bagGroup.add(emblemBadge);
+
+            // 5. SIDE ELASTIC MESH WATER BOTTLE POCKETS
+            // A. Left Side Mesh Pocket
+            const sideMeshGeoL = new THREE.CylinderGeometry(0.24, 0.22, 0.68, 16, 1, false, 0, Math.PI);
+            const sideMeshL = new THREE.Mesh(sideMeshGeoL, meshMat);
+            sideMeshL.rotation.y = -Math.PI / 2;
+            sideMeshL.position.set(-0.90, -0.28, 0);
+            bagGroup.add(sideMeshL);
+
+            // Left Elastic Collar Band
+            const collarGeo = new THREE.TorusGeometry(0.24, 0.02, 8, 16, Math.PI);
+            const collarL = new THREE.Mesh(collarGeo, orangeAccentMat);
+            collarL.rotation.x = Math.PI / 2;
+            collarL.rotation.y = -Math.PI / 2;
+            collarL.position.set(-0.90, 0.06, 0);
+            bagGroup.add(collarL);
+
+            // Stainless Steel Water Bottle in Left Pocket
+            const bottleBodyGeo = new THREE.CylinderGeometry(0.14, 0.14, 0.85, 24);
+            const bottleBody = new THREE.Mesh(bottleBodyGeo, chromeMat);
+            bottleBody.position.set(-0.90, -0.05, 0);
+            bagGroup.add(bottleBody);
+
+            const bottleCapGeo = new THREE.CylinderGeometry(0.09, 0.14, 0.16, 24);
+            const bottleCap = new THREE.Mesh(bottleCapGeo, orangeAccentMat);
+            bottleCap.position.set(-0.90, 0.44, 0);
+            bagGroup.add(bottleCap);
+
+            // B. Right Side Mesh Pocket
+            const sideMeshGeoR = new THREE.CylinderGeometry(0.24, 0.22, 0.68, 16, 1, false, 0, Math.PI);
+            const sideMeshR = new THREE.Mesh(sideMeshGeoR, meshMat);
+            sideMeshR.rotation.y = Math.PI / 2;
+            sideMeshR.position.set(0.90, -0.28, 0);
+            bagGroup.add(sideMeshR);
+
+            const collarR = new THREE.Mesh(collarGeo, orangeAccentMat);
+            collarR.rotation.x = Math.PI / 2;
+            collarR.rotation.y = Math.PI / 2;
+            collarR.position.set(0.90, 0.06, 0);
+            bagGroup.add(collarR);
+
+            // 6. TOP REINFORCED ARCH CARRY HANDLE
+            const handleTubeGeo = new THREE.TorusGeometry(0.34, 0.038, 12, 32, Math.PI);
+            const handleTube = new THREE.Mesh(handleTubeGeo, orangeAccentMat);
+            handleTube.rotation.x = Math.PI;
+            handleTube.position.set(0, 1.08, 0);
+            bagGroup.add(handleTube);
+
+            // Padded Leather Grip Center Sleeve
+            const handleGripGeo = new THREE.CylinderGeometry(0.062, 0.062, 0.28, 16);
+            const handleGrip = new THREE.Mesh(handleGripGeo, leatherMat);
+            handleGrip.rotation.z = Math.PI / 2;
+            handleGrip.position.set(0, 1.42, 0);
+            bagGroup.add(handleGrip);
+
+            // 7. REAR ERGONOMIC S-CURVE PADDED SHOULDER STRAPS
+            function createShoulderStrap(isLeft) {
+                const strapGroup = new THREE.Group();
+                const sign = isLeft ? -1 : 1;
+
+                // Upper curved padded section
+                const upperPadGeo = new THREE.BoxGeometry(0.24, 1.15, 0.07);
+                const upperPad = new THREE.Mesh(upperPadGeo, mainBodyMat);
+                upperPad.rotation.z = sign * -0.08;
+                upperPad.position.set(sign * 0.42, 0.22, -0.46);
+                strapGroup.add(upperPad);
+
+                // Breathable Air-Mesh Cushion Inner Lining
+                const innerMeshGeo = new THREE.BoxGeometry(0.22, 1.12, 0.02);
+                const innerMesh = new THREE.Mesh(innerMeshGeo, meshMat);
+                innerMesh.position.set(sign * 0.42, 0.22, -0.49);
+                strapGroup.add(innerMesh);
+
+                // Orange Trim Edge Binding
+                const trimGeo = new THREE.BoxGeometry(0.02, 1.15, 0.075);
+                const trimMesh = new THREE.Mesh(trimGeo, orangeAccentMat);
+                trimMesh.position.set(sign * 0.54, 0.22, -0.46);
+                strapGroup.add(trimMesh);
+
+                // Tension Lock Buckle
+                const tensionBuckleGeo = new THREE.BoxGeometry(0.18, 0.08, 0.05);
+                const tensionBuckle = new THREE.Mesh(tensionBuckleGeo, chromeMat);
+                tensionBuckle.position.set(sign * 0.42, -0.38, -0.46);
+                strapGroup.add(tensionBuckle);
+
+                // Webbing Extension Tape
+                const tapeGeo = new THREE.BoxGeometry(0.12, 0.65, 0.02);
+                const tapeMesh = new THREE.Mesh(tapeGeo, leatherMat);
+                tapeMesh.position.set(sign * 0.42, -0.72, -0.46);
+                strapGroup.add(tapeMesh);
+
+                return strapGroup;
+            }
+
+            bagGroup.add(createShoulderStrap(true));
+            bagGroup.add(createShoulderStrap(false));
+
+            // Sternum / Chest Strap Across Straps
+            const sternumGeo = new THREE.BoxGeometry(0.68, 0.05, 0.03);
+            const sternumMesh = new THREE.Mesh(sternumGeo, orangeAccentMat);
+            sternumMesh.position.set(0, 0.15, -0.47);
+            bagGroup.add(sternumMesh);
+
+            const sternumBuckleGeo = new THREE.BoxGeometry(0.10, 0.08, 0.05);
+            const sternumBuckle = new THREE.Mesh(sternumBuckleGeo, chromeMat);
+            sternumBuckle.position.set(0, 0.15, -0.48);
+            bagGroup.add(sternumBuckle);
+
+            // 8. KINETIC ORBIT GLOW RING & ENERGY SPARK PARTICLES
+            const ringGeo = new THREE.RingGeometry(2.0, 2.05, 64);
+            const ringMat = new THREE.MeshBasicMaterial({
+                color: 0xff5722,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.38
+            });
+            const orbitRing = new THREE.Mesh(ringGeo, ringMat);
+            orbitRing.rotation.x = Math.PI / 2.15;
+            bagGroup.add(orbitRing);
+
+            const pCount = 55;
+            const pGeo = new THREE.BufferGeometry();
+            const pPos = new Float32Array(pCount * 3);
+            for (let i = 0; i < pCount * 3; i += 3) {
+                pPos[i] = (Math.random() - 0.5) * 4.4;
+                pPos[i + 1] = (Math.random() - 0.5) * 4.4;
+                pPos[i + 2] = (Math.random() - 0.5) * 4.4;
+            }
+            pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+            const pMat = new THREE.PointsMaterial({
+                color: 0xff7043,
+                size: 0.045,
+                transparent: true,
+                opacity: 0.65
+            });
+            const particles = new THREE.Points(pGeo, pMat);
+            bagGroup.add(particles);
+
+            // ── DRAG ROTATION WITH INERTIA DAMPING ──
+            let isDragging = false;
+            let prevX = 0;
+            let prevY = 0;
+            let targetRotY = 0.35;
+            let targetRotX = 0.12;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - prevX;
+                const deltaY = e.clientY - prevY;
+                targetRotY += deltaX * 0.008;
+                targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX + deltaY * 0.008));
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
+
+            // Touch interaction
+            container.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    prevX = e.touches[0].clientX;
+                    prevY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - prevX;
+                const deltaY = e.touches[0].clientY - prevY;
+                targetRotY += deltaX * 0.008;
+                targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX + deltaY * 0.008));
+                prevX = e.touches[0].clientX;
+                prevY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // ── RENDER LOOP ──
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                if (!isDragging) {
+                    targetRotY += 0.006;
+                    targetRotX = Math.sin(elapsedTime * 0.8) * 0.08;
+                    const yOffset = window.innerWidth < 768 ? 0.32 : 0.08;
+                    bagGroup.position.y = yOffset + Math.sin(elapsedTime * 1.5) * 0.05;
+                }
+
+                // Smooth damping
+                bagGroup.rotation.y += (targetRotY - bagGroup.rotation.y) * 0.08;
+                bagGroup.rotation.x += (targetRotX - bagGroup.rotation.x) * 0.08;
+
+                orbitRing.rotation.z += 0.004;
+
+                const pos = particles.geometry.attributes.position.array;
+                for (let i = 1; i < pCount * 3; i += 3) {
+                    pos[i] += 0.003;
+                    if (pos[i] > 2.2) pos[i] = -2.2;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Responsive Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.position.z = window.innerWidth < 768 ? 5.6 : 6.0;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        })();
+
+                // ── 2. REAL VERIFIED DATA & INTERACTIVE ELEVATION GRAPH ──
+        const energyTimelineData = [
+            { month: "Dec 2025", sessions: 380, revenue: 24000, reach: 4200, note: "Month 1: Baseline Shopify Theme Audit" },
+            { month: "Jan 2026", sessions: 620, revenue: 58000, reach: 14500, note: "Month 2: Mobile Speed Optimization & Theme (+63%)" },
+            { month: "Feb 2026", sessions: 1140, revenue: 110000, reach: 29800, note: "Month 3: E-E-A-T Blogs & Viral Reels (+84%)" },
+            { month: "Mar 2026", sessions: 1820, revenue: 178000, reach: 44200, note: "Month 4: Dynamic Meta Catalog Ads (148 Orders)" },
+            { month: "Apr 2026", sessions: 2340, revenue: 235000, reach: 56800, note: "Month 5: Warm Retargeting & Klaviyo Recovery" },
+            { month: "May 2026", sessions: 2804, revenue: 289000, reach: 68500, note: "Month 6: 🏆 Peak Milestone: 398K GSC Reach & 4.2x ROAS" }
+        ];
+
+        let currentMetric = 'sessions';
+        let computedChartPoints = [];
+
+        function showTooltip(p) {
+            const container = document.getElementById('chart-container');
+            const tooltip = document.getElementById('chart-tooltip');
+            if (!container || !tooltip) return;
+
+            const rect = container.getBoundingClientRect();
+            const W = 1000;
+            const H = 360;
+            const scaleX = rect.width / W;
+            const scaleY = rect.height / H;
+
+            const posX = p.x * scaleX;
+            const posY = p.y * scaleY;
+
+            tooltip.style.left = posX + 'px';
+            tooltip.style.top = posY + 'px';
+
+            // Smart Horizontal clamping: Prevent tooltip from clipping against container edges
+            let transX = '-50%';
+            if (posX < 110) {
+                transX = '0%';
+            } else if (posX > rect.width - 110) {
+                transX = '-100%';
+            }
+
+            // Smart Vertical flipping:
+            // When data point is near top of graph (posY < 105px), flip tooltip BELOW the point (18px)
+            let transY = '-125%';
+            if (posY < 105) {
+                transY = '18px';
+            }
+
+            tooltip.style.transform = `translate(${transX}, ${transY})`;
+            tooltip.style.opacity = '1';
+
+            document.getElementById('tooltip-date').textContent = p.data.month;
+            let label = currentMetric === 'sessions' ? 'E-Commerce Sessions' : currentMetric === 'revenue' ? 'Revenue' : 'Social Reach';
+            let formattedVal = currentMetric === 'revenue' ? `₹${p.data[currentMetric].toLocaleString()}` : p.data[currentMetric].toLocaleString();
+            document.getElementById('tooltip-value').textContent = `${formattedVal} ${currentMetric === 'revenue' ? '' : label}`;
+            document.getElementById('tooltip-note').textContent = p.data.note;
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('chart-tooltip');
+            if (tooltip) tooltip.style.opacity = '0';
+        }
+
+        function renderElevationGraph() {
+            const svg = document.getElementById('elevation-svg');
+            const gridGroup = document.getElementById('chart-grid');
+            const areaPath = document.getElementById('chart-area');
+            const linePath = document.getElementById('chart-line');
+            const nodesGroup = document.getElementById('chart-nodes');
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const W = 1000;
+            const H = 360;
+            const padL = 70;
+            const padR = 40;
+            const padT = 50;
+            const padB = 50;
+
+            const plotW = W - padL - padR;
+            const plotH = H - padT - padB;
+
+            const values = energyTimelineData.map(d => d[currentMetric]);
+            const maxVal = Math.max(...values) * 1.2 || 100;
+            const minVal = 0;
+
+            // Horizontal Grid Lines
+            const gridSteps = 4;
+            for (let i = 0; i <= gridSteps; i++) {
+                const y = padT + (plotH / gridSteps) * i;
+                const val = Math.round(maxVal - (maxVal / gridSteps) * i);
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padL);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', W - padR);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padL - 12);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'chart-axis-label');
+                let displayVal = currentMetric === 'revenue' ? `₹${(val / 1000).toFixed(0)}k` : currentMetric === 'reach' ? `${(val / 1000).toFixed(0)}k` : val.toLocaleString();
+                text.textContent = displayVal;
+                gridGroup.appendChild(text);
+            }
+
+            // Points
+            const points = energyTimelineData.map((d, i) => {
+                const x = padL + (plotW / (energyTimelineData.length - 1)) * i;
+                const y = padT + plotH - ((d[currentMetric] - minVal) / (maxVal - minVal)) * plotH;
+                return { x, y, data: d, index: i };
+            });
+            computedChartPoints = points;
+
+            // Smooth Bezier Curve
+            function getBezierPath(pts) {
+                if (pts.length === 0) return '';
+                let path = `M ${pts[0].x} ${pts[0].y}`;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i];
+                    const p1 = pts[i + 1];
+                    const cpX = (p0.x + p1.x) / 2;
+                    path += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+                }
+                return path;
+            }
+
+            const curvePath = getBezierPath(points);
+            linePath.setAttribute('d', curvePath);
+
+            const areaD = `${curvePath} L ${points[points.length - 1].x} ${padT + plotH} L ${points[0].x} ${padT + plotH} Z`;
+            areaPath.setAttribute('d', areaD);
+
+            // Nodes rendering with dedicated non-glitching Hit Area
+            points.forEach((p, idx) => {
+                // X axis label
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', p.x);
+                xLabel.setAttribute('y', H - 15);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.setAttribute('class', 'chart-axis-label');
+                xLabel.textContent = p.data.month;
+                gridGroup.appendChild(xLabel);
+
+                const nodeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                nodeG.setAttribute('class', 'chart-data-node');
+                nodeG.setAttribute('data-index', idx);
+
+                const isMilestone = idx === 0 || idx === 2 || idx === 5;
+
+                // Pulsing ring
+                if (isMilestone) {
+                    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    pulse.setAttribute('cx', p.x);
+                    pulse.setAttribute('cy', p.y);
+                    pulse.setAttribute('r', '12');
+                    pulse.setAttribute('fill', 'rgba(255, 87, 34, 0.35)');
+                    pulse.setAttribute('style', 'pointer-events: none;');
+                    pulse.innerHTML = '<animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="2s" repeatCount="indefinite"/>';
+                    nodeG.appendChild(pulse);
+                }
+
+                // Visible dot circle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', p.x);
+                circle.setAttribute('cy', p.y);
+                const baseR = isMilestone ? 7 : 5;
+                circle.setAttribute('r', baseR);
+                circle.setAttribute('fill', isMilestone ? '#ff7043' : '#ffffff');
+                circle.setAttribute('stroke', '#ff5722');
+                circle.setAttribute('stroke-width', '2');
+                circle.setAttribute('style', 'pointer-events: none; transition: r 0.15s ease;');
+                nodeG.appendChild(circle);
+
+                // Invisible large hit area
+                const hitCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                hitCircle.setAttribute('cx', p.x);
+                hitCircle.setAttribute('cy', p.y);
+                hitCircle.setAttribute('r', '20');
+                hitCircle.setAttribute('fill', 'transparent');
+                hitCircle.setAttribute('style', 'cursor: pointer;');
+                nodeG.appendChild(hitCircle);
+
+                // Events
+                hitCircle.addEventListener('mouseenter', () => {
+                    circle.setAttribute('r', baseR + 3);
+                    circle.setAttribute('fill', '#ff5722');
+                    showTooltip(p);
+                });
+
+                hitCircle.addEventListener('mouseleave', () => {
+                    circle.setAttribute('r', baseR);
+                    circle.setAttribute('fill', isMilestone ? '#ff7043' : '#ffffff');
+                    hideTooltip();
+                });
+
+                nodesGroup.appendChild(nodeG);
+            });
+        }
+
+        renderElevationGraph();
+
+        // Metric Toggle buttons
+        document.querySelectorAll('.metric-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.metric-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMetric = btn.getAttribute('data-metric');
+                renderElevationGraph();
+            });
+        });
+
+        // Checkpoint Card Clicks
+        document.querySelectorAll('.checkpoint-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.checkpoint-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+
+                const idx = parseInt(card.getAttribute('data-index'));
+                if (computedChartPoints && computedChartPoints[idx]) {
+                    showTooltip(computedChartPoints[idx]);
+                }
+            });
+        });
+
+        // ── 3. VISUAL PROOF GALLERY TABS ──
+        document.querySelectorAll('.gallery-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.gallery-tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.gallery-view').forEach(v => v.classList.remove('active'));
+
+                btn.classList.add('active');
+                const targetId = btn.getAttribute('data-target');
+                const targetView = document.getElementById(targetId);
+                if (targetView) targetView.classList.add('active');
+            });
+        });
+
+        // ── 4. LIGHTBOX HANDLERS ──
+        function openLightbox(src) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            modal.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('active');
+        }
+    </script>
+
 <?php
 get_footer();

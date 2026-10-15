@@ -1861,5 +1861,397 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+        // ── 1. THREE.JS 3D GOLDEN CHAAT BOWL & SPICE HALO ──
+        (function init3DChaatBowl() {
+            const container = document.getElementById('three-canvas-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, window.innerWidth < 768 ? 7.2 : 7.5);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.35;
+            container.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+            scene.add(ambientLight);
+
+            const warmLight = new THREE.PointLight(0xff5722, 4.5, 50);
+            warmLight.position.set(5, 5, 5);
+            scene.add(warmLight);
+
+            const amberLight = new THREE.PointLight(0xf59e0b, 4.2, 50);
+            amberLight.position.set(-5, 4, 4);
+            scene.add(amberLight);
+
+            const mintRimLight = new THREE.PointLight(0x10b981, 2.5, 50);
+            mintRimLight.position.set(0, -5, -4);
+            scene.add(mintRimLight);
+
+            // Group for luxury culinary chaat bowl
+            const group = new THREE.Group();
+            scene.add(group);
+
+            // Materials
+            const brassBowlMaterial = new THREE.MeshStandardMaterial({
+                color: 0xd97706,
+                roughness: 0.25,
+                metalness: 0.88
+            });
+
+            const goldenPuriMaterial = new THREE.MeshStandardMaterial({
+                color: 0xf59e0b,
+                roughness: 0.45,
+                metalness: 0.2
+            });
+
+            const herbMintMaterial = new THREE.MeshStandardMaterial({
+                color: 0x10b981,
+                roughness: 0.35,
+                metalness: 0.1
+            });
+
+            const wireMaterial = new THREE.MeshBasicMaterial({
+                color: 0xff5722,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.25
+            });
+
+            // 1. Traditional Brass Chaat Kadai / Serving Bowl
+            const bowlGeo = new THREE.CylinderGeometry(2.0, 1.1, 1.2, 32, 1, true);
+            const bowlMesh = new THREE.Mesh(bowlGeo, brassBowlMaterial);
+            group.add(bowlMesh);
+
+            // Bowl Base Rim
+            const baseGeo = new THREE.CylinderGeometry(1.15, 1.25, 0.3, 32);
+            baseGeo.translate(0, -0.65, 0);
+            const baseMesh = new THREE.Mesh(baseGeo, brassBowlMaterial);
+            group.add(baseMesh);
+
+            // Wireframe Accent
+            const bowlWire = new THREE.Mesh(bowlGeo, wireMaterial);
+            bowlWire.scale.set(1.002, 1.002, 1.002);
+            group.add(bowlWire);
+
+            // 2. Crispy Golden Puris (Clustered inside bowl)
+            const puriPositions = [
+                { x: 0, y: 0.35, z: 0, r: 0.72 },
+                { x: -0.65, y: 0.15, z: 0.35, r: 0.62 },
+                { x: 0.65, y: 0.15, z: 0.35, r: 0.62 },
+                { x: 0, y: 0.2, z: -0.65, r: 0.65 },
+                { x: -0.45, y: 0.38, z: -0.3, r: 0.55 },
+                { x: 0.45, y: 0.38, z: -0.3, r: 0.55 }
+            ];
+
+            puriPositions.forEach(pos => {
+                const pGeo = new THREE.SphereGeometry(pos.r, 16, 16);
+                pGeo.scale(1, 0.75, 1);
+                const pMesh = new THREE.Mesh(pGeo, goldenPuriMaterial);
+                pMesh.position.set(pos.x, pos.y, pos.z);
+                group.add(pMesh);
+            });
+
+            // 3. Mint & Coriander Garnish Accents
+            for (let i = 0; i < 12; i++) {
+                const leafGeo = new THREE.OctahedronGeometry(0.12, 0);
+                const leafMesh = new THREE.Mesh(leafGeo, herbMintMaterial);
+                const angle = (i / 12) * Math.PI * 2;
+                leafMesh.position.set(Math.cos(angle) * 0.9, 0.55 + Math.sin(i) * 0.1, Math.sin(angle) * 0.9);
+                group.add(leafMesh);
+            }
+
+            // 4. Dual Floating Culinary Spice Halo Rings
+            const ring1Geo = new THREE.TorusGeometry(2.5, 0.035, 16, 90);
+            const ring1Mat = new THREE.MeshBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.6 });
+            const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
+            ring1.rotation.x = Math.PI / 2.7;
+            ring1.rotation.y = Math.PI / 7;
+            group.add(ring1);
+
+            const ring2Geo = new THREE.TorusGeometry(2.25, 0.025, 16, 90);
+            const ring2Mat = new THREE.MeshBasicMaterial({ color: 0x10b981, transparent: true, opacity: 0.5 });
+            const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+            ring2.rotation.x = -Math.PI / 3;
+            ring2.rotation.z = Math.PI / 5;
+            group.add(ring2);
+
+            group.position.y = -0.3;
+
+            // Interactive Drag Controls
+            let isDragging = false;
+            let prevMouseX = 0;
+            let prevMouseY = 0;
+            let targetRotX = 0;
+            let targetRotY = 0;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevMouseX = e.clientX;
+                prevMouseY = e.clientY;
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - prevMouseX;
+                const deltaY = e.clientY - prevMouseY;
+                targetRotY += deltaX * 0.008;
+                targetRotX += deltaY * 0.008;
+                prevMouseX = e.clientX;
+                prevMouseY = e.clientY;
+            });
+
+            // Touch events for mobile
+            container.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    prevMouseX = e.touches[0].clientX;
+                    prevMouseY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - prevMouseX;
+                const deltaY = e.touches[0].clientY - prevMouseY;
+                targetRotY += deltaX * 0.008;
+                targetRotX += deltaY * 0.008;
+                prevMouseX = e.touches[0].clientX;
+                prevMouseY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // Animation Loop
+            let clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const t = clock.getElapsedTime();
+
+                // Idle floating and rotation
+                if (!isDragging) {
+                    targetRotY += 0.006;
+                }
+                group.rotation.y += (targetRotY - group.rotation.y) * 0.08;
+                group.rotation.x += (targetRotX - group.rotation.x) * 0.08;
+                const yOffset = window.innerWidth < 768 ? 0.2 : -0.15;
+                group.position.y = yOffset + Math.sin(t * 1.5) * 0.12;
+                ring1.rotation.z += 0.005;
+                ring2.rotation.z -= 0.004;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Resize
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.position.z = window.innerWidth < 768 ? 7.2 : 7.5;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        })();
+
+        // ── 2. REAL META ADS REACH & INQUIRY ELEVATION GRAPH ──
+        const timelineData = [
+            { week: "Week 1", label: "Week 1 (Launch)", reach: 3200, inquiries: 8, interactions: 720, note: "Initial Anna Nagar audience testing" },
+            { week: "Week 2", label: "Week 2 (Hooks)", reach: 11500, inquiries: 26, interactions: 2800, note: "High-engagement chaat creative hooks (+259%)" },
+            { week: "Week 3", label: "Week 3 (Thenga Paal)", reach: 22400, inquiries: 58, interactions: 6400, note: "Signature Thenga Paal campaign live (+95%)" },
+            { week: "Week 4", label: "Week 4 (Chats)", reach: 31800, inquiries: 84, interactions: 11200, note: "Direct-message ad set scaling (+42%)" },
+            { week: "Week 5", label: "Week 5 (Specials)", reach: 37200, inquiries: 106, interactions: 16800, note: "Seasonal promo item conversions (+17%)" },
+            { week: "Week 6", label: "Week 6 (Scale)", reach: 40600, inquiries: 120, interactions: 22500, note: "🏆 40.6K+ Accounts Reached &bull; 120 Inquiries" }
+        ];
+
+        let currentMetric = 'reach';
+
+        function renderElevationGraph() {
+            const svg = document.getElementById('elevation-svg');
+            const gridGroup = document.getElementById('chart-grid');
+            const areaPath = document.getElementById('chart-area');
+            const linePath = document.getElementById('chart-line');
+            const nodesGroup = document.getElementById('chart-nodes');
+            const tooltip = document.getElementById('chart-tooltip');
+            const container = document.getElementById('chart-container');
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const W = 1000;
+            const H = 360;
+            const padL = 70;
+            const padR = 40;
+            const padT = 30;
+            const padB = 50;
+
+            const plotW = W - padL - padR;
+            const plotH = H - padT - padB;
+
+            const values = timelineData.map(d => d[currentMetric]);
+            const maxVal = Math.max(...values) * 1.15;
+            const minVal = 0;
+
+            // Draw horizontal grid lines (4 lines)
+            const gridSteps = 4;
+            for (let i = 0; i <= gridSteps; i++) {
+                const y = padT + (plotH / gridSteps) * i;
+                const val = Math.round(maxVal - (maxVal / gridSteps) * i);
+                
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padL);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', W - padR);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padL - 10);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'chart-axis-label');
+                text.textContent = val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val;
+                gridGroup.appendChild(text);
+            }
+
+            // Calculate coordinates
+            const points = timelineData.map((d, i) => {
+                const x = padL + (plotW / (timelineData.length - 1)) * i;
+                const y = padT + plotH - ((d[currentMetric] - minVal) / (maxVal - minVal)) * plotH;
+                return { x, y, data: d, index: i };
+            });
+
+            // Smooth bezier curve path
+            function getBezierPath(pts) {
+                if (pts.length === 0) return '';
+                let path = `M ${pts[0].x} ${pts[0].y}`;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i];
+                    const p1 = pts[i + 1];
+                    const cpX = (p0.x + p1.x) / 2;
+                    path += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+                }
+                return path;
+            }
+
+            const curvePath = getBezierPath(points);
+            linePath.setAttribute('d', curvePath);
+
+            const areaD = `${curvePath} L ${points[points.length - 1].x} ${padT + plotH} L ${points[0].x} ${padT + plotH} Z`;
+            areaPath.setAttribute('d', areaD);
+
+            // Render Nodes and Milestone Pins
+            points.forEach((p, idx) => {
+                // X Axis label
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', p.x);
+                xLabel.setAttribute('y', H - 15);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.setAttribute('class', 'chart-axis-label');
+                xLabel.textContent = p.data.week;
+                gridGroup.appendChild(xLabel);
+
+                // Node group
+                const nodeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                nodeG.setAttribute('class', 'chart-data-node');
+                nodeG.setAttribute('data-index', idx);
+
+                const isMilestone = idx === 2 || idx === 5; // Week 3 (Thenga Paal) & Week 6 (Scale Peak)
+
+                if (isMilestone) {
+                    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    pulse.setAttribute('cx', p.x);
+                    pulse.setAttribute('cy', p.y);
+                    pulse.setAttribute('r', '12');
+                    pulse.setAttribute('fill', 'rgba(255, 87, 34, 0.35)');
+                    pulse.innerHTML = '<animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="2s" repeatCount="indefinite"/>';
+                    nodeG.appendChild(pulse);
+                }
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', p.x);
+                circle.setAttribute('cy', p.y);
+                circle.setAttribute('r', isMilestone ? '7' : '5');
+                circle.setAttribute('fill', isMilestone ? '#ff5722' : '#ffffff');
+                circle.setAttribute('stroke', '#ff5722');
+                circle.setAttribute('stroke-width', '2');
+                nodeG.appendChild(circle);
+
+                // Tooltip events
+                nodeG.addEventListener('mouseenter', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    const scaleX = rect.width / W;
+                    const scaleY = rect.height / H;
+
+                    const posX = p.x * scaleX;
+                    const posY = p.y * scaleY;
+
+                    tooltip.style.left = posX + 'px';
+                    tooltip.style.top = posY + 'px';
+
+                    // Clamping and smart vertical flipping
+                    let transX = '-50%';
+                    if (posX < 110) transX = '0%';
+                    else if (posX > rect.width - 110) transX = '-100%';
+
+                    let transY = '-120%';
+                    if (posY < 95) transY = '18px';
+
+                    tooltip.style.transform = `translate(${transX}, ${transY})`;
+                    tooltip.style.opacity = '1';
+
+                    document.getElementById('tooltip-month').textContent = p.data.label;
+                    let label = currentMetric === 'reach' ? 'Accounts Reached' : currentMetric === 'inquiries' ? 'Direct Chats' : 'Interactions';
+                    let formattedVal = p.data[currentMetric].toLocaleString();
+                    document.getElementById('tooltip-value').textContent = `${formattedVal} ${label}`;
+                    document.getElementById('tooltip-note').textContent = p.data.note;
+                });
+
+                nodeG.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = '0';
+                });
+
+                nodesGroup.appendChild(nodeG);
+            });
+        }
+
+        renderElevationGraph();
+
+        // Metric Toggle buttons
+        document.querySelectorAll('.metric-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.metric-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMetric = btn.getAttribute('data-metric');
+                renderElevationGraph();
+            });
+        });
+
+        // Checkpoint Card Clicks
+        document.querySelectorAll('.checkpoint-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.checkpoint-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+
+                const idx = parseInt(card.getAttribute('data-index'));
+                const nodes = document.querySelectorAll('.chart-data-node');
+                nodes.forEach(n => {
+                    if (parseInt(n.getAttribute('data-index')) === idx) {
+                        const evt = new MouseEvent('mouseenter');
+                        n.dispatchEvent(evt);
+                    }
+                });
+            });
+        });
+    </script>
+
 <?php
 get_footer();

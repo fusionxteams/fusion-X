@@ -311,5 +311,52 @@ get_header();
 
     <!-- Main Footer -->
 
+<script>
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const bar = document.getElementById('reading-progress-bar');
+            if (bar) bar.style.width = scrolled + '%';
+        });
+
+        // Table of Contents ScrollSpy
+        const sections = document.querySelectorAll('article section[id]');
+        const tocLinks = document.querySelectorAll('#toc-nav .toc-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 140;
+                if (pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll for TOC links
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                    window.scrollTo({
+                        top: targetEl.offsetTop - 110,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+
 <?php
 get_footer();

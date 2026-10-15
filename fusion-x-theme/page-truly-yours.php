@@ -1583,5 +1583,624 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+        // ── 1. THREE.JS 3D LUXURY SKINCARE SERUM DROPPER BOTTLE ──
+        (function init3DSerumBottle() {
+            const container = document.getElementById('three-serum-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, window.innerWidth < 768 ? 5.2 : 5.6);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.35;
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // ── STUDIO LIGHTING RIG (MATCHING SITE THEME) ──
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.15);
+            scene.add(ambientLight);
+
+            // Key Warm Light
+            const warmKeyLight = new THREE.DirectionalLight(0xff7043, 2.7);
+            warmKeyLight.position.set(4, 5, 4);
+            scene.add(warmKeyLight);
+
+            // Fill Light (Soft White)
+            const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            fillLight.position.set(-4, 2, 3);
+            scene.add(fillLight);
+
+            // Top White Rim Light (Crisp glass highlight)
+            const rimLight = new THREE.DirectionalLight(0xffffff, 2.2);
+            rimLight.position.set(0, 6, -3.5);
+            scene.add(rimLight);
+
+            // Bottom Sub-Glow Light (Orange Accent)
+            const bottomGlow = new THREE.PointLight(0xff5722, 2.4, 10);
+            bottomGlow.position.set(0, -3, 1);
+            scene.add(bottomGlow);
+
+            // ── PROCEDURAL LABEL CANVAS TEXTURE ──
+            function createSerumLabelTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 512;
+                canvas.height = 512;
+                const ctx = canvas.getContext('2d');
+
+                // Clean pearl-white background
+                ctx.fillStyle = '#fffdfa';
+                ctx.fillRect(0, 0, 512, 512);
+
+                // Subtle orange border
+                ctx.strokeStyle = '#ff5722';
+                ctx.lineWidth = 6;
+                ctx.strokeRect(16, 16, 480, 480);
+
+                ctx.strokeStyle = '#ff7043';
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(26, 26, 460, 460);
+
+                // Crown / botanical emblem
+                ctx.fillStyle = '#ff5722';
+                ctx.beginPath();
+                ctx.moveTo(256, 75);
+                ctx.lineTo(276, 110);
+                ctx.lineTo(310, 85);
+                ctx.lineTo(295, 130);
+                ctx.lineTo(217, 130);
+                ctx.lineTo(202, 85);
+                ctx.lineTo(236, 110);
+                ctx.closePath();
+                ctx.fill();
+
+                // Brand Title
+                ctx.fillStyle = '#1c1917';
+                ctx.font = 'bold 36px "Space Grotesk", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.letterSpacing = '4px';
+                ctx.fillText('TRULY YOURS', 256, 195);
+
+                // Divider line
+                ctx.strokeStyle = '#ff5722';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(140, 215);
+                ctx.lineTo(372, 215);
+                ctx.stroke();
+
+                // Subtitle
+                ctx.fillStyle = '#ff5722';
+                ctx.font = '600 18px "Space Grotesk", sans-serif';
+                ctx.fillText('ORGANIC SKINCARE', 256, 245);
+
+                // Product details
+                ctx.fillStyle = '#44403c';
+                ctx.font = '500 17px "Space Grotesk", sans-serif';
+                ctx.fillText('BOTANICAL GLOW SERUM', 256, 290);
+
+                ctx.fillStyle = '#78716c';
+                ctx.font = '400 14px "Space Grotesk", sans-serif';
+                ctx.fillText('Niacinamide + Active Botanicals', 256, 330);
+                ctx.fillText('Dermatologically Formulated', 256, 355);
+
+                // Volume
+                ctx.fillStyle = '#ff5722';
+                ctx.font = 'bold 15px "Space Grotesk", sans-serif';
+                ctx.fillText('30 ml / 1.0 fl. oz.', 256, 420);
+
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.anisotropy = 4;
+                return tex;
+            }
+
+            // ── ASSEMBLE 3D BOTTLE GROUP ──
+            const bottleGroup = new THREE.Group();
+            scene.add(bottleGroup);
+
+            // 1. External Glass Bottle Cylinder
+            const bottleGeo = new THREE.CylinderGeometry(0.82, 0.82, 2.1, 36);
+            const bottleMat = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.65,
+                roughness: 0.08,
+                metalness: 0.05,
+                reflectivity: 0.9,
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.1
+            });
+            const bottleMesh = new THREE.Mesh(bottleGeo, bottleMat);
+            bottleMesh.position.y = -0.15;
+            bottleGroup.add(bottleMesh);
+
+            // Rounded Bottom Bevel
+            const bottomGeo = new THREE.SphereGeometry(0.82, 36, 16, 0, Math.PI * 2, Math.PI * 0.5, Math.PI * 0.5);
+            const bottomMesh = new THREE.Mesh(bottomGeo, bottleMat);
+            bottomMesh.position.y = -1.2;
+            bottomMesh.scale.set(1, 0.25, 1);
+            bottleGroup.add(bottomMesh);
+
+            // Bottle Curved Shoulder
+            const shoulderGeo = new THREE.CylinderGeometry(0.48, 0.82, 0.38, 36);
+            const shoulderMesh = new THREE.Mesh(shoulderGeo, bottleMat);
+            shoulderMesh.position.y = 1.05;
+            bottleGroup.add(shoulderMesh);
+
+            // Bottle Neck
+            const neckGeo = new THREE.CylinderGeometry(0.44, 0.44, 0.35, 36);
+            const neckMesh = new THREE.Mesh(neckGeo, bottleMat);
+            neckMesh.position.y = 1.35;
+            bottleGroup.add(neckMesh);
+
+            // 2. Internal Serum Liquid Volume
+            const liquidGeo = new THREE.CylinderGeometry(0.76, 0.76, 1.8, 32);
+            const liquidMat = new THREE.MeshStandardMaterial({
+                color: 0xff7043,
+                roughness: 0.15,
+                metalness: 0.25,
+                transparent: true,
+                opacity: 0.82
+            });
+            const liquidMesh = new THREE.Mesh(liquidGeo, liquidMat);
+            liquidMesh.position.y = -0.25;
+            bottleGroup.add(liquidMesh);
+
+            // 3. Label Mesh Wrapped onto Bottle Face
+            const labelTex = createSerumLabelTexture();
+            const labelGeo = new THREE.CylinderGeometry(0.828, 0.828, 1.35, 36, 1, true, -Math.PI * 0.42, Math.PI * 0.84);
+            const labelMat = new THREE.MeshStandardMaterial({
+                map: labelTex,
+                roughness: 0.35,
+                metalness: 0.15,
+                side: THREE.DoubleSide
+            });
+            const labelMesh = new THREE.Mesh(labelGeo, labelMat);
+            labelMesh.position.y = -0.15;
+            bottleGroup.add(labelMesh);
+
+            // 4. Internal Glass Pipette Tube
+            const pipetteGeo = new THREE.CylinderGeometry(0.08, 0.08, 2.3, 16);
+            const pipetteMat = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.6,
+                roughness: 0.1
+            });
+            const pipette = new THREE.Mesh(pipetteGeo, pipetteMat);
+            pipette.position.y = 0.3;
+            bottleGroup.add(pipette);
+
+            // Pipette Tip
+            const tipGeo = new THREE.ConeGeometry(0.08, 0.25, 16);
+            const tip = new THREE.Mesh(tipGeo, pipetteMat);
+            tip.position.y = -0.95;
+            tip.rotation.x = Math.PI;
+            bottleGroup.add(tip);
+
+            // 5. Dropper Collar (Metallic Rose Gold / Chrome Cap)
+            const collarMat = new THREE.MeshStandardMaterial({
+                color: 0xe0a96d,
+                metalness: 0.92,
+                roughness: 0.22
+            });
+            const collarGeo = new THREE.CylinderGeometry(0.5, 0.5, 0.52, 36);
+            const collar = new THREE.Mesh(collarGeo, collarMat);
+            collar.position.y = 1.62;
+            bottleGroup.add(collar);
+
+            // Collar Rings
+            const ringGeo = new THREE.TorusGeometry(0.51, 0.02, 16, 36);
+            const ringMesh1 = new THREE.Mesh(ringGeo, collarMat);
+            ringMesh1.position.y = 1.45;
+            ringMesh1.rotation.x = Math.PI / 2;
+            bottleGroup.add(ringMesh1);
+
+            const ringMesh2 = new THREE.Mesh(ringGeo, collarMat);
+            ringMesh2.position.y = 1.8;
+            ringMesh2.rotation.x = Math.PI / 2;
+            bottleGroup.add(ringMesh2);
+
+            // 6. Dropper Rubber Silicone Squeeze Bulb
+            const bulbMat = new THREE.MeshStandardMaterial({
+                color: 0xf8fafc,
+                roughness: 0.88,
+                metalness: 0.04
+            });
+            const bulbBaseGeo = new THREE.CylinderGeometry(0.38, 0.44, 0.35, 32);
+            const bulbBase = new THREE.Mesh(bulbBaseGeo, bulbMat);
+            bulbBase.position.y = 2.0;
+            bottleGroup.add(bulbBase);
+
+            const bulbDomeGeo = new THREE.SphereGeometry(0.38, 32, 20, 0, Math.PI * 2, 0, Math.PI * 0.5);
+            const bulbDome = new THREE.Mesh(bulbDomeGeo, bulbMat);
+            bulbDome.position.y = 2.15;
+            bottleGroup.add(bulbDome);
+
+            // 7. Base Shadow Disc
+            const shadowGeo = new THREE.CircleGeometry(1.2, 32);
+            const shadowMat = new THREE.MeshBasicMaterial({
+                color: 0x000000,
+                transparent: true,
+                opacity: 0.45
+            });
+            const shadow = new THREE.Mesh(shadowGeo, shadowMat);
+            shadow.rotation.x = -Math.PI / 2;
+            shadow.position.y = -1.45;
+            bottleGroup.add(shadow);
+
+            // 8. Orbiting Brand Orange Accent Ring
+            const orbitRingGeo = new THREE.TorusGeometry(1.5, 0.016, 16, 64);
+            const orbitRingMat = new THREE.MeshStandardMaterial({
+                color: 0xff5722,
+                metalness: 0.8,
+                roughness: 0.2,
+                transparent: true,
+                opacity: 0.65
+            });
+            const orbitRing = new THREE.Mesh(orbitRingGeo, orbitRingMat);
+            orbitRing.rotation.x = Math.PI / 2.2;
+            bottleGroup.add(orbitRing);
+
+            // 9. Floating Brand Orange Particles
+            const pCount = 50;
+            const pGeo = new THREE.BufferGeometry();
+            const pPos = new Float32Array(pCount * 3);
+            for (let i = 0; i < pCount * 3; i += 3) {
+                pPos[i] = (Math.random() - 0.5) * 4.2;
+                pPos[i + 1] = (Math.random() - 0.5) * 4.2;
+                pPos[i + 2] = (Math.random() - 0.5) * 4.2;
+            }
+            pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+            const pMat = new THREE.PointsMaterial({
+                color: 0xff7043,
+                size: 0.045,
+                transparent: true,
+                opacity: 0.7
+            });
+            const particles = new THREE.Points(pGeo, pMat);
+            bottleGroup.add(particles);
+
+            // ── DRAG INTERACTION WITH INERTIA DAMPING ──
+            let isDragging = false;
+            let prevX = 0;
+            let prevY = 0;
+            let targetRotY = 0.25;
+            let targetRotX = 0.08;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - prevX;
+                const deltaY = e.clientY - prevY;
+                targetRotY += deltaX * 0.008;
+                targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX + deltaY * 0.008));
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
+
+            // Touch interaction
+            container.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    prevX = e.touches[0].clientX;
+                    prevY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - prevX;
+                const deltaY = e.touches[0].clientY - prevY;
+                targetRotY += deltaX * 0.008;
+                targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX + deltaY * 0.008));
+                prevX = e.touches[0].clientX;
+                prevY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // ── RENDER LOOP ──
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                if (!isDragging) {
+                    targetRotY += 0.005;
+                    targetRotX = Math.sin(elapsedTime * 0.7) * 0.06;
+                    const yOffset = window.innerWidth < 768 ? 0.1 : 0.0;
+                    bottleGroup.position.y = yOffset + Math.sin(elapsedTime * 1.4) * 0.04;
+                }
+
+                // Damping
+                bottleGroup.rotation.y += (targetRotY - bottleGroup.rotation.y) * 0.08;
+                bottleGroup.rotation.x += (targetRotX - bottleGroup.rotation.x) * 0.08;
+
+                orbitRing.rotation.z += 0.003;
+
+                // Particle drift
+                const pos = particles.geometry.attributes.position.array;
+                for (let i = 1; i < pCount * 3; i += 3) {
+                    pos[i] += 0.003;
+                    if (pos[i] > 2.1) pos[i] = -2.1;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.position.z = window.innerWidth < 768 ? 5.2 : 5.6;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        })();
+
+        // ── 2. REAL VERIFIED TRULY YOURS DATA & INTERACTIVE ELEVATION GRAPH ──
+        const trulyTimelineData = [
+            { month: "Month 1 (Audit)", sessions: 420, revenue: 1100, orders: 42, roas: "1.4x", note: "Month 1: Tracking pixels, audit & initial landing page launched" },
+            { month: "Month 2 (Shopify)", sessions: 740, revenue: 4200, orders: 98, roas: "2.1x", note: "Month 2: Bundles & Shopify AOV combo kits (+133% orders)" },
+            { month: "Month 3 (On-Page)", sessions: 1120, revenue: 8900, orders: 176, roas: "2.8x", note: "Month 3: Influencer UGC ads & active ingredient SEO guides" },
+            { month: "Month 4 (Blogs)", sessions: 1480, revenue: 13400, orders: 284, roas: "3.4x", note: "Month 4: Dermatology E-E-A-T blogs & automated replenishment emails" },
+            { month: "Month 5 (Social)", sessions: 1920, revenue: 17800, orders: 410, roas: "4.1x", note: "Month 5: Scaled Meta lookalikes & Instagram/YouTube video search SEO" },
+            { month: "Month 6 (Record)", sessions: 2400, revenue: 21800, orders: 540, roas: "4.8x", note: "Month 6: 🏆 Peak Milestone: 2,400 visits (+471%), ₹21.8K rev & 4.8x ROAS" }
+        ];
+
+        let currentMetric = 'sessions';
+        let computedChartPoints = [];
+
+        function showTooltip(p) {
+            const container = document.getElementById('chart-container');
+            const tooltip = document.getElementById('chart-tooltip');
+            if (!container || !tooltip) return;
+
+            const rect = container.getBoundingClientRect();
+            const W = 1000;
+            const H = 360;
+            const scaleX = rect.width / W;
+            const scaleY = rect.height / H;
+
+            const posX = p.x * scaleX;
+            const posY = p.y * scaleY;
+
+            tooltip.style.left = posX + 'px';
+            tooltip.style.top = posY + 'px';
+
+            let transX = '-50%';
+            if (posX < 110) transX = '0%';
+            else if (posX > rect.width - 110) transX = '-100%';
+
+            let transY = '-125%';
+            if (posY < 105) transY = '18px';
+
+            tooltip.style.transform = `translate(${transX}, ${transY})`;
+            tooltip.style.opacity = '1';
+
+            document.getElementById('tooltip-date').textContent = p.data.month;
+            let formattedVal = currentMetric === 'revenue' 
+                ? `₹${p.data.revenue.toLocaleString()} Revenue` 
+                : currentMetric === 'orders' 
+                    ? `${p.data.orders} Orders (${p.data.roas} ROAS)` 
+                    : `${p.data.sessions.toLocaleString()} Organic Visits`;
+            document.getElementById('tooltip-value').textContent = formattedVal;
+            document.getElementById('tooltip-note').textContent = p.data.note;
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('chart-tooltip');
+            if (tooltip) tooltip.style.opacity = '0';
+        }
+
+        function renderElevationGraph() {
+            const svg = document.getElementById('elevation-svg');
+            const gridGroup = document.getElementById('chart-grid');
+            const areaPath = document.getElementById('chart-area');
+            const linePath = document.getElementById('chart-line');
+            const nodesGroup = document.getElementById('chart-nodes');
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const W = 1000;
+            const H = 360;
+            const padL = 70;
+            const padR = 40;
+            const padT = 50;
+            const padB = 50;
+
+            const plotW = W - padL - padR;
+            const plotH = H - padT - padB;
+
+            const values = trulyTimelineData.map(d => d[currentMetric]);
+            const maxVal = Math.max(...values) * 1.18 || 100;
+            const minVal = 0;
+
+            // Horizontal Grid Lines
+            const gridSteps = 4;
+            for (let i = 0; i <= gridSteps; i++) {
+                const y = padT + (plotH / gridSteps) * i;
+                const val = Math.round(maxVal - (maxVal / gridSteps) * i);
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padL);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', W - padR);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padL - 12);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'chart-axis-label');
+                let displayVal = currentMetric === 'revenue' 
+                    ? `₹${(val / 1000).toFixed(1)}k` 
+                    : currentMetric === 'orders' 
+                        ? `${val} ord` 
+                        : val.toLocaleString();
+                text.textContent = displayVal;
+                gridGroup.appendChild(text);
+            }
+
+            // Baseline Guide Line for Month 1 Baseline
+            if (currentMetric === 'sessions') {
+                const baselineY = padT + plotH - ((420 - minVal) / (maxVal - minVal)) * plotH;
+                const baseLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                baseLine.setAttribute('x1', padL);
+                baseLine.setAttribute('y1', baselineY);
+                baseLine.setAttribute('x2', W - padR);
+                baseLine.setAttribute('y2', baselineY);
+                baseLine.setAttribute('stroke', '#64748b');
+                baseLine.setAttribute('stroke-dasharray', '6 4');
+                baseLine.setAttribute('stroke-width', '1.5');
+                gridGroup.appendChild(baseLine);
+
+                const baseText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                baseText.setAttribute('x', W - padR);
+                baseText.setAttribute('y', baselineY - 6);
+                baseText.setAttribute('text-anchor', 'end');
+                baseText.setAttribute('class', 'chart-axis-label');
+                baseText.setAttribute('fill', '#94a3b8');
+                baseText.textContent = 'Pre-Optimization Baseline: 420 Visits';
+                gridGroup.appendChild(baseText);
+            }
+
+            // Points
+            const points = trulyTimelineData.map((d, i) => {
+                const x = padL + (plotW / (trulyTimelineData.length - 1)) * i;
+                const y = padT + plotH - ((d[currentMetric] - minVal) / (maxVal - minVal)) * plotH;
+                return { x, y, data: d, index: i };
+            });
+            computedChartPoints = points;
+
+            // Bezier Path
+            function getBezierPath(pts) {
+                if (pts.length === 0) return '';
+                let path = `M ${pts[0].x} ${pts[0].y}`;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i];
+                    const p1 = pts[i + 1];
+                    const cpX = (p0.x + p1.x) / 2;
+                    path += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+                }
+                return path;
+            }
+
+            const curvePath = getBezierPath(points);
+            linePath.setAttribute('d', curvePath);
+
+            const areaD = `${curvePath} L ${points[points.length - 1].x} ${padT + plotH} L ${points[0].x} ${padT + plotH} Z`;
+            areaPath.setAttribute('d', areaD);
+
+            // Nodes
+            points.forEach((p, idx) => {
+                // X label
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', p.x);
+                xLabel.setAttribute('y', H - 15);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.setAttribute('class', 'chart-axis-label');
+                xLabel.textContent = p.data.month.split(' ')[0] + ' ' + p.data.month.split(' ')[1];
+                gridGroup.appendChild(xLabel);
+
+                const nodeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                nodeG.setAttribute('class', 'chart-data-node');
+                nodeG.setAttribute('data-index', idx);
+
+                const isMilestone = idx === 0 || idx === 2 || idx === 5;
+
+                // Pulsing ring
+                if (isMilestone) {
+                    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    pulse.setAttribute('cx', p.x);
+                    pulse.setAttribute('cy', p.y);
+                    pulse.setAttribute('r', '12');
+                    pulse.setAttribute('fill', 'rgba(255, 87, 34, 0.35)');
+                    pulse.setAttribute('style', 'pointer-events: none;');
+                    pulse.innerHTML = '<animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="2s" repeatCount="indefinite"/>';
+                    nodeG.appendChild(pulse);
+                }
+
+                // Circle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', p.x);
+                circle.setAttribute('cy', p.y);
+                const baseR = isMilestone ? 7 : 5;
+                circle.setAttribute('r', baseR);
+                circle.setAttribute('fill', isMilestone ? '#ff7043' : '#ffffff');
+                circle.setAttribute('stroke', '#ff5722');
+                circle.setAttribute('stroke-width', '2');
+                circle.setAttribute('style', 'pointer-events: none; transition: r 0.15s ease;');
+                nodeG.appendChild(circle);
+
+                // Invisible large hit circle
+                const hitCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                hitCircle.setAttribute('cx', p.x);
+                hitCircle.setAttribute('cy', p.y);
+                hitCircle.setAttribute('r', '20');
+                hitCircle.setAttribute('fill', 'transparent');
+                hitCircle.setAttribute('style', 'cursor: pointer;');
+                nodeG.appendChild(hitCircle);
+
+                // Hover events
+                hitCircle.addEventListener('mouseenter', () => {
+                    circle.setAttribute('r', baseR + 3);
+                    circle.setAttribute('fill', '#ff5722');
+                    showTooltip(p);
+                });
+
+                hitCircle.addEventListener('mouseleave', () => {
+                    circle.setAttribute('r', baseR);
+                    circle.setAttribute('fill', isMilestone ? '#ff7043' : '#ffffff');
+                    hideTooltip();
+                });
+
+                nodesGroup.appendChild(nodeG);
+            });
+        }
+
+        renderElevationGraph();
+
+        // Metric Toggle buttons
+        document.querySelectorAll('.metric-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.metric-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMetric = btn.getAttribute('data-metric');
+                renderElevationGraph();
+            });
+        });
+
+        // Checkpoint Card Clicks
+        document.querySelectorAll('.checkpoint-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.checkpoint-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+
+                const idx = parseInt(card.getAttribute('data-index'));
+                if (computedChartPoints && computedChartPoints[idx]) {
+                    showTooltip(computedChartPoints[idx]);
+                }
+            });
+        });
+    </script>
+
 <?php
 get_footer();

@@ -1633,5 +1633,153 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+        // 1. Program Type Switcher & Department Filter Logic
+        let currentType = 'all';
+        let currentDept = 'all';
+
+        const typeToggleBtns = document.querySelectorAll('.type-toggle-btn');
+        const deptFilterBtns = document.querySelectorAll('.filter-btn');
+        const programCards = document.querySelectorAll('.program-card');
+
+        function filterProgramCards() {
+            programCards.forEach(card => {
+                const cardType = card.getAttribute('data-type');
+                const cardDept = card.getAttribute('data-dept');
+
+                const matchesType = (currentType === 'all') || (cardType === currentType);
+                const matchesDept = (currentDept === 'all') || (cardDept === currentDept);
+
+                if (matchesType && matchesDept) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        typeToggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                typeToggleBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentType = btn.getAttribute('data-type');
+                filterProgramCards();
+            });
+        });
+
+        deptFilterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                deptFilterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentDept = btn.getAttribute('data-dept');
+                filterProgramCards();
+            });
+        });
+
+        // 2. Interactive Selection Handler: Click from Card -> Pre-fill form & Scroll
+        function selectProgram(type, duration, trackName) {
+            const formSection = document.getElementById('apply-form-section');
+            const typeSelect = document.getElementById('programType');
+            const durationSelect = document.getElementById('programDuration');
+            const trackSelect = document.getElementById('specializationTrack');
+
+            if (typeSelect) typeSelect.value = type;
+
+            if (durationSelect) {
+                const durQuery = duration.toLowerCase();
+                for (let i = 1; i < durationSelect.options.length; i++) {
+                    const optVal = durationSelect.options[i].value.toLowerCase();
+                    const optText = durationSelect.options[i].text.toLowerCase();
+                    if (optVal.includes(durQuery) || durQuery.includes(optVal) || optText.includes(durQuery)) {
+                        durationSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            if (trackSelect) {
+                const query = trackName.toLowerCase();
+                for (let i = 1; i < trackSelect.options.length; i++) {
+                    const optVal = trackSelect.options[i].value.toLowerCase();
+                    const optText = trackSelect.options[i].text.toLowerCase();
+                    if (
+                        (query.includes('digital') && optVal.includes('digital')) ||
+                        ((query.includes('performance') || query.includes('google') || query.includes('meta')) && (optVal.includes('performance') || optVal.includes('google') || optVal.includes('meta'))) ||
+                        ((query.includes('shopify') || query.includes('wordpress') || query.includes('web')) && (optVal.includes('shopify') || optVal.includes('wordpress'))) ||
+                        (query.includes('seo') && optVal.includes('seo')) ||
+                        ((query.includes('video') || query.includes('reels') || query.includes('shorts')) && (optVal.includes('video') || optVal.includes('reels') || optVal.includes('shorts'))) ||
+                        (query.includes('social') && optVal.includes('social')) ||
+                        optVal.includes(query) || query.includes(optVal) ||
+                        optText.includes(query) || query.includes(optText)
+                    ) {
+                        trackSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => {
+                    const nameInput = document.getElementById('applicantName');
+                    if (nameInput) nameInput.focus();
+                }, 500);
+            }
+        }
+
+        function handleProgramChange() {
+            // Optional reactive tweaks
+        }
+
+        // 3. Form Submit Handler with Direct WhatsApp Connect
+        function handleApplicationSubmit(e) {
+            e.preventDefault();
+            const toast = document.getElementById('applicationToast');
+            const name = document.getElementById('applicantName').value;
+            const phone = document.getElementById('applicantPhone').value;
+            const college = document.getElementById('applicantCollege').value;
+            const progType = document.getElementById('programType').value;
+            const duration = document.getElementById('programDuration').value;
+            const track = document.getElementById('specializationTrack').value;
+
+            if (toast) {
+                toast.style.display = 'block';
+                toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> Thank you ${name}! Your online application for <strong>${track} (${duration})</strong> has been received. Redirecting to WhatsApp coordinator...`;
+            }
+
+            // Create WhatsApp message string
+            const waMsg = encodeURIComponent(
+                `Hello Fusion X Academy! I have applied for the ${duration} ${progType.toUpperCase()} in ${track}.\n` +
+                `Name: ${name}\n` +
+                `College/Work: ${college}\n` +
+                `Phone: ${phone}\n` +
+                `Please verify my eligibility for the 100% online cohort.`
+            );
+
+            setTimeout(() => {
+                window.open(`https://wa.me/919600096973?text=${waMsg}`, '_blank');
+            }, 1800);
+        }
+
+        // 4. FAQ Accordion Logic
+        const faqItems = document.querySelectorAll('.car-faq-item');
+        faqItems.forEach(item => {
+            const qBtn = item.querySelector('.car-faq-question');
+            const ans = item.querySelector('.car-faq-answer');
+            qBtn.addEventListener('click', () => {
+                const isOpen = item.classList.contains('active');
+                faqItems.forEach(i => {
+                    i.classList.remove('active');
+                    const a = i.querySelector('.car-faq-answer');
+                    if (a) a.style.display = 'none';
+                });
+                if (!isOpen) {
+                    item.classList.add('active');
+                    if (ans) ans.style.display = 'block';
+                }
+            });
+        });
+    </script>
+
 <?php
 get_footer();

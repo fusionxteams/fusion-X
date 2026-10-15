@@ -1852,5 +1852,387 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+        // ── 1. THREE.JS 3D CRYSTAL GLASSWARE DECATER ──
+        (function init3DGlassware() {
+            const container = document.getElementById('three-canvas-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, window.innerWidth < 768 ? 7.2 : 7.5);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.3;
+            container.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+            scene.add(ambientLight);
+
+            const orangeLight = new THREE.PointLight(0xff5722, 4.5, 50);
+            orangeLight.position.set(5, 5, 5);
+            scene.add(orangeLight);
+
+            const blueRimLight = new THREE.PointLight(0xff8a50, 3, 50);
+            blueRimLight.position.set(-5, -4, -4);
+            scene.add(blueRimLight);
+
+            // Group for luxury geometric glassware
+            const group = new THREE.Group();
+            scene.add(group);
+
+            // Materials: Crystal Glass with Orange Glow & Wireframe Accent
+            const crystalMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                metalness: 0.1,
+                roughness: 0.05,
+                transmission: 0.92,
+                thickness: 1.5,
+                transparent: true,
+                opacity: 0.85,
+                reflectivity: 0.9,
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.1
+            });
+
+            const wireMaterial = new THREE.MeshBasicMaterial({
+                color: 0xff5722,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.25
+            });
+
+            // Geometry: Faceted Luxury Decanter Base
+            const baseGeo = new THREE.IcosahedronGeometry(1.7, 1);
+            const baseMesh = new THREE.Mesh(baseGeo, crystalMaterial);
+            group.add(baseMesh);
+
+            const wireMesh = new THREE.Mesh(baseGeo, wireMaterial);
+            wireMesh.scale.set(1.002, 1.002, 1.002);
+            group.add(wireMesh);
+
+            // Neck of decanter
+            const neckGeo = new THREE.CylinderGeometry(0.5, 0.7, 1.6, 16);
+            neckGeo.translate(0, 2.1, 0);
+            const neckMesh = new THREE.Mesh(neckGeo, crystalMaterial);
+            group.add(neckMesh);
+
+            // Stopper / Crystal topper
+            const topperGeo = new THREE.OctahedronGeometry(0.7, 0);
+            topperGeo.translate(0, 3.2, 0);
+            const topperMesh = new THREE.Mesh(topperGeo, crystalMaterial);
+            group.add(topperMesh);
+
+            // Floating rings with orange particles
+            const ringGeo = new THREE.TorusGeometry(2.3, 0.03, 16, 100);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.5 });
+            const ring = new THREE.Mesh(ringGeo, ringMat);
+            ring.rotation.x = Math.PI / 2.5;
+            group.add(ring);
+
+            group.position.y = -0.5;
+
+            // Interactive Drag Controls
+            let isDragging = false;
+            let prevMouseX = 0;
+            let prevMouseY = 0;
+            let targetRotX = 0;
+            let targetRotY = 0;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevMouseX = e.clientX;
+                prevMouseY = e.clientY;
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - prevMouseX;
+                const deltaY = e.clientY - prevMouseY;
+                targetRotY += deltaX * 0.008;
+                targetRotX += deltaY * 0.008;
+                prevMouseX = e.clientX;
+                prevMouseY = e.clientY;
+            });
+
+            // Touch events for mobile
+            container.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    prevMouseX = e.touches[0].clientX;
+                    prevMouseY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - prevMouseX;
+                const deltaY = e.touches[0].clientY - prevMouseY;
+                targetRotY += deltaX * 0.008;
+                targetRotX += deltaY * 0.008;
+                prevMouseX = e.touches[0].clientX;
+                prevMouseY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // Animation Loop
+            let clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const t = clock.getElapsedTime();
+
+                // Idle floating and rotation
+                if (!isDragging) {
+                    targetRotY += 0.006;
+                }
+                group.rotation.y += (targetRotY - group.rotation.y) * 0.08;
+                group.rotation.x += (targetRotX - group.rotation.x) * 0.08;
+                const yOffset = window.innerWidth < 768 ? 0.25 : -0.15;
+                group.position.y = yOffset + Math.sin(t * 1.5) * 0.12;
+                ring.rotation.z += 0.004;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Resize
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.position.z = window.innerWidth < 768 ? 7.2 : 7.5;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        })();
+
+        // ── 2. REAL GSC DATA & INTERACTIVE ELEVATION GRAPH ──
+        const gscTimelineData = [
+            { month: "Nov 2025", impressions: 295, clicks: 22, calls: 35, note: "Initial Store Digitization Baseline" },
+            { month: "Dec 2025", impressions: 1370, clicks: 70, calls: 42, note: "Catalog Ingestion & Foundation" },
+            { month: "Jan 2026", impressions: 2345, clicks: 231, calls: 58, note: "Initial Indexing Phase" },
+            { month: "Feb 2026", impressions: 3220, clicks: 85, calls: 62, note: "Stagnant Pre-Optimization Baseline" },
+            { month: "Mar 2026", impressions: 3233, clicks: 66, calls: 65, note: "Pre-SEO Baseline Ceiling" },
+            { month: "Apr 2026", impressions: 11010, clicks: 286, calls: 210, note: "★ Fusion X SEO Kicks Off (+240% Surge)" },
+            { month: "May 2026", impressions: 18236, clicks: 435, calls: 390, note: "E-E-A-T & Google Gemini Indexing" },
+            { month: "Jun 2026", impressions: 25172, clicks: 524, calls: 580, note: "AEO/GEO & ChatGPT Citations Active" },
+            { month: "Jul 2026", impressions: 32144, clicks: 740, calls: 820, note: "Chennai 3-Pack Maps Dominance" },
+            { month: "Aug 2026", impressions: 37519, clicks: 759, calls: 924, note: "★ Peak 900+ Call Inquiries & Festive Surge" },
+            { month: "Sep 2026", impressions: 37129, clicks: 781, calls: 890, note: "Sustained National Authority (10x Lift)" }
+        ];
+
+        let currentMetric = 'impressions';
+
+        function renderElevationGraph() {
+            const svg = document.getElementById('elevation-svg');
+            const gridGroup = document.getElementById('chart-grid');
+            const areaPath = document.getElementById('chart-area');
+            const linePath = document.getElementById('chart-line');
+            const nodesGroup = document.getElementById('chart-nodes');
+            const tooltip = document.getElementById('chart-tooltip');
+            const container = document.getElementById('chart-container');
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const W = 1000;
+            const H = 360;
+            const padL = 70;
+            const padR = 40;
+            const padT = 30;
+            const padB = 50;
+
+            const plotW = W - padL - padR;
+            const plotH = H - padT - padB;
+
+            const values = gscTimelineData.map(d => d[currentMetric]);
+            const maxVal = Math.max(...values) * 1.15;
+            const minVal = 0;
+
+            // Draw horizontal grid lines (4 lines)
+            const gridSteps = 4;
+            for (let i = 0; i <= gridSteps; i++) {
+                const y = padT + (plotH / gridSteps) * i;
+                const val = Math.round(maxVal - (maxVal / gridSteps) * i);
+                
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padL);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', W - padR);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padL - 10);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'chart-axis-label');
+                text.textContent = val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val;
+                gridGroup.appendChild(text);
+            }
+
+            // Calculate coordinates
+            const points = gscTimelineData.map((d, i) => {
+                const x = padL + (plotW / (gscTimelineData.length - 1)) * i;
+                const y = padT + plotH - ((d[currentMetric] - minVal) / (maxVal - minVal)) * plotH;
+                return { x, y, data: d, index: i };
+            });
+
+            // Smooth bezier curve path
+            function getBezierPath(pts) {
+                if (pts.length === 0) return '';
+                let path = `M ${pts[0].x} ${pts[0].y}`;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i];
+                    const p1 = pts[i + 1];
+                    const cpX = (p0.x + p1.x) / 2;
+                    path += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+                }
+                return path;
+            }
+
+            const curvePath = getBezierPath(points);
+            linePath.setAttribute('d', curvePath);
+
+            const areaD = `${curvePath} L ${points[points.length - 1].x} ${padT + plotH} L ${points[0].x} ${padT + plotH} Z`;
+            areaPath.setAttribute('d', areaD);
+
+            // Render Nodes and Milestone Pins
+            points.forEach((p, idx) => {
+                // X Axis label
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', p.x);
+                xLabel.setAttribute('y', H - 15);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.setAttribute('class', 'chart-axis-label');
+                xLabel.textContent = p.data.month.split(' ')[0];
+                gridGroup.appendChild(xLabel);
+
+                // Node group
+                const nodeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                nodeG.setAttribute('class', 'chart-data-node');
+                nodeG.setAttribute('data-index', idx);
+
+                const isMilestone = idx === 5 || idx === 9; // April (Month 4 kickoff) & Aug (900+ calls peak)
+
+                if (isMilestone) {
+                    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    pulse.setAttribute('cx', p.x);
+                    pulse.setAttribute('cy', p.y);
+                    pulse.setAttribute('r', '12');
+                    pulse.setAttribute('fill', 'rgba(255, 87, 34, 0.35)');
+                    pulse.innerHTML = '<animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="2s" repeatCount="indefinite"/>';
+                    nodeG.appendChild(pulse);
+                }
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', p.x);
+                circle.setAttribute('cy', p.y);
+                circle.setAttribute('r', isMilestone ? '7' : '5');
+                circle.setAttribute('fill', isMilestone ? '#ff5722' : '#ffffff');
+                circle.setAttribute('stroke', '#ff5722');
+                circle.setAttribute('stroke-width', '2');
+                nodeG.appendChild(circle);
+
+                // Tooltip events
+                nodeG.addEventListener('mouseenter', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    const scaleX = rect.width / W;
+                    const scaleY = rect.height / H;
+
+                    const posX = p.x * scaleX;
+                    const posY = p.y * scaleY;
+
+                    tooltip.style.left = posX + 'px';
+                    tooltip.style.top = posY + 'px';
+
+                    // Clamping and smart vertical flipping
+                    let transX = '-50%';
+                    if (posX < 110) transX = '0%';
+                    else if (posX > rect.width - 110) transX = '-100%';
+
+                    let transY = '-120%';
+                    if (posY < 95) transY = '18px';
+
+                    tooltip.style.transform = `translate(${transX}, ${transY})`;
+                    tooltip.style.opacity = '1';
+
+                    document.getElementById('tooltip-month').textContent = p.data.month;
+                    let label = currentMetric === 'impressions' ? 'Impressions' : currentMetric === 'clicks' ? 'Clicks' : 'Call Inquiries';
+                    let formattedVal = p.data[currentMetric].toLocaleString();
+                    document.getElementById('tooltip-value').textContent = `${formattedVal} ${label}`;
+                    document.getElementById('tooltip-note').textContent = p.data.note;
+                });
+
+                nodeG.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = '0';
+                });
+
+                nodesGroup.appendChild(nodeG);
+            });
+        }
+
+        renderElevationGraph();
+
+        // Metric Toggle buttons
+        document.querySelectorAll('.metric-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.metric-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMetric = btn.getAttribute('data-metric');
+                renderElevationGraph();
+            });
+        });
+
+        // Checkpoint Card Clicks
+        document.querySelectorAll('.checkpoint-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.checkpoint-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+
+                const idx = parseInt(card.getAttribute('data-index'));
+                const nodes = document.querySelectorAll('.chart-data-node');
+                nodes.forEach(n => {
+                    if (parseInt(n.getAttribute('data-index')) === idx) {
+                        const evt = new MouseEvent('mouseenter');
+                        n.dispatchEvent(evt);
+                    }
+                });
+            });
+        });
+
+        // ── 3. GALLERY SHOWCASE TABS ──
+        document.querySelectorAll('.gallery-tab-btn').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.gallery-tab-btn').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.gallery-view').forEach(v => v.classList.remove('active'));
+
+                tab.classList.add('active');
+                const targetId = tab.getAttribute('data-target');
+                const targetView = document.getElementById(targetId);
+                if (targetView) targetView.classList.add('active');
+            });
+        });
+
+        // Lightbox Modal
+        function openLightbox(imgSrc) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = imgSrc;
+            modal.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.remove('active');
+        }
+    </script>
+
 <?php
 get_footer();

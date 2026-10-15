@@ -1779,5 +1779,59 @@ get_header();
         </div>
     </section>
 
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 2. Locality Matrix Tabs
+            const locBtns = document.querySelectorAll('.loc-tab-btn');
+            const locPanels = document.querySelectorAll('.loc-panel');
+            locBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    locBtns.forEach(b => b.classList.remove('active'));
+                    locPanels.forEach(p => p.classList.remove('active'));
+
+                    btn.classList.add('active');
+                    const locId = btn.getAttribute('data-loc');
+                    const target = document.getElementById(locId);
+                    if (target) {
+                        target.classList.add('active');
+                    }
+                });
+            });
+
+            // 3. FAQ Accordion
+            const faqItems = document.querySelectorAll('.seo-faq-item');
+            faqItems.forEach(item => {
+                const btn = item.querySelector('.seo-faq-btn');
+                const panel = item.querySelector('.seo-faq-panel');
+                btn.addEventListener('click', () => {
+                    const isOpen = item.classList.contains('active');
+                    faqItems.forEach(i => {
+                        i.classList.remove('active');
+                        const p = i.querySelector('.seo-faq-panel');
+                        if (p) p.style.display = 'none';
+                    });
+                    if (!isOpen) {
+                        item.classList.add('active');
+                        if (panel) panel.style.display = 'block';
+                    }
+                });
+            });
+        });
+
+        // 4. Handle Free Instant Audit Form Submit
+        function handleAuditSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Diagnostic Crawl...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.style.display = 'none';
+                document.getElementById('audit-success-msg').style.display = 'block';
+            }, 1200);
+        }
+    </script>
+
 <?php
 get_footer();

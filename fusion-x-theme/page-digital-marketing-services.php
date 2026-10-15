@@ -2057,5 +2057,69 @@ get_header();
 
     <!-- UNIVERSAL FOOTER -->
 
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Bento Grid Category Filter Buttons
+            const filterBtns = document.querySelectorAll('.service-filter-btn');
+            const cards = document.querySelectorAll('.bento-card-unit');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const filterVal = btn.getAttribute('data-filter');
+
+                    cards.forEach(card => {
+                        const categories = card.getAttribute('data-category').split(' ');
+                        if (filterVal === 'all' || categories.includes(filterVal)) {
+                            card.style.display = 'flex';
+                            card.style.animation = 'fadeInStage 0.35s ease forwards';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // 3. Interactive Capabilities Command Deck Tab Switcher
+            const deckTabs = document.querySelectorAll('.deck-tab-btn');
+            const deckPanels = document.querySelectorAll('.stage-view-card');
+
+            deckTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    deckTabs.forEach(t => t.classList.remove('active'));
+                    deckPanels.forEach(p => p.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const targetId = tab.getAttribute('data-stage');
+                    const targetPanel = document.getElementById(targetId);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+
+            // 4. FAQ Accordion Interaction
+            const faqItems = document.querySelectorAll('.faq-accordion-item');
+            faqItems.forEach(item => {
+                const btn = item.querySelector('.faq-question-btn');
+                const panel = item.querySelector('.faq-answer-panel');
+                btn.addEventListener('click', () => {
+                    const isOpen = item.classList.contains('active');
+                    faqItems.forEach(i => {
+                        i.classList.remove('active');
+                        const p = i.querySelector('.faq-answer-panel');
+                        if (p) p.style.display = 'none';
+                    });
+                    if (!isOpen) {
+                        item.classList.add('active');
+                        if (panel) panel.style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
+
 <?php
 get_footer();

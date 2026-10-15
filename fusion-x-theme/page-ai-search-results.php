@@ -1346,5 +1346,119 @@ get_header();
 
     <!-- ═══════════════════════ EXACT UNIVERSAL SITE FOOTER ═══════════════════════ -->
 
+<script>
+        // Mobile Hamburger Drawer & AI Engine Filter Tabs
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => {
+                    navLinks.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+
+            // AI Engine Filter Tabs
+            const tabBtns = document.querySelectorAll('.proof-tab-btn');
+            const proofItems = document.querySelectorAll('.proof-card-item');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const engine = btn.getAttribute('data-engine');
+
+                    proofItems.forEach(item => {
+                        const itemEngine = item.getAttribute('data-engine');
+                        if (engine === 'all' || itemEngine === engine) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // ── AI Proof Touch-To-Zoom Lightbox with Prominent Cross Button ──
+            (function initAILightbox() {
+                const overlay = document.getElementById('ai-image-lightbox');
+                if (!overlay) return;
+                const lightboxImg = document.getElementById('ai-lightbox-img');
+                const lightboxCaption = document.getElementById('ai-lightbox-caption');
+                const closeBtn = overlay.querySelector('.ai-lightbox-close-btn');
+
+                function openLightbox(src, caption) {
+                    lightboxImg.src = src;
+                    lightboxImg.classList.remove('is-zoomed');
+                    lightboxCaption.textContent = caption || 'AI Search Result & Map Proof';
+                    overlay.style.display = 'flex';
+                    overlay.offsetHeight; // force reflow
+                    overlay.classList.add('active');
+                    overlay.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeLightbox() {
+                    overlay.classList.remove('active');
+                    overlay.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                    lightboxImg.classList.remove('is-zoomed');
+                    setTimeout(() => {
+                        if (!overlay.classList.contains('active')) {
+                            overlay.style.display = 'none';
+                            lightboxImg.src = '';
+                        }
+                    }, 300);
+                }
+
+                closeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeLightbox();
+                });
+
+                // Tap image inside lightbox to toggle zoom (ideal for reading map markers on mobile)
+                lightboxImg.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    lightboxImg.classList.toggle('is-zoomed');
+                });
+
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay || e.target.classList.contains('ai-lightbox-scroll-area')) {
+                        closeLightbox();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                        closeLightbox();
+                    }
+                });
+
+                // Attach click/touch listeners to all proof images and wrappers
+                document.querySelectorAll('.ai-zoomable-img-wrap, .proof-image-wrapper, .spotlight-visual').forEach(wrapper => {
+                    wrapper.addEventListener('click', (e) => {
+                        const img = wrapper.querySelector('img');
+                        if (!img) return;
+
+                        // Prefer webp source or current src
+                        const pictureSource = wrapper.querySelector('picture source');
+                        const fullSrc = (pictureSource && pictureSource.srcset) ? pictureSource.srcset : img.currentSrc || img.src;
+
+                        // Extract context caption
+                        const cardItem = wrapper.closest('.proof-card-item') || wrapper.closest('.spotlight-card');
+                        let caption = img.alt;
+                        if (cardItem) {
+                            const titleEl = cardItem.querySelector('.proof-query-title') || cardItem.querySelector('h3') || cardItem.querySelector('h4');
+                            if (titleEl) caption = titleEl.textContent.trim();
+                        }
+
+                        openLightbox(fullSrc, caption);
+                    });
+                });
+            })();
+        });
+    </script>
+
 <?php
 get_footer();

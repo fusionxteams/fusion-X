@@ -416,5 +416,1038 @@ get_header();
 
     <!-- The Standard Footer -->
 
+<script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray('.gsap-reveal').forEach(elem => {
+            gsap.to(elem, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: elem, start: 'top 80%' } });
+        });
+
+                        const themeConfig = { bgColor: new THREE.Color(0x050505), pOpacity: 0.8 };
+        function setDarkTheme() {
+            document.body.classList.remove('light-theme');
+            gsap.to(themeConfig.bgColor, { r: 0x05/255, g: 0x05/255, b: 0x05/255, duration: 0.8 });
+            gsap.to(themeConfig, { pOpacity: 0.8, duration: 0.8 });
+        }
+        function setLightTheme() {
+            document.body.classList.add('light-theme');
+            gsap.to(themeConfig.bgColor, { r: 0.96, g: 0.96, b: 0.97, duration: 0.8 });
+            gsap.to(themeConfig, { pOpacity: 0.0, duration: 0.8 }); 
+        }
+        
+        document.querySelectorAll('.dark-mode-trigger').forEach(sec => {
+            ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setDarkTheme, onEnterBack: setDarkTheme });
+        });
+        document.querySelectorAll('.light-mode-trigger').forEach(sec => {
+            ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onEnter: setLightTheme, onEnterBack: setLightTheme });
+        });
+
+
+
+        
+        // --- ROLE-SPECIFIC 3D MODELS SCENE ---
+        const canvas = document.getElementById('webgl-canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, 0.015);
+        
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 25;
+
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        
+        
+
+
+        // High contrast lighting
+        const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambient);
+        const dir1 = new THREE.DirectionalLight(0xffffff, 1.2);
+        dir1.position.set(10, 20, 15);
+        scene.add(dir1);
+        const orangeLight = new THREE.PointLight(0xff5722, 2, 50);
+        orangeLight.position.set(-10, 5, 10);
+        scene.add(orangeLight);
+        const blueLight = new THREE.PointLight(0x4488ff, 1, 50);
+        blueLight.position.set(10, -5, -10);
+        scene.add(blueLight);
+
+        // Sleek Matte Materials
+        
+        
+        const matOrange = new THREE.MeshStandardMaterial({ color: 0xff5722, roughness: 0.2, metalness: 0.1 });
+        const matDark = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.4, metalness: 0.5 });
+        const matGold = new THREE.MeshStandardMaterial({ color: 0xffaa00, roughness: 0.3, metalness: 0.8 });
+        
+        // I will rename matWhite to matGrey so it contrasts against both white and black backgrounds
+        const matWhite = new THREE.MeshStandardMaterial({ color: 0xeeeeee, roughness: 0.3, metalness: 0.4 });
+
+
+        const matGlass = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, opacity: 1, transparent: true, roughness: 0.1 });
+
+        const models = [];
+        const mainGroup = new THREE.Group();
+        scene.add(mainGroup);
+
+        
+        // 0. INTRO (Fusion X Rocket Ship)
+        const g0 = new THREE.Group();
+        // Fuselage
+        const fuselage = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 6, 32), matWhite);
+        g0.add(fuselage);
+        // Nose Cone
+        const nose = new THREE.Mesh(new THREE.ConeGeometry(1.5, 3, 32), matOrange);
+        nose.position.y = 4.5;
+        g0.add(nose);
+        // Fins
+        for(let i=0; i<4; i++) {
+            const fin = new THREE.Mesh(new THREE.BoxGeometry(0.2, 2, 2), matDark);
+            fin.position.set(Math.cos(i*Math.PI/2)*2, -2, Math.sin(i*Math.PI/2)*2);
+            fin.rotation.y = -i*Math.PI/2;
+            fin.rotation.x = Math.PI/6;
+            g0.add(fin);
+        }
+        // Window
+        const windowFrame = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.2, 32), matDark);
+        windowFrame.rotation.x = Math.PI/2;
+        windowFrame.position.set(0, 1.5, 1.4);
+        g0.add(windowFrame);
+        const windowGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.3, 32), matGlass);
+        windowGlass.rotation.x = Math.PI/2;
+        windowGlass.position.set(0, 1.5, 1.4);
+        g0.add(windowGlass);
+        
+        // Tilt rocket
+        g0.rotation.z = -Math.PI/6;
+        g0.rotation.x = Math.PI/8;
+        
+                g0.visible = false;
+
+        models.push(g0); mainGroup.add(g0);
+
+
+        // 1. Kamalesh (3D Meta Ads & 3D Google Ads Model)
+        const g1 = new THREE.Group();
+
+        const matMetaBlue = new THREE.MeshStandardMaterial({ color: 0x0081fb, roughness: 0.2, metalness: 0.6 });
+        const matGoogleBlue = new THREE.MeshStandardMaterial({ color: 0x4285f4, roughness: 0.2, metalness: 0.5 });
+        const matGoogleYellow = new THREE.MeshStandardMaterial({ color: 0xfbbc05, roughness: 0.2, metalness: 0.5 });
+        const matGoogleGreen = new THREE.MeshStandardMaterial({ color: 0x34a853, roughness: 0.2, metalness: 0.5 });
+        const matPlateBg = new THREE.MeshStandardMaterial({ color: 0x0c1017, roughness: 0.45, metalness: 0.8 });
+
+        // --- META ADS 3D EMBLEM (Left side) ---
+        const metaGroup = new THREE.Group();
+        metaGroup.position.set(-1.8, 1.3, 0.3);
+        metaGroup.scale.set(0.92, 0.92, 0.92);
+
+        // Meta Coin Central Backing Disc
+        const metaCoin = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.42, 48), matPlateBg);
+        metaCoin.rotation.x = Math.PI / 2;
+        metaGroup.add(metaCoin);
+
+        // 3D Meta Möbius Infinity Loop Curve
+        class MetaInfinityCurve extends THREE.Curve {
+            constructor(scale = 2.1) {
+                super();
+                this.scale = scale;
+            }
+            getPoint(t) {
+                const u = t * Math.PI * 2;
+                const denom = 1 + Math.sin(u) * Math.sin(u);
+                const x = (this.scale * Math.cos(u)) / denom;
+                const y = (this.scale * Math.sin(u) * Math.cos(u)) / denom * 1.5;
+                const z = Math.sin(u) * 0.16;
+                return new THREE.Vector3(x, y, z);
+            }
+        }
+        const metaCurve = new MetaInfinityCurve(2.1);
+        const metaTubeGeo = new THREE.TubeGeometry(metaCurve, 80, 0.28, 18, true);
+
+        function createMetaFace() {
+            const face = new THREE.Group();
+
+            const metaRing = new THREE.Mesh(new THREE.TorusGeometry(2.58, 0.07, 16, 64), matMetaBlue);
+            metaRing.position.z = 0.21;
+            face.add(metaRing);
+
+            const metaMesh = new THREE.Mesh(metaTubeGeo, matMetaBlue);
+            metaMesh.position.z = 0.22;
+            face.add(metaMesh);
+
+            const metaBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+            metaBadge.position.set(0, -2.3, 0.21);
+            face.add(metaBadge);
+
+            const metaStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matMetaBlue);
+            metaStripe.position.set(0, -2.3, 0.24);
+            face.add(metaStripe);
+
+            return face;
+        }
+
+        const metaFront = createMetaFace();
+        metaGroup.add(metaFront);
+        const metaBack = createMetaFace();
+        metaBack.rotation.y = Math.PI;
+        metaGroup.add(metaBack);
+
+        g1.add(metaGroup);
+
+        // --- GOOGLE ADS 3D EMBLEM (Right side) ---
+        const googleGroup = new THREE.Group();
+        googleGroup.position.set(1.8, -1.3, -0.3);
+        googleGroup.scale.set(0.92, 0.92, 0.92);
+
+        // Google Ads Coin Central Backing Disc
+        const gCoin = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.42, 48), matPlateBg);
+        gCoin.rotation.x = Math.PI / 2;
+        googleGroup.add(gCoin);
+
+        function createGoogleAdsFace() {
+            const face = new THREE.Group();
+
+            const gRing = new THREE.Mesh(new THREE.TorusGeometry(2.58, 0.07, 16, 64), matGoogleYellow);
+            gRing.position.z = 0.21;
+            face.add(gRing);
+
+            // Google Ads Iconic Angled Bars
+            // 1. Blue Diagonal Capsule (tilted -45deg)
+            const blueBar = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 2.8, 32), matGoogleBlue);
+            blueBar.rotation.z = -Math.PI / 4;
+            blueBar.position.set(-0.3, 0.3, 0.24);
+            face.add(blueBar);
+            const blueCapA = new THREE.Mesh(new THREE.SphereGeometry(0.36, 20, 20), matGoogleBlue);
+            blueCapA.position.set(-0.3 - 1.4 * 0.7071, 0.3 - 1.4 * 0.7071, 0.24);
+            face.add(blueCapA);
+            const blueCapB = new THREE.Mesh(new THREE.SphereGeometry(0.36, 20, 20), matGoogleBlue);
+            blueCapB.position.set(-0.3 + 1.4 * 0.7071, 0.3 + 1.4 * 0.7071, 0.24);
+            face.add(blueCapB);
+
+            // 2. Yellow Diagonal Capsule (tilted +45deg)
+            const yellowBar = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 2.8, 32), matGoogleYellow);
+            yellowBar.rotation.z = Math.PI / 4;
+            yellowBar.position.set(0.3, 0.3, 0.16);
+            face.add(yellowBar);
+            const yellowCapA = new THREE.Mesh(new THREE.SphereGeometry(0.36, 20, 20), matGoogleYellow);
+            yellowCapA.position.set(0.3 + 1.4 * 0.7071, 0.3 - 1.4 * 0.7071, 0.16);
+            face.add(yellowCapA);
+            const yellowCapB = new THREE.Mesh(new THREE.SphereGeometry(0.36, 20, 20), matGoogleYellow);
+            yellowCapB.position.set(0.3 - 1.4 * 0.7071, 0.3 + 1.4 * 0.7071, 0.16);
+            face.add(yellowCapB);
+
+            // 3. Green Circle Node at Lower Left
+            const greenNode = new THREE.Mesh(new THREE.SphereGeometry(0.52, 32, 32), matGoogleGreen);
+            greenNode.position.set(-1.3, -0.7, 0.28);
+            face.add(greenNode);
+
+            // Google Ads Badge Plate
+            const gBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+            gBadge.position.set(0, -2.3, 0.21);
+            face.add(gBadge);
+            const gStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matGoogleYellow);
+            gStripe.position.set(0, -2.3, 0.24);
+            face.add(gStripe);
+
+            return face;
+        }
+
+        const gFront = createGoogleAdsFace();
+        googleGroup.add(gFront);
+        const gBack = createGoogleAdsFace();
+        gBack.rotation.y = Math.PI;
+        googleGroup.add(gBack);
+
+        g1.add(googleGroup);
+
+        // Connecting Data Orbit Ring
+        const adsOrbit = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.05, 16, 100), matOrange);
+        adsOrbit.rotation.x = Math.PI / 2.3;
+        g1.add(adsOrbit);
+
+        // Floating Metric Nodes
+        for(let i = 0; i < 4; i++) {
+            const angle = (i * Math.PI) / 2;
+            const node = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 16), matWhite);
+            node.position.set(Math.cos(angle) * 3.6, Math.sin(angle) * 1.5, Math.sin(angle) * 0.8);
+            g1.add(node);
+        }
+
+        g1.visible = false;
+        models.push(g1); mainGroup.add(g1);
+
+        // 2. JaiHaran (3D Instagram & 3D YouTube Symbols)
+        const g2 = new THREE.Group();
+
+        const matInstaGradient = new THREE.MeshStandardMaterial({ color: 0xe1306c, roughness: 0.2, metalness: 0.45 });
+        const matInstaOrange = new THREE.MeshStandardMaterial({ color: 0xf56040, roughness: 0.25, metalness: 0.35 });
+        const matInstaWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.15, metalness: 0.2 });
+        const matInstaLens = new THREE.MeshPhysicalMaterial({ color: 0x1b092b, roughness: 0.1, metalness: 0.9, clearcoat: 1.0 });
+
+        const matYTDeepRed = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.18, metalness: 0.4 });
+        const matYTWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.15, metalness: 0.2 });
+
+        // --- INSTAGRAM 3D EMBLEM (Left side) ---
+        const instaGroup = new THREE.Group();
+        instaGroup.position.set(-1.8, 1.3, 0.3);
+        instaGroup.scale.set(0.92, 0.92, 0.92);
+
+        // Instagram Squircle Backing Body (centered at z = 0)
+        const inShape = new THREE.Shape();
+        const inR = 0.85, inW = 3.8, inH = 3.8;
+        const inX = -inW/2, inY = -inH/2;
+        inShape.moveTo(inX + inR, inY);
+        inShape.lineTo(inX + inW - inR, inY);
+        inShape.quadraticCurveTo(inX + inW, inY, inX + inW, inY + inR);
+        inShape.lineTo(inX + inW, inY + inH - inR);
+        inShape.quadraticCurveTo(inX + inW, inY + inH, inX + inW - inR, inY + inH);
+        inShape.lineTo(inX + inR, inY + inH);
+        inShape.quadraticCurveTo(inX, inY + inH, inX, inY + inH - inR);
+        inShape.lineTo(inX, inY + inR);
+        inShape.quadraticCurveTo(inX, inY, inX + inR, inY);
+
+        const inGeo = new THREE.ExtrudeGeometry(inShape, { depth: 0.44, bevelEnabled: true, bevelSegments: 4, steps: 1, bevelSize: 0.1, bevelThickness: 0.1 });
+        const inMesh = new THREE.Mesh(inGeo, matInstaGradient);
+        inMesh.position.z = -0.22;
+        instaGroup.add(inMesh);
+
+        // Glowing Outer Wireframe Accent Rim
+        const inRim = new THREE.Mesh(new THREE.BoxGeometry(4.15, 4.15, 0.5), new THREE.MeshStandardMaterial({ color: 0xf56040, wireframe: true, transparent: true, opacity: 0.4 }));
+        instaGroup.add(inRim);
+
+        // Inner Camera Rounded Box Outline
+        const camOuter = new THREE.Shape();
+        const coR = 0.55, coW = 2.5, coH = 2.5;
+        const coX = -coW/2, coY = -coH/2;
+        camOuter.moveTo(coX + coR, coY);
+        camOuter.lineTo(coX + coW - coR, coY);
+        camOuter.quadraticCurveTo(coX + coW, coY, coX + coW, coY + coR);
+        camOuter.lineTo(coX + coW, coY + coH - coR);
+        camOuter.quadraticCurveTo(coX + coW, coY + coH, coX + coW - coR, coY + coH);
+        camOuter.lineTo(coX + coR, coY + coH);
+        camOuter.quadraticCurveTo(coX, coY + coH, coX, coY + coH - coR);
+        camOuter.lineTo(coX, coY + coR);
+        camOuter.quadraticCurveTo(coX, coY, coX + coR, coY);
+
+        const camHole = new THREE.Path();
+        const ciR = 0.42, ciW = 2.1, ciH = 2.1;
+        const ciX = -ciW/2, ciY = -ciH/2;
+        camHole.moveTo(ciX + ciR, ciY);
+        camHole.lineTo(ciX + ciW - ciR, ciY);
+        camHole.quadraticCurveTo(ciX + ciW, ciY, ciX + ciW, ciY + ciR);
+        camHole.lineTo(ciX + ciW, ciY + ciH - ciR);
+        camHole.quadraticCurveTo(ciX + ciW, ciY + ciH, ciX + ciW - ciR, ciY + ciH);
+        camHole.lineTo(ciX + ciR, ciY + ciH);
+        camHole.quadraticCurveTo(ciX, ciY + ciH, ciX, ciY + ciH - ciR);
+        camHole.lineTo(ciX, ciY + ciR);
+        camHole.quadraticCurveTo(ciX, ciY, ciX + ciR, ciY);
+        camOuter.holes.push(camHole);
+
+        const camFrameGeo = new THREE.ExtrudeGeometry(camOuter, { depth: 0.16, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.04, bevelThickness: 0.04 });
+
+        function createInstaFace() {
+            const face = new THREE.Group();
+
+            const camFrameMesh = new THREE.Mesh(camFrameGeo, matInstaWhite);
+            camFrameMesh.position.z = 0.28;
+            face.add(camFrameMesh);
+
+            // Center Lens Ring
+            const lensRing = new THREE.Mesh(new THREE.TorusGeometry(0.66, 0.12, 16, 48), matInstaWhite);
+            lensRing.position.set(0, 0, 0.36);
+            face.add(lensRing);
+
+            // Dark Glossy Camera Aperture Glass
+            const lensGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.54, 0.54, 0.12, 32), matInstaLens);
+            lensGlass.rotation.x = Math.PI / 2;
+            lensGlass.position.set(0, 0, 0.32);
+            face.add(lensGlass);
+
+            // Camera Flash Dot
+            const flashDot = new THREE.Mesh(new THREE.SphereGeometry(0.18, 20, 20), matInstaWhite);
+            flashDot.position.set(0.82, 0.82, 0.38);
+            face.add(flashDot);
+
+            // Instagram Base Plate
+            const instaBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+            instaBadge.position.set(0, -2.4, 0.24);
+            face.add(instaBadge);
+            const instaBadgeStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matInstaGradient);
+            instaBadgeStripe.position.set(0, -2.4, 0.27);
+            face.add(instaBadgeStripe);
+
+            return face;
+        }
+
+        const instaFront = createInstaFace();
+        instaGroup.add(instaFront);
+        const instaBack = createInstaFace();
+        instaBack.rotation.y = Math.PI;
+        instaGroup.add(instaBack);
+
+        g2.add(instaGroup);
+
+        // --- YOUTUBE 3D EMBLEM (Right side) ---
+        const ytGroup = new THREE.Group();
+        ytGroup.position.set(1.8, -1.3, -0.3);
+        ytGroup.scale.set(0.92, 0.92, 0.92);
+
+        // YouTube Rounded Rectangle Button (centered at z = 0)
+        const ytShape = new THREE.Shape();
+        const ytR = 0.9, ytW = 4.2, ytH = 2.9;
+        const ytX = -ytW/2, ytY = -ytH/2;
+        ytShape.moveTo(ytX + ytR, ytY);
+        ytShape.lineTo(ytX + ytW - ytR, ytY);
+        ytShape.quadraticCurveTo(ytX + ytW, ytY, ytX + ytW, ytY + ytR);
+        ytShape.lineTo(ytX + ytW, ytY + ytH - ytR);
+        ytShape.quadraticCurveTo(ytX + ytW, ytY + ytH, ytX + ytW - ytR, ytY + ytH);
+        ytShape.lineTo(ytX + ytR, ytY + ytH);
+        ytShape.quadraticCurveTo(ytX, ytY + ytH, ytX, ytY + ytH - ytR);
+        ytShape.lineTo(ytX, ytY + ytR);
+        ytShape.quadraticCurveTo(ytX, ytY, ytX + ytR, ytY);
+
+        const ytGeo = new THREE.ExtrudeGeometry(ytShape, { depth: 0.44, bevelEnabled: true, bevelSegments: 4, steps: 1, bevelSize: 0.12, bevelThickness: 0.12 });
+        const ytMesh = new THREE.Mesh(ytGeo, matYTDeepRed);
+        ytMesh.position.z = -0.22;
+        ytGroup.add(ytMesh);
+
+        // Iconic 3D White Play Button Triangle (pointing right +X)
+        const triShape = new THREE.Shape();
+        triShape.moveTo(-0.65, 0.82);
+        triShape.lineTo(-0.65, -0.82);
+        triShape.lineTo(0.95, 0);
+        triShape.closePath();
+
+        const triGeo = new THREE.ExtrudeGeometry(triShape, { depth: 0.22, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.05, bevelThickness: 0.05 });
+
+        function createYTFace() {
+            const face = new THREE.Group();
+
+            const triMesh = new THREE.Mesh(triGeo, matYTWhite);
+            triMesh.position.set(0.08, 0, 0.28);
+            face.add(triMesh);
+
+            // YouTube Base Plate
+            const ytBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+            ytBadge.position.set(0, -2.4, 0.24);
+            face.add(ytBadge);
+            const ytBadgeStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matYTDeepRed);
+            ytBadgeStripe.position.set(0, -2.4, 0.27);
+            face.add(ytBadgeStripe);
+
+            return face;
+        }
+
+        const ytFront = createYTFace();
+        ytGroup.add(ytFront);
+        const ytBack = createYTFace();
+        ytBack.rotation.y = Math.PI;
+        ytGroup.add(ytBack);
+
+        g2.add(ytGroup);
+
+        // Connecting Social Media Orbit Ring
+        const socialOrbit = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.05, 16, 100), matOrange);
+        socialOrbit.rotation.x = Math.PI / 2.3;
+        g2.add(socialOrbit);
+
+        // Floating Metric Nodes (alternating Instagram & YouTube colors)
+        for(let i = 0; i < 4; i++) {
+            const angle = (i * Math.PI) / 2;
+            const node = new THREE.Mesh(new THREE.SphereGeometry(0.18, 16, 16), i % 2 === 0 ? matInstaGradient : matYTDeepRed);
+            node.position.set(Math.cos(angle) * 3.6, Math.sin(angle) * 1.5, Math.sin(angle) * 0.8);
+            g2.add(node);
+        }
+
+        g2.visible = false;
+        models.push(g2); mainGroup.add(g2);
+
+        // 3. Kannan (3D WordPress & 3D Shopify Symbols)
+        const g3 = new THREE.Group();
+
+        // --- WORDPRESS 3D SYMBOL (Left side) ---
+        const wpGroup = new THREE.Group();
+        wpGroup.position.set(-1.8, 1.3, 0.3);
+        wpGroup.scale.set(0.92, 0.92, 0.92);
+
+        const matWPBlue = new THREE.MeshStandardMaterial({ color: 0x0081fb, roughness: 0.2, metalness: 0.5 });
+        const matWPWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2, metalness: 0.2 });
+
+        // WordPress Circular Coin Base
+        const wpCoin = new THREE.Mesh(new THREE.CylinderGeometry(2.3, 2.3, 0.44, 64), matWPBlue);
+        wpCoin.rotation.x = Math.PI / 2;
+        wpGroup.add(wpCoin);
+
+        function createWPFace() {
+            const face = new THREE.Group();
+
+            // Outer & Inner White Rings
+            const wpOuterRing = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.08, 16, 64), matWPWhite);
+            wpOuterRing.position.z = 0.23;
+            face.add(wpOuterRing);
+
+            const wpInnerRing = new THREE.Mesh(new THREE.TorusGeometry(1.68, 0.06, 16, 64), matWPWhite);
+            wpInnerRing.position.z = 0.23;
+            face.add(wpInnerRing);
+
+            // Iconic WordPress "W" Letterform
+            const w1 = new THREE.Mesh(new THREE.BoxGeometry(0.26, 2.15, 0.14), matWPWhite);
+            w1.position.set(-0.80, -0.05, 0.26);
+            w1.rotation.z = 0.245;
+            face.add(w1);
+
+            const w2 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 1.6, 0.14), matWPWhite);
+            w2.position.set(-0.28, -0.32, 0.26);
+            w2.rotation.z = -0.36;
+            face.add(w2);
+
+            const w3 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 1.6, 0.14), matWPWhite);
+            w3.position.set(0.28, -0.32, 0.26);
+            w3.rotation.z = 0.36;
+            face.add(w3);
+
+            const w4 = new THREE.Mesh(new THREE.BoxGeometry(0.26, 2.15, 0.14), matWPWhite);
+            w4.position.set(0.80, -0.05, 0.26);
+            w4.rotation.z = -0.245;
+            face.add(w4);
+
+            // Top Serif Accents
+            const serifL = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.14, 0.14), matWPWhite);
+            serifL.position.set(-1.05, 0.98, 0.26);
+            face.add(serifL);
+
+            const serifR = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.14, 0.14), matWPWhite);
+            serifR.position.set(1.05, 0.98, 0.26);
+            face.add(serifR);
+
+            // WP Base Plate
+            const wpBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+            wpBadge.position.set(0, -2.5, 0.22);
+            face.add(wpBadge);
+            const wpBadgeStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matWPBlue);
+            wpBadgeStripe.position.set(0, -2.5, 0.25);
+            face.add(wpBadgeStripe);
+
+            return face;
+        }
+
+        const wpFront = createWPFace();
+        wpGroup.add(wpFront);
+        const wpBack = createWPFace();
+        wpBack.rotation.y = Math.PI;
+        wpGroup.add(wpBack);
+
+        g3.add(wpGroup);
+
+        // --- SHOPIFY 3D SYMBOL (Right side) ---
+        const shopifyGroup = new THREE.Group();
+        shopifyGroup.position.set(1.8, -1.3, -0.3);
+        shopifyGroup.scale.set(0.92, 0.92, 0.92);
+
+        const matShopifyGreen = new THREE.MeshStandardMaterial({ color: 0x95bf47, roughness: 0.25, metalness: 0.25 });
+        const matShopifyDarkGreen = new THREE.MeshStandardMaterial({ color: 0x5e8e3e, roughness: 0.3, metalness: 0.3 });
+        const matShopifyWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.15, metalness: 0.2 });
+
+        // Shopify Shopping Bag Body
+        const bagShape = new THREE.Shape();
+        bagShape.moveTo(-1.6, -1.8);
+        bagShape.lineTo(1.6, -1.8);
+        bagShape.lineTo(1.3, 1.4);
+        bagShape.lineTo(-1.3, 1.4);
+        bagShape.closePath();
+
+        const bagGeo = new THREE.ExtrudeGeometry(bagShape, { depth: 1.1, bevelEnabled: true, bevelSegments: 4, steps: 1, bevelSize: 0.12, bevelThickness: 0.12 });
+        const bagMesh = new THREE.Mesh(bagGeo, matShopifyGreen);
+        bagMesh.position.z = -0.55;
+        shopifyGroup.add(bagMesh);
+
+        // Handles (double-sided)
+        const handleA = new THREE.Mesh(new THREE.TorusGeometry(0.65, 0.09, 16, 32, Math.PI), matShopifyDarkGreen);
+        handleA.position.set(0, 1.4, 0.3);
+        shopifyGroup.add(handleA);
+        const handleB = new THREE.Mesh(new THREE.TorusGeometry(0.65, 0.09, 16, 32, Math.PI), matShopifyDarkGreen);
+        handleB.position.set(0, 1.4, -0.3);
+        shopifyGroup.add(handleB);
+
+        // Leaf Accent shape
+        const leafShape = new THREE.Shape();
+        leafShape.moveTo(0, 0);
+        leafShape.quadraticCurveTo(-0.4, 0.5, -0.2, 0.9);
+        leafShape.quadraticCurveTo(0.2, 0.6, 0, 0);
+
+        function createShopifyFace() {
+            const face = new THREE.Group();
+
+            const leafMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(leafShape, { depth: 0.06, bevelEnabled: false }), new THREE.MeshStandardMaterial({ color: 0x7ab55c }));
+            leafMesh.position.set(-0.6, 1.4, 0.32);
+            leafMesh.rotation.z = -0.3;
+            face.add(leafMesh);
+
+            // Shopify White 'S'
+            const sGroup = new THREE.Group();
+            sGroup.position.set(0, -0.1, 0.62);
+
+            const sTop = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.22, 0.12), matShopifyWhite);
+            sTop.position.set(0, 0.7, 0);
+            sGroup.add(sTop);
+
+            const sTopLeft = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.6, 0.12), matShopifyWhite);
+            sTopLeft.position.set(-0.35, 0.45, 0);
+            sGroup.add(sTopLeft);
+
+            const sMid = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.22, 0.12), matShopifyWhite);
+            sMid.position.set(0, 0.1, 0);
+            sGroup.add(sMid);
+
+            const sBotRight = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.6, 0.12), matShopifyWhite);
+            sBotRight.position.set(0.35, -0.25, 0);
+            sGroup.add(sBotRight);
+
+            const sBot = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.22, 0.12), matShopifyWhite);
+            sBot.position.set(0, -0.5, 0);
+            sGroup.add(sBot);
+
+            face.add(sGroup);
+
+            // Shopify Base Plate
+            const shopifyBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+            shopifyBadge.position.set(0, -2.5, 0.58);
+            face.add(shopifyBadge);
+            const shopifyStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matShopifyGreen);
+            shopifyStripe.position.set(0, -2.5, 0.61);
+            face.add(shopifyStripe);
+
+            return face;
+        }
+
+        const shopifyFront = createShopifyFace();
+        shopifyGroup.add(shopifyFront);
+        const shopifyBack = createShopifyFace();
+        shopifyBack.rotation.y = Math.PI;
+        shopifyGroup.add(shopifyBack);
+
+        g3.add(shopifyGroup);
+
+        // Developer Nexus Orbit Ring
+        const webOrbit = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.05, 16, 100), matOrange);
+        webOrbit.rotation.x = Math.PI / 2.3;
+        g3.add(webOrbit);
+
+        // Floating Code Node Brackets
+        for (let i = 0; i < 4; i++) {
+            const angle = (i * Math.PI) / 2 + Math.PI / 4;
+            const node = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.26, 0.26), matWhite);
+            node.position.set(Math.cos(angle) * 3.6, Math.sin(angle) * 1.5, Math.sin(angle) * 0.8);
+            node.rotation.set(angle, angle, 0);
+            g3.add(node);
+        }
+
+        g3.visible = false;
+        models.push(g3); mainGroup.add(g3);
+
+        // 4. Saravana Sanjhay.M (3D SEMrush & 3D Google Symbols)
+        const g4 = new THREE.Group();
+
+        const matSemrushOrange = new THREE.MeshStandardMaterial({ color: 0xff642d, roughness: 0.2, metalness: 0.35 });
+        const matSemrushDarkNavy = new THREE.MeshStandardMaterial({ color: 0x0a101d, roughness: 0.35, metalness: 0.75 });
+        const matSemrushSpark = new THREE.MeshStandardMaterial({ color: 0xffa336, roughness: 0.2, metalness: 0.3 });
+
+        const matGoogleBlueSEO = new THREE.MeshStandardMaterial({ color: 0x4285f4, roughness: 0.2, metalness: 0.5 });
+        const matGoogleRedSEO = new THREE.MeshStandardMaterial({ color: 0xea4335, roughness: 0.2, metalness: 0.5 });
+        const matGoogleYellowSEO = new THREE.MeshStandardMaterial({ color: 0xfbbc05, roughness: 0.2, metalness: 0.5 });
+        const matGoogleGreenSEO = new THREE.MeshStandardMaterial({ color: 0x34a853, roughness: 0.2, metalness: 0.5 });
+
+        // --- SEMRUSH 3D EMBLEM (Left side - Official Right-Side-Up SVG Geometry) ---
+        const semrushGroup = new THREE.Group();
+        semrushGroup.position.set(-1.8, 1.3, 0.3);
+        semrushGroup.scale.set(0.92, 0.92, 0.92);
+
+        // Deep Navy Disc Base
+        const semrushCoin = new THREE.Mesh(new THREE.CylinderGeometry(2.35, 2.35, 0.44, 64), matSemrushDarkNavy);
+        semrushCoin.rotation.x = Math.PI / 2;
+        semrushGroup.add(semrushCoin);
+
+        // Official Semrush Iconic Fireball Shape
+        const srShape = new THREE.Shape();
+        const srScale = 0.95;
+        srShape.moveTo(2.165 * srScale, 0.02 * srScale);
+        srShape.bezierCurveTo(2.165 * srScale, 0.64 * srScale, 1.745 * srScale, 1.30 * srScale, 0.765 * srScale, 1.30 * srScale);
+        srShape.lineTo(-1.165 * srScale, 1.30 * srScale);
+        srShape.bezierCurveTo(-1.205 * srScale, 1.30 * srScale, -1.235 * srScale, 1.28 * srScale, -1.235 * srScale, 1.24 * srScale);
+        srShape.bezierCurveTo(-1.235 * srScale, 1.22 * srScale, -1.225 * srScale, 1.20 * srScale, -1.205 * srScale, 1.19 * srScale);
+        srShape.bezierCurveTo(-1.135 * srScale, 1.13 * srScale, -1.035 * srScale, 1.07 * srScale, -0.895 * srScale, 1.00 * srScale);
+        srShape.bezierCurveTo(-0.765 * srScale, 0.93 * srScale, -0.655 * srScale, 0.89 * srScale, -0.555 * srScale, 0.85 * srScale);
+        srShape.bezierCurveTo(-0.515 * srScale, 0.83 * srScale, -0.495 * srScale, 0.81 * srScale, -0.495 * srScale, 0.79 * srScale);
+        srShape.bezierCurveTo(-0.495 * srScale, 0.76 * srScale, -0.515 * srScale, 0.73 * srScale, -0.565 * srScale, 0.73 * srScale);
+        srShape.lineTo(-2.095 * srScale, 0.73 * srScale);
+        srShape.bezierCurveTo(-2.145 * srScale, 0.74 * srScale, -2.165 * srScale, 0.71 * srScale, -2.165 * srScale, 0.68 * srScale);
+        srShape.bezierCurveTo(-2.165 * srScale, 0.65 * srScale, -2.155 * srScale, 0.63 * srScale, -2.135 * srScale, 0.61 * srScale);
+        srShape.bezierCurveTo(-2.015 * srScale, 0.48 * srScale, -1.815 * srScale, 0.32 * srScale, -1.525 * srScale, 0.14 * srScale);
+        srShape.bezierCurveTo(-1.275 * srScale, -0.02 * srScale, -0.955 * srScale, -0.19 * srScale, -0.705 * srScale, -0.31 * srScale);
+        srShape.bezierCurveTo(-0.665 * srScale, -0.33 * srScale, -0.645 * srScale, -0.35 * srScale, -0.645 * srScale, -0.38 * srScale);
+        srShape.bezierCurveTo(-0.645 * srScale, -0.41 * srScale, -0.665 * srScale, -0.43 * srScale, -0.715 * srScale, -0.43 * srScale);
+        srShape.lineTo(-1.425 * srScale, -0.43 * srScale);
+        srShape.bezierCurveTo(-1.465 * srScale, -0.43 * srScale, -1.485 * srScale, -0.45 * srScale, -1.485 * srScale, -0.48 * srScale);
+        srShape.bezierCurveTo(-1.485 * srScale, -0.50 * srScale, -1.475 * srScale, -0.52 * srScale, -1.455 * srScale, -0.54 * srScale);
+        srShape.bezierCurveTo(-1.295 * srScale, -0.69 * srScale, -1.035 * srScale, -0.84 * srScale, -0.695 * srScale, -0.99 * srScale);
+        srShape.bezierCurveTo(-0.235 * srScale, -1.18 * srScale, 0.225 * srScale, -1.30 * srScale, 0.745 * srScale, -1.30 * srScale);
+        srShape.bezierCurveTo(1.735 * srScale, -1.30 * srScale, 2.165 * srScale, -0.56 * srScale, 2.165 * srScale, 0.02 * srScale);
+        srShape.closePath();
+
+        // Semrush Fireball Inner Circular Hole
+        const srHole = new THREE.Path();
+        srHole.moveTo(0.875 * srScale, -0.87 * srScale);
+        srHole.bezierCurveTo(0.395 * srScale, -0.87 * srScale, -0.015 * srScale, -0.48 * srScale, -0.015 * srScale, 0.02 * srScale);
+        srHole.bezierCurveTo(-0.015 * srScale, 0.50 * srScale, 0.385 * srScale, 0.89 * srScale, 0.875 * srScale, 0.89 * srScale);
+        srHole.bezierCurveTo(1.375 * srScale, 0.89 * srScale, 1.765 * srScale, 0.50 * srScale, 1.765 * srScale, 0.02 * srScale);
+        srHole.bezierCurveTo(1.765 * srScale, -0.47 * srScale, 1.375 * srScale, -0.87 * srScale, 0.875 * srScale, -0.87 * srScale);
+        srShape.holes.push(srHole);
+
+        const srExtrude = { depth: 0.22, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.05, bevelThickness: 0.05 };
+
+        // Semrush Inner Glowing Spark Core
+        const sparkShape = new THREE.Shape();
+        sparkShape.moveTo(1.575 * srScale, 0.02 * srScale);
+        sparkShape.bezierCurveTo(1.575 * srScale, -0.06 * srScale, 1.535 * srScale, -0.07 * srScale, 1.435 * srScale, -0.07 * srScale);
+        sparkShape.bezierCurveTo(1.325 * srScale, -0.07 * srScale, 1.305 * srScale, -0.05 * srScale, 1.295 * srScale, 0.03 * srScale);
+        sparkShape.bezierCurveTo(1.275 * srScale, 0.24 * srScale, 1.135 * srScale, 0.42 * srScale, 0.895 * srScale, 0.43 * srScale);
+        sparkShape.bezierCurveTo(0.825 * srScale, 0.44 * srScale, 0.805 * srScale, 0.46 * srScale, 0.805 * srScale, 0.56 * srScale);
+        sparkShape.bezierCurveTo(0.805 * srScale, 0.65 * srScale, 0.815 * srScale, 0.69 * srScale, 0.885 * srScale, 0.69 * srScale);
+        sparkShape.bezierCurveTo(1.285 * srScale, 0.68 * srScale, 1.575 * srScale, 0.35 * srScale, 1.575 * srScale, 0.02 * srScale);
+        sparkShape.closePath();
+
+        function createSemrushFace() {
+            const face = new THREE.Group();
+
+            const semrushOuterRing = new THREE.Mesh(new THREE.TorusGeometry(2.15, 0.08, 16, 64), matSemrushOrange);
+            semrushOuterRing.position.z = 0.23;
+            face.add(semrushOuterRing);
+
+            const srMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(srShape, srExtrude), matSemrushOrange);
+            srMesh.position.set(0, 0, 0.23);
+            face.add(srMesh);
+
+            const sparkMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(sparkShape, { depth: 0.26, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.04, bevelThickness: 0.04 }), matSemrushSpark);
+            sparkMesh.position.set(0, 0, 0.24);
+            face.add(sparkMesh);
+
+            const semrushBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+            semrushBadge.position.set(0, -2.5, 0.22);
+            face.add(semrushBadge);
+            const semrushStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matSemrushOrange);
+            semrushStripe.position.set(0, -2.5, 0.25);
+            face.add(semrushStripe);
+
+            return face;
+        }
+
+        const semrushFront = createSemrushFace();
+        semrushGroup.add(semrushFront);
+        const semrushBack = createSemrushFace();
+        semrushBack.rotation.y = Math.PI;
+        semrushGroup.add(semrushBack);
+
+        g4.add(semrushGroup);
+
+        // --- GOOGLE 3D "G" EMBLEM (Right side) ---
+        const googleSEOGroup = new THREE.Group();
+        googleSEOGroup.position.set(1.8, -1.3, -0.3);
+        googleSEOGroup.scale.set(0.92, 0.92, 0.92);
+
+        // Tech Dark Plate Backing Disc
+        const gSEOCoin = new THREE.Mesh(new THREE.CylinderGeometry(2.35, 2.35, 0.44, 64), matPlateBg);
+        gSEOCoin.rotation.x = Math.PI / 2;
+        googleSEOGroup.add(gSEOCoin);
+
+        function createGoogleSEOFace() {
+            const face = new THREE.Group();
+
+            const gSEORing = new THREE.Mesh(new THREE.TorusGeometry(2.15, 0.08, 16, 64), matGoogleBlueSEO);
+            gSEORing.position.z = 0.23;
+            face.add(gSEORing);
+
+            // Google 3D "G" Multi-color Segments (Right-Side-Up):
+            // 1. Blue Center Crossbar
+            const gBar = new THREE.Mesh(new THREE.BoxGeometry(1.35, 0.52, 0.24), matGoogleBlueSEO);
+            gBar.position.set(0.675, 0, 0.25);
+            face.add(gBar);
+
+            // 2. Blue Bottom-Right Corner Arc (from 315 deg to 360 deg)
+            const gBlueArc = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.27, 16, 24, Math.PI * 0.25), matGoogleBlueSEO);
+            gBlueArc.position.set(0, 0, 0.25);
+            gBlueArc.rotation.z = Math.PI * 1.75;
+            face.add(gBlueArc);
+
+            // 3. Green Bottom Arc (from 225 deg to 315 deg)
+            const gGreenArc = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.27, 16, 28, Math.PI * 0.5), matGoogleGreenSEO);
+            gGreenArc.position.set(0, 0, 0.25);
+            gGreenArc.rotation.z = Math.PI * 1.25;
+            face.add(gGreenArc);
+
+            // 4. Yellow Left Arc (from 135 deg to 225 deg)
+            const gYellowArc = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.27, 16, 24, Math.PI * 0.5), matGoogleYellowSEO);
+            gYellowArc.position.set(0, 0, 0.25);
+            gYellowArc.rotation.z = Math.PI * 0.75;
+            face.add(gYellowArc);
+
+            // 5. Red Top Arc (from 45 deg to 135 deg)
+            const gRedArc = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.27, 16, 24, Math.PI * 0.5), matGoogleRedSEO);
+            gRedArc.position.set(0, 0, 0.25);
+            gRedArc.rotation.z = Math.PI * 0.25;
+            face.add(gRedArc);
+
+            // Google Base Plate
+            const gSEOBadge = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.45, 0.2), matDark);
+            gSEOBadge.position.set(0, -2.5, 0.22);
+            face.add(gSEOBadge);
+            const gSEOStripe = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.24), matGoogleBlueSEO);
+            gSEOStripe.position.set(0, -2.5, 0.25);
+            face.add(gSEOStripe);
+
+            return face;
+        }
+
+        const gSEOFront = createGoogleSEOFace();
+        googleSEOGroup.add(gSEOFront);
+        const gSEOBack = createGoogleSEOFace();
+        gSEOBack.rotation.y = Math.PI;
+        googleSEOGroup.add(gSEOBack);
+
+        g4.add(googleSEOGroup);
+
+        // Connecting SEO Search Orbit Ring
+        const seoOrbit = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.05, 16, 100), matGoogleYellowSEO);
+        seoOrbit.rotation.x = Math.PI / 2.3;
+        g4.add(seoOrbit);
+
+        // Floating Keyword / Ranking Metric Nodes
+        for(let i = 0; i < 4; i++) {
+            const angle = (i * Math.PI) / 2;
+            const node = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.26, 0.26), i % 2 === 0 ? matSemrushOrange : matGoogleBlueSEO);
+            node.position.set(Math.cos(angle) * 3.6, Math.sin(angle) * 1.5, Math.sin(angle) * 0.8);
+            node.rotation.set(angle, angle, 0);
+            g4.add(node);
+        }
+
+        g4.visible = false;
+        models.push(g4); mainGroup.add(g4);
+
+        // 5. Jabakumar (Video Film Reel / Clapperboard)
+        const g5 = new THREE.Group();
+        // White Frame
+        const boardFrame = new THREE.Mesh(new THREE.BoxGeometry(6.2, 4.2, 0.4), matWhite);
+        g5.add(boardFrame);
+        // Black Chalkboard Surface
+        const boardSurface = new THREE.Mesh(new THREE.BoxGeometry(5.8, 3.8, 0.5), matDark);
+        g5.add(boardSurface);
+        // The Clapper arm
+        const clapper = new THREE.Mesh(new THREE.BoxGeometry(6.2, 1, 0.5), matWhite);
+        clapper.position.set(-0.2, 2.7, 0);
+        clapper.rotation.z = 0.25;
+        // Orange stripes on the clapper arm
+        for(let i=0; i<5; i++) {
+            const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.1, 0.6), matOrange);
+            stripe.position.set(-2.2 + i*1.2, 0, 0);
+            stripe.rotation.z = Math.PI/6;
+            clapper.add(stripe);
+        }
+        g5.add(clapper);
+        
+        g5.rotation.y = -0.3;
+        g5.rotation.x = 0.1;
+        
+        
+        g5.visible = false;
+        models.push(g5); mainGroup.add(g5);
+
+        
+        // 6. CTA Section (Let's Connect Envelope)
+        const g6 = new THREE.Group();
+        // Envelope Body
+        const envBody = new THREE.Mesh(new THREE.BoxGeometry(6, 4, 0.4), matWhite);
+        g6.add(envBody);
+        
+        // Let's build a better envelope flap
+        const flapShape = new THREE.Shape();
+        flapShape.moveTo(-3, 2);
+        flapShape.lineTo(0, -1);
+        flapShape.lineTo(3, 2);
+        flapShape.lineTo(-3, 2);
+        
+        const extrudeSettings = { depth: 0.45, bevelEnabled: false };
+        const envFlap = new THREE.Mesh(new THREE.ExtrudeGeometry(flapShape, extrudeSettings), matOrange);
+        envFlap.position.z = 0.1;
+        g6.add(envFlap);
+        
+        // A little floating letter coming out
+        const letter = new THREE.Mesh(new THREE.BoxGeometry(5.5, 3, 0.1), matDark);
+        letter.position.set(0, 3, -0.2); // Popping out the top
+        letter.rotation.z = 0.1; // Slight tilt
+        g6.add(letter);
+        
+        g6.rotation.x = 0.2;
+        g6.rotation.y = -0.3;
+        g6.visible = false;
+        models.push(g6); mainGroup.add(g6);
+
+        // Safe UserData initialization
+        g0.userData = {rx: Math.PI/8, rz: -Math.PI/6, targetScale: 1.0}; // Rocket
+        g1.userData = {rx: 0.15, ry: -0.2, targetScale: 0.92}; // Meta & Google Ads
+        g2.userData = {rx: 0.15, ry: -0.2, targetScale: 0.92}; // Instagram & YouTube
+        g3.userData = {rx: 0.15, ry: -0.2, targetScale: 0.92}; // WordPress & Shopify
+        g4.userData = {rx: 0.15, ry: -0.2, targetScale: 0.92}; // SEMrush & Google
+        g5.userData = {rx: 0.1, ry: -0.3, targetScale: 1.0}; // Clapperboard
+        g6.userData = {rx: 0.2, ry: -0.3, targetScale: 1.0}; // Envelope
+
+
+
+
+        const sections = ['#sec-intro', '#sec-kamalesh', '#sec-jaiharan', '#sec-kannan', '#sec-saravana', '#sec-jabakumar', '#sec-cta'];
+        
+        sections.forEach((sec, index) => {
+            ScrollTrigger.create({
+                trigger: sec,
+                start: "top 60%",
+                end: "bottom 60%",
+                onEnter: () => switchModel(index),
+                onEnterBack: () => switchModel(index)
+            });
+        });
+
+                        let currentActiveModel = null;
+        function switchModel(index) {
+            if (currentActiveModel === index) return;
+            currentActiveModel = index;
+            
+            models.forEach((m, i) => {
+                if (i === index) {
+                    m.visible = true;
+                    m.userData.isAnimating = true;
+                    // Cinematic Fly-In Animation (from behind camera, spinning)
+                    const tx = m.userData.rx || 0;
+                    const ty = m.userData.ry || 0;
+                    const tz = m.userData.rz || 0;
+                    const ts = m.userData.targetScale || 1.0;
+                    gsap.fromTo(m.position, {z: 30, y: -10}, {z: 0, y: 0, duration: 1.5, ease: 'power3.out', overwrite: true});
+                    gsap.fromTo(m.rotation, {x: Math.PI, y: -Math.PI, z: tz}, {x: tx, y: ty, z: tz, duration: 1.5, ease: 'power3.out', overwrite: true, onComplete: () => m.userData.isAnimating = false});
+                    gsap.fromTo(m.scale, {x:0, y:0, z:0}, {x:ts, y:ts, z:ts, duration: 1.5, ease: 'back.out(1.2)', overwrite: true});
+                } else if (m.visible) {
+                    m.userData.isAnimating = true;
+                    // Fly out away from camera
+                    gsap.to(m.position, {z: -30, y: 10, duration: 1, ease: 'power2.in', overwrite: true, onComplete: () => { m.visible = false; m.userData.isAnimating = false; }});
+                    gsap.to(m.scale, {x:0, y:0, z:0, duration: 1, ease: 'power2.in', overwrite: true});
+                }
+            });
+
+            // Adjust main group offset based on text alignment
+            const isWide = window.innerWidth >= 1024;
+            const offsetX = isWide ? 9.6 : 0;
+            const offsetY = isWide ? 0 : 5.5;
+
+            if (index === 0) { gsap.to(mainGroup.position, {x: 0, y: 0, duration: 1.2, overwrite: true}); } 
+            else if (index === 1) { gsap.to(mainGroup.position, {x: offsetX, y: offsetY, duration: 1.2, overwrite: true}); } 
+            else if (index === 2) { gsap.to(mainGroup.position, {x: -offsetX, y: offsetY, duration: 1.2, overwrite: true}); } 
+            else if (index === 3) { gsap.to(mainGroup.position, {x: offsetX, y: offsetY, duration: 1.2, overwrite: true}); } 
+            else if (index === 4) { gsap.to(mainGroup.position, {x: -offsetX, y: offsetY, duration: 1.2, overwrite: true}); } 
+            else if (index === 5) { gsap.to(mainGroup.position, {x: offsetX, y: offsetY, duration: 1.2, overwrite: true}); }
+            else if (index === 6) { gsap.to(mainGroup.position, {x: isWide ? -9.6 : 0, y: isWide ? 1 : 6, duration: 1.2, overwrite: true}); }
+        }
+
+        // --- STOP MODEL FROM HITTING FOOTER ---
+        ScrollTrigger.create({
+            trigger: '#main-footer',
+            start: "top bottom", 
+            end: "bottom bottom", 
+            scrub: true,
+            onUpdate: (self) => {
+                gsap.to(mainGroup.position, {y: self.progress * 15, duration: 0.1});
+                gsap.to(themeConfig, {pOpacity: 0.8 * (1 - self.progress), duration: 0.1});
+            }
+        });
+
+        // --- REACTIVE ORANGE PARTICLES ---
+        const pCount = 800;
+        const pGeo = new THREE.BufferGeometry();
+        const pPos = new Float32Array(pCount * 3);
+        const pBasePos = new Float32Array(pCount * 3);
+        for(let i=0; i<pCount; i++) {
+            let x = (Math.random() - 0.5) * 60;
+            let y = (Math.random() - 0.5) * 60;
+            let z = (Math.random() - 0.5) * 30 - 10;
+            pPos[i*3] = x; pPos[i*3+1] = y; pPos[i*3+2] = z;
+            pBasePos[i*3] = x; pBasePos[i*3+1] = y; pBasePos[i*3+2] = z;
+        }
+        pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const pMat = new THREE.PointsMaterial({ color: 0xff5722, size: 0.2, transparent: true, opacity: 0.8 });
+        const particles = new THREE.Points(pGeo, pMat);
+        scene.add(particles);
+
+        let mouseX = 0, mouseY = 0;
+        window.addEventListener('mousemove', e => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+            
+                        models.forEach((m, i) => {
+                if(m.visible && !m.userData.isAnimating) {
+                    m.rotation.y += 0.01;
+                    m.rotation.x += Math.sin(time) * 0.005;
+                }
+            });
+
+
+            // Particles logic
+            const positions = particles.geometry.attributes.position.array;
+            for(let i=0; i<pCount; i++) {
+                let bx = pBasePos[i*3];
+                let by = pBasePos[i*3+1];
+                let mwX = mouseX * 25;
+                let mwY = mouseY * 15;
+                let dx = bx - mwX;
+                let dy = by - mwY;
+                let dist = Math.sqrt(dx*dx + dy*dy);
+                
+                if (dist < 8) {
+                    let force = (8 - dist) / 8;
+                    positions[i*3] = bx + (dx/dist) * force * 5;
+                    positions[i*3+1] = by + (dy/dist) * force * 5;
+                } else {
+                    positions[i*3] += (bx - positions[i*3]) * 0.1;
+                    positions[i*3+1] += (by - positions[i*3+1]) * 0.1;
+                }
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+            particles.rotation.y = time * 0.02;
+
+            renderer.setClearColor(themeConfig.bgColor, 1);
+            pMat.opacity = themeConfig.pOpacity;
+            scene.fog.color.copy(themeConfig.bgColor);
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        function updateCamera() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            if (window.innerWidth < 768) {
+                camera.position.z = 32;
+            } else if (window.innerWidth < 1024) {
+                camera.position.z = 28;
+            } else {
+                camera.position.z = 25;
+            }
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', updateCamera);
+        updateCamera();
+    </script>
+
 <?php
 get_footer();

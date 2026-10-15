@@ -1651,5 +1651,424 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+        // ── 1. THREE.JS 3D CYBER ALIEN STREETWEAR EMBLEM ──
+        (function init3DStreetwearEmblem() {
+            const container = document.getElementById('three-canvas-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, window.innerWidth < 768 ? 7.2 : 7.5);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.35;
+            container.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+            scene.add(ambientLight);
+
+            const orangeLight = new THREE.PointLight(0xff5722, 4.5, 50);
+            orangeLight.position.set(5, 5, 5);
+            scene.add(orangeLight);
+
+            const indigoLight = new THREE.PointLight(0x6366f1, 4.2, 50);
+            indigoLight.position.set(-5, 4, 4);
+            scene.add(indigoLight);
+
+            const rimLight = new THREE.PointLight(0xff8a50, 3.0, 50);
+            rimLight.position.set(0, -5, -4);
+            scene.add(rimLight);
+
+            // Group for luxury streetwear alien emblem
+            const group = new THREE.Group();
+            scene.add(group);
+
+            // Materials
+            const matteDarkMaterial = new THREE.MeshStandardMaterial({
+                color: 0x141416,
+                roughness: 0.35,
+                metalness: 0.85
+            });
+
+            const chromeMaterial = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                roughness: 0.1,
+                metalness: 0.95
+            });
+
+            const orangeGlowMaterial = new THREE.MeshStandardMaterial({
+                color: 0xff5722,
+                emissive: 0xff5722,
+                emissiveIntensity: 0.8,
+                roughness: 0.2
+            });
+
+            const wireMaterial = new THREE.MeshBasicMaterial({
+                color: 0xff5722,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.3
+            });
+
+            // 1. Central Cyber Alien Head Core
+            // Inverted tapered geometry for alien head
+            const headGeo = new THREE.ConeGeometry(1.6, 2.5, 7);
+            headGeo.rotateX(Math.PI); // upside down cone for alien chin
+            const headMesh = new THREE.Mesh(headGeo, matteDarkMaterial);
+            group.add(headMesh);
+
+            const headWire = new THREE.Mesh(headGeo, wireMaterial);
+            headWire.scale.set(1.002, 1.002, 1.002);
+            group.add(headWire);
+
+            // 2. Faceted Skull Crown
+            const crownGeo = new THREE.IcosahedronGeometry(1.2, 1);
+            crownGeo.translate(0, 0.45, 0);
+            const crownMesh = new THREE.Mesh(crownGeo, matteDarkMaterial);
+            group.add(crownMesh);
+
+            // 3. Glowing Cyber Eyes (Angled almond eye facets)
+            const eyeGeo = new THREE.ConeGeometry(0.35, 0.8, 4);
+            
+            // Left Eye
+            const leftEye = new THREE.Mesh(eyeGeo, orangeGlowMaterial);
+            leftEye.position.set(-0.55, 0.1, 0.85);
+            leftEye.rotation.set(0.2, 0.3, -Math.PI / 4);
+            group.add(leftEye);
+
+            // Right Eye
+            const rightEye = new THREE.Mesh(eyeGeo, orangeGlowMaterial);
+            rightEye.position.set(0.55, 0.1, 0.85);
+            rightEye.rotation.set(0.2, -0.3, Math.PI / 4);
+            group.add(rightEye);
+
+            // 4. Power-Button Ring (Iconic Off Human circular enclosure)
+            const ringGeo = new THREE.TorusGeometry(2.35, 0.08, 16, 90);
+            const ringMesh = new THREE.Mesh(ringGeo, chromeMaterial);
+            group.add(ringMesh);
+
+            // Top Power-Button Notch Bar
+            const notchGeo = new THREE.BoxGeometry(0.2, 0.8, 0.2);
+            notchGeo.translate(0, 2.35, 0);
+            const notchMesh = new THREE.Mesh(notchGeo, orangeGlowMaterial);
+            group.add(notchMesh);
+
+            // 5. Dual Orbital Streetwear Cyber Rings
+            const orbit1Geo = new THREE.TorusGeometry(2.65, 0.025, 16, 80);
+            const orbit1Mat = new THREE.MeshBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.55 });
+            const orbit1 = new THREE.Mesh(orbit1Geo, orbit1Mat);
+            orbit1.rotation.x = Math.PI / 2.6;
+            orbit1.rotation.y = Math.PI / 6;
+            group.add(orbit1);
+
+            const orbit2Geo = new THREE.TorusGeometry(2.5, 0.02, 16, 80);
+            const orbit2Mat = new THREE.MeshBasicMaterial({ color: 0x818cf8, transparent: true, opacity: 0.45 });
+            const orbit2 = new THREE.Mesh(orbit2Geo, orbit2Mat);
+            orbit2.rotation.x = -Math.PI / 3;
+            orbit2.rotation.z = Math.PI / 5;
+            group.add(orbit2);
+
+            group.position.y = -0.2;
+
+            // Interactive Drag Controls
+            let isDragging = false;
+            let prevMouseX = 0;
+            let prevMouseY = 0;
+            let targetRotX = 0;
+            let targetRotY = 0;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevMouseX = e.clientX;
+                prevMouseY = e.clientY;
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - prevMouseX;
+                const deltaY = e.clientY - prevMouseY;
+                targetRotY += deltaX * 0.008;
+                targetRotX += deltaY * 0.008;
+                prevMouseX = e.clientX;
+                prevMouseY = e.clientY;
+            });
+
+            // Touch events for mobile
+            container.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    prevMouseX = e.touches[0].clientX;
+                    prevMouseY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - prevMouseX;
+                const deltaY = e.touches[0].clientY - prevMouseY;
+                targetRotY += deltaX * 0.008;
+                targetRotX += deltaY * 0.008;
+                prevMouseX = e.touches[0].clientX;
+                prevMouseY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // Animation Loop
+            let clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const t = clock.getElapsedTime();
+
+                // Idle floating and rotation
+                if (!isDragging) {
+                    targetRotY += 0.006;
+                }
+                group.rotation.y += (targetRotY - group.rotation.y) * 0.08;
+                group.rotation.x += (targetRotX - group.rotation.x) * 0.08;
+                const yOffset = window.innerWidth < 768 ? 0.15 : -0.1;
+                group.position.y = yOffset + Math.sin(t * 1.5) * 0.12;
+                orbit1.rotation.z += 0.005;
+                orbit2.rotation.z -= 0.004;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Resize
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.position.z = window.innerWidth < 768 ? 7.2 : 7.5;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        })();
+
+        // ── 2. REAL SHOPIFY & META DROP DATA & ELEVATION GRAPH ──
+        const timelineData = [
+            { phase: "Phase 1", month: "Phase 1 (Design)", revenue: 45, queries: 12, community: 2100, note: "Streetwear brand aesthetics & web store setup" },
+            { phase: "Phase 2", month: "Phase 2 (Drop 01)", revenue: 92, queries: 18, community: 4800, note: "First limited hoodie capsule launched (+104%)" },
+            { phase: "Phase 3", month: "Phase 3 (Speed)", revenue: 160, queries: 26, community: 8500, note: "Underground reels & 2.0s speed tuning" },
+            { phase: "Phase 4", month: "Phase 4 (Drawer)", revenue: 245, queries: 38, community: 14200, note: "Sub-second drawer cart launched (Sold out in 4 days)" },
+            { phase: "Phase 5", month: "Phase 5 (CAPI)", revenue: 340, queries: 48, community: 21000, note: "Meta Conversions API & dynamic retargeting enabled" },
+            { phase: "Phase 6", month: "Phase 6 (Scale)", revenue: 480, queries: 58, community: 31500, note: "🏆 Flagship drop sold out in 48h with 4.2x ROAS" }
+        ];
+
+        let currentMetric = 'revenue';
+
+        function renderElevationGraph() {
+            const svg = document.getElementById('elevation-svg');
+            const gridGroup = document.getElementById('chart-grid');
+            const areaPath = document.getElementById('chart-area');
+            const linePath = document.getElementById('chart-line');
+            const nodesGroup = document.getElementById('chart-nodes');
+            const tooltip = document.getElementById('chart-tooltip');
+            const container = document.getElementById('chart-container');
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const W = 1000;
+            const H = 360;
+            const padL = 70;
+            const padR = 40;
+            const padT = 30;
+            const padB = 50;
+
+            const plotW = W - padL - padR;
+            const plotH = H - padT - padB;
+
+            const values = timelineData.map(d => d[currentMetric]);
+            const maxVal = Math.max(...values) * 1.15;
+            const minVal = 0;
+
+            // Draw horizontal grid lines (4 lines)
+            const gridSteps = 4;
+            for (let i = 0; i <= gridSteps; i++) {
+                const y = padT + (plotH / gridSteps) * i;
+                const val = Math.round(maxVal - (maxVal / gridSteps) * i);
+                
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padL);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', W - padR);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padL - 10);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'chart-axis-label');
+                
+                let displayVal = val;
+                if (currentMetric === 'revenue') {
+                    displayVal = '₹' + val + 'K';
+                } else if (currentMetric === 'community') {
+                    displayVal = val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val;
+                }
+                text.textContent = displayVal;
+                gridGroup.appendChild(text);
+            }
+
+            // Calculate coordinates
+            const points = timelineData.map((d, i) => {
+                const x = padL + (plotW / (timelineData.length - 1)) * i;
+                const y = padT + plotH - ((d[currentMetric] - minVal) / (maxVal - minVal)) * plotH;
+                return { x, y, data: d, index: i };
+            });
+
+            // Smooth bezier curve path
+            function getBezierPath(pts) {
+                if (pts.length === 0) return '';
+                let path = `M ${pts[0].x} ${pts[0].y}`;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i];
+                    const p1 = pts[i + 1];
+                    const cpX = (p0.x + p1.x) / 2;
+                    path += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+                }
+                return path;
+            }
+
+            const curvePath = getBezierPath(points);
+            linePath.setAttribute('d', curvePath);
+
+            const areaD = `${curvePath} L ${points[points.length - 1].x} ${padT + plotH} L ${points[0].x} ${padT + plotH} Z`;
+            areaPath.setAttribute('d', areaD);
+
+            // Render Nodes and Milestone Pins
+            points.forEach((p, idx) => {
+                // X Axis label
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', p.x);
+                xLabel.setAttribute('y', H - 15);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.setAttribute('class', 'chart-axis-label');
+                xLabel.textContent = p.data.phase;
+                gridGroup.appendChild(xLabel);
+
+                // Node group
+                const nodeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                nodeG.setAttribute('class', 'chart-data-node');
+                nodeG.setAttribute('data-index', idx);
+
+                const isMilestone = idx === 3 || idx === 5; // Phase 4 (Cart drawer breakout) & Phase 6 (Flagship sold out)
+
+                if (isMilestone) {
+                    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    pulse.setAttribute('cx', p.x);
+                    pulse.setAttribute('cy', p.y);
+                    pulse.setAttribute('r', '12');
+                    pulse.setAttribute('fill', 'rgba(255, 87, 34, 0.35)');
+                    pulse.innerHTML = '<animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="2s" repeatCount="indefinite"/>';
+                    nodeG.appendChild(pulse);
+                }
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', p.x);
+                circle.setAttribute('cy', p.y);
+                circle.setAttribute('r', isMilestone ? '7' : '5');
+                circle.setAttribute('fill', isMilestone ? '#ff5722' : '#ffffff');
+                circle.setAttribute('stroke', '#ff5722');
+                circle.setAttribute('stroke-width', '2');
+                nodeG.appendChild(circle);
+
+                // Tooltip events
+                nodeG.addEventListener('mouseenter', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    const scaleX = rect.width / W;
+                    const scaleY = rect.height / H;
+
+                    const posX = p.x * scaleX;
+                    const posY = p.y * scaleY;
+
+                    tooltip.style.left = posX + 'px';
+                    tooltip.style.top = posY + 'px';
+
+                    // Clamping and smart vertical flipping
+                    let transX = '-50%';
+                    if (posX < 110) transX = '0%';
+                    else if (posX > rect.width - 110) transX = '-100%';
+
+                    let transY = '-120%';
+                    if (posY < 95) transY = '18px';
+
+                    tooltip.style.transform = `translate(${transX}, ${transY})`;
+                    tooltip.style.opacity = '1';
+
+                    document.getElementById('tooltip-month').textContent = p.data.month;
+                    let label = currentMetric === 'revenue' ? 'Drop Revenue' : currentMetric === 'queries' ? 'Lookbook Inquiries' : 'Community Followers';
+                    let formattedVal = currentMetric === 'revenue' ? `₹${p.data.revenue}K` : p.data[currentMetric].toLocaleString();
+                    document.getElementById('tooltip-value').textContent = `${formattedVal} (${label})`;
+                    document.getElementById('tooltip-note').textContent = p.data.note;
+                });
+
+                nodeG.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = '0';
+                });
+
+                nodesGroup.appendChild(nodeG);
+            });
+        }
+
+        renderElevationGraph();
+
+        // Metric Toggle buttons
+        document.querySelectorAll('.metric-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.metric-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMetric = btn.getAttribute('data-metric');
+                renderElevationGraph();
+            });
+        });
+
+        // Checkpoint Card Clicks
+        document.querySelectorAll('.checkpoint-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.checkpoint-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+
+                const idx = parseInt(card.getAttribute('data-index'));
+                const nodes = document.querySelectorAll('.chart-data-node');
+                nodes.forEach(n => {
+                    if (parseInt(n.getAttribute('data-index')) === idx) {
+                        const evt = new MouseEvent('mouseenter');
+                        n.dispatchEvent(evt);
+                    }
+                });
+            });
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                const isActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(other => {
+                    other.classList.remove('active');
+                    other.querySelector('.faq-answer').style.maxHeight = null;
+                });
+
+                if (!isActive) {
+                    item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+
 <?php
 get_footer();

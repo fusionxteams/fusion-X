@@ -1609,5 +1609,679 @@ get_header();
      FOOTER
 ═════════════════════════════════════════════════════════ -->
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://fusionx.in/#org",
+      "name": "Fusion X",
+      "legalName": "Fusion X Digital Marketing Company",
+      "description": "Best digital marketing company in India and Chennai. Expert in SEO, AEO, GEO, EEAT, Meta Ads, Google Ads, web development, and brand growth.",
+      "url": "https://fusionx.in",
+      "foundingLocation": { "@type": "Place", "name": "Chennai, Tamil Nadu, India" },
+      "areaServed": ["India", "Chennai", "Tamil Nadu", "Global"],
+      "knowsAbout": ["Digital Marketing", "SEO", "AEO", "GEO", "EEAT", "Meta Ads", "Google Ads", "React", "Angular", "Shopify", "WordPress", "Brand Strategy", "Lead Generation"],
+      "hasCredential": [
+        { "@type": "EducationalOccupationalCredential", "name": "Digital Scholar Certified - India's #1 Digital Marketing Institute" }
+      ],
+      "member": [
+        {
+          "@type": "Person",
+          "name": "Jaiharan K",
+          "jobTitle": "CEO & Business Operations Manager",
+          "image": "https://fusionx.in/team/jaiharan-k-ceo-best-digital-marketing-company-fusion-x.webp",
+          "worksFor": { "@id": "https://fusionx.in/#org" }
+        },
+        {
+          "@type": "Person",
+          "name": "Kamalesh J",
+          "jobTitle": "Best Digital Marketing Expert in India",
+          "alumniOf": { "@type": "EducationalOrganization", "name": "Digital Scholar" },
+          "worksFor": { "@id": "https://fusionx.in/#org" }
+        },
+        {
+          "@type": "Person",
+          "name": "Kannan S",
+          "jobTitle": "Best Website Developer in Chennai",
+          "knowsAbout": ["React", "Shopify", "WordPress", "SEO Architecture"],
+          "worksFor": { "@id": "https://fusionx.in/#org" }
+        },
+        {
+          "@type": "Person",
+          "name": "Saravana Sanjhay M",
+          "jobTitle": "Best SEO Expert in India",
+          "knowsAbout": ["Technical SEO", "AEO", "GEO", "EEAT", "Angular", "Shopify SEO"],
+          "worksFor": { "@id": "https://fusionx.in/#org" }
+        },
+        {
+          "@type": "Person",
+          "name": "Jabakumar",
+          "jobTitle": "Best Video Editor and Content Producer",
+          "worksFor": { "@id": "https://fusionx.in/#org" }
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Who is the best digital marketing company in India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Fusion X is one of India's best digital marketing companies, based in Chennai. They specialize in SEO, AEO, GEO, Meta Ads, Google Ads, and custom web development, helping brands grow from local to global."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who is the best SEO expert in India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Saravana Sanjhay M at Fusion X is among India's best SEO experts, specializing in technical SEO, AEO, GEO, EEAT, and Angular development - engineering AI-visible content architectures that dominate SERPs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who is the best digital marketing expert in India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Kamalesh J, trained at Digital Scholar under mentors Karthik Maruthai, Sorav Jain, Rishi Jain, and Eugene Samuel, is one of India's best digital marketing experts specializing in Meta Ads, Google Ads, and social media marketing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who is the best website developer in Chennai?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Kannan S at Fusion X is one of the best website developers in Chennai - a React-certified developer skilled in Shopify, WordPress, and custom SEO-optimized web platforms."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<script>
+/* ΓöÇΓöÇ HERO: Particle galaxy ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+(function () {
+    const cv = document.getElementById('canvas-hero');
+    if (!cv || typeof THREE === 'undefined') return;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.1, 2000);
+    camera.position.z = 500;
+    const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+    const N = 5000;
+    const pos = new Float32Array(N * 3);
+    const col = new Float32Array(N * 3);
+    const C_OR = new THREE.Color(0xff5722), C_GR = new THREE.Color(0x282828);
+    for (let i = 0; i < N; i++) {
+        const phi = Math.acos(-1 + (2 * i) / N);
+        const theta = Math.sqrt(N * Math.PI) * phi;
+        const r = 200 + Math.random() * 200;
+        pos[i*3]=r*Math.sin(phi)*Math.cos(theta);
+        pos[i*3+1]=r*Math.sin(phi)*Math.sin(theta);
+        pos[i*3+2]=r*Math.cos(phi);
+        const c = Math.random() > 0.82 ? C_OR : C_GR;
+        col[i*3]=c.r; col[i*3+1]=c.g; col[i*3+2]=c.b;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    const pts = new THREE.Points(geo, new THREE.PointsMaterial({ size: 2.8, vertexColors: true, transparent: true, opacity: 0.85, sizeAttenuation: true }));
+    scene.add(pts);
+
+    // Wireframe inner sphere
+    const innerSphere = new THREE.Mesh(
+        new THREE.SphereGeometry(110, 24, 24),
+        new THREE.MeshBasicMaterial({ color: 0xff5722, wireframe: true, transparent: true, opacity: 0.05 })
+    );
+    scene.add(innerSphere);
+
+    const mouse = { x: 0, y: 0 };
+    window.addEventListener('mousemove', e => { mouse.x = (e.clientX/innerWidth - 0.5) * 2; mouse.y = -(e.clientY/innerHeight - 0.5) * 2; });
+
+    let t = 0;
+    (function loop() {
+        requestAnimationFrame(loop);
+        t += 0.003;
+        pts.rotation.y = t * 0.15 + mouse.x * 0.08;
+        pts.rotation.x = t * 0.08 + mouse.y * 0.04;
+        innerSphere.rotation.y = -t * 0.1;
+        renderer.render(scene, camera);
+    })();
+
+    window.addEventListener('resize', () => { 
+        camera.aspect = innerWidth / innerHeight; 
+        camera.updateProjectionMatrix(); 
+        renderer.setSize(innerWidth, innerHeight); 
+    });
+})();
+
+/*  FUSION X NEURAL GROWTH ENGINE (DYNAMIC CIRCUIT ROUTER & INTERACTION)  */
+(function () {
+    const hud = document.getElementById('growth-engine-hud');
+    const svg = document.getElementById('hud-circuit-svg');
+    const pathsGroup = document.getElementById('circuit-paths-group');
+    const sparksGroup = document.getElementById('circuit-sparks-group');
+    const core = document.querySelector('.core-center-reactor');
+    const cards = document.querySelectorAll('.hud-pod-card');
+    const label = document.getElementById('hud-active-label');
+
+    if (!hud || !svg || !core || !cards.length) return;
+
+    let activeIndex = -1;
+    let autoCycleTimer = null;
+    let isUserInteracting = false;
+
+    function renderCircuits() {
+        const hudRect = hud.getBoundingClientRect();
+        if (hudRect.width === 0 || hudRect.height === 0) return;
+
+        const coreRect = core.getBoundingClientRect();
+        const w = Math.round(hudRect.width);
+        const h = Math.round(hudRect.height);
+
+        svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+
+        const coreCenter = {
+            x: coreRect.left + coreRect.width / 2 - hudRect.left,
+            y: coreRect.top + coreRect.height / 2 - hudRect.top
+        };
+
+        if (pathsGroup && sparksGroup) {
+            pathsGroup.innerHTML = '';
+            sparksGroup.innerHTML = '';
+
+            cards.forEach((card, idx) => {
+                const pin = card.querySelector('.pod-pin') || card;
+                const pinRect = pin.getBoundingClientRect();
+                const pinPos = {
+                    x: pinRect.left + pinRect.width / 2 - hudRect.left,
+                    y: pinRect.top + pinRect.height / 2 - hudRect.top
+                };
+
+                const dx = pinPos.x - coreCenter.x;
+                const midX = coreCenter.x + dx * 0.48;
+                const pathD = `M ${coreCenter.x.toFixed(1)} ${coreCenter.y.toFixed(1)} Q ${midX.toFixed(1)} ${pinPos.y.toFixed(1)} ${pinPos.x.toFixed(1)} ${pinPos.y.toFixed(1)}`;
+
+                const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                pathEl.setAttribute('d', pathD);
+                pathEl.setAttribute('class', `circuit-path circuit-path-${idx}${idx === activeIndex ? ' active-circuit' : ''}`);
+                pathEl.setAttribute('id', `circuit-path-${idx}`);
+                pathsGroup.appendChild(pathEl);
+
+                const spark = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                spark.setAttribute('r', window.innerWidth < 600 ? '2.5' : '3.5');
+                spark.setAttribute('fill', '#ff7043');
+                spark.setAttribute('filter', 'url(#glowFilter)');
+                spark.setAttribute('class', `circuit-spark circuit-spark-${idx}`);
+
+                const anim = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
+                anim.setAttribute('path', pathD);
+                anim.setAttribute('dur', `${1.8 + (idx % 3) * 0.4}s`);
+                anim.setAttribute('repeatCount', 'indefinite');
+                spark.appendChild(anim);
+
+                sparksGroup.appendChild(spark);
+            });
+        }
+    }
+
+    function setActivePod(index) {
+        activeIndex = index;
+        cards.forEach((c, i) => {
+            if (i === index) {
+                c.classList.add('pod-active');
+            } else {
+                c.classList.remove('pod-active');
+            }
+        });
+
+        const allPaths = svg.querySelectorAll('.circuit-path');
+        allPaths.forEach((p, i) => {
+            if (i === index) {
+                p.classList.add('active-circuit');
+            } else {
+                p.classList.remove('active-circuit');
+            }
+        });
+
+        if (label) {
+            if (index >= 0 && index < cards.length) {
+                const podName = cards[index].querySelector('.pod-name')?.textContent || '';
+                label.textContent = (window.innerWidth < 640 && podName) ? podName.toUpperCase() : (cards[index].getAttribute('data-title') || 'GROWTH REACTOR');
+                label.style.color = '#ffffff';
+            } else {
+                label.textContent = 'GROWTH REACTOR';
+                label.style.color = '#ff7043';
+            }
+        }
+    }
+
+    cards.forEach((card, idx) => {
+        card.addEventListener('mouseenter', () => {
+            isUserInteracting = true;
+            setActivePod(idx);
+        });
+        card.addEventListener('mouseleave', () => {
+            isUserInteracting = false;
+            setActivePod(-1);
+        });
+        card.addEventListener('click', () => {
+            isUserInteracting = true;
+            setActivePod(idx);
+            clearTimeout(autoCycleTimer);
+            autoCycleTimer = setTimeout(() => { isUserInteracting = false; }, 4500);
+        });
+        card.addEventListener('touchstart', () => {
+            isUserInteracting = true;
+            setActivePod(idx);
+            clearTimeout(autoCycleTimer);
+            autoCycleTimer = setTimeout(() => { isUserInteracting = false; }, 4500);
+        }, { passive: true });
+    });
+
+    let cycleCounter = 0;
+    setInterval(() => {
+        if (!isUserInteracting) {
+            setActivePod(cycleCounter % cards.length);
+            cycleCounter++;
+        }
+    }, 2800);
+
+    renderCircuits();
+    window.addEventListener('resize', renderCircuits, { passive: true });
+    window.addEventListener('load', renderCircuits);
+    if ('ResizeObserver' in window) {
+        new ResizeObserver(renderCircuits).observe(hud);
+    }
+})();
+
+/* ── PROCESS BG: Floating wireframe polyhedra ──────── */
+(function () {
+    const cv = document.getElementById('canvas-process-bg');
+    if (!cv || typeof THREE === 'undefined') return;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 2000);
+    camera.position.z = 600;
+    const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
+    renderer.setSize(innerWidth, innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+    const geos = [
+        new THREE.IcosahedronGeometry(35),
+        new THREE.OctahedronGeometry(30),
+        new THREE.TetrahedronGeometry(40),
+        new THREE.DodecahedronGeometry(28)
+    ];
+
+    const shapes = Array.from({ length: 120 }, (_, i) => {
+        const mesh = new THREE.Mesh(
+            geos[i % 4],
+            new THREE.MeshBasicMaterial({ color: i % 5 === 0 ? 0xff5722 : 0x1a1a1a, wireframe: true, transparent: true, opacity: 0.08 + Math.random() * 0.15 })
+        );
+        mesh.position.set((Math.random()-0.5)*2600, (Math.random()-0.5)*1800, (Math.random()-0.5)*1200 - 200);
+        mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
+        scene.add(mesh);
+        return { mesh, sp: 0.004 + Math.random()*0.008, ph: Math.random()*Math.PI*2 };
+    });
+
+    let t = 0;
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2(-9999, -9999);
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = (e.clientX / innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / innerHeight) * 2 + 1;
+    });
+
+    // Store original positions for spring effect
+    shapes.forEach(s => {
+        s.ox = s.mesh.position.x;
+        s.oy = s.mesh.position.y;
+        s.oz = s.mesh.position.z;
+    });
+
+    (function loop() {
+        requestAnimationFrame(loop); t += 0.01;
+        raycaster.setFromCamera(mouse, camera);
+
+        shapes.forEach(s => {
+            s.mesh.rotation.x += s.sp; 
+            s.mesh.rotation.y += s.sp*0.7;
+            
+            // Base float animation applied to origin, not current position
+            const targetY = s.oy + Math.sin(t+s.ph)*40;
+
+            // Repulsion logic
+            const pt = new THREE.Vector3();
+            raycaster.ray.closestPointToPoint(s.mesh.position, pt);
+            const dist = pt.distanceTo(s.mesh.position);
+            
+            if (dist < 180) {
+                const push = s.mesh.position.clone().sub(pt).normalize();
+                if (push.lengthSq() === 0) push.set((Math.random()-0.5)*2, (Math.random()-0.5)*2, (Math.random()-0.5)*2).normalize();
+                // Stronger push
+                s.vx = (s.vx || 0) + push.x * 12;
+                s.vy = (s.vy || 0) + push.y * 12;
+                s.vz = (s.vz || 0) + push.z * 12;
+            }
+
+            // Spring force back to origin
+            const dx = s.ox - s.mesh.position.x;
+            const dy = targetY - s.mesh.position.y;
+            const dz = s.oz - s.mesh.position.z;
+
+            s.vx = (s.vx || 0) + dx * 0.005;
+            s.vy = (s.vy || 0) + dy * 0.005;
+            s.vz = (s.vz || 0) + dz * 0.005;
+
+            // Apply velocity with friction
+            if (s.vx !== undefined) {
+                s.mesh.position.x += s.vx;
+                s.mesh.position.y += s.vy;
+                s.mesh.position.z += s.vz;
+                s.vx *= 0.90;
+                s.vy *= 0.90;
+                s.vz *= 0.90;
+            }
+        });
+        renderer.render(scene, camera);
+    })();
+    window.addEventListener('resize', () => { camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+})();
+
+/* ── TEAM BG: Dark particle field ───────────────────── */
+(function () {
+    const cv = document.getElementById('canvas-team-bg');
+    if (!cv || typeof THREE === 'undefined') return;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 2000);
+    camera.position.z = 700;
+    const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
+    renderer.setSize(innerWidth, innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+    const N = 2500;
+    const pos = new Float32Array(N*3), col = new Float32Array(N*3);
+    const CO = new THREE.Color(0xff5722);
+    for (let i=0;i<N;i++) {
+        pos[i*3]=(Math.random()-0.5)*1600; pos[i*3+1]=(Math.random()-0.5)*900; pos[i*3+2]=(Math.random()-0.5)*700;
+        const c = Math.random()>0.9 ? CO : new THREE.Color(0x1a1a1a);
+        col[i*3]=c.r; col[i*3+1]=c.g; col[i*3+2]=c.b;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    geo.setAttribute('color', new THREE.BufferAttribute(col,3));
+    const pts = new THREE.Points(geo, new THREE.PointsMaterial({ size:2.2, vertexColors:true, transparent:true, opacity:0.7 }));
+    scene.add(pts);
+
+    let t = 0;
+    (function loop() {
+        requestAnimationFrame(loop); t += 0.003;
+        pts.rotation.y += 0.001; pts.rotation.z = Math.sin(t)*0.03;
+        renderer.render(scene, camera);
+    })();
+    window.addEventListener('resize', () => { camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+})();
+</script>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── 1. HERO entrance ─────────────────────────────── */
+window.addEventListener('load', () => {
+    gsap.timeline({ defaults: { ease: 'expo.out' } })
+        .to('.hero-h1 .word', { y: 0, duration: 1.1, stagger: 0.1, delay: 0.2 })
+        .to('.hero-sub', { opacity: 1, y: 0, duration: 0.9 }, '-=0.4');
+});
+
+/* ── 2. HERO exit scroll ──────────────────────────── */
+gsap.to('#scene-hero .scene-content', {
+    y: -150, opacity: 0, ease: 'none',
+    scrollTrigger: { trigger: '#scene-hero', start: 'top top', end: '+=60%', pin: true, pinSpacing: true, scrub: 1.2 }
+});
+
+/* ── 3. WHO WE ARE: slide in from sides ───────────── */
+ScrollTrigger.create({
+    trigger: '#scene-who', start: 'top 75%', once: true,
+    onEnter: () => {
+        gsap.from('#scene-who .who-headline', { x: -80, opacity: 0, duration: 1.1, ease: 'power3.out' });
+        gsap.from('#scene-who .who-body',     { x: -60, opacity: 0, duration: 1, delay: 0.2, ease: 'power3.out' });
+        gsap.from('#scene-who .eyebrow',      { y: -20, opacity: 0, duration: 0.7, ease: 'power3.out' });
+        gsap.from('#scene-who .who-3d',       { x: 100, opacity: 0, duration: 1.3, delay: 0.25, ease: 'power3.out' });
+    }
+});
+
+/* ── 4. PROCESS: pin + 3 steps flow in/out ──────────
+   end: "+=200%" means user scrolls 2 extra viewport
+   heights while the section stays pinned.
+   The timeline scrubs through during that distance.
+──────────────────────────────────────────────────── */
+const processTl = gsap.timeline({
+    scrollTrigger: {
+        trigger: '#scene-process', start: 'top top', end: '+=250%',
+        pin: true, pinSpacing: true, scrub: 1
+    }
+});
+processTl
+    // Step 1 ─ enter
+    .to('#ps1', { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: 'power2.out' })
+    // Step 1 ─ hold, then exit upward
+    .to('#ps1', { opacity: 0, y: -100, scale: 0.95, duration: 0.25 }, '+=0.35')
+    // Step 2 ─ enter
+    .fromTo('#ps2', { opacity: 0, y: 100, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.3 })
+    .to('#ps2', { opacity: 0, y: -100, scale: 0.95, duration: 0.25 }, '+=0.35')
+    // Step 3 ─ enter, stays
+    .fromTo('#ps3', { opacity: 0, y: 100, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.3 });
+
+/* ── 5. TEAM: pin + 5 members slide in/out ──────────
+   Each member slides in from left, pauses, exits right
+──────────────────────────────────────────────────── */
+const dots = document.querySelectorAll('.t-dot');
+
+const teamTl = gsap.timeline({
+    scrollTrigger: {
+        trigger: '#scene-team', start: 'top top', end: '+=450%',
+        pin: true, pinSpacing: true, scrub: 1,
+        onUpdate(self) {
+            // Sync progress dots
+            const idx = Math.min(4, Math.floor(self.progress * 5));
+            dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+        }
+    }
+});
+
+function memberFlow(el, dir = 1) {
+    return teamTl
+        .fromTo(el, { autoAlpha: 0, x: -120 * dir }, { autoAlpha: 1, x: 0, duration: 0.22 })
+        .to(el, { autoAlpha: 0, x: 120 * dir, duration: 0.2 }, '+=0.28');
+}
+// tm1 starts visible, only exit
+teamTl.to('#tm1', { autoAlpha: 0, x: 120, duration: 0.2 }, '+=0.28');
+// Alternate slide direction per member
+[['#tm2', -1], ['#tm3', 1], ['#tm4', -1]].forEach(([sel, dir]) => memberFlow(sel, dir));
+// Last member: enter, no exit
+teamTl.fromTo('#tm5', { autoAlpha: 0, x: -120 }, { autoAlpha: 1, x: 0, duration: 0.22 });
+
+/* ── 6. STATS counters ────────────────────────────── */
+document.querySelectorAll('.stat-n[data-target]').forEach(el => {
+    ScrollTrigger.create({
+        trigger: el, start: 'top 85%', once: true,
+        onEnter: () => {
+            const tgt = +el.dataset.target;
+            const suffix = el.dataset.suffix !== undefined ? el.dataset.suffix : (tgt === 360 ? '°' : '+');
+            let cur = 0;
+            const step = Math.max(1, Math.ceil(tgt / 70));
+            const iv = setInterval(() => {
+                cur = Math.min(cur + step, tgt);
+                el.textContent = cur + suffix;
+                if (cur >= tgt) clearInterval(iv);
+            }, 22);
+        }
+    });
+});
+
+/* ── 7. CTA section entrance ─────────────────────── */
+gsap.from('#scene-cta .cta-h',  { y: 60, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '#scene-cta', start: 'top 80%', once: true } });
+gsap.from('#scene-cta .cta-sub',{ y: 40, opacity: 0, duration: 1, delay: 0.2, ease: 'power3.out', scrollTrigger: { trigger: '#scene-cta', start: 'top 80%', once: true } });
+gsap.from('#scene-cta .cta-btn',{ y: 30, opacity: 0, duration: 0.9, delay: 0.4, ease: 'back.out(1.5)', scrollTrigger: { trigger: '#scene-cta', start: 'top 80%', once: true } });
+
+</script>
+
+<script>
+/* CTA SECTION LAYERED DIGITAL MARKETING 3D SCENE */
+(function () {
+    const cv = document.getElementById('canvas-cta');
+    if (!cv || typeof THREE === 'undefined') return;
+    
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 3000);
+    camera.position.set(0, 150, 700);
+    
+    const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+    // Colors
+    const C_ORANGE = 0xff5722;
+    const C_DARK = 0x111111;
+    const C_GREY = 0x444444;
+
+    // LAYER 1: The Analytics Data Grid (Floor)
+    const gridGeo = new THREE.PlaneGeometry(3000, 3000, 80, 80);
+    const gridMat = new THREE.MeshBasicMaterial({ color: C_GREY, wireframe: true, transparent: true, opacity: 0.15 });
+    const grid = new THREE.Mesh(gridGeo, gridMat);
+    grid.rotation.x = -Math.PI / 2;
+    grid.position.y = -250;
+    scene.add(grid);
+
+    // LAYER 2: Inbound Traffic & Data Nodes (Particles spiraling inwards)
+    const trafficGroup = new THREE.Group();
+    const nodeCount = 150;
+    const nodeGeo = new THREE.TetrahedronGeometry(6, 0);
+    const nodeMat = new THREE.MeshBasicMaterial({ color: C_ORANGE, wireframe: true, transparent: true, opacity: 0.8 });
+    
+    for (let i = 0; i < nodeCount; i++) {
+        const node = new THREE.Mesh(nodeGeo, nodeMat);
+        const radius = 300 + Math.random() * 600;
+        const angle = Math.random() * Math.PI * 2;
+        const height = (Math.random() - 0.5) * 400;
+        
+        node.position.set(Math.cos(angle) * radius, height, Math.sin(angle) * radius);
+        node.userData = {
+            angle: angle,
+            radius: radius,
+            height: height,
+            speed: 0.002 + Math.random() * 0.005,
+            inwardSpeed: 0.5 + Math.random() * 1.5
+        };
+        trafficGroup.add(node);
+    }
+    scene.add(trafficGroup);
+
+    // LAYER 3: The Brand Conversion Core
+    const coreGroup = new THREE.Group();
+    
+    // Inner Solid Core
+    const innerCoreGeo = new THREE.IcosahedronGeometry(70, 1);
+    const innerCoreMat = new THREE.MeshBasicMaterial({ color: C_DARK, transparent: true, opacity: 0.95 });
+    const innerCore = new THREE.Mesh(innerCoreGeo, innerCoreMat);
+    coreGroup.add(innerCore);
+
+    // Outer Wireframe Core
+    const outerCoreGeo = new THREE.IcosahedronGeometry(95, 2);
+    const outerCoreMat = new THREE.MeshBasicMaterial({ color: C_ORANGE, wireframe: true, transparent: true, opacity: 0.25 });
+    const outerCore = new THREE.Mesh(outerCoreGeo, outerCoreMat);
+    coreGroup.add(outerCore);
+
+    // Orbital SEO & AEO Rings
+    const ring1 = new THREE.Mesh(
+        new THREE.TorusGeometry(180, 1, 16, 100),
+        new THREE.MeshBasicMaterial({ color: C_GREY, transparent: true, opacity: 0.4 })
+    );
+    ring1.rotation.x = Math.PI / 2.5;
+    coreGroup.add(ring1);
+
+    const ring2 = new THREE.Mesh(
+        new THREE.TorusGeometry(260, 2, 16, 100),
+        new THREE.MeshBasicMaterial({ color: C_ORANGE, transparent: true, opacity: 0.15 })
+    );
+    ring2.rotation.y = Math.PI / 3;
+    ring2.rotation.x = -Math.PI / 6;
+    coreGroup.add(ring2);
+
+    scene.add(coreGroup);
+
+    // Mouse Interaction
+    const mouse = { x: 0, y: 0 };
+    window.addEventListener('mousemove', e => { 
+        mouse.x = (e.clientX / innerWidth - 0.5) * 2; 
+        mouse.y = -(e.clientY / innerHeight - 0.5) * 2; 
+    });
+
+    let t = 0;
+    (function loop() {
+        requestAnimationFrame(loop);
+        t += 0.01;
+
+        // Camera subtle sway
+        camera.position.x += (mouse.x * 200 - camera.position.x) * 0.05;
+        camera.position.y += ((150 + mouse.y * 100) - camera.position.y) * 0.05;
+        camera.lookAt(0, 0, 0);
+
+        // Grid Wave Animation (Data flow)
+        const positions = gridGeo.attributes.position.array;
+        for (let i = 0; i < positions.length; i += 3) {
+            const x = positions[i];
+            const y = positions[i + 1];
+            // dynamic wave
+            positions[i + 2] = Math.sin((x + t * 50) * 0.002) * Math.cos((y - t * 30) * 0.002) * 80;
+        }
+        gridGeo.attributes.position.needsUpdate = true;
+
+        // Traffic Nodes Spiraling Inwards (Lead Generation effect)
+        trafficGroup.children.forEach(node => {
+            const data = node.userData;
+            data.angle += data.speed;
+            data.radius -= data.inwardSpeed;
+            
+            // If node hits the core, shoot it back out (new traffic)
+            if (data.radius < 100) {
+                data.radius = 800 + Math.random() * 200;
+                data.height = (Math.random() - 0.5) * 400;
+            }
+            
+            node.position.set(Math.cos(data.angle) * data.radius, data.height, Math.sin(data.angle) * data.radius);
+            node.rotation.x += 0.02;
+            node.rotation.y += 0.02;
+        });
+
+        // Core Rotation (Brand Authority)
+        innerCore.rotation.y = t * 0.2;
+        outerCore.rotation.y = -t * 0.15;
+        outerCore.rotation.x = t * 0.1;
+        
+        ring1.rotation.z = t * 0.3;
+        ring2.rotation.z = -t * 0.2;
+
+        // Core Pulsing effect
+        const scale = 1 + Math.sin(t * 2) * 0.03;
+        coreGroup.scale.set(scale, scale, scale);
+
+        renderer.render(scene, camera);
+    })();
+
+    window.addEventListener('resize', () => { 
+        camera.aspect = innerWidth / innerHeight; 
+        camera.updateProjectionMatrix(); 
+        renderer.setSize(innerWidth, innerHeight); 
+    });
+})();
+</script>
+
 <?php
 get_footer();

@@ -2344,5 +2344,638 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+        // ── 1. THREE.JS REALISTIC SCULPTED LIGHT-BROWN COFFEE BEAN (BALANCED SIZE) ──
+        (function initRealisticCoffeeBean() {
+            const container = document.getElementById('three-coffee-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, window.innerWidth < 768 ? 5.5 : 5.8);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.25;
+            container.appendChild(renderer.domElement);
+
+            // Procedural Light-to-Medium Roasted Coffee Texture Map
+            function generateRoastColorMap() {
+                const cvs = document.createElement('canvas');
+                cvs.width = 1024;
+                cvs.height = 1024;
+                const ctx = cvs.getContext('2d');
+
+                // Light-to-Medium Warm Golden Roasted Coffee Gradient
+                const radGrad = ctx.createRadialGradient(512, 512, 70, 512, 512, 512);
+                radGrad.addColorStop(0, '#9a5d33');    // warm light caramel roast
+                radGrad.addColorStop(0.35, '#854f2a'); // medium roast body
+                radGrad.addColorStop(0.72, '#6d3e1e'); // warm roasted chestnut
+                radGrad.addColorStop(1, '#532d14');    // soft outer edge
+                ctx.fillStyle = radGrad;
+                ctx.fillRect(0, 0, 1024, 1024);
+
+                // Roast pores and micro-texture
+                const imgData = ctx.getImageData(0, 0, 1024, 1024);
+                const data = imgData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    const noise = (Math.random() - 0.5) * 28;
+                    data[i] = Math.min(255, Math.max(0, data[i] + noise));
+                    data[i+1] = Math.min(255, Math.max(0, data[i+1] + noise * 0.7));
+                    data[i+2] = Math.min(255, Math.max(0, data[i+2] + noise * 0.45));
+                }
+                ctx.putImageData(imgData, 0, 0);
+
+                // Roast striations
+                ctx.strokeStyle = 'rgba(65, 33, 14, 0.28)';
+                ctx.lineWidth = 2.5;
+                for (let i = 0; i < 35; i++) {
+                    ctx.beginPath();
+                    const y = Math.random() * 1024;
+                    ctx.moveTo(0, y);
+                    ctx.bezierCurveTo(340, y + (Math.random()-0.5)*70, 680, y + (Math.random()-0.5)*70, 1024, y);
+                    ctx.stroke();
+                }
+
+                // Natural Cream Silver-skin Chaff Crevice
+                ctx.save();
+                // Shadowed crease bed
+                ctx.strokeStyle = '#32190b';
+                ctx.lineWidth = 36;
+                ctx.filter = 'blur(7px)';
+                ctx.beginPath();
+                ctx.moveTo(512, 35);
+                ctx.bezierCurveTo(478, 340, 544, 680, 512, 989);
+                ctx.stroke();
+
+                // Pale natural parchment chaff core
+                ctx.filter = 'none';
+                ctx.strokeStyle = '#d8c09d';
+                ctx.lineWidth = 13;
+                ctx.beginPath();
+                ctx.moveTo(512, 50);
+                ctx.bezierCurveTo(480, 340, 542, 680, 512, 974);
+                ctx.stroke();
+
+                // Inner fine seam
+                ctx.strokeStyle = '#48240f';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(512, 45);
+                ctx.bezierCurveTo(479, 340, 543, 680, 512, 980);
+                ctx.stroke();
+                ctx.restore();
+
+                const tex = new THREE.CanvasTexture(cvs);
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.ClampToEdgeWrapping;
+                return tex;
+            }
+
+            // Procedural Bump Map
+            function generateRoastBumpMap() {
+                const cvs = document.createElement('canvas');
+                cvs.width = 1024;
+                cvs.height = 1024;
+                const ctx = cvs.getContext('2d');
+
+                ctx.fillStyle = '#808080';
+                ctx.fillRect(0, 0, 1024, 1024);
+
+                const imgData = ctx.getImageData(0, 0, 1024, 1024);
+                const data = imgData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    const val = 128 + (Math.random() - 0.5) * 40;
+                    data[i] = val;
+                    data[i+1] = val;
+                    data[i+2] = val;
+                }
+                ctx.putImageData(imgData, 0, 0);
+
+                // Deep crease cavity in bump map
+                ctx.save();
+                ctx.strokeStyle = '#101010';
+                ctx.lineWidth = 42;
+                ctx.filter = 'blur(10px)';
+                ctx.beginPath();
+                ctx.moveTo(512, 25);
+                ctx.bezierCurveTo(478, 340, 544, 680, 512, 995);
+                ctx.stroke();
+                ctx.restore();
+
+                const tex = new THREE.CanvasTexture(cvs);
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.ClampToEdgeWrapping;
+                return tex;
+            }
+
+            const colorTexture = generateRoastColorMap();
+            const bumpTexture = generateRoastBumpMap();
+
+            // Sculpted Anatomical Coffee Bean Geometry (Scaled to Balanced Size)
+            const beanGeo = new THREE.SphereGeometry(1.22, 72, 54);
+            const pos = beanGeo.attributes.position;
+            const vertex = new THREE.Vector3();
+
+            for (let i = 0; i < pos.count; i++) {
+                vertex.fromBufferAttribute(pos, i);
+
+                // Elongate along Y
+                vertex.y *= 1.34;
+                // Proportional width along X
+                vertex.x *= 1.0;
+                // Flatter along Z (front/back)
+                vertex.z *= 0.68;
+
+                // Central Fissure Indentation on front (z > 0)
+                if (vertex.z > 0) {
+                    const seamOffset = Math.sin(vertex.y * 1.3) * 0.14;
+                    const distFromSeam = Math.abs(vertex.x - seamOffset);
+
+                    // Deep center indentation
+                    const depression = Math.exp(-Math.pow(distFromSeam / 0.28, 2)) * 0.52;
+                    vertex.z = Math.max(0.04, vertex.z - depression);
+
+                    // Bean lobe swelling
+                    if (distFromSeam > 0.18 && distFromSeam < 0.8) {
+                        vertex.z += Math.sin((distFromSeam - 0.18) * Math.PI / 0.62) * 0.12;
+                    }
+                } else {
+                    // Back side dome
+                    const endTaper = 1.0 - Math.pow(vertex.y / 1.9, 2) * 0.22;
+                    vertex.x *= endTaper;
+                }
+
+                pos.setXYZ(i, vertex.x, vertex.y, vertex.z);
+            }
+
+            beanGeo.computeVertexNormals();
+
+            // Physical Shader Material: Warm Light Roasted Brown
+            const beanMat = new THREE.MeshStandardMaterial({
+                map: colorTexture,
+                bumpMap: bumpTexture,
+                bumpScale: 0.05,
+                roughness: 0.35,
+                metalness: 0.06,
+                color: 0x9e623b
+            });
+
+            const beanMesh = new THREE.Mesh(beanGeo, beanMat);
+            const beanGroup = new THREE.Group();
+            beanGroup.add(beanMesh);
+
+            // Ambient Steam Particles
+            const pCount = 55;
+            const particleGeo = new THREE.BufferGeometry();
+            const pPositions = new Float32Array(pCount * 3);
+            for (let i = 0; i < pCount * 3; i += 3) {
+                pPositions[i] = (Math.random() - 0.5) * 3.5;
+                pPositions[i + 1] = Math.random() * 4 - 1.2;
+                pPositions[i + 2] = (Math.random() - 0.5) * 3.5;
+            }
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+            const particleMat = new THREE.PointsMaterial({
+                color: 0xff7043,
+                size: 0.05,
+                transparent: true,
+                opacity: 0.55
+            });
+            const steamParticles = new THREE.Points(particleGeo, particleMat);
+            scene.add(steamParticles);
+
+            // Orange Accent Orbit Ring
+            const ringGeo = new THREE.TorusGeometry(1.85, 0.018, 16, 120);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.55 });
+            const orbitRing = new THREE.Mesh(ringGeo, ringMat);
+            orbitRing.rotation.x = Math.PI / 2.6;
+            beanGroup.add(orbitRing);
+
+            scene.add(beanGroup);
+
+            // Studio Lighting
+            const ambLight = new THREE.AmbientLight(0xffeedd, 1.35);
+            scene.add(ambLight);
+
+            // Warm Key Light
+            const keyLight = new THREE.DirectionalLight(0xfff2e0, 2.7);
+            keyLight.position.set(3.5, 4.5, 4);
+            scene.add(keyLight);
+
+            // Orange Contouring Rim Light
+            const rimLight = new THREE.DirectionalLight(0xff7043, 1.9);
+            rimLight.position.set(-3.5, -2, 2.5);
+            scene.add(rimLight);
+
+            // Interactive Drag Controls
+            let isDragging = false;
+            let prevX = 0, prevY = 0;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - prevX;
+                const deltaY = e.clientY - prevY;
+                beanGroup.rotation.y += deltaX * 0.01;
+                beanGroup.rotation.x += deltaY * 0.01;
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
+
+            // Touch
+            container.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    prevX = e.touches[0].clientX;
+                    prevY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - prevX;
+                const deltaY = e.touches[0].clientY - prevY;
+                beanGroup.rotation.y += deltaX * 0.01;
+                beanGroup.rotation.x += deltaY * 0.01;
+                prevX = e.touches[0].clientX;
+                prevY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // Animation Loop
+            let clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                if (!isDragging) {
+                    beanGroup.rotation.y += 0.007;
+                    beanGroup.rotation.z = Math.sin(elapsedTime * 0.7) * 0.08;
+                    const yOffset = window.innerWidth < 768 ? 0.32 : 0.08;
+                    beanGroup.position.y = yOffset + Math.sin(elapsedTime * 1.4) * 0.06;
+                }
+
+                orbitRing.rotation.z += 0.005;
+
+                // Drift steam particles upwards
+                const pArr = particleGeo.attributes.position.array;
+                for (let i = 1; i < pCount * 3; i += 3) {
+                    pArr[i] += 0.009;
+                    if (pArr[i] > 3) pArr[i] = -1.2;
+                }
+                particleGeo.attributes.position.needsUpdate = true;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Resize
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.position.z = window.innerWidth < 768 ? 5.5 : 5.8;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        })();
+
+        // ── 2. REAL GSC DATA & ELEVATION GRAPH (GLITCH-FREE IMPLEMENTATION) ──
+        const nilaroGscData = [
+            { date: "Aug 06", impressions: 0, clicks: 0, position: 0, note: "Launch Baseline: 0 Indexation" },
+            { date: "Aug 07", impressions: 5, clicks: 2, position: 1.6, note: "First Branded Query" },
+            { date: "Aug 11", impressions: 16, clicks: 1, position: 4.8, note: "Initial Crawl & Indexing" },
+            { date: "Aug 14", impressions: 26, clicks: 9, position: 1.3, note: "Branded Query Spike" },
+            { date: "Aug 17", impressions: 17, clicks: 12, position: 13.7, note: "High CTR Discovery Surge" },
+            { date: "Aug 20", impressions: 26, clicks: 1, position: 27.2, note: "Broader Keyword Crawling" },
+            { date: "Aug 25", impressions: 26, clicks: 5, position: 17.5, note: "On-Page Metadata Live" },
+            { date: "Aug 31", impressions: 34, clicks: 6, position: 9.7, note: "SERP Breakthrough into Top 10" },
+            { date: "Sep 01", impressions: 56, clicks: 7, position: 10.7, note: "E-E-A-T Blogs & FAQ Schema Live" },
+            { date: "Sep 05", impressions: 75, clicks: 1, position: 15.6, note: "Coffee Brewing Search Reach" },
+            { date: "Sep 11", impressions: 73, clicks: 11, position: 11.0, note: "Viral Reels Drive Organic Brand Search" },
+            { date: "Sep 12", impressions: 124, clicks: 12, position: 15.6, note: "★ Impressions Break 100/Day" },
+            { date: "Sep 13", impressions: 150, clicks: 18, position: 12.3, note: "Weekend Peak Shopping Volume" },
+            { date: "Sep 15", impressions: 198, clicks: 10, position: 8.2, note: "AI Engines Citing Nilaro" },
+            { date: "Sep 17", impressions: 210, clicks: 6, position: 8.3, note: "★ All-Time High 210 Impressions" },
+            { date: "Sep 22", impressions: 168, clicks: 5, position: 8.9, note: "Sustained High Impression Flow" },
+            { date: "Sep 25", impressions: 168, clicks: 5, position: 8.7, note: "South Indian Coffee Authority" },
+            { date: "Sep 28", impressions: 187, clicks: 5, position: 7.7, note: "Page 1 Dominance for Core Keywords" },
+            { date: "Oct 01", impressions: 137, clicks: 3, position: 8.5, note: "Consistent National Footprint" },
+            { date: "Oct 05", impressions: 109, clicks: 2, position: 8.1, note: "Stable Organic Authority & Sales" }
+        ];
+
+        let currentMetric = 'impressions';
+
+        function showTooltip(p) {
+            const container = document.getElementById('chart-container');
+            const tooltip = document.getElementById('chart-tooltip');
+            if (!container || !tooltip) return;
+
+            const rect = container.getBoundingClientRect();
+            const W = 1000;
+            const H = 360;
+            const scaleX = rect.width / W;
+            const scaleY = rect.height / H;
+
+            const posX = p.x * scaleX;
+            const posY = p.y * scaleY;
+
+            tooltip.style.left = posX + 'px';
+            tooltip.style.top = posY + 'px';
+
+            // Smart Horizontal clamping: Prevent tooltip from clipping against container edges
+            let transX = '-50%';
+            if (posX < 110) {
+                transX = '0%';
+            } else if (posX > rect.width - 110) {
+                transX = '-100%';
+            }
+
+            // Smart Vertical flipping:
+            // When data point is near top of graph (posY < 105px), flip tooltip BELOW the point (18px)
+            // This guarantees the tooltip NEVER escapes into the top sticky navbar or browser header!
+            let transY = '-125%';
+            if (posY < 105) {
+                transY = '18px';
+            }
+
+            tooltip.style.transform = `translate(${transX}, ${transY})`;
+            tooltip.style.opacity = '1';
+
+            document.getElementById('tooltip-date').textContent = p.data.date;
+            let label = currentMetric === 'impressions' ? 'Impressions' : currentMetric === 'clicks' ? 'Clicks' : 'Avg Position';
+            let formattedVal = p.data[currentMetric];
+            document.getElementById('tooltip-value').textContent = `${formattedVal} ${label}`;
+            document.getElementById('tooltip-note').textContent = p.data.note;
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('chart-tooltip');
+            if (tooltip) tooltip.style.opacity = '0';
+        }
+
+        let computedChartPoints = [];
+
+        function renderElevationGraph() {
+            const svg = document.getElementById('elevation-svg');
+            const gridGroup = document.getElementById('chart-grid');
+            const areaPath = document.getElementById('chart-area');
+            const linePath = document.getElementById('chart-line');
+            const nodesGroup = document.getElementById('chart-nodes');
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const W = 1000;
+            const H = 360;
+            const padL = 60;
+            const padR = 40;
+            const padT = 50;
+            const padB = 50;
+
+            const plotW = W - padL - padR;
+            const plotH = H - padT - padB;
+
+            const values = nilaroGscData.map(d => d[currentMetric]);
+            const maxVal = Math.max(...values) * 1.2 || 10;
+            const minVal = 0;
+
+            // Horizontal Grid Lines
+            const gridSteps = 4;
+            for (let i = 0; i <= gridSteps; i++) {
+                const y = padT + (plotH / gridSteps) * i;
+                const val = Math.round(maxVal - (maxVal / gridSteps) * i);
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padL);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', W - padR);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padL - 10);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'chart-axis-label');
+                text.textContent = val;
+                gridGroup.appendChild(text);
+            }
+
+            // Points
+            const points = nilaroGscData.map((d, i) => {
+                const x = padL + (plotW / (nilaroGscData.length - 1)) * i;
+                let y = padT + plotH - ((d[currentMetric] - minVal) / (maxVal - minVal)) * plotH;
+                if (currentMetric === 'position') {
+                    y = d.position > 0 ? padT + ((d.position) / 30) * plotH : padT + plotH;
+                }
+                return { x, y, data: d, index: i };
+            });
+            computedChartPoints = points;
+
+            // Smooth Bezier Curve
+            function getBezierPath(pts) {
+                if (pts.length === 0) return '';
+                let path = `M ${pts[0].x} ${pts[0].y}`;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i];
+                    const p1 = pts[i + 1];
+                    const cpX = (p0.x + p1.x) / 2;
+                    path += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+                }
+                return path;
+            }
+
+            const curvePath = getBezierPath(points);
+            linePath.setAttribute('d', curvePath);
+
+            const areaD = `${curvePath} L ${points[points.length - 1].x} ${padT + plotH} L ${points[0].x} ${padT + plotH} Z`;
+            areaPath.setAttribute('d', areaD);
+
+            // Nodes rendering with dedicated non-glitching Hit Area
+            points.forEach((p, idx) => {
+                // X axis label on intervals
+                if (idx % 3 === 0 || idx === points.length - 1) {
+                    const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    xLabel.setAttribute('x', p.x);
+                    xLabel.setAttribute('y', H - 15);
+                    xLabel.setAttribute('text-anchor', 'middle');
+                    xLabel.setAttribute('class', 'chart-axis-label');
+                    xLabel.textContent = p.data.date;
+                    gridGroup.appendChild(xLabel);
+                }
+
+                const nodeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                nodeG.setAttribute('class', 'chart-data-node');
+                nodeG.setAttribute('data-index', idx);
+
+                const isMilestone = idx === 0 || idx === 11 || idx === 14;
+
+                // Pulsing ring with pointer-events: none (cannot cause glitch)
+                if (isMilestone) {
+                    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    pulse.setAttribute('cx', p.x);
+                    pulse.setAttribute('cy', p.y);
+                    pulse.setAttribute('r', '12');
+                    pulse.setAttribute('fill', 'rgba(255, 87, 34, 0.35)');
+                    pulse.setAttribute('style', 'pointer-events: none;');
+                    pulse.innerHTML = '<animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="2s" repeatCount="indefinite"/>';
+                    nodeG.appendChild(pulse);
+                }
+
+                // Visible dot circle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', p.x);
+                circle.setAttribute('cy', p.y);
+                const baseR = isMilestone ? 7 : 4.5;
+                circle.setAttribute('r', baseR);
+                circle.setAttribute('fill', isMilestone ? '#ff7043' : '#ffffff');
+                circle.setAttribute('stroke', '#ff5722');
+                circle.setAttribute('stroke-width', '2');
+                circle.setAttribute('style', 'pointer-events: none; transition: r 0.15s ease;');
+                nodeG.appendChild(circle);
+
+                // Invisible large hit area (100% glitch-free hover target)
+                const hitCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                hitCircle.setAttribute('cx', p.x);
+                hitCircle.setAttribute('cy', p.y);
+                hitCircle.setAttribute('r', '20');
+                hitCircle.setAttribute('fill', 'transparent');
+                hitCircle.setAttribute('style', 'cursor: pointer;');
+                nodeG.appendChild(hitCircle);
+
+                // Smooth events on hitCircle
+                hitCircle.addEventListener('mouseenter', () => {
+                    circle.setAttribute('r', baseR + 3);
+                    circle.setAttribute('fill', '#ff5722');
+                    showTooltip(p);
+                });
+
+                hitCircle.addEventListener('mouseleave', () => {
+                    circle.setAttribute('r', baseR);
+                    circle.setAttribute('fill', isMilestone ? '#ff7043' : '#ffffff');
+                    hideTooltip();
+                });
+
+                nodesGroup.appendChild(nodeG);
+            });
+        }
+
+        renderElevationGraph();
+
+        // Metric Toggle buttons
+        document.querySelectorAll('.metric-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.metric-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMetric = btn.getAttribute('data-metric');
+                renderElevationGraph();
+            });
+        });
+
+        // Checkpoint Card Click Interactions
+        document.querySelectorAll('.checkpoint-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.checkpoint-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+
+                const idx = parseInt(card.getAttribute('data-index'));
+                if (computedChartPoints && computedChartPoints[idx]) {
+                    showTooltip(computedChartPoints[idx]);
+                }
+            });
+        });
+
+        // ── 3. INTERACTIVE ROASTERY LEVER MECHANISM ──
+        function triggerGrindAnimation() {
+            const lever = document.getElementById('interactive-lever');
+            const status = document.getElementById('grind-status-text');
+            lever.style.transform = 'translate(-50%, -50%) scale(0.95)';
+            lever.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> GRINDING FRESH BEANS...';
+            status.textContent = '✨ Roasting at 215°C... Grinding to fine South Indian filter gauge... Nitrogen sealing!';
+            status.style.color = '#ff7043';
+
+            setTimeout(() => {
+                lever.style.transform = 'translate(-50%, -50%) scale(1)';
+                lever.innerHTML = '<i class="fa-solid fa-circle-check"></i> FRESH COFFEE READY!';
+                status.textContent = '✅ 100% Pure Filter Coffee Ready! Freshness sealed into 250g aroma pouch.';
+                status.style.color = '#10b981';
+            }, 1800);
+        }
+
+        // ── 4. AI WHATSAPP CHATBOT INTERACTIVE DEMO ──
+        const botResponses = {
+            'Find My Perfect Coffee': '☕ For an authentic, velvety South Indian decoction, our 100% Pure Coffee (No Chicory) is freshly roasted from high-altitude shade-grown Arabica & Robusta beans. Would you prefer a 250g pouch (Rs. 349) or 500g pouch?',
+            'What makes Nilaro unique?': '🌿 Unlike mass-market brands filled with up to 40% chicory fillers, Nilaro is 100% Pure Coffee with single-estate traceability, handcrafted by founder Mr. Nilakshan with zero artificial flavorings.',
+            'Contact WhatsApp Team': '📲 Connecting you directly with Mr. Nilakshan & our coffee specialists on WhatsApp: Click below or dial our support line for instant assistance!'
+        };
+
+        function sendChatReply(userText) {
+            const container = document.getElementById('chat-conversation');
+
+            // User bubble
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-bubble user';
+            userBubble.textContent = userText;
+            container.appendChild(userBubble);
+            container.scrollTop = container.scrollHeight;
+
+            // Bot response after short delay
+            setTimeout(() => {
+                const botBubble = document.createElement('div');
+                botBubble.className = 'chat-bubble bot';
+                botBubble.textContent = botResponses[userText] || `✨ Thank you for inquiring about "${userText}"! Nilaro Coffee is crafted with 100% pure estate beans. You can order online at nilaro.in with fast pan-India shipping.`;
+                container.appendChild(botBubble);
+                container.scrollTop = container.scrollHeight;
+            }, 550);
+        }
+
+        function handleChatSend() {
+            const input = document.getElementById('chat-user-input');
+            const txt = input.value.trim();
+            if (!txt) return;
+            sendChatReply(txt);
+            input.value = '';
+        }
+
+        function handleChatEnter(e) {
+            if (e.key === 'Enter') handleChatSend();
+        }
+
+        // ── 5. GALLERY SHOWCASE TABS & LIGHTBOX ──
+        document.querySelectorAll('.gallery-tab-btn').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.gallery-tab-btn').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.gallery-view').forEach(v => v.classList.remove('active'));
+
+                tab.classList.add('active');
+                const targetId = tab.getAttribute('data-target');
+                const targetView = document.getElementById(targetId);
+                if (targetView) targetView.classList.add('active');
+            });
+        });
+
+        function openLightbox(imgSrc) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = imgSrc;
+            modal.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.remove('active');
+        }
+    </script>
+
 <?php
 get_footer();

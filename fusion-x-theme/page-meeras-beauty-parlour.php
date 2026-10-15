@@ -1531,5 +1531,392 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+        // ── 1. THREE.JS 3D PROCEDURAL BEAUTY FLACON & ORBITAL RING ──
+        (function init3DBeautyFlacon() {
+            const container = document.getElementById('three-canvas-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, window.innerWidth < 768 ? 7.2 : 7.5);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.35;
+            container.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+            scene.add(ambientLight);
+
+            const orangeLight = new THREE.PointLight(0xff5722, 4.2, 50);
+            orangeLight.position.set(5, 5, 5);
+            scene.add(orangeLight);
+
+            const pinkLight = new THREE.PointLight(0xec4899, 4.0, 50);
+            pinkLight.position.set(-5, 3, 4);
+            scene.add(pinkLight);
+
+            const bottomRimLight = new THREE.PointLight(0xffa726, 2.5, 50);
+            bottomRimLight.position.set(0, -5, -4);
+            scene.add(bottomRimLight);
+
+            // Group for luxury beauty flacon
+            const group = new THREE.Group();
+            scene.add(group);
+
+            // Materials
+            const crystalMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                metalness: 0.1,
+                roughness: 0.05,
+                transmission: 0.94,
+                thickness: 1.6,
+                transparent: true,
+                opacity: 0.88,
+                reflectivity: 0.92,
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.1
+            });
+
+            const wireMaterial = new THREE.MeshBasicMaterial({
+                color: 0xff5722,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.22
+            });
+
+            const roseGoldMaterial = new THREE.MeshStandardMaterial({
+                color: 0xf59e0b,
+                metalness: 0.88,
+                roughness: 0.22
+            });
+
+            const elixirMaterial = new THREE.MeshStandardMaterial({
+                color: 0xec4899,
+                emissive: 0xdb2777,
+                emissiveIntensity: 0.55,
+                roughness: 0.35,
+                metalness: 0.1,
+                transparent: true,
+                opacity: 0.85
+            });
+
+            // 1. Faceted Gemstone Crystal Body (Octagonal perfume bottle)
+            const flaconGeo = new THREE.CylinderGeometry(1.2, 1.65, 2.3, 8);
+            const flaconMesh = new THREE.Mesh(flaconGeo, crystalMaterial);
+            group.add(flaconMesh);
+
+            const flaconWire = new THREE.Mesh(flaconGeo, wireMaterial);
+            flaconWire.scale.set(1.002, 1.002, 1.002);
+            group.add(flaconWire);
+
+            // 2. Glowing Rose Elixir Core
+            const elixirGeo = new THREE.CylinderGeometry(0.85, 1.25, 1.7, 16);
+            const elixirMesh = new THREE.Mesh(elixirGeo, elixirMaterial);
+            elixirMesh.position.y = -0.15;
+            group.add(elixirMesh);
+
+            // 3. Rose-Gold Neck & Atomizer Collar
+            const neckGeo = new THREE.CylinderGeometry(0.5, 0.65, 0.7, 24);
+            neckGeo.translate(0, 1.5, 0);
+            const neckMesh = new THREE.Mesh(neckGeo, roseGoldMaterial);
+            group.add(neckMesh);
+
+            // 4. Faceted Crystal Gem Stopper
+            const stopperGeo = new THREE.OctahedronGeometry(0.72, 0);
+            stopperGeo.translate(0, 2.3, 0);
+            const stopperMesh = new THREE.Mesh(stopperGeo, crystalMaterial);
+            group.add(stopperMesh);
+
+            // 5. Floating Glowing Orbital Rings
+            const ring1Geo = new THREE.TorusGeometry(2.35, 0.035, 16, 90);
+            const ring1Mat = new THREE.MeshBasicMaterial({ color: 0xff5722, transparent: true, opacity: 0.6 });
+            const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
+            ring1.rotation.x = Math.PI / 2.8;
+            ring1.rotation.y = Math.PI / 8;
+            group.add(ring1);
+
+            const ring2Geo = new THREE.TorusGeometry(2.1, 0.025, 16, 90);
+            const ring2Mat = new THREE.MeshBasicMaterial({ color: 0xec4899, transparent: true, opacity: 0.5 });
+            const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+            ring2.rotation.x = -Math.PI / 3.2;
+            ring2.rotation.z = Math.PI / 6;
+            group.add(ring2);
+
+            group.position.y = -0.4;
+
+            // Interactive Drag Controls
+            let isDragging = false;
+            let prevMouseX = 0;
+            let prevMouseY = 0;
+            let targetRotX = 0;
+            let targetRotY = 0;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevMouseX = e.clientX;
+                prevMouseY = e.clientY;
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - prevMouseX;
+                const deltaY = e.clientY - prevMouseY;
+                targetRotY += deltaX * 0.008;
+                targetRotX += deltaY * 0.008;
+                prevMouseX = e.clientX;
+                prevMouseY = e.clientY;
+            });
+
+            // Touch events for mobile
+            container.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    prevMouseX = e.touches[0].clientX;
+                    prevMouseY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - prevMouseX;
+                const deltaY = e.touches[0].clientY - prevMouseY;
+                targetRotY += deltaX * 0.008;
+                targetRotX += deltaY * 0.008;
+                prevMouseX = e.touches[0].clientX;
+                prevMouseY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // Animation Loop
+            let clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const t = clock.getElapsedTime();
+
+                // Idle floating and rotation
+                if (!isDragging) {
+                    targetRotY += 0.006;
+                }
+                group.rotation.y += (targetRotY - group.rotation.y) * 0.08;
+                group.rotation.x += (targetRotX - group.rotation.x) * 0.08;
+                const yOffset = window.innerWidth < 768 ? 0.2 : -0.15;
+                group.position.y = yOffset + Math.sin(t * 1.5) * 0.12;
+                ring1.rotation.z += 0.005;
+                ring2.rotation.z -= 0.004;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Resize
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.position.z = window.innerWidth < 768 ? 7.2 : 7.5;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        })();
+
+        // ── 2. REAL MULTI-CHANNEL DATA & INTERACTIVE ELEVATION GRAPH ──
+        const timelineData = [
+            { month: "Nov 2025", visitors: 210, bookings: 14, leads: 8, note: "Initial Salon Audit & Mobile Web Baseline" },
+            { month: "Dec 2025", visitors: 620, bookings: 32, leads: 18, note: "Fast Mobile Redesign & 1-Tap WhatsApp CTA" },
+            { month: "Jan 2026", visitors: 1180, bookings: 54, leads: 32, note: "Google Maps 3-Pack SEO & Review Funnel" },
+            { month: "Feb 2026", visitors: 1650, bookings: 72, leads: 46, note: "★ Meta Ads Kickoff & ₹23.54 Lowest CPL" },
+            { month: "Mar 2026", visitors: 1980, bookings: 84, leads: 58, note: "Bridal Season Campaign (+185% Inquiries)" },
+            { month: "Apr 2026", visitors: 2340, bookings: 92, leads: 67, note: "★ Peak 2,340 Visitors & 92 Monthly Bookings" }
+        ];
+
+        let currentMetric = 'visitors';
+
+        function renderElevationGraph() {
+            const svg = document.getElementById('elevation-svg');
+            const gridGroup = document.getElementById('chart-grid');
+            const areaPath = document.getElementById('chart-area');
+            const linePath = document.getElementById('chart-line');
+            const nodesGroup = document.getElementById('chart-nodes');
+            const tooltip = document.getElementById('chart-tooltip');
+            const container = document.getElementById('chart-container');
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const W = 1000;
+            const H = 360;
+            const padL = 70;
+            const padR = 40;
+            const padT = 30;
+            const padB = 50;
+
+            const plotW = W - padL - padR;
+            const plotH = H - padT - padB;
+
+            const values = timelineData.map(d => d[currentMetric]);
+            const maxVal = Math.max(...values) * 1.15;
+            const minVal = 0;
+
+            // Draw horizontal grid lines (4 lines)
+            const gridSteps = 4;
+            for (let i = 0; i <= gridSteps; i++) {
+                const y = padT + (plotH / gridSteps) * i;
+                const val = Math.round(maxVal - (maxVal / gridSteps) * i);
+                
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padL);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', W - padR);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padL - 10);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'chart-axis-label');
+                text.textContent = val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val;
+                gridGroup.appendChild(text);
+            }
+
+            // Calculate coordinates
+            const points = timelineData.map((d, i) => {
+                const x = padL + (plotW / (timelineData.length - 1)) * i;
+                const y = padT + plotH - ((d[currentMetric] - minVal) / (maxVal - minVal)) * plotH;
+                return { x, y, data: d, index: i };
+            });
+
+            // Smooth bezier curve path
+            function getBezierPath(pts) {
+                if (pts.length === 0) return '';
+                let path = `M ${pts[0].x} ${pts[0].y}`;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i];
+                    const p1 = pts[i + 1];
+                    const cpX = (p0.x + p1.x) / 2;
+                    path += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+                }
+                return path;
+            }
+
+            const curvePath = getBezierPath(points);
+            linePath.setAttribute('d', curvePath);
+
+            const areaD = `${curvePath} L ${points[points.length - 1].x} ${padT + plotH} L ${points[0].x} ${padT + plotH} Z`;
+            areaPath.setAttribute('d', areaD);
+
+            // Render Nodes and Milestone Pins
+            points.forEach((p, idx) => {
+                // X Axis label
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', p.x);
+                xLabel.setAttribute('y', H - 15);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.setAttribute('class', 'chart-axis-label');
+                xLabel.textContent = p.data.month.split(' ')[0];
+                gridGroup.appendChild(xLabel);
+
+                // Node group
+                const nodeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                nodeG.setAttribute('class', 'chart-data-node');
+                nodeG.setAttribute('data-index', idx);
+
+                const isMilestone = idx === 3 || idx === 5; // Feb (₹23.54 CPL) & Apr (Peak 2,340 visitors & 92 bookings)
+
+                if (isMilestone) {
+                    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    pulse.setAttribute('cx', p.x);
+                    pulse.setAttribute('cy', p.y);
+                    pulse.setAttribute('r', '12');
+                    pulse.setAttribute('fill', 'rgba(255, 87, 34, 0.35)');
+                    pulse.innerHTML = '<animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="2s" repeatCount="indefinite"/>';
+                    nodeG.appendChild(pulse);
+                }
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', p.x);
+                circle.setAttribute('cy', p.y);
+                circle.setAttribute('r', isMilestone ? '7' : '5');
+                circle.setAttribute('fill', isMilestone ? '#ff5722' : '#ffffff');
+                circle.setAttribute('stroke', '#ff5722');
+                circle.setAttribute('stroke-width', '2');
+                nodeG.appendChild(circle);
+
+                // Tooltip events
+                nodeG.addEventListener('mouseenter', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    const scaleX = rect.width / W;
+                    const scaleY = rect.height / H;
+
+                    const posX = p.x * scaleX;
+                    const posY = p.y * scaleY;
+
+                    tooltip.style.left = posX + 'px';
+                    tooltip.style.top = posY + 'px';
+
+                    // Clamping and smart vertical flipping
+                    let transX = '-50%';
+                    if (posX < 110) transX = '0%';
+                    else if (posX > rect.width - 110) transX = '-100%';
+
+                    let transY = '-120%';
+                    if (posY < 95) transY = '18px';
+
+                    tooltip.style.transform = `translate(${transX}, ${transY})`;
+                    tooltip.style.opacity = '1';
+
+                    document.getElementById('tooltip-month').textContent = p.data.month;
+                    let label = currentMetric === 'visitors' ? 'Monthly Web Visitors' : currentMetric === 'bookings' ? 'Confirmed Bookings' : 'Messaging Leads';
+                    let formattedVal = p.data[currentMetric].toLocaleString();
+                    document.getElementById('tooltip-value').textContent = `${formattedVal} ${label}`;
+                    document.getElementById('tooltip-note').textContent = p.data.note;
+                });
+
+                nodeG.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = '0';
+                });
+
+                nodesGroup.appendChild(nodeG);
+            });
+        }
+
+        renderElevationGraph();
+
+        // Metric Toggle buttons
+        document.querySelectorAll('.metric-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.metric-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMetric = btn.getAttribute('data-metric');
+                renderElevationGraph();
+            });
+        });
+
+        // Checkpoint Card Clicks
+        document.querySelectorAll('.checkpoint-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.checkpoint-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+
+                const idx = parseInt(card.getAttribute('data-index'));
+                const nodes = document.querySelectorAll('.chart-data-node');
+                nodes.forEach(n => {
+                    if (parseInt(n.getAttribute('data-index')) === idx) {
+                        const evt = new MouseEvent('mouseenter');
+                        n.dispatchEvent(evt);
+                    }
+                });
+            });
+        });
+    </script>
+
 <?php
 get_footer();

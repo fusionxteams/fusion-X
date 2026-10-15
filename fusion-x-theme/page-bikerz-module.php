@@ -1979,5 +1979,505 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+    (function initHelmet3D() {
+        const container = document.getElementById('helmet-canvas-container');
+        if (!container || typeof THREE === 'undefined') return;
+
+        const width = container.clientWidth || 440;
+        const height = container.clientHeight || 440;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+        camera.position.set(0, 0, 8.2);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Lighting Setup
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        scene.add(ambientLight);
+
+        const orangeKeyLight = new THREE.DirectionalLight(0xff5722, 2.8);
+        orangeKeyLight.position.set(5, 5, 5);
+        scene.add(orangeKeyLight);
+
+        const emeraldRimLight = new THREE.DirectionalLight(0x10b981, 2.2);
+        emeraldRimLight.position.set(-5, -3, -4);
+        scene.add(emeraldRimLight);
+
+        const topCyanLight = new THREE.PointLight(0x06b6d4, 1.8, 15);
+        topCyanLight.position.set(0, 6, 2);
+        scene.add(topCyanLight);
+
+        // Master Group
+        const helmetGroup = new THREE.Group();
+        scene.add(helmetGroup);
+
+        // 1. Aerodynamic Helmet Outer Shell (Composite Dome)
+        const shellGeo = new THREE.SphereGeometry(2.1, 48, 36);
+        // Morph into an aerodynamic motorcycle helmet profile
+        const pos = shellGeo.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+            let x = pos.getX(i);
+            let y = pos.getY(i);
+            let z = pos.getZ(i);
+
+            // Taper chin guard forward
+            if (y < -0.3 && z > 0) {
+                z *= 1.35;
+                y *= 0.9;
+            }
+            // Aerodynamic rear spoiler teardrop
+            if (z < -0.5) {
+                z *= 1.25;
+            }
+            // Flatten bottom neck opening
+            if (y < -1.4) {
+                y = -1.4 + (y + 1.4) * 0.2;
+            }
+            pos.setXYZ(i, x, y, z);
+        }
+        shellGeo.computeVertexNormals();
+
+        const shellMat = new THREE.MeshStandardMaterial({
+            color: 0x121417,
+            metalness: 0.88,
+            roughness: 0.25,
+            envMapIntensity: 1.5
+        });
+        const shellMesh = new THREE.Mesh(shellGeo, shellMat);
+        helmetGroup.appendChild = helmetGroup.add(shellMesh);
+
+        // 2. Visor Cutout / Curved Holographic Eye Port Shield
+        const visorGeo = new THREE.CylinderGeometry(1.85, 1.95, 1.2, 36, 1, true, -Math.PI / 3, (2 * Math.PI) / 3);
+        const visorMat = new THREE.MeshPhysicalMaterial({
+            color: 0x051b24,
+            transmission: 0.65,
+            opacity: 0.95,
+            transparent: true,
+            roughness: 0.1,
+            metalness: 0.9,
+            reflectivity: 0.9,
+            clearcoat: 1.0,
+            clearcoatRoughness: 0.1
+        });
+        const visorMesh = new THREE.Mesh(visorGeo, visorMat);
+        visorMesh.rotation.y = -Math.PI / 2;
+        visorMesh.position.set(0, 0.15, 0.45);
+        helmetGroup.add(visorMesh);
+
+        // 3. Racing Stripes (Brand Orange & Emerald Speed Decals)
+        const stripeGeo = new THREE.TorusGeometry(2.12, 0.05, 16, 64, Math.PI * 0.85);
+        const stripeMat = new THREE.MeshStandardMaterial({
+            color: 0xff5722,
+            emissive: 0xff5722,
+            emissiveIntensity: 0.4,
+            metalness: 0.5,
+            roughness: 0.3
+        });
+        const stripeMesh = new THREE.Mesh(stripeGeo, stripeMat);
+        stripeMesh.rotation.x = Math.PI / 2;
+        stripeMesh.rotation.y = Math.PI / 12;
+        stripeMesh.position.set(0, 0.4, -0.1);
+        helmetGroup.add(stripeMesh);
+
+        const stripeGeo2 = new THREE.TorusGeometry(2.13, 0.035, 16, 64, Math.PI * 0.7);
+        const stripeMat2 = new THREE.MeshStandardMaterial({
+            color: 0x10b981,
+            emissive: 0x10b981,
+            emissiveIntensity: 0.5,
+            metalness: 0.6,
+            roughness: 0.2
+        });
+        const stripeMesh2 = new THREE.Mesh(stripeGeo2, stripeMat2);
+        stripeMesh2.rotation.x = Math.PI / 2;
+        stripeMesh2.rotation.y = -Math.PI / 16;
+        stripeMesh2.position.set(0, 0.65, -0.15);
+        helmetGroup.add(stripeMesh2);
+
+        // 4. Floating Ventilated Brake Disc / Carbon Rotor Around Base
+        const rotorGroup = new THREE.Group();
+        const discGeo = new THREE.RingGeometry(2.7, 3.4, 48);
+        const discMat = new THREE.MeshStandardMaterial({
+            color: 0x334155,
+            metalness: 0.95,
+            roughness: 0.2,
+            side: THREE.DoubleSide
+        });
+        const discMesh = new THREE.Mesh(discGeo, discMat);
+        discMesh.rotation.x = Math.PI / 2;
+        rotorGroup.add(discMesh);
+
+        // Floating glowing caliper
+        const caliperGeo = new THREE.BoxGeometry(0.7, 0.4, 0.9);
+        const caliperMat = new THREE.MeshStandardMaterial({
+            color: 0xff5722,
+            emissive: 0xff5722,
+            emissiveIntensity: 0.35,
+            metalness: 0.7,
+            roughness: 0.3
+        });
+        const caliperMesh = new THREE.Mesh(caliperGeo, caliperMat);
+        caliperMesh.position.set(2.95, 0.1, 0.6);
+        rotorGroup.add(caliperMesh);
+
+        rotorGroup.position.y = -1.6;
+        helmetGroup.add(rotorGroup);
+
+        // 5. Telemetry Speed Ring Particles
+        const partGeo = new THREE.BufferGeometry();
+        const partCount = 80;
+        const partPositions = new Float32Array(partCount * 3);
+        for (let i = 0; i < partCount; i++) {
+            const angle = (i / partCount) * Math.PI * 2;
+            const radius = 3.6 + (Math.random() - 0.5) * 0.4;
+            partPositions[i * 3] = Math.cos(angle) * radius;
+            partPositions[i * 3 + 1] = (Math.random() - 0.5) * 1.8;
+            partPositions[i * 3 + 2] = Math.sin(angle) * radius;
+        }
+        partGeo.setAttribute('position', new THREE.BufferAttribute(partPositions, 3));
+        const partMat = new THREE.PointsMaterial({
+            color: 0x34d399,
+            size: 0.08,
+            transparent: true,
+            opacity: 0.75
+        });
+        const particles = new THREE.Points(partGeo, partMat);
+        helmetGroup.add(particles);
+
+        // Tilt for dynamic racing posture
+        helmetGroup.rotation.x = 0.2;
+        helmetGroup.rotation.y = -0.4;
+
+        // Mouse Drag Interaction
+        let isDragging = false;
+        let prevMouseX = 0;
+        let prevMouseY = 0;
+        let targetRotX = 0.2;
+        let targetRotY = -0.4;
+
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            prevMouseX = e.clientX;
+            prevMouseY = e.clientY;
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.clientX - prevMouseX;
+            const deltaY = e.clientY - prevMouseY;
+            targetRotY += deltaX * 0.008;
+            targetRotX += deltaY * 0.008;
+            targetRotX = Math.max(-0.6, Math.min(0.6, targetRotX));
+            prevMouseX = e.clientX;
+            prevMouseY = e.clientY;
+        });
+
+        // Touch support
+        container.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                prevMouseX = e.touches[0].clientX;
+                prevMouseY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => { isDragging = false; });
+        window.addEventListener('touchmove', (e) => {
+            if (!isDragging || e.touches.length !== 1) return;
+            const deltaX = e.touches[0].clientX - prevMouseX;
+            const deltaY = e.touches[0].clientY - prevMouseY;
+            targetRotY += deltaX * 0.008;
+            targetRotX += deltaY * 0.008;
+            prevMouseX = e.touches[0].clientX;
+            prevMouseY = e.touches[0].clientY;
+        }, { passive: true });
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            const time = clock.getElapsedTime();
+
+            if (!isDragging) {
+                targetRotY += 0.004;
+            }
+
+            // Smooth interpolation
+            helmetGroup.rotation.y += (targetRotY - helmetGroup.rotation.y) * 0.08;
+            helmetGroup.rotation.x += (targetRotX - helmetGroup.rotation.x) * 0.08;
+
+            // Subtle hovering
+            helmetGroup.position.y = Math.sin(time * 1.5) * 0.12;
+
+            // Spin rotor disc
+            rotorGroup.rotation.y += 0.012;
+            particles.rotation.y -= 0.006;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Responsive Resize
+        window.addEventListener('resize', () => {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
+    })();
+    </script>
+
+<script>
+    (function initElevationGraph() {
+        const svg = document.getElementById('elevation-svg');
+        const gridGroup = document.getElementById('chart-grid');
+        const areaPath = document.getElementById('chart-area');
+        const linePath = document.getElementById('chart-line');
+        const nodesGroup = document.getElementById('chart-nodes');
+        const tooltip = document.getElementById('chart-tooltip');
+        const tooltipPhase = document.getElementById('tooltip-phase');
+        const tooltipValue = document.getElementById('tooltip-value');
+        const tooltipNote = document.getElementById('tooltip-note');
+        const tabs = document.querySelectorAll('.metric-tab-btn');
+        const checkpoints = document.querySelectorAll('.checkpoint-card');
+
+        if (!svg || !linePath) return;
+
+        // Verified datasets from audit
+        const graphData = {
+            speed: {
+                label: 'Mobile Speed Score',
+                unit: '/ 100',
+                color: '#10b981',
+                gradId: 'url(#bikerzAreaGrad)',
+                yMin: 0,
+                yMax: 100,
+                points: [
+                    { xLabel: 'Phase 1', value: 42, displayVal: '42 / 100', note: 'Initial Shopify baseline audit (high bounce)' },
+                    { xLabel: 'Phase 2', value: 68, displayVal: '68 / 100', note: 'Non-essential JS scripts deferred' },
+                    { xLabel: 'Phase 3', value: 82, displayVal: '82 / 100', note: 'Liquid theme cleanup & snippet purge' },
+                    { xLabel: 'Phase 4', value: 91, displayVal: '91 / 100', note: 'Next-Gen WebP compression implemented' },
+                    { xLabel: 'Phase 5', value: 94, displayVal: '94 / 100', note: 'Product schema & font preload tuning' },
+                    { xLabel: 'Phase 6', value: 96, displayVal: '96 / 100', note: '🏆 Peak 96/100 Mobile Speed Index achieved' }
+                ]
+            },
+            latency: {
+                label: 'Page Load Latency',
+                unit: 's',
+                color: '#ff5722',
+                gradId: 'url(#latencyAreaGrad)',
+                yMin: 1.0,
+                yMax: 6.0,
+                points: [
+                    { xLabel: 'Phase 1', value: 5.4, displayVal: '5.4s', note: 'Bloated marketplace theme delay' },
+                    { xLabel: 'Phase 2', value: 3.6, displayVal: '3.6s', note: 'CSS inlining dropped render wait' },
+                    { xLabel: 'Phase 3', value: 2.7, displayVal: '2.7s', note: 'Custom Liquid architecture deployed' },
+                    { xLabel: 'Phase 4', value: 2.1, displayVal: '2.1s', note: '64% image weight reduction active' },
+                    { xLabel: 'Phase 5', value: 1.85, displayVal: '1.85s', note: 'Edge CDN routing & browser cache' },
+                    { xLabel: 'Phase 6', value: 1.80, displayVal: '1.80s', note: '⚡ Sub-2 second load time sustained' }
+                ]
+            },
+            conversions: {
+                label: 'Checkout Velocity',
+                unit: '%',
+                color: '#34d399',
+                gradId: 'url(#bikerzAreaGrad)',
+                yMin: 0.5,
+                yMax: 4.5,
+                points: [
+                    { xLabel: 'Phase 1', value: 1.2, displayVal: '1.2%', note: 'Multi-step form cart abandonment' },
+                    { xLabel: 'Phase 2', value: 1.8, displayVal: '1.8%', note: 'Faster loading increased product views' },
+                    { xLabel: 'Phase 3', value: 2.4, displayVal: '2.4%', note: 'Responsive fluid catalog navigation' },
+                    { xLabel: 'Phase 4', value: 3.1, displayVal: '3.1%', note: 'AJAX slide-out drawer cart launched' },
+                    { xLabel: 'Phase 5', value: 3.5, displayVal: '3.5%', note: 'UPI 1-tap checkout & WhatsApp verify' },
+                    { xLabel: 'Phase 6', value: 3.8, displayVal: '3.8%', note: '🚀 +40% conversion rate sustained' }
+                ]
+            }
+        };
+
+        let currentMetric = 'speed';
+
+        function renderGraph(metricKey) {
+            const dataset = graphData[metricKey];
+            currentMetric = metricKey;
+
+            // Geometry bounds
+            const width = 1000;
+            const height = 360;
+            const padLeft = 80;
+            const padRight = 60;
+            const padTop = 40;
+            const padBottom = 60;
+            const plotW = width - padLeft - padRight;
+            const plotH = height - padTop - padBottom;
+
+            // Clear previous grid and nodes
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            // Draw horizontal grid lines & Y labels
+            const gridLines = 5;
+            for (let i = 0; i <= gridLines; i++) {
+                const yVal = dataset.yMin + ((dataset.yMax - dataset.yMin) / gridLines) * i;
+                const yPos = height - padBottom - (plotH / gridLines) * i;
+
+                // Line
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padLeft);
+                line.setAttribute('y1', yPos);
+                line.setAttribute('x2', width - padRight);
+                line.setAttribute('y2', yPos);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                // Y label
+                const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                txt.setAttribute('x', padLeft - 16);
+                txt.setAttribute('y', yPos + 4);
+                txt.setAttribute('text-anchor', 'end');
+                txt.setAttribute('class', 'chart-axis-label');
+                txt.textContent = metricKey === 'latency' ? yVal.toFixed(1) + 's' : (metricKey === 'conversions' ? yVal.toFixed(1) + '%' : Math.round(yVal));
+                gridGroup.appendChild(txt);
+            }
+
+            // Calculate node coordinates
+            const points = dataset.points;
+            const count = points.length;
+            const coords = points.map((pt, idx) => {
+                const x = padLeft + (plotW / (count - 1)) * idx;
+                let norm = (pt.value - dataset.yMin) / (dataset.yMax - dataset.yMin);
+                if (norm < 0) norm = 0;
+                if (norm > 1) norm = 1;
+                // Invert for latency (lower latency = higher on chart)
+                let y;
+                if (metricKey === 'latency') {
+                    // lower is better, so draw it moving upward as it drops!
+                    y = padTop + (plotH * ((pt.value - dataset.yMin) / (dataset.yMax - dataset.yMin)));
+                } else {
+                    y = height - padBottom - (plotH * norm);
+                }
+                return { x, y, pt, idx };
+            });
+
+            // Smooth cubic bezier path generator
+            function getCubicBezierPath(arr) {
+                let d = `M ${arr[0].x} ${arr[0].y}`;
+                for (let i = 0; i < arr.length - 1; i++) {
+                    const curr = arr[i];
+                    const next = arr[i + 1];
+                    const cp1x = curr.x + (next.x - curr.x) * 0.45;
+                    const cp1y = curr.y;
+                    const cp2x = curr.x + (next.x - curr.x) * 0.55;
+                    const cp2y = next.y;
+                    d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${next.x} ${next.y}`;
+                }
+                return d;
+            }
+
+            const pathD = getCubicBezierPath(coords);
+            const areaD = `${pathD} L ${coords[coords.length - 1].x} ${height - padBottom} L ${coords[0].x} ${height - padBottom} Z`;
+
+            linePath.setAttribute('d', pathD);
+            linePath.setAttribute('stroke', dataset.color);
+            areaPath.setAttribute('d', areaD);
+            areaPath.setAttribute('fill', dataset.gradId);
+
+            // Draw X Axis labels & Data Nodes
+            coords.forEach(c => {
+                // X label
+                const xTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xTxt.setAttribute('x', c.x);
+                xTxt.setAttribute('y', height - 22);
+                xTxt.setAttribute('text-anchor', 'middle');
+                xTxt.setAttribute('class', 'chart-axis-label');
+                xTxt.textContent = c.pt.xLabel;
+                gridGroup.appendChild(xTxt);
+
+                // Node Circle Outer Halo
+                const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                halo.setAttribute('cx', c.x);
+                halo.setAttribute('cy', c.y);
+                halo.setAttribute('r', 10);
+                halo.setAttribute('fill', dataset.color);
+                halo.setAttribute('fill-opacity', '0.2');
+                nodesGroup.appendChild(halo);
+
+                // Node Circle Inner
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', c.x);
+                circle.setAttribute('cy', c.y);
+                circle.setAttribute('r', 5.5);
+                circle.setAttribute('fill', '#0f172a');
+                circle.setAttribute('stroke', dataset.color);
+                circle.setAttribute('stroke-width', '3');
+                circle.setAttribute('class', 'chart-data-node');
+
+                // Hover interaction
+                circle.addEventListener('mouseenter', (e) => {
+                    const rect = svg.getBoundingClientRect();
+                    const tooltipX = (c.x / width) * rect.width;
+                    const tooltipY = (c.y / height) * rect.height;
+
+                    tooltipPhase.textContent = `${c.pt.xLabel} Milestone`;
+                    tooltipPhase.style.color = dataset.color;
+                    tooltipValue.textContent = c.pt.displayVal;
+                    tooltipNote.textContent = c.pt.note;
+
+                    tooltip.style.left = `${tooltipX}px`;
+                    tooltip.style.top = `${tooltipY}px`;
+                    tooltip.style.display = 'block';
+                    tooltip.style.borderColor = dataset.color;
+                });
+
+                circle.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+
+                nodesGroup.appendChild(circle);
+            });
+        }
+
+        // Tab click handlers
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+                renderGraph(btn.getAttribute('data-metric'));
+            });
+        });
+
+        // Checkpoint card clicks highlight matching node
+        checkpoints.forEach(cp => {
+            cp.addEventListener('click', () => {
+                checkpoints.forEach(c => c.classList.remove('active'));
+                cp.classList.add('active');
+                const idx = parseInt(cp.getAttribute('data-index'), 10);
+                const nodes = nodesGroup.querySelectorAll('.chart-data-node');
+                if (nodes[idx]) {
+                    const evt = new MouseEvent('mouseenter', { bubbles: true });
+                    nodes[idx].dispatchEvent(evt);
+                    setTimeout(() => {
+                        const leave = new MouseEvent('mouseleave', { bubbles: true });
+                        nodes[idx].dispatchEvent(leave);
+                    }, 3500);
+                }
+            });
+        });
+
+        // Initial render
+        renderGraph('speed');
+    })();
+    </script>
+
 <?php
 get_footer();

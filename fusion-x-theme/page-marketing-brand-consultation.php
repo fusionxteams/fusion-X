@@ -1013,5 +1013,27 @@ get_header();
 
     <!-- ═══════════════════════ UNIVERSAL FOOTER (BLACK WITH ORANGE DOTS) ═══════════════════════ -->
 
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const btn = item.querySelector('.faq-question-btn');
+                const panel = item.querySelector('.faq-answer-panel');
+                btn.addEventListener('click', () => {
+                    const isOpen = item.classList.contains('active');
+                    faqItems.forEach(i => {
+                        i.classList.remove('active');
+                        const p = i.querySelector('.faq-answer-panel');
+                        if (p) p.style.display = 'none';
+                    });
+                    if (!isOpen) {
+                        item.classList.add('active');
+                        if (panel) panel.style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
+
 <?php
 get_footer();

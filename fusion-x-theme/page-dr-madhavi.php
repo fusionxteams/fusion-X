@@ -1490,5 +1490,489 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+    (function initThreeScene() {
+        const container = document.getElementById('three-canvas-container');
+        if (!container || typeof THREE === 'undefined') return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.z = 7.5;
+
+        let renderer;
+        try {
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+        } catch (e) {
+            console.warn('WebGL not supported or disabled in current environment:', e);
+            container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#06b6d4;font-size:3.5rem;opacity:0.8;"><i class="fa-solid fa-dna fa-spin" style="animation-duration:14s;"></i></div>';
+            return;
+        }
+
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+
+        const pointLightCyan = new THREE.PointLight(0x06b6d4, 2.5, 30);
+        pointLightCyan.position.set(5, 5, 5);
+        scene.add(pointLightCyan);
+
+        const pointLightOrange = new THREE.PointLight(0xff5722, 2.0, 30);
+        pointLightOrange.position.set(-5, -3, 3);
+        scene.add(pointLightOrange);
+
+        // Master Group
+        const masterGroup = new THREE.Group();
+        scene.add(masterGroup);
+
+        // 1. Double Helix Structure (DNA of Aesthetic Wellness)
+        const helixGroup = new THREE.Group();
+        const strandCount = 28;
+        const helixRadius = 1.2;
+        const helixHeight = 3.6;
+
+        const sphereGeo = new THREE.SphereGeometry(0.09, 16, 16);
+        const matCyan = new THREE.MeshStandardMaterial({
+            color: 0x06b6d4,
+            emissive: 0x0284c7,
+            emissiveIntensity: 0.6,
+            roughness: 0.2,
+            metalness: 0.7
+        });
+        const matOrange = new THREE.MeshStandardMaterial({
+            color: 0xff5722,
+            emissive: 0xd946ef,
+            emissiveIntensity: 0.4,
+            roughness: 0.2,
+            metalness: 0.7
+        });
+
+        const barMat = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.4,
+            roughness: 0.5
+        });
+
+        for (let i = 0; i < strandCount; i++) {
+            const t = (i / strandCount) * Math.PI * 4;
+            const y = (i / strandCount - 0.5) * helixHeight;
+
+            const x1 = Math.cos(t) * helixRadius;
+            const z1 = Math.sin(t) * helixRadius;
+
+            const x2 = Math.cos(t + Math.PI) * helixRadius;
+            const z2 = Math.sin(t + Math.PI) * helixRadius;
+
+            const sphere1 = new THREE.Mesh(sphereGeo, matCyan);
+            sphere1.position.set(x1, y, z1);
+            helixGroup.add(sphere1);
+
+            const sphere2 = new THREE.Mesh(sphereGeo, matOrange);
+            sphere2.position.set(x2, y, z2);
+            helixGroup.add(sphere2);
+
+            // Cross link rung every 2 steps
+            if (i % 2 === 0) {
+                const barGeo = new THREE.CylinderGeometry(0.02, 0.02, helixRadius * 2, 8);
+                const bar = new THREE.Mesh(barGeo, barMat);
+                bar.position.set(0, y, 0);
+                bar.rotation.z = Math.PI / 2;
+                bar.rotation.y = -t;
+                helixGroup.add(bar);
+            }
+        }
+        masterGroup.add(helixGroup);
+
+        // 2. Central Floating Wellness Crystal Droplet
+        const crystalGeo = new THREE.OctahedronGeometry(0.7, 2);
+        const crystalMat = new THREE.MeshPhysicalMaterial({
+            color: 0x38bdf8,
+            emissive: 0x06b6d4,
+            emissiveIntensity: 0.35,
+            roughness: 0.1,
+            metalness: 0.2,
+            transmission: 0.7,
+            transparent: true,
+            opacity: 0.95
+        });
+        const crystal = new THREE.Mesh(crystalGeo, crystalMat);
+        masterGroup.add(crystal);
+
+        // 3. Orbital Precision Rings
+        const ringGeo1 = new THREE.TorusGeometry(1.9, 0.02, 16, 100);
+        const ringMat1 = new THREE.MeshStandardMaterial({
+            color: 0xff5722,
+            emissive: 0xff5722,
+            emissiveIntensity: 0.5,
+            wireframe: false
+        });
+        const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
+        ring1.rotation.x = Math.PI / 3;
+        masterGroup.add(ring1);
+
+        const ringGeo2 = new THREE.TorusGeometry(2.2, 0.015, 16, 100);
+        const ringMat2 = new THREE.MeshStandardMaterial({
+            color: 0x06b6d4,
+            emissive: 0x06b6d4,
+            emissiveIntensity: 0.5
+        });
+        const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
+        ring2.rotation.x = -Math.PI / 4;
+        ring2.rotation.y = Math.PI / 6;
+        masterGroup.add(ring2);
+
+        // 4. Ambient Sparkle Dust
+        const particleCount = 80;
+        const particleGeo = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            positions[i] = (Math.random() - 0.5) * 6;
+            positions[i + 1] = (Math.random() - 0.5) * 6;
+            positions[i + 2] = (Math.random() - 0.5) * 6;
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const particleMat = new THREE.PointsMaterial({
+            color: 0x38bdf8,
+            size: 0.04,
+            transparent: true,
+            opacity: 0.7
+        });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        masterGroup.add(particles);
+
+        // Interactivity (Mouse & Touch Drag)
+        let isDragging = false;
+        let prevMouseX = 0;
+        let prevMouseY = 0;
+        let targetRotX = 0;
+        let targetRotY = 0;
+
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            prevMouseX = e.clientX;
+            prevMouseY = e.clientY;
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = false; });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.clientX - prevMouseX;
+            const deltaY = e.clientY - prevMouseY;
+            targetRotY += deltaX * 0.008;
+            targetRotX += deltaY * 0.008;
+            prevMouseX = e.clientX;
+            prevMouseY = e.clientY;
+        });
+
+        // Touch support
+        container.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                prevMouseX = e.touches[0].clientX;
+                prevMouseY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => { isDragging = false; });
+
+        window.addEventListener('touchmove', (e) => {
+            if (!isDragging || e.touches.length !== 1) return;
+            const deltaX = e.touches[0].clientX - prevMouseX;
+            const deltaY = e.touches[0].clientY - prevMouseY;
+            targetRotY += deltaX * 0.008;
+            targetRotX += deltaY * 0.008;
+            prevMouseX = e.touches[0].clientX;
+            prevMouseY = e.touches[0].clientY;
+        }, { passive: true });
+
+        // Animation Loop
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+
+            if (!isDragging) {
+                targetRotY += 0.005;
+            }
+
+            masterGroup.rotation.y += (targetRotY - masterGroup.rotation.y) * 0.08;
+            masterGroup.rotation.x += (targetRotX - masterGroup.rotation.x) * 0.08;
+
+            // Breathing float
+            masterGroup.position.y = Math.sin(t * 1.6) * 0.12;
+
+            // Rotate helix & rings
+            helixGroup.rotation.y = t * 0.4;
+            crystal.rotation.y = -t * 0.8;
+            crystal.rotation.x = t * 0.3;
+            ring1.rotation.z += 0.004;
+            ring2.rotation.z -= 0.005;
+            particles.rotation.y -= 0.002;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            if (!container) return;
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    })();
+    </script>
+
+<script>
+    (function initElevationGraph() {
+        const svg = document.getElementById('elevation-svg');
+        const gridGroup = document.getElementById('chart-grid');
+        const areaPath = document.getElementById('chart-area');
+        const linePath = document.getElementById('chart-line');
+        const nodesGroup = document.getElementById('chart-nodes');
+        const tooltip = document.getElementById('chart-tooltip');
+        const tooltipWeek = document.getElementById('tooltip-week');
+        const tooltipValue = document.getElementById('tooltip-value');
+        const tooltipNote = document.getElementById('tooltip-note');
+        const tabs = document.querySelectorAll('.metric-tab-btn');
+        const checkpoints = document.querySelectorAll('.checkpoint-card');
+
+        if (!svg || !linePath) return;
+
+        // Verified datasets from Dr. Madhavi Campaign Audit
+        const graphData = {
+            leads: {
+                label: 'Cumulative Leads Acquired',
+                color: '#ff5722',
+                gradId: 'url(#orangeAreaGrad)',
+                yMin: 0,
+                yMax: 450,
+                points: [
+                    { weekLabel: 'Week 1', value: 18, displayVal: '18 Leads • ₹112.00 CPL', note: 'Initial launch & cold demographic discovery' },
+                    { weekLabel: 'Week 2', value: 84, displayVal: '84 Leads (+66) • ₹68.50 CPL', note: 'A/B testing short-form video vs static graphics' },
+                    { weekLabel: 'Week 3', value: 195, displayVal: '195 Leads (+111) • ₹39.10 CPL', note: 'Top video ad creative isolated & scaled' },
+                    { weekLabel: 'Week 4', value: 326, displayVal: '326 Leads (+131) • ₹31.40 CPL', note: 'Expanded geo radius across Chandragiri circles' },
+                    { weekLabel: 'Week 5', value: 370, displayVal: '370 Leads (+44) • ₹30.10 CPL', note: 'Lookalike consolidation & warm retargeting' },
+                    { weekLabel: 'Week 6', value: 403, displayVal: '403 Total Leads • ₹28.79 Record CPL', note: '🏆 Final delivery • 2x–3x cheaper than ₹120 benchmark' }
+                ]
+            },
+            cpl: {
+                label: 'Cost Per Lead Drop (Efficiency)',
+                color: '#10b981',
+                gradId: 'url(#emeraldAreaGrad)',
+                yMin: 0,
+                yMax: 130,
+                points: [
+                    { weekLabel: 'Week 1', value: 112.00, displayVal: '₹112.00 CPL • Baseline', note: 'Cold audience initialization' },
+                    { weekLabel: 'Week 2', value: 68.50, displayVal: '₹68.50 CPL (-39%)', note: 'Static banner testing commenced' },
+                    { weekLabel: 'Week 3', value: 39.10, displayVal: '₹39.10 CPL (-43%)', note: 'Video ad breakthrough identified' },
+                    { weekLabel: 'Week 4', value: 31.40, displayVal: '₹31.40 CPL (-20%)', note: 'Hyper-local radius scaling' },
+                    { weekLabel: 'Week 5', value: 30.10, displayVal: '₹30.10 CPL (-4%)', note: 'Incomplete form retargeting active' },
+                    { weekLabel: 'Week 6', value: 28.79, displayVal: '₹28.79 Record Winning CPL', note: '🚀 ₹28.79 lowest lead cost achieved' }
+                ]
+            },
+            spend: {
+                label: 'Cumulative Budget Pacing (₹)',
+                color: '#06b6d4',
+                gradId: 'url(#cyanAreaGrad)',
+                yMin: 0,
+                yMax: 21000,
+                points: [
+                    { weekLabel: 'Week 1', value: 2016, displayVal: '₹2,016 Spend • 18 Leads', note: 'Initial test budget deployment' },
+                    { weekLabel: 'Week 2', value: 5754, displayVal: '₹5,754 Spend • 84 Leads', note: 'Creative split-testing budget pacing' },
+                    { weekLabel: 'Week 3', value: 7624, displayVal: '₹7,624 Spend • 195 Leads', note: 'Reallocating 75% budget to video winner' },
+                    { weekLabel: 'Week 4', value: 10236, displayVal: '₹10,236 Spend • 326 Leads', note: 'Main winner campaign acceleration' },
+                    { weekLabel: 'Week 5', value: 15300, displayVal: '₹15,300 Spend • 370 Leads', note: 'Broad discovery & retargeting split' },
+                    { weekLabel: 'Week 6', value: 19009, displayVal: '₹19,009.16 Final Spend • 403 Leads', note: '🎯 ₹19,009.16 total managed spend' }
+                ]
+            }
+        };
+
+        let currentMetric = 'leads';
+
+        function renderGraph(metricKey) {
+            const dataset = graphData[metricKey];
+            currentMetric = metricKey;
+
+            const width = 1000;
+            const height = 360;
+            const padLeft = 80;
+            const padRight = 60;
+            const padTop = 40;
+            const padBottom = 60;
+            const plotW = width - padLeft - padRight;
+            const plotH = height - padTop - padBottom;
+
+            gridGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            // Draw Horizontal Gridlines & Y-Axis values
+            const gridLines = 5;
+            for (let i = 0; i <= gridLines; i++) {
+                const yVal = dataset.yMin + ((dataset.yMax - dataset.yMin) / gridLines) * i;
+                const yPos = height - padBottom - (plotH / gridLines) * i;
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padLeft);
+                line.setAttribute('y1', yPos);
+                line.setAttribute('x2', width - padRight);
+                line.setAttribute('y2', yPos);
+                line.setAttribute('class', 'chart-grid-line');
+                gridGroup.appendChild(line);
+
+                const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                txt.setAttribute('x', padLeft - 16);
+                txt.setAttribute('y', yPos + 4);
+                txt.setAttribute('text-anchor', 'end');
+                txt.setAttribute('class', 'chart-axis-label');
+                txt.textContent = metricKey === 'cpl' ? '₹' + Math.round(yVal) : metricKey === 'spend' ? '₹' + Math.round(yVal / 1000) + 'k' : Math.round(yVal);
+                gridGroup.appendChild(txt);
+            }
+
+            // Benchmark reference line for CPL tab (₹120 benchmark)
+            if (metricKey === 'cpl') {
+                const benchY = height - padBottom - (plotH * (120 / dataset.yMax));
+                const benchLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                benchLine.setAttribute('x1', padLeft);
+                benchLine.setAttribute('y1', benchY);
+                benchLine.setAttribute('x2', width - padRight);
+                benchLine.setAttribute('y2', benchY);
+                benchLine.setAttribute('stroke', '#ef4444');
+                benchLine.setAttribute('stroke-width', '1.5');
+                benchLine.setAttribute('stroke-dasharray', '5 5');
+                gridGroup.appendChild(benchLine);
+
+                const benchTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                benchTxt.setAttribute('x', width - padRight);
+                benchTxt.setAttribute('y', benchY - 8);
+                benchTxt.setAttribute('text-anchor', 'end');
+                benchTxt.setAttribute('fill', '#f87171');
+                benchTxt.setAttribute('font-size', '10.5');
+                benchTxt.setAttribute('font-family', 'Space Grotesk, sans-serif');
+                benchTxt.setAttribute('font-weight', '700');
+                benchTxt.textContent = 'Industry Benchmark: ₹80 – ₹150 CPL (Avg ₹120)';
+                gridGroup.appendChild(benchTxt);
+            }
+
+            const points = dataset.points;
+            const count = points.length;
+            const coords = points.map((pt, idx) => {
+                const x = padLeft + (plotW / (count - 1)) * idx;
+                let norm = (pt.value - dataset.yMin) / (dataset.yMax - dataset.yMin);
+                if (norm < 0) norm = 0;
+                if (norm > 1) norm = 1;
+                const y = height - padBottom - (plotH * norm);
+                return { x, y, pt, idx };
+            });
+
+            // Smooth cubic bezier path
+            function getCubicBezierPath(arr) {
+                let d = `M ${arr[0].x} ${arr[0].y}`;
+                for (let i = 0; i < arr.length - 1; i++) {
+                    const curr = arr[i];
+                    const next = arr[i + 1];
+                    const cp1x = curr.x + (next.x - curr.x) * 0.45;
+                    const cp1y = curr.y;
+                    const cp2x = curr.x + (next.x - curr.x) * 0.55;
+                    const cp2y = next.y;
+                    d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${next.x} ${next.y}`;
+                }
+                return d;
+            }
+
+            const pathD = getCubicBezierPath(coords);
+            const areaD = `${pathD} L ${coords[coords.length - 1].x} ${height - padBottom} L ${coords[0].x} ${height - padBottom} Z`;
+
+            linePath.setAttribute('d', pathD);
+            linePath.setAttribute('stroke', dataset.color);
+            areaPath.setAttribute('d', areaD);
+            areaPath.setAttribute('fill', dataset.gradId);
+
+            coords.forEach(c => {
+                // X Axis label
+                const xTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xTxt.setAttribute('x', c.x);
+                xTxt.setAttribute('y', height - 22);
+                xTxt.setAttribute('text-anchor', 'middle');
+                xTxt.setAttribute('class', 'chart-axis-label');
+                xTxt.textContent = c.pt.weekLabel;
+                gridGroup.appendChild(xTxt);
+
+                // Halo glow
+                const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                halo.setAttribute('cx', c.x);
+                halo.setAttribute('cy', c.y);
+                halo.setAttribute('r', 10);
+                halo.setAttribute('fill', dataset.color);
+                halo.setAttribute('fill-opacity', '0.22');
+                nodesGroup.appendChild(halo);
+
+                // Main node circle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', c.x);
+                circle.setAttribute('cy', c.y);
+                circle.setAttribute('r', 5.5);
+                circle.setAttribute('fill', '#0f172a');
+                circle.setAttribute('stroke', dataset.color);
+                circle.setAttribute('stroke-width', '3');
+                circle.setAttribute('class', 'chart-data-node');
+
+                circle.addEventListener('mouseenter', () => {
+                    const rect = svg.getBoundingClientRect();
+                    const tooltipX = (c.x / width) * rect.width;
+                    const tooltipY = (c.y / height) * rect.height;
+
+                    tooltipWeek.textContent = `${c.pt.weekLabel} Milestone`;
+                    tooltipWeek.style.color = dataset.color;
+                    tooltipValue.textContent = c.pt.displayVal;
+                    tooltipNote.textContent = c.pt.note;
+
+                    tooltip.style.left = `${tooltipX}px`;
+                    tooltip.style.top = `${tooltipY}px`;
+                    tooltip.style.opacity = '1';
+                    tooltip.style.borderColor = dataset.color;
+                    tooltip.style.transform = tooltipX > rect.width - 150 ? 'translate(-100%, -120%)' : 'translate(-50%, -120%)';
+                });
+
+                circle.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = '0';
+                });
+
+                nodesGroup.appendChild(circle);
+            });
+        }
+
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+                renderGraph(btn.getAttribute('data-metric'));
+            });
+        });
+
+        checkpoints.forEach(cp => {
+            cp.addEventListener('click', () => {
+                checkpoints.forEach(c => c.classList.remove('active'));
+                cp.classList.add('active');
+                const idx = parseInt(cp.getAttribute('data-index'), 10);
+                const nodes = nodesGroup.querySelectorAll('.chart-data-node');
+                if (nodes[idx]) {
+                    const evt = new MouseEvent('mouseenter', { bubbles: true });
+                    nodes[idx].dispatchEvent(evt);
+                    setTimeout(() => {
+                        const leave = new MouseEvent('mouseleave', { bubbles: true });
+                        nodes[idx].dispatchEvent(leave);
+                    }, 3500);
+                }
+            });
+        });
+
+        renderGraph('leads');
+    })();
+    </script>
+
 <?php
 get_footer();

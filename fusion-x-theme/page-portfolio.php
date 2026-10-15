@@ -2376,5 +2376,179 @@ get_header();
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 
+<script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            const cards = document.querySelectorAll('.portfolio-card');
+
+
+
+            function applyFilter(filter) {
+
+                filterBtns.forEach(b => {
+
+                    if (b.getAttribute('data-filter') === filter) {
+
+                        b.classList.add('active');
+
+                    } else {
+
+                        b.classList.remove('active');
+
+                    }
+
+                });
+
+
+
+                cards.forEach(card => {
+
+                    const categories = (card.getAttribute('data-category') || '').split(' ');
+
+                    if (filter === 'all' || categories.includes(filter)) {
+
+                        card.style.display = 'flex';
+
+                        card.style.animation = 'none';
+
+                        card.offsetHeight; /* trigger reflow */
+
+                        card.style.animation = 'fadeInCard 0.35s ease forwards';
+
+                    } else {
+
+                        card.style.display = 'none';
+
+                    }
+
+                });
+
+            }
+
+
+
+            filterBtns.forEach(btn => {
+
+                btn.addEventListener('click', () => {
+
+                    const filter = btn.getAttribute('data-filter');
+
+                    applyFilter(filter);
+
+                });
+
+            });
+
+
+
+            // Check URL query param or hash (e.g. portfolio.html?filter=ai-geo or portfolio.html#ai-geo)
+
+            const urlParams = new URLSearchParams(window.location.search);
+
+            const hashTarget = window.location.hash.replace('#', '');
+
+            const initialFilter = urlParams.get('filter') || hashTarget;
+
+
+
+            if (initialFilter && document.querySelector(`.filter-btn[data-filter="${initialFilter}"]`)) {
+
+                applyFilter(initialFilter);
+
+                if (initialFilter === 'ai-geo') {
+
+                    const el = document.getElementById('ai-geo-proof');
+
+                    if (el) {
+
+                        setTimeout(() => {
+
+                            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                        }, 250);
+
+                    }
+
+                }
+
+            }
+
+            // ── AI Proof Touch-To-Zoom Lightbox with Prominent Cross Button ──
+            (function initAILightbox() {
+                const overlay = document.getElementById('ai-image-lightbox');
+                if (!overlay) return;
+                const lightboxImg = document.getElementById('ai-lightbox-img');
+                const lightboxCaption = document.getElementById('ai-lightbox-caption');
+                const closeBtn = overlay.querySelector('.ai-lightbox-close-btn');
+
+                function openLightbox(src, caption) {
+                    lightboxImg.src = src;
+                    lightboxImg.classList.remove('is-zoomed');
+                    lightboxCaption.textContent = caption || 'AI Search Result & Map Proof';
+                    overlay.style.display = 'flex';
+                    overlay.offsetHeight; // force reflow
+                    overlay.classList.add('active');
+                    overlay.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeLightbox() {
+                    overlay.classList.remove('active');
+                    overlay.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                    lightboxImg.classList.remove('is-zoomed');
+                    setTimeout(() => {
+                        if (!overlay.classList.contains('active')) {
+                            overlay.style.display = 'none';
+                            lightboxImg.src = '';
+                        }
+                    }, 300);
+                }
+
+                closeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeLightbox();
+                });
+
+                // Tap image inside lightbox to toggle extra zoom
+                lightboxImg.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    lightboxImg.classList.toggle('is-zoomed');
+                });
+
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay || e.target.classList.contains('ai-lightbox-scroll-area')) {
+                        closeLightbox();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                        closeLightbox();
+                    }
+                });
+
+                // Attach click/touch listeners to AI proof images
+                document.querySelectorAll('#ai-geo-proof .ai-zoomable-img-wrap, #ai-geo-proof picture').forEach(wrapper => {
+                    wrapper.addEventListener('click', (e) => {
+                        const img = wrapper.querySelector('img') || wrapper;
+                        if (!img) return;
+
+                        const pictureSource = wrapper.querySelector('source');
+                        const fullSrc = (pictureSource && pictureSource.srcset) ? pictureSource.srcset : img.currentSrc || img.src;
+                        let caption = img.alt || 'AI Search Result & Map Proof';
+
+                        openLightbox(fullSrc, caption);
+                    });
+                });
+            })();
+
+        });
+
+    </script>
+
 <?php
 get_footer();

@@ -206,5 +206,21 @@ function fusion_x_get_seo_map() {
             'desc'  => 'High-impact YouTube video advertising campaigns managed by Kamalesh J with retention-focused editing by Jabakumar to capture top-of-funnel customer intent.',
         ),
     );
-    return ;
+
+    // Aliases to guarantee 100% SEO match on all permalink variants
+    $seo_map['services'] = $seo_map['digital-marketing-services'];
+    $seo_map['career'] = $seo_map['careers'];
+    $seo_map['the-energy-bags'] = $seo_map['energy-bags'];
+    $seo_map['bikerz'] = $seo_map['bikerz-module'];
+    $seo_map['the-bikerz-module'] = $seo_map['bikerz-module'];
+    $seo_map['tk'] = $seo_map['tk-cinematic-studio'];
+    $seo_map['sridhar'] = $seo_map['sridhar-food-house'];
+    $seo_map['sridhar-chaat-house'] = $seo_map['sridhar-food-house'];
+    $seo_map['meeras'] = $seo_map['meeras-beauty-parlour'];
+    $seo_map['madhavi'] = $seo_map['dr-madhavi'];
+    $seo_map['bhawani'] = $seo_map['bhawani-corner'];
+    $seo_map['brand-consultation'] = $seo_map['marketing-brand-consultation'];
+    $seo_map['marketing-services'] = $seo_map['digital-marketing-services'];
+
+    return $seo_map;
 }

@@ -189,10 +189,11 @@ function fusion_x_provision_pages() {
         return;
     }
 
-    // Set permalink structure to Post Name
-    global $wp_rewrite;
-    $wp_rewrite->set_permalink_structure( '/%postname%/' );
-    $wp_rewrite->flush_rules( false );
+    // Set permalink structure to Post Name safely
+    if ( isset( $GLOBALS['wp_rewrite'] ) && is_object( $GLOBALS['wp_rewrite'] ) ) {
+        $GLOBALS['wp_rewrite']->set_permalink_structure( '/%postname%/' );
+        $GLOBALS['wp_rewrite']->flush_rules( false );
+    }
 
     $map = fusion_x_get_seo_map();
     foreach ( $map as $slug => $data ) {
@@ -259,14 +260,23 @@ function fusion_x_provision_pages() {
         );
 
         foreach ( $starter_posts as $sp ) {
-            $cat_id = wp_create_category( $sp['cat'] );
+            $cat_id = 0;
+            if ( ! function_exists( 'wp_create_category' ) ) {
+                $term = term_exists( $sp['cat'], 'category' );
+                if ( ! $term ) {
+                    $term = wp_insert_term( $sp['cat'], 'category' );
+                }
+                $cat_id = ( is_array( $term ) && isset( $term['term_id'] ) ) ? (int) $term['term_id'] : (int) $term;
+            } else {
+                $cat_id = wp_create_category( $sp['cat'] );
+            }
             wp_insert_post( array(
                 'post_title'    => $sp['title'],
                 'post_content'  => $sp['content'],
                 'post_excerpt'  => $sp['excerpt'],
                 'post_status'   => 'publish',
                 'post_type'     => 'post',
-                'post_category' => array( $cat_id ),
+                'post_category' => $cat_id ? array( $cat_id ) : array(),
             ) );
         }
     }
@@ -285,6 +295,12 @@ add_action( 'admin_init', 'fusion_x_provision_pages' );
 function fusion_x_install_leads_table() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'fusion_x_leads';
+    
+    // Check if table already exists
+    if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) === $table_name ) {
+        return;
+    }
+
     $charset_collate = $wpdb->get_charset_collate();
 
     $sql = "CREATE TABLE $table_name (
@@ -302,8 +318,14 @@ function fusion_x_install_leads_table() {
         PRIMARY KEY (id)
     ) $charset_collate;";
 
-    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    dbDelta( $sql );
+    if ( defined( 'ABSPATH' ) && file_exists( ABSPATH . 'wp-admin/includes/upgrade.php' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    }
+    if ( function_exists( 'dbDelta' ) ) {
+        dbDelta( $sql );
+    } else {
+        $wpdb->query( $sql );
+    }
 }
 add_action( 'after_switch_theme', 'fusion_x_install_leads_table' );
 add_action( 'admin_init', 'fusion_x_install_leads_table' );

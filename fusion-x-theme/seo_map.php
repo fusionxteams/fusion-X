@@ -4,7 +4,7 @@
  */
 
 function fusion_x_get_seo_map() {
-     = array(
+    $seo_map = array(
         'about-us' => array(
             'title' => 'About Us | Leading Digital Marketing Agency | Fusion X',
             'desc'  => 'Learn about Fusion X Chennai. India\'s top digital marketing team led by certified SEO experts, web developers, and Meta & Google Ads architects.',

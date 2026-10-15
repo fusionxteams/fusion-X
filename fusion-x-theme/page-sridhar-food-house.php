@@ -1,0 +1,1865 @@
+<?php
+/**
+ * Template Name: Sridhar Food House Case Study
+ *
+ * @package Fusion_X
+ */
+
+get_header();
+?>
+
+<style>
+        :root {
+            --brand-orange: #ff5722;
+            --brand-orange-light: #ff7043;
+            --brand-orange-glow: rgba(255, 87, 34, 0.45);
+            --brand-amber: #f59e0b;
+            --brand-emerald: #10b981;
+            --bg-dark: #080808;
+            --bg-card: #111111;
+            --bg-card-hover: #181818;
+            --border-dark: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(255, 87, 34, 0.35);
+            --text-white: #ffffff;
+            --text-muted: #94a3b8;
+        }
+
+        html, body {
+            overflow-x: hidden !important;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ── HERO SECTION ── */
+        .case-hero {
+            position: relative;
+            padding: 150px 24px 80px;
+            background: radial-gradient(circle at 50% 12%, rgba(255, 87, 34, 0.16) 0%, rgba(8, 8, 8, 0.98) 70%), var(--bg-dark);
+            border-bottom: 1px solid var(--border-dark);
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-text-col {
+            position: relative;
+            z-index: 2;
+        }
+
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb-nav a:hover {
+            color: var(--brand-orange);
+        }
+
+        .breadcrumb-nav span {
+            color: var(--brand-orange);
+        }
+
+        .hero-badge-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .flagship-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 87, 34, 0.15);
+            border: 1px solid rgba(255, 87, 34, 0.4);
+            color: var(--brand-orange-light);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .heritage-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dark);
+            color: #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .hero-headline {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.2rem, 4.2vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.12;
+            letter-spacing: -1.2px;
+            color: #ffffff !important;
+            margin: 0 0 18px;
+        }
+
+        .hero-headline .highlight {
+            background: linear-gradient(135deg, #ff5722 0%, #ff8a50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-headline .highlight-food {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subhead {
+            font-size: clamp(1rem, 1.6vw, 1.2rem);
+            line-height: 1.68;
+            color: #cbd5e1;
+            margin: 0 0 30px;
+            max-width: 660px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .btn-primary-orange {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #ffffff !important;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 13px 26px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 25px var(--brand-orange-glow);
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary-orange:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(255, 87, 34, 0.65);
+        }
+
+        .btn-secondary-dark {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff !important;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            border: 1px solid var(--border-dark);
+            transition: all 0.25s ease;
+        }
+
+        .btn-secondary-dark:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 87, 34, 0.4);
+            transform: translateY(-2px);
+            color: var(--brand-orange) !important;
+        }
+
+        /* 3D Showcase Stage */
+        .stage-3d-wrapper {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            background: radial-gradient(circle at center, rgba(245, 158, 11, 0.18) 0%, rgba(255, 87, 34, 0.12) 40%, rgba(18, 18, 18, 0.7) 75%);
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(245, 158, 11, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #three-canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: grab;
+        }
+
+        #three-canvas-container:active {
+            cursor: grabbing;
+        }
+
+        .stage-hint-pill {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(14, 14, 14, 0.88);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 87, 34, 0.4);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 0.74rem;
+            color: var(--brand-orange-light);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .stage-overlay-card {
+            position: absolute;
+            bottom: 14px;
+            left: 14px;
+            right: 14px;
+            background: rgba(12, 12, 12, 0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            border-radius: 14px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 5;
+            pointer-events: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .stage-client-logo {
+            height: 38px;
+            background: #ffffff;
+            padding: 4px 8px;
+            border-radius: 8px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .stage-client-text {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .stage-client-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.92rem;
+            color: #ffffff;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stage-client-sub {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ── STATS COUNTER STRIP ── */
+        .stats-strip {
+            background: #0d0d0d;
+            border-bottom: 1px solid var(--border-dark);
+            padding: 40px 24px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .stats-grid {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .stat-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-dark);
+            border-radius: 18px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-block:hover {
+            border-color: var(--brand-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(255, 87, 34, 0.15);
+        }
+
+        .stat-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.2rem, 3.6vw, 3rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-num span {
+            color: var(--brand-orange);
+        }
+
+        .stat-num span.amber {
+            color: var(--brand-amber);
+        }
+
+        .stat-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .stat-subtext {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        /* ── SECTION COMMON ── */
+        .case-section {
+            padding: 80px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-wrap {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 820px;
+            margin: 0 auto 50px;
+        }
+
+        .section-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-orange);
+            background: rgba(255, 87, 34, 0.08);
+            border: 1px solid rgba(255, 87, 34, 0.25);
+            padding: 6px 18px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.1rem, 3.6vw, 3.1rem);
+            font-weight: 900;
+            line-height: 1.15;
+            color: #ffffff !important;
+            margin: 0 0 16px;
+        }
+
+        .section-title span {
+            color: var(--brand-orange);
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* ── INTERACTIVE ELEVATION GRAPH ── */
+        .graph-card {
+            background: #0f0f0f;
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            padding: 36px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            margin-bottom: 45px;
+            position: relative;
+        }
+
+        .graph-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .graph-metric-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .metric-tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dark);
+            color: #94a3b8;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .metric-tab-btn:hover {
+            color: #ffffff;
+            border-color: rgba(255, 87, 34, 0.3);
+        }
+
+        .metric-tab-btn.active {
+            background: var(--brand-orange);
+            color: #ffffff;
+            border-color: var(--brand-orange);
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+        }
+
+        .graph-source-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .graph-source-note i {
+            color: #22c55e;
+        }
+
+        /* SVG Graph Canvas */
+        .chart-svg-container {
+            width: 100%;
+            height: 380px;
+            position: relative;
+            overflow: visible;
+        }
+
+        .chart-svg-container svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .chart-grid-line {
+            stroke: rgba(255, 255, 255, 0.06);
+            stroke-width: 1;
+            stroke-dasharray: 4 4;
+        }
+
+        .chart-axis-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            fill: #64748b;
+        }
+
+        .chart-area-fill {
+            fill: url(#orangeAreaGrad);
+            transition: d 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chart-path-line {
+            fill: none;
+            stroke: var(--brand-orange);
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 4px 10px rgba(255, 87, 34, 0.6));
+            transition: d 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chart-data-node {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .chart-data-node:hover circle {
+            r: 7;
+            stroke-width: 3;
+            stroke: #ffffff;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid var(--brand-orange);
+            backdrop-filter: blur(10px);
+            padding: 10px 16px;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 0.85rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            z-index: 50;
+            white-space: nowrap;
+        }
+
+        /* Checkpoint Cards Timeline */
+        .checkpoints-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 40px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .checkpoints-header i {
+            color: var(--brand-orange);
+        }
+
+        .checkpoints-timeline {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+
+        .checkpoint-card {
+            background: #141414;
+            border: 1px solid var(--border-dark);
+            border-radius: 16px;
+            padding: 18px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .checkpoint-card:hover, .checkpoint-card.active {
+            border-color: var(--brand-orange);
+            background: #1a1a1a;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(255, 87, 34, 0.15);
+        }
+
+        .checkpoint-card.active::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--brand-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--brand-orange);
+        }
+
+        .cp-month {
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: var(--brand-orange);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .cp-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .cp-metric {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+
+        .cp-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        /* ── PERFORMANCE COMPARISON TABLES ── */
+        .table-card {
+            background: #111111;
+            border: 1px solid var(--border-dark);
+            border-radius: 24px;
+            padding: 32px;
+            margin-top: 36px;
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 600px;
+        }
+
+        .custom-table th {
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 2px solid var(--border-dark);
+            color: #94a3b8;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .custom-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            font-size: 0.92rem;
+        }
+
+        .custom-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .table-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .table-pill.green {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .table-pill.orange {
+            background: rgba(255, 87, 34, 0.15);
+            color: #ff7043;
+            border: 1px solid rgba(255, 87, 34, 0.35);
+        }
+
+        .table-pill.amber {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        /* ── DELIVERABLES / WHAT WE BUILT ── */
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .deliverable-card {
+            background: #111111;
+            border: 1px solid var(--border-dark);
+            border-radius: 22px;
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .deliverable-card:hover {
+            border-color: rgba(255, 87, 34, 0.45);
+            background: #161616;
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .deliverable-icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: rgba(255, 87, 34, 0.1);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--brand-orange);
+            margin-bottom: 22px;
+        }
+
+        .deliverable-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 12px;
+        }
+
+        .deliverable-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin: 0 0 20px;
+        }
+
+        .deliverable-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .deliv-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* ── VIDEO PRODUCTION & SOCIAL CHANNELS SECTION ── */
+        .video-production-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 36px;
+            align-items: center;
+            background: #0d0d0d;
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            padding: 44px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            margin-bottom: 60px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .video-features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin: 24px 0 30px;
+        }
+
+        .video-feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .video-feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 87, 34, 0.12);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--brand-orange);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .video-feature-text h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin: 0 0 4px;
+        }
+
+        .video-feature-text p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.55;
+        }
+
+        .social-channel-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .social-channel-card {
+            background: #141414;
+            border: 1px solid var(--border-dark);
+            border-radius: 20px;
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .social-channel-card:hover {
+            border-color: var(--brand-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .social-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .social-logo-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .social-logo-instagram {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+        }
+
+        .social-logo-youtube {
+            background: #ff0000;
+        }
+
+        .social-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .social-handle {
+            font-size: 0.86rem;
+            color: var(--brand-orange-light);
+            font-weight: 600;
+        }
+
+        .social-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-dark);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #cbd5e1;
+            white-space: nowrap;
+        }
+
+        /* ── TESTIMONIAL SECTION ── */
+        .testimonial-box {
+            background: linear-gradient(135deg, #0e0e0e 0%, #171717 100%);
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            border-radius: 28px;
+            padding: 48px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .quote-icon-box {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: rgba(255, 87, 34, 0.12);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: var(--brand-orange);
+            flex-shrink: 0;
+        }
+
+        .quote-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+            font-weight: 700;
+            line-height: 1.45;
+            color: #ffffff;
+            margin: 0 0 18px;
+            font-style: italic;
+        }
+
+        .quote-author-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .quote-author-name {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #ffffff;
+        }
+
+        .quote-author-role {
+            font-size: 0.85rem;
+            color: var(--brand-orange-light);
+        }
+
+        /* ── BRAND VERIFICATION / CONTACT FOOTER CARD ── */
+        .client-info-banner {
+            background: linear-gradient(135deg, #121212 0%, #1c1c1c 100%);
+            border: 2px solid rgba(255, 87, 34, 0.35);
+            border-radius: 28px;
+            padding: 48px;
+            box-shadow: 0 20px 60px rgba(255, 87, 34, 0.12);
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .client-meta-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 0 14px;
+        }
+
+        .client-meta-title span {
+            color: var(--brand-orange);
+        }
+
+        .client-meta-desc {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin: 0 0 24px;
+        }
+
+        .client-details-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .client-details-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .client-details-list li i {
+            color: var(--brand-orange);
+            font-size: 1.1rem;
+            margin-top: 3px;
+        }
+
+        .client-action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* ── RESPONSIVE RULES ── */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+            .stage-3d-wrapper {
+                height: 380px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .video-production-grid {
+                grid-template-columns: 1fr;
+            }
+            .deliverables-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .checkpoints-timeline {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .client-info-banner {
+                grid-template-columns: 1fr;
+            }
+            .testimonial-box {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .case-hero {
+                padding: 110px 18px 50px;
+                overflow: hidden;
+            }
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            .flagship-badge, .heritage-pill {
+                white-space: normal;
+                text-align: center;
+                max-width: 100%;
+                box-sizing: border-box;
+                line-height: 1.35;
+                font-size: 0.72rem;
+            }
+            .hero-headline {
+                font-size: clamp(1.65rem, 6.2vw, 2.2rem) !important;
+                letter-spacing: -0.5px;
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+            .hero-cta-group a {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+            .stage-3d-wrapper {
+                height: 385px;
+            }
+            .stage-hint-pill {
+                top: 10px;
+                right: 10px;
+                padding: 4px 10px;
+                font-size: 0.68rem;
+            }
+            .stage-overlay-card {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                padding: 8px 12px;
+                gap: 10px;
+            }
+            .stage-client-logo {
+                height: 28px;
+                padding: 2px 6px;
+            }
+            .stage-client-title {
+                font-size: 0.82rem;
+            }
+            .stage-client-sub {
+                font-size: 0.68rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .stats-strip {
+                padding: 28px 16px;
+            }
+            .case-section {
+                padding: 55px 16px;
+            }
+            .section-header {
+                margin-bottom: 35px;
+            }
+            .table-card {
+                padding: 20px 12px;
+                border-radius: 16px;
+            }
+            .video-production-grid {
+                grid-template-columns: 1fr !important;
+                padding: 24px 16px !important;
+                gap: 24px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .video-production-grid > div {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .video-features-list {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .video-feature-item {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .video-feature-text {
+                min-width: 0 !important;
+                max-width: 100% !important;
+                word-break: break-word !important;
+                box-sizing: border-box !important;
+            }
+            .social-channel-cards {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .social-channel-card {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                padding: 16px 14px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+                gap: 12px !important;
+            }
+            .social-left {
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+            .social-badge {
+                align-self: flex-start !important;
+            }
+            .deliverables-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+            .checkpoints-timeline {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .graph-card {
+                padding: 20px 14px;
+            }
+            .chart-svg-container {
+                height: 260px;
+            }
+            .client-info-banner {
+                grid-template-columns: 1fr !important;
+                padding: 24px 16px !important;
+                border-radius: 20px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .client-info-banner > div {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .client-meta-title {
+                font-size: 1.45rem !important;
+                word-break: break-word !important;
+            }
+            .client-meta-desc {
+                font-size: 0.92rem !important;
+                word-break: break-word !important;
+            }
+            .client-details-list {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .client-details-list li {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 4px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                word-break: break-word !important;
+                overflow-wrap: break-word !important;
+                box-sizing: border-box !important;
+            }
+            .client-details-list li div {
+                width: 100% !important;
+                max-width: 100% !important;
+                word-break: break-all !important;
+                overflow-wrap: break-word !important;
+            }
+            .client-details-list li a {
+                word-break: break-all !important;
+                overflow-wrap: break-word !important;
+                display: inline-block !important;
+                max-width: 100% !important;
+            }
+            .client-action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            .client-action-buttons a {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+    <header class="case-hero">
+        <div class="hero-container">
+            <div class="hero-text-col">
+                <div class="breadcrumb-nav">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <a href="<?php echo esc_url( home_url( '/portfolio/' ) ); ?>">Portfolio</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <span>Sridhar Food House</span>
+                </div>
+
+                <div class="hero-badge-wrap">
+                    <div class="flagship-badge">
+                        <i class="fa-solid fa-star"></i> FLAGSHIP CLIENT CASE STUDY
+                    </div>
+                    <div class="heritage-pill">
+                        <i class="fa-solid fa-bowl-food" style="color: #f59e0b;"></i> Chaat &amp; Traditional Beverages
+                    </div>
+                    <div class="heritage-pill">
+                        <i class="fa-solid fa-location-dot" style="color: #ff5722;"></i> Anna Nagar, Chennai
+                    </div>
+                </div>
+
+                <h1 class="hero-headline">
+                    Sridhar Food House: <span class="highlight">40.6K+ Hyper-Local Reach</span> &amp; <span class="highlight-food">₹0.11 Cost / Interaction</span>
+                </h1>
+
+                <p class="hero-subhead">
+                    Deploying localized paid acquisition and appetite-inducing video content for Anna Nagar's celebrated street eatery. Fusion X unlocked 40,600+ focused impressions across Chennai foodies, starting 120 confirmed WhatsApp and Instagram ordering chats at a landmark ₹8.34 CPM and ₹0.11 interaction rate.
+                </p>
+
+                <div class="hero-cta-group">
+                    <a href="#interactive-graph" class="btn-primary-orange">
+                        <span>Explore Reach Graph</span> <i class="fa-solid fa-chart-line"></i>
+                    </a>
+                    <a href="#video-channels" class="btn-secondary-dark">
+                        <i class="fa-solid fa-clapperboard"></i> Video Channels &amp; Reels
+                    </a>
+                    <a href="https://www.youtube.com/@sridhar_food_house" target="_blank" rel="noopener noreferrer" class="btn-secondary-dark">
+                        <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> YouTube Channel
+                    </a>
+                    <a href="https://www.instagram.com/sridhar_food_house/" target="_blank" rel="noopener noreferrer" class="btn-secondary-dark">
+                        <i class="fa-brands fa-instagram" style="color: #e1306c;"></i> Instagram Channel
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3D Interactive Stage -->
+            <div class="hero-visual-col">
+                <div class="stage-3d-wrapper">
+                    <div id="three-canvas-container"></div>
+                    <div class="stage-hint-pill">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>Drag 3D Chaat Bowl</span>
+                    </div>
+                    <div class="stage-overlay-card">
+                        <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/sridhar/logo.jpg" alt="Sridhar Food House Logo" class="stage-client-logo">
+                        <div class="stage-client-text">
+                            <div class="stage-client-title">Sridhar Food House</div>
+                            <div class="stage-client-sub">Anna Nagar, Chennai &bull; Verified Partner</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════ STATS COUNTER STRIP ═══════════════════════ -->
+    <section class="stats-strip">
+        <div class="stats-grid">
+            <div class="stat-block">
+                <div class="stat-num"><span>40.6K+</span></div>
+                <div class="stat-title">Hyper-Local Accounts Reached</div>
+                <div class="stat-subtext">Targeted foodies and diners in Anna Nagar &amp; surrounding Chennai pin codes</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-num"><span class="amber">120</span></div>
+                <div class="stat-title">Direct Messaging Leads</div>
+                <div class="stat-subtext">High-intent customer inquiries via WhatsApp &amp; Instagram chats</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-num"><span>₹0.11</span></div>
+                <div class="stat-title">Cost Per Interaction</div>
+                <div class="stat-subtext">Significantly lower than the ₹2.00–₹5.00 F&amp;B industry benchmark</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-num"><span>₹8.34</span></div>
+                <div class="stat-title">Cost Per 1K Reached (CPM)</div>
+                <div class="stat-subtext">Ultra-efficient local brand recall and footfall conversion efficiency</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ INTERACTIVE PERFORMANCE ELEVATION GRAPH ═══════════════════════ -->
+    <section class="case-section" id="interactive-graph">
+        <div class="section-wrap">
+            <div class="section-header">
+                <div class="section-pill"><i class="fa-solid fa-arrow-trend-up"></i> REAL PERFORMANCE AUDIT</div>
+                <h2 class="section-title">Verified Meta Ads <span>Reach &amp; Inquiry Trajectory</span></h2>
+                <p class="section-desc">
+                    Examine verified weekly campaign pacing directly from Meta Ads Manager. Tracking how Fusion X scaled hyper-local awareness for signature menu items (Thenga Paal &amp; seasonal chaat specials) while maintaining ₹0.11 cost per interaction.
+                </p>
+            </div>
+
+            <div class="graph-card">
+                <div class="graph-controls">
+                    <div class="graph-metric-tabs">
+                        <button class="metric-tab-btn active" data-metric="reach">
+                            <i class="fa-solid fa-bullseye"></i> Accounts Reached (Meta)
+                        </button>
+                        <button class="metric-tab-btn" data-metric="inquiries">
+                            <i class="fa-solid fa-comments"></i> Direct Inquiries (Chats)
+                        </button>
+                        <button class="metric-tab-btn" data-metric="interactions">
+                            <i class="fa-solid fa-heart"></i> Total Engagement
+                        </button>
+                    </div>
+                    <div class="graph-source-note">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Source: Verified Meta Ads Manager Analytics Audit</span>
+                    </div>
+                </div>
+
+                <!-- SVG Interactive Chart Container -->
+                <div class="chart-svg-container" id="chart-container">
+                    <svg id="elevation-svg" viewBox="0 0 1000 360" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="orangeAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#ff5722" stop-opacity="0.55"/>
+                                <stop offset="60%" stop-color="#ff5722" stop-opacity="0.12"/>
+                                <stop offset="100%" stop-color="#ff5722" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Grid Lines -->
+                        <g id="chart-grid"></g>
+                        
+                        <!-- Area Fill -->
+                        <path id="chart-area" class="chart-area-fill" d=""></path>
+                        
+                        <!-- Main Stroke -->
+                        <path id="chart-line" class="chart-path-line" d=""></path>
+                        
+                        <!-- Data Nodes -->
+                        <g id="chart-nodes"></g>
+                    </svg>
+
+                    <!-- Floating Tooltip -->
+                    <div class="chart-tooltip" id="chart-tooltip">
+                        <div id="tooltip-month" style="font-weight: 700; color: #ff5722;"></div>
+                        <div id="tooltip-value" style="font-size: 1.1rem; font-weight: 900;"></div>
+                        <div id="tooltip-note" style="font-size: 0.75rem; color: #94a3b8;"></div>
+                    </div>
+                </div>
+
+                <!-- Clickable Checkpoint Milestones -->
+                <div class="checkpoints-header">
+                    <i class="fa-solid fa-flag-checkered"></i> Strategic Campaign Pacing Milestones
+                </div>
+
+                <div class="checkpoints-timeline">
+                    <div class="checkpoint-card" data-index="0">
+                        <div>
+                            <div class="cp-month">WEEK 1 (LAUNCH)</div>
+                            <div class="cp-title">Initial Audience Testing</div>
+                            <div class="cp-metric">3.2K Reach • 8 Chats</div>
+                        </div>
+                        <div class="cp-desc">Initial 3km radius testing around Anna Nagar targeting local street food and chaat enthusiasts.</div>
+                    </div>
+
+                    <div class="checkpoint-card" data-index="1">
+                        <div>
+                            <div class="cp-month">WEEK 2 (HOOKS)</div>
+                            <div class="cp-title">Creative Video Hooks</div>
+                            <div class="cp-metric">11.5K Reach (+259%) • 26 Chats</div>
+                        </div>
+                        <div class="cp-desc">Deployed fast-paced panipuri, pav bhaji &amp; chaat assembly reels triggering organic viral shares.</div>
+                    </div>
+
+                    <div class="checkpoint-card" data-index="2">
+                        <div>
+                            <div class="cp-month">WEEK 3 (THENGA PAAL)</div>
+                            <div class="cp-title">Signature Beverage Campaign</div>
+                            <div class="cp-metric">22.4K Reach (+95%) • 58 Chats</div>
+                        </div>
+                        <div class="cp-desc">Spotlight campaign on signature traditional Thenga Paal drove customer inquiries for weekend visits.</div>
+                    </div>
+
+                    <div class="checkpoint-card" data-index="3">
+                        <div>
+                            <div class="cp-month">WEEK 4 (DIRECT CHATS)</div>
+                            <div class="cp-title">Direct Messaging Funnels</div>
+                            <div class="cp-metric">31.8K Reach (+42%) • 84 Chats</div>
+                        </div>
+                        <div class="cp-desc">Optimized click-to-WhatsApp and Instagram DM funnels generating direct pre-orders &amp; queries.</div>
+                    </div>
+
+                    <div class="checkpoint-card" data-index="4">
+                        <div>
+                            <div class="cp-month">WEEK 5 (SPECIALS)</div>
+                            <div class="cp-title">Seasonal Promo Conversions</div>
+                            <div class="cp-metric">37.2K Reach (+17%) • 106 Chats</div>
+                        </div>
+                        <div class="cp-desc">Promotional weekend bundles driving repeat customer visits and packed street-side evening crowds.</div>
+                    </div>
+
+                    <div class="checkpoint-card active" data-index="5">
+                        <div>
+                            <div class="cp-month">WEEK 6 (SCALE)</div>
+                            <div class="cp-title">Local Market Dominance</div>
+                            <div class="cp-metric">40.6K+ Reach • 120 Inquiries</div>
+                        </div>
+                        <div class="cp-desc">Achieved 40.6K+ accounts reached at ₹0.11 cost per interaction and ₹8.34 CPM across Chennai.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ DETAILED CAMPAIGN AUDIT & PERFORMANCE TABLES ═══════════════════════ -->
+    <section class="case-section" id="campaign-audit" style="background: #090909; padding-top: 40px;">
+        <div class="section-wrap">
+            <div class="section-header">
+                <div class="section-pill"><i class="fa-solid fa-table"></i> VERIFIED METRIC AUDIT</div>
+                <h2 class="section-title">Meta Ads Campaign <span>Breakdown &amp; Economics</span></h2>
+                <p class="section-desc">
+                    Granular breakdown of Meta ad campaign objectives, delivery economics, and customer conversation volume for Sridhar Food House.
+                </p>
+            </div>
+
+            <!-- Table 1: Campaign Breakdown -->
+            <div class="table-card">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; margin: 0 0 20px; color: #ffffff; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-brands fa-meta" style="color: #ff5722;"></i> Meta Campaign Performance &amp; Economic Telemetry
+                </h3>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Ad Objective &amp; Creative Focus</th>
+                            <th>Geographic Radius</th>
+                            <th>Audience Reach</th>
+                            <th>Chat Conversations</th>
+                            <th>Efficiency Economics</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Direct Messaging &amp; Table Booking</strong><br><span style="font-size: 0.78rem; color: #94a3b8;">Conversations &amp; Custom Snack Orders</span></td>
+                            <td>Anna Nagar Micro-Neighborhood</td>
+                            <td><span class="table-pill orange">18,200 Local Impressions</span></td>
+                            <td><span class="table-pill green">76 Ordering Chats</span></td>
+                            <td><span class="table-pill green">₹0.11 Cost / Engagement</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Signature Dish Spotlight</strong><br><span style="font-size: 0.78rem; color: #94a3b8;">Thenga Paal &amp; Festive Specialities Promotion</span></td>
+                            <td>Greater Chennai &amp; Neighboring Pockets</td>
+                            <td><span class="table-pill orange">22,400 Impressions</span></td>
+                            <td><span class="table-pill green">44 Inbound Chats</span></td>
+                            <td><span class="table-pill green">₹8.34 CPM Average</span></td>
+                        </tr>
+                        <tr style="background: rgba(255, 255, 255, 0.04); font-weight: 700;">
+                            <td><strong>CUMULATIVE PAID MEDIA IMPACT</strong></td>
+                            <td><strong>Anna Nagar &amp; Surrounding Zones</strong></td>
+                            <td><span class="table-pill orange">40.6K+ Accounts Reached</span></td>
+                            <td><span class="table-pill green">120 Inquiries (76 + 44)</span></td>
+                            <td><span class="table-pill amber">₹0.11 Cost/Int | ₹8.34 CPM</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table 2: Multi-Channel Architecture Execution -->
+            <div class="table-card">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; margin: 0 0 20px; color: #ffffff; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-share-nodes" style="color: #f59e0b;"></i> Omnichannel Footprint &amp; Direct Engagement
+                </h3>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Marketing Channel</th>
+                            <th>Profile Handle / Link</th>
+                            <th>Audience Reach Benchmark</th>
+                            <th>Strategic Content Format</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: #ff7043;"><i class="fa-brands fa-instagram"></i> Meta Paid Media (Instagram &amp; FB)</strong></td>
+                            <td><a href="https://www.instagram.com/sridhar_food_house/" target="_blank" rel="noopener noreferrer" style="color: var(--brand-orange); text-decoration: none;">@sridhar_food_house</a></td>
+                            <td><span class="table-pill orange">40.6K+ Local Accounts</span></td>
+                            <td><span class="table-pill green">Precision Geofenced Video Campaigns (₹8.34 CPM)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #ff0000;"><i class="fa-brands fa-youtube"></i> YouTube Channel</strong></td>
+                            <td><a href="https://www.youtube.com/@sridhar_food_house" target="_blank" rel="noopener noreferrer" style="color: #ff4d4d; text-decoration: none;">@sridhar_food_house</a></td>
+                            <td><span class="table-pill green">Viral Chaat Reels &amp; Shorts</span></td>
+                            <td><span class="table-pill amber">Behind-the-Scenes Preparation &amp; Recipe Teasers</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #10b981;"><i class="fa-brands fa-whatsapp"></i> Direct Messaging Inbound</strong></td>
+                            <td><span>WhatsApp &amp; DM Ordering</span></td>
+                            <td><span class="table-pill green">120 Confirmed Conversations</span></td>
+                            <td><span class="table-pill green">Pre-Booking &amp; Daily Menu Inquiries</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ WHAT FUSION X DELIVERED ═══════════════════════ -->
+    <section class="case-section" id="deliverables">
+        <div class="section-wrap">
+            <div class="section-header">
+                <div class="section-pill"><i class="fa-solid fa-screwdriver-wrench"></i> FULL-STACK DELIVERABLES</div>
+                <h2 class="section-title">What Fusion X <span>Engineered</span></h2>
+                <p class="section-desc">
+                    A hyper-targeted local paid acquisition and creative video engine that turned neighborhood street food cravings into packed evening footfall.
+                </p>
+            </div>
+
+            <div class="deliverables-grid">
+                <!-- 1 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-brands fa-meta"></i></div>
+                    <h3 class="deliverable-title">Hyper-Targeted Meta Ads</h3>
+                    <p class="deliverable-desc">Constructed high-performing Facebook &amp; Instagram ad sets split between localized brand awareness and direct message conversations across Anna Nagar.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">₹0.11 / Interaction</span>
+                        <span class="deliv-pill">₹8.34 CPM</span>
+                        <span class="deliv-pill">Instagram &amp; FB</span>
+                    </div>
+                </div>
+
+                <!-- 2 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-solid fa-location-crosshairs"></i></div>
+                    <h3 class="deliverable-title">Anna Nagar Micro-Radius Targeting</h3>
+                    <p class="deliverable-desc">Laser-targeted residential and commercial pin codes within a 5km radius to maximize diner walk-ins and neighborhood word-of-mouth with zero ad spend leakage.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">5km Radius</span>
+                        <span class="deliv-pill">Anna Nagar</span>
+                        <span class="deliv-pill">Zero Waste Reach</span>
+                    </div>
+                </div>
+
+                <!-- 3 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-solid fa-mug-saucer"></i></div>
+                    <h3 class="deliverable-title">Signature Thenga Paal Spotlight</h3>
+                    <p class="deliverable-desc">Positioned Sridhar Food House's authentic traditional Thenga Paal (Coconut Milk) as a must-try Chennai beverage, driving over 44 direct customer ordering chats.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">Thenga Paal</span>
+                        <span class="deliv-pill">Signature Dish</span>
+                        <span class="deliv-pill">High Engagement</span>
+                    </div>
+                </div>
+
+                <!-- 4 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-brands fa-whatsapp"></i></div>
+                    <h3 class="deliverable-title">Direct Messaging Funnels</h3>
+                    <p class="deliverable-desc">Routed high-intent ad clicks directly into Instagram DM and WhatsApp chat windows, capturing 120 customer inquiries with instant menu responses.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">120 Direct Chats</span>
+                        <span class="deliv-pill">WhatsApp &amp; DMs</span>
+                        <span class="deliv-pill">Instant Inquiries</span>
+                    </div>
+                </div>
+
+                <!-- 5 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-solid fa-clapperboard"></i></div>
+                    <h3 class="deliverable-title">Viral Food Reel Production</h3>
+                    <p class="deliverable-desc">Filmed sizzle reels showing crispy puris, spicy chutneys, and boiling pav bhaji with fast cuts and sound design tailored for food blogging algorithms.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">Reels &amp; Shorts</span>
+                        <span class="deliv-pill">Food Blogging Hooks</span>
+                        <span class="deliv-pill">High Retention</span>
+                    </div>
+                </div>
+
+                <!-- 6 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-solid fa-bolt"></i></div>
+                    <h3 class="deliverable-title">Zero-Website Lean Funnel</h3>
+                    <p class="deliverable-desc">Maximized profitability by bypassing expensive website maintenance overhead, converting 100% of traffic via social profiles, Google Maps, and direct chat.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">Maximum ROAS</span>
+                        <span class="deliv-pill">Lean Infrastructure</span>
+                        <span class="deliv-pill">Frictionless Orders</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ VIDEO PRODUCTION & SOCIAL CHANNELS SECTION ═══════════════════════ -->
+    <section class="case-section" id="video-channels" style="padding-top: 20px;">
+        <div class="section-wrap">
+            <div class="section-header">
+                <div class="section-pill"><i class="fa-solid fa-clapperboard"></i> PRODUCTION &amp; SOCIAL CHANNELS</div>
+                <h2 class="section-title">Official Video Channels &amp; <span>Social Distribution</span></h2>
+                <p class="section-desc">
+                    Explore the official social channels and video platforms managed for Sridhar Food House, driving continuous engagement across YouTube Shorts and Instagram Reels.
+                </p>
+            </div>
+
+            <div class="video-production-grid">
+                <div>
+                    <span class="flagship-badge" style="margin-bottom: 14px;"><i class="fa-solid fa-camera"></i> FOOD PRODUCTION PIPELINE</span>
+                    <h3 style="font-family: 'Outfit', sans-serif; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 900; color: #ffffff; margin: 12px 0 16px;">
+                        Mouth-Watering Chaat &amp; Beverage Creatives
+                    </h3>
+                    <p style="font-size: 1rem; color: #cbd5e1; line-height: 1.65; margin: 0;">
+                        We capture real street food preparation at Sridhar Food House—golden pani puris being cracked, steaming pav bhaji garnished with butter, and creamy traditional Thenga Paal poured fresh for diners.
+                    </p>
+
+                    <div class="video-features-list">
+                        <div class="video-feature-item">
+                            <div class="video-feature-icon"><i class="fa-solid fa-fire"></i></div>
+                            <div class="video-feature-text">
+                                <h4>Viral 3-Second Food Hooks</h4>
+                                <p>Captivating close-ups of sizzling street food and traditional recipes crafted to stop thumbs in Chennai's active foodie feeds.</p>
+                            </div>
+                        </div>
+                        <div class="video-feature-item">
+                            <div class="video-feature-icon"><i class="fa-brands fa-youtube"></i></div>
+                            <div class="video-feature-text">
+                                <h4>YouTube Shorts Distribution</h4>
+                                <p>Optimized long-form and shorts video distribution targeting food lovers searching for the best chaat spots in Anna Nagar.</p>
+                            </div>
+                        </div>
+                        <div class="video-feature-item">
+                            <div class="video-feature-icon"><i class="fa-brands fa-instagram"></i></div>
+                            <div class="video-feature-text">
+                                <h4>Instagram Reels Algorithm SEO</h4>
+                                <p>Keyword-rich audio indexing, geotagged Anna Nagar location tags, and food hashtag matrices for explore page placement.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Official Channel Badges -->
+                <div class="social-channel-cards">
+                    <div style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-bottom: 6px;">
+                        Explore Official Channels Managed by Us:
+                    </div>
+
+                    <!-- YouTube Card -->
+                    <a href="https://www.youtube.com/@sridhar_food_house" target="_blank" rel="noopener noreferrer" class="social-channel-card">
+                        <div class="social-left">
+                            <div class="social-logo-box social-logo-youtube">
+                                <i class="fa-brands fa-youtube"></i>
+                            </div>
+                            <div>
+                                <div class="social-name">YouTube Channel</div>
+                                <div class="social-handle">@sridhar_food_house</div>
+                                <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">Street Food Shorts • Recipe Curation • Viral Chaat</div>
+                            </div>
+                        </div>
+                        <div class="social-badge">
+                            <span>Watch Videos</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </div>
+                    </a>
+
+                    <!-- Instagram Card -->
+                    <a href="https://www.instagram.com/sridhar_food_house/" target="_blank" rel="noopener noreferrer" class="social-channel-card">
+                        <div class="social-left">
+                            <div class="social-logo-box social-logo-instagram">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <div>
+                                <div class="social-name">Instagram Channel</div>
+                                <div class="social-handle">@sridhar_food_house</div>
+                                <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">Food Reels • Direct DM Ordering • Daily Specials</div>
+                            </div>
+                        </div>
+                        <div class="social-badge">
+                            <span>Watch Reels</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </div>
+                    </a>
+
+                    <div style="background: rgba(255, 87, 34, 0.08); border: 1px solid rgba(255, 87, 34, 0.25); border-radius: 16px; padding: 18px; text-align: center;">
+                        <i class="fa-solid fa-utensils" style="color: var(--brand-orange); font-size: 1.2rem; margin-bottom: 6px;"></i>
+                        <div style="font-size: 0.88rem; font-weight: 700; color: #ffffff;">Need High-Impact F&amp;B Marketing for Your Restaurant?</div>
+                        <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">Fusion X turns local food cravings into weekend waitlists with paid ads and viral video reels.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ TESTIMONIAL ═══════════════════════ -->
+    <section class="case-section" id="testimonial" style="background: #0b0b0b; padding-top: 20px;">
+        <div class="section-wrap">
+            <div class="testimonial-box">
+                <div class="quote-icon-box">
+                    <i class="fa-solid fa-quote-left"></i>
+                </div>
+                <div>
+                    <p class="quote-text">
+                        "The hyper-targeted ad strategy completely filled our outlet during evening rush hours. Connecting with 40.6K+ nearby food enthusiasts and sparking 120 direct WhatsApp chat inquiries at a tiny cost of ₹0.11 per interaction drove unprecedented footfall for our street specialities."
+                    </p>
+                    <div class="quote-author-info">
+                        <div>
+                            <div class="quote-author-name">Sridhar</div>
+                            <div class="quote-author-role">Founder &bull; Sridhar Food House</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ CLIENT STORE VERIFICATION BAR ═══════════════════════ -->
+    <section class="case-section" style="padding-top: 20px;">
+        <div class="section-wrap">
+            <div class="client-info-banner">
+                <div>
+                    <h2 class="client-meta-title">Verified Partner: <span>Sridhar Food House</span></h2>
+                    <p class="client-meta-desc">
+                        A beloved dining destination in Chennai renowned for chaat, authentic street food delicacies, and traditional specialty beverages including Thenga Paal. Visit in person or explore their official channels.
+                    </p>
+                    <ul class="client-details-list">
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div><strong>Showroom / Location:</strong> Anna Nagar &amp; surrounding areas, Chennai, Tamil Nadu</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-bowl-rice"></i>
+                            <div><strong>Signature Specialities:</strong> Authentic Thenga Paal, Pav Bhaji, Pani Puri, Sev Puri, Dahi Puri, Chaat Platters</div>
+                        </li>
+                        <li>
+                            <i class="fa-brands fa-youtube"></i>
+                            <div><strong>YouTube Channel:</strong> <a href="https://www.youtube.com/@sridhar_food_house" target="_blank" style="color: var(--brand-orange); text-decoration: underline;">https://www.youtube.com/@sridhar_food_house</a></div>
+                        </li>
+                        <li>
+                            <i class="fa-brands fa-instagram"></i>
+                            <div><strong>Instagram Profile:</strong> <a href="https://www.instagram.com/sridhar_food_house/" target="_blank" style="color: var(--brand-orange); text-decoration: underline;">https://www.instagram.com/sridhar_food_house/</a></div>
+                        </li>
+                    </ul>
+                    <div class="client-action-buttons">
+                        <a href="https://www.youtube.com/@sridhar_food_house" target="_blank" rel="noopener noreferrer" class="btn-primary-orange">
+                            <span>Visit YouTube Channel</span> <i class="fa-solid fa-external-link-alt"></i>
+                        </a>
+                        <a href="https://www.instagram.com/sridhar_food_house/" target="_blank" rel="noopener noreferrer" class="btn-secondary-dark">
+                            <i class="fa-brands fa-instagram"></i> Follow on Instagram
+                        </a>
+                        <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn-secondary-dark">
+                            <i class="fa-solid fa-calendar-check"></i> Book Strategy Session
+                        </a>
+                    </div>
+                </div>
+
+                <div style="text-align: center; background: rgba(0,0,0,0.4); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,87,34,0.25);">
+                    <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/sridhar/logo.jpg" alt="Sridhar Food House Logo" style="max-height: 80px; background: #fff; padding: 10px 20px; border-radius: 12px; margin-bottom: 20px; object-fit: contain;">
+                    <div style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 8px;">
+                        Ready to Fill Your Restaurant?
+                    </div>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px;">
+                        Let Fusion X engineer hyper-local paid acquisition funnels, viral food video shoots, and direct customer ordering channels for your food brand.
+                    </p>
+                    <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn-primary-orange" style="width: 100%; box-sizing: border-box; justify-content: center;">
+                        <span>Book Strategy Call</span> <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+
+<?php
+get_footer();

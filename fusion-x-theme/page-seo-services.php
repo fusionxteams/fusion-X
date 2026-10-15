@@ -1,0 +1,1779 @@
+<?php
+/**
+ * Template Name: SEO Services
+ *
+ * @package Fusion_X
+ */
+
+get_header();
+?>
+
+<style>
+        /* ═══════════════════════════════════════════════════════
+           COMPLETELY NEW HIGH-TECH SEO SUITE DESIGN (FUSION CYBER)
+        ═══════════════════════════════════════════════════════ */
+        :root {
+            --seo-bg: #080808;
+            --seo-card-bg: rgba(255, 255, 255, 0.035);
+            --seo-card-border: rgba(255, 255, 255, 0.08);
+            --seo-orange: #ff5722;
+            --seo-orange-glow: rgba(255, 87, 34, 0.3);
+            --seo-emerald: #10b981;
+            --seo-emerald-glow: rgba(16, 185, 129, 0.25);
+            --seo-blue: #3b82f6;
+            --seo-text-primary: #f8fafc;
+            --seo-text-secondary: #94a3b8;
+            --seo-text-muted: #64748b;
+        }
+
+        body {
+            background-color: var(--seo-bg);
+            color: var(--seo-text-primary);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* ── UNIVERSAL NAVBAR LOCK TO MATCH SITE STANDARD ── */
+        .navbar, .navbar a, .nav-links a {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+            font-size: 15px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+        }
+
+        .nav-links a.active {
+            color: #ff5722 !important;
+            text-shadow: 0 0 12px rgba(255, 87, 34, 0.65), 0 0 20px rgba(255, 87, 34, 0.35) !important;
+            font-weight: 700 !important;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.025em;
+        }
+
+        /* ── CYBER HERO SECTION ── */
+        .seo-hero-wrap {
+            padding: 140px 24px 70px;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 20%, rgba(255, 87, 34, 0.12) 0%, transparent 60%),
+                        linear-gradient(180deg, #080808 0%, #080808 100%);
+            border-bottom: 1px solid var(--seo-card-border);
+            text-align: center;
+        }
+
+        /* Ambient Cyber Grid Background */
+        .seo-hero-wrap::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .seo-badge-radar {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 87, 34, 0.1);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            color: #ff8a65;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 7px 18px;
+            border-radius: 30px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .radar-pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--seo-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--seo-orange);
+            animation: radarPulse 1.8s infinite;
+        }
+
+        @keyframes radarPulse {
+            0% { transform: scale(0.9); opacity: 1; }
+            50% { transform: scale(1.6); opacity: 0.4; }
+            100% { transform: scale(0.9); opacity: 1; }
+        }
+
+        .seo-hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.8rem);
+            font-weight: 900;
+            line-height: 1.1;
+            color: #ffffff;
+            max-width: 1050px;
+            margin: 0 auto 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .seo-hero-title .neon-orange {
+            color: var(--seo-orange);
+            text-shadow: 0 0 25px var(--seo-orange-glow);
+        }
+
+        .seo-hero-sub {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            color: var(--seo-text-secondary);
+            max-width: 780px;
+            margin: 0 auto 38px;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .seo-hero-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 50px;
+        }
+
+        .btn-seo-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--seo-orange);
+            color: #ffffff !important;
+            padding: 15px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px var(--seo-orange-glow);
+        }
+
+        .btn-seo-primary:hover {
+            background: #e64a19;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 87, 34, 0.45);
+        }
+
+        .btn-seo-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff !important;
+            border: 1px solid var(--seo-card-border);
+            padding: 15px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-seo-secondary:hover {
+            border-color: var(--seo-orange);
+            color: var(--seo-orange) !important;
+            transform: translateY(-3px);
+        }
+
+        /* ── LIVE KPI METRICS ROW ── */
+        .seo-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .seo-kpi-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            padding: 24px 20px;
+            text-align: left;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
+        }
+
+        .seo-kpi-box:hover {
+            border-color: rgba(255, 87, 34, 0.35);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .kpi-num-lg {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            line-height: 1;
+        }
+
+        .kpi-tag-status {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .kpi-tag-status.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .kpi-tag-status.accent {
+            background: rgba(255, 87, 34, 0.15);
+            color: #ff8a65;
+            border: 1px solid rgba(255, 87, 34, 0.3);
+        }
+
+        .kpi-label-text {
+            font-size: 0.88rem;
+            color: var(--seo-text-secondary);
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        /* ── INTERACTIVE 6-MONTH GROWTH TIMELINE SECTION ── */
+        .chart-timeline-section {
+            padding: 90px 24px;
+            max-width: 1240px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-tag-neon {
+            color: var(--seo-orange);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .section-h2-center {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            color: #ffffff;
+            text-align: center;
+            margin: 0 auto 16px;
+            max-width: 850px;
+            line-height: 1.2;
+        }
+
+        .section-lead-center {
+            font-size: 1.05rem;
+            color: var(--seo-text-secondary);
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 45px;
+            line-height: 1.7;
+        }
+
+        .chart-card-wrapper {
+            background: var(--seo-card-bg);
+            border: 1px solid var(--seo-card-border);
+            border-radius: 20px;
+            padding: 36px 30px;
+            position: relative;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .chart-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--seo-card-border);
+        }
+
+        .chart-legend-flex {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.orange { background: var(--seo-orange); box-shadow: 0 0 8px var(--seo-orange); }
+        .legend-dot.green { background: var(--seo-emerald); box-shadow: 0 0 8px var(--seo-emerald); }
+
+        .svg-chart-container {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+
+        .timeline-interactive-nodes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .timeline-node-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .timeline-node-card:hover, .timeline-node-card.active {
+            background: rgba(255, 87, 34, 0.1);
+            border-color: var(--seo-orange);
+            transform: translateY(-2px);
+        }
+
+        .node-month-tag {
+            font-size: 0.76rem;
+            color: #ff8a65;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .node-val-text {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .node-sub-note {
+            font-size: 0.78rem;
+            color: var(--seo-text-muted);
+            line-height: 1.4;
+            display: block;
+        }
+
+        /* ── THE 4 TECHNICAL PILLARS ── */
+        .pillars-section {
+            padding: 90px 24px;
+            background: #080808;
+            border-top: 1px solid var(--seo-card-border);
+            border-bottom: 1px solid var(--seo-card-border);
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 26px;
+            max-width: 1240px;
+            margin: 45px auto 0;
+        }
+
+        .pillar-card {
+            background: var(--seo-card-bg);
+            border: 1px solid var(--seo-card-border);
+            border-radius: 18px;
+            padding: 34px 28px;
+            transition: all 0.35s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 87, 34, 0.45);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+        }
+
+        .pillar-icon-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: rgba(255, 87, 34, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--seo-orange);
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 87, 34, 0.2);
+        }
+
+        .pillar-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 14px;
+        }
+
+        .pillar-desc {
+            font-size: 0.94rem;
+            color: var(--seo-text-secondary);
+            line-height: 1.65;
+            margin-bottom: 22px;
+        }
+
+        .pillar-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pillar-checklist li {
+            position: relative;
+            padding-left: 22px;
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .pillar-checklist li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--seo-orange);
+            font-size: 0.75rem;
+        }
+
+        /* ── INTERACTIVE GOOGLE SEARCH SIMULATOR ── */
+        .simulator-section {
+            padding: 90px 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .simulator-box {
+            background: #ffffff;
+            color: #1f2937;
+            border-radius: 18px;
+            padding: 35px 30px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+        }
+
+        .google-search-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 30px;
+            padding: 12px 20px;
+            margin-bottom: 28px;
+            font-size: 0.95rem;
+            color: #0f172a;
+            font-weight: 500;
+        }
+
+        .google-search-bar i { color: #64748b; }
+
+        .sim-maps-pack {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .sim-maps-header {
+            background: #f8fafc;
+            padding: 14px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .sim-business-item {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .sim-business-item.rank-1 {
+            background: #fff8f5;
+            border-left: 4px solid var(--seo-orange);
+        }
+
+        .biz-title-wrap h4 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .biz-rank-badge {
+            font-size: 0.72rem;
+            font-weight: 800;
+            background: var(--seo-orange);
+            color: #ffffff;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .biz-stars {
+            color: #f59e0b;
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .biz-stars span { color: #64748b; font-weight: 400; margin-left: 4px; }
+
+        .biz-meta-details {
+            font-size: 0.85rem;
+            color: #475569;
+            line-height: 1.4;
+        }
+
+        .sim-actions-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .sim-btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: 1px solid #cbd5e1;
+            color: #1e293b;
+            background: #ffffff;
+        }
+
+        .sim-btn-action.highlight {
+            background: var(--seo-orange);
+            color: #ffffff;
+            border-color: var(--seo-orange);
+        }
+
+        /* ── CHENNAI LOCALITIES MATRIX ── */
+        .localities-matrix-section {
+            padding: 90px 24px;
+            background: #080808;
+            border-top: 1px solid var(--seo-card-border);
+            border-bottom: 1px solid var(--seo-card-border);
+        }
+
+        .locality-tabs-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: 0 auto 35px;
+        }
+
+        .loc-tab-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--seo-card-border);
+            color: #cbd5e1;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+        }
+
+        .loc-tab-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .loc-tab-btn.active {
+            background: var(--seo-orange);
+            color: #ffffff;
+            border-color: var(--seo-orange);
+            box-shadow: 0 4px 16px var(--seo-orange-glow);
+        }
+
+        .loc-details-display {
+            background: var(--seo-card-bg);
+            border: 1px solid var(--seo-card-border);
+            border-radius: 18px;
+            padding: 35px 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            backdrop-filter: blur(14px);
+        }
+
+        .loc-panel {
+            display: none;
+            animation: fadeInLoc 0.35s ease forwards;
+        }
+
+        .loc-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeInLoc {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loc-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        @media (max-width: 768px) {
+            .loc-panel-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ── CASE STUDIES SECTION ── */
+        .case-studies-section {
+            padding: 90px 24px;
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            margin-top: 40px;
+        }
+
+        .case-study-card {
+            background: var(--seo-card-bg);
+            border: 1px solid var(--seo-card-border);
+            border-radius: 18px;
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .case-study-card:hover {
+            border-color: rgba(255, 87, 34, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .case-client-badge {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--seo-orange);
+            background: rgba(255, 87, 34, 0.1);
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+
+        .case-stat-highlight {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #34d399;
+            font-family: 'Outfit', sans-serif;
+            line-height: 1;
+            margin: 10px 0;
+        }
+
+        /* ── MEET THE SEO ARCHITECTS ── */
+        .specialists-spotlight-section {
+            padding: 85px 24px;
+            background: #080808;
+            border-top: 1px solid var(--seo-card-border);
+            border-bottom: 1px solid var(--seo-card-border);
+        }
+
+        .specialists-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            max-width: 1050px;
+            margin: 45px auto 0;
+        }
+
+        .architect-card {
+            background: var(--seo-card-bg);
+            border: 1px solid var(--seo-card-border);
+            border-radius: 18px;
+            padding: 30px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .architect-photo {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--seo-orange);
+            flex-shrink: 0;
+        }
+
+        .architect-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 4px;
+        }
+
+        .architect-exp {
+            font-size: 0.8rem;
+            color: var(--seo-orange);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .architect-bio {
+            font-size: 0.88rem;
+            color: var(--seo-text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ── INTERACTIVE INSTANT AUDIT TOOL / FORM ── */
+        .audit-form-section {
+            padding: 90px 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .audit-form-card {
+            background: linear-gradient(145deg, rgba(255, 87, 34, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            border-radius: 24px;
+            padding: 45px 36px;
+            text-align: center;
+            backdrop-filter: blur(16px);
+        }
+
+        .form-row-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 30px 0 20px;
+        }
+
+        .input-dark {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--seo-card-border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.25s ease;
+        }
+
+        .input-dark:focus {
+            border-color: var(--seo-orange);
+            box-shadow: 0 0 12px var(--seo-orange-glow);
+        }
+
+        /* ── FAQ BLOCK ── */
+        .seo-faq-section {
+            padding: 90px 24px;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .seo-faq-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 40px;
+        }
+
+        .seo-faq-item {
+            background: var(--seo-card-bg);
+            border: 1px solid var(--seo-card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .seo-faq-btn {
+            width: 100%;
+            padding: 20px 24px;
+            background: transparent;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+            font-family: inherit;
+        }
+
+        .seo-faq-btn i {
+            color: var(--seo-orange);
+            transition: transform 0.25s ease;
+        }
+
+        .seo-faq-item.active .seo-faq-btn i {
+            transform: rotate(180deg);
+        }
+
+        .seo-faq-panel {
+            padding: 0 24px 22px;
+            font-size: 0.94rem;
+            color: var(--seo-text-secondary);
+            line-height: 1.7;
+            display: none;
+        }
+
+        .seo-faq-item.active .seo-faq-panel {
+            display: block;
+        }
+
+        /* ── SEMANTIC KEYWORDS & TOPIC MAP ── */
+        .seo-keywords-section {
+            padding: 90px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid var(--seo-card-border);
+            text-align: center;
+        }
+
+        .seo-matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 48px auto 0;
+            text-align: left;
+        }
+
+        .seo-matrix-card {
+            background: var(--seo-card-bg);
+            border: 1px solid var(--seo-card-border);
+            border-radius: 16px;
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .seo-matrix-card:hover {
+            border-color: rgba(255, 87, 34, 0.45);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 87, 34, 0.15);
+        }
+
+        .seo-card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 18px;
+            width: fit-content;
+        }
+
+        .seo-card-badge.badge-primary {
+            background: rgba(255, 87, 34, 0.15);
+            color: #ff7a45;
+            border: 1px solid rgba(255, 87, 34, 0.35);
+        }
+
+        .seo-card-badge.badge-semantic {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .seo-card-badge.badge-secondary {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.35);
+        }
+
+        .seo-card-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 10px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .seo-card-desc {
+            font-size: 0.92rem;
+            color: var(--seo-text-secondary);
+            line-height: 1.6;
+            margin: 0 0 22px;
+        }
+
+        .seo-pills-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .seo-pill-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            font-size: 0.82rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .seo-pill-tag:hover {
+            border-color: var(--seo-orange);
+            color: #ffffff;
+            background: rgba(255, 87, 34, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .seo-link-highway {
+            margin-top: 40px;
+            background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(16, 185, 129, 0.08) 100%);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            border-radius: 14px;
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            text-align: left;
+        }
+
+        @media (max-width: 992px) {
+            .seo-matrix-grid {
+                grid-template-columns: 1fr;
+            }
+            .seo-link-highway {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Mobile tweaks */
+        @media (max-width: 768px) {
+            .seo-hero-wrap { padding: 110px 18px 50px; }
+            .architect-card { flex-direction: column; align-items: center; text-align: center; }
+            .audit-form-card { padding: 30px 18px; }
+        }
+    </style>
+
+<!-- ═══════════════════════ CYBER SEO HERO SECTION ═══════════════════════ -->
+    <header class="seo-hero-wrap">
+        <div class="seo-badge-radar">
+            <span class="radar-pulse-dot"></span>
+            <span>Chennai #1 Local & Technical SEO Engine</span>
+        </div>
+        <h1 class="seo-hero-title">
+            Rank #1 on Google Search & <br><span class="neon-orange">Google Maps 3-Pack</span>
+        </h1>
+        <p class="seo-hero-sub">
+            Stop losing qualified local buyers in Chennai. We engineer complete front-page organic search dominance: Google Business Profile verification, technical crawl cleanup, semantic schema silos, and AEO / GEO AI Answer Engine optimization.
+        </p>
+        <div class="seo-hero-actions">
+            <a href="#audit-tool" class="btn-seo-primary">
+                <i class="fas fa-bolt"></i> <span>Get Free Instant SEO Audit</span>
+            </a>
+            <a href="https://wa.me/919600096973" target="_blank" rel="noopener noreferrer" class="btn-seo-secondary">
+                <i class="fab fa-whatsapp" style="color: #25d366; font-size: 1.15rem;"></i> <span>WhatsApp SEO Strategist</span>
+            </a>
+            <a href="<?php echo esc_url( home_url( '/digital-marketing-services/' ) ); ?>" class="btn-seo-secondary">
+                <span>&larr; View All Services</span>
+            </a>
+        </div>
+
+        <!-- 4 LIVE KPI COUNTER METRIC BOXES -->
+        <div class="seo-kpi-grid">
+            <div class="seo-kpi-box">
+                <div class="kpi-header">
+                    <span class="kpi-num-lg">+280%</span>
+                    <span class="kpi-tag-status success">Verified</span>
+                </div>
+                <p class="kpi-label-text">Average 6-Month Organic Search Visibility Surge</p>
+            </div>
+
+            <div class="seo-kpi-box">
+                <div class="kpi-header">
+                    <span class="kpi-num-lg">#1 - #3</span>
+                    <span class="kpi-tag-status accent">Guaranteed</span>
+                </div>
+                <p class="kpi-label-text">Google Maps Local 3-Pack Front Page Placement</p>
+            </div>
+
+            <div class="seo-kpi-box">
+                <div class="kpi-header">
+                    <span class="kpi-num-lg">900+</span>
+                    <span class="kpi-tag-status success">Calls</span>
+                </div>
+                <p class="kpi-label-text">Inbound Buyer Phone Calls in 3 Months (Bhawani Corner)</p>
+            </div>
+
+            <div class="seo-kpi-box">
+                <div class="kpi-header">
+                    <span class="kpi-num-lg">90+</span>
+                    <span class="kpi-tag-status accent">Speed</span>
+                </div>
+                <p class="kpi-label-text">Google Core Web Vitals & PageSpeed Score</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════ INTERACTIVE 6-MONTH GROWTH TIMELINE ═══════════════════════ -->
+    <section class="chart-timeline-section">
+        <span class="section-tag-neon">Verified Trajectory</span>
+        <h2 class="section-h2-center">6-Month Local Search & Inquiry Growth in Chennai</h2>
+        <p class="section-lead-center">
+            Real trajectory for Chennai business clients following our integrated technical SEO, Google Business Profile optimization, and local directory citation funnels. Hover or tap any month milestone to inspect details:
+        </p>
+
+        <div class="chart-card-wrapper">
+            <div class="chart-header-row">
+                <div>
+                    <h3 style="font-size: 1.3rem; margin: 0 0 4px; color: #ffffff;">Performance Curve: Impressions vs Customer Calls</h3>
+                    <span style="font-size: 0.85rem; color: #94a3b8;">Data indexed from Google Search Console & Google Business Profile Insights</span>
+                </div>
+                <div class="chart-legend-flex">
+                    <span class="legend-pill"><span class="legend-dot orange"></span> Search Impressions (+280%)</span>
+                    <span class="legend-pill"><span class="legend-dot green"></span> Direct Inquiries / Calls (+340%)</span>
+                </div>
+            </div>
+
+            <!-- SVG Line Chart with Gradient Fills -->
+            <div class="svg-chart-container">
+                <svg viewBox="0 0 900 320" style="width: 100%; height: auto; overflow: visible;">
+                    <defs>
+                        <linearGradient id="curveGradOrange" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#ff5722" stop-opacity="0.35" />
+                            <stop offset="100%" stop-color="#ff5722" stop-opacity="0.0" />
+                        </linearGradient>
+                        <linearGradient id="curveGradGreen" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#10b981" stop-opacity="0.3" />
+                            <stop offset="100%" stop-color="#10b981" stop-opacity="0.0" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Background Gridlines -->
+                    <g stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4">
+                        <line x1="60" y1="40" x2="880" y2="40" />
+                        <line x1="60" y1="105" x2="880" y2="105" />
+                        <line x1="60" y1="170" x2="880" y2="170" />
+                        <line x1="60" y1="235" x2="880" y2="235" />
+                        <line x1="60" y1="280" x2="880" y2="280" stroke-dasharray="0" stroke="rgba(255,255,255,0.15)" />
+                    </g>
+
+                    <!-- Y-Axis Labels -->
+                    <g font-size="11" fill="#64748b" text-anchor="end" font-weight="600">
+                        <text x="50" y="44">3,500</text>
+                        <text x="50" y="109">2,500</text>
+                        <text x="50" y="174">1,500</text>
+                        <text x="50" y="239">500</text>
+                        <text x="50" y="284">0</text>
+                    </g>
+
+                    <!-- Baseline Dashed Line -->
+                    <line x1="60" y1="250" x2="880" y2="250" stroke="#475569" stroke-dasharray="5 5" stroke-width="1.5" />
+                    <text x="75" y="244" fill="#94a3b8" font-size="10" font-weight="700">Baseline: 320 Monthly Local Searches</text>
+
+                    <!-- Area Fill 1: Impressions -->
+                    <path d="M 80 250 L 80 248 C 160 230, 240 200, 360 160 C 480 120, 600 75, 740 48 L 860 38 L 860 280 L 80 280 Z" fill="url(#curveGradOrange)" />
+
+                    <!-- Area Fill 2: Inquiries -->
+                    <path d="M 80 265 L 80 263 C 160 250, 240 220, 360 185 C 480 145, 600 100, 740 70 L 860 52 L 860 280 L 80 280 Z" fill="url(#curveGradGreen)" />
+
+                    <!-- Curve 1: Orange (Search Impressions) -->
+                    <path d="M 80 248 C 160 230, 240 200, 360 160 C 480 120, 600 75, 740 48 L 860 38" fill="none" stroke="#ff5722" stroke-width="3.5" stroke-linecap="round" />
+
+                    <!-- Curve 2: Green (Inquiries) -->
+                    <path d="M 80 263 C 160 250, 240 220, 360 185 C 480 145, 600 100, 740 70 L 860 52" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" />
+
+                    <!-- Node Points along curve -->
+                    <circle cx="80" cy="248" r="6" fill="#080808" stroke="#ff5722" stroke-width="3" />
+                    <circle cx="236" cy="200" r="6" fill="#080808" stroke="#ff5722" stroke-width="3" />
+                    <circle cx="392" cy="150" r="6" fill="#080808" stroke="#ff5722" stroke-width="3" />
+                    <circle cx="548" cy="105" r="6" fill="#080808" stroke="#ff5722" stroke-width="3" />
+                    <circle cx="704" cy="60" r="6" fill="#080808" stroke="#ff5722" stroke-width="3" />
+                    <circle cx="860" cy="38" r="7" fill="#ff5722" stroke="#ffffff" stroke-width="3" />
+                </svg>
+            </div>
+
+            <!-- Milestone Interactive Cards -->
+            <div class="timeline-interactive-nodes">
+                <div class="timeline-node-card active">
+                    <span class="node-month-tag">Month 1: Audit</span>
+                    <span class="node-val-text">320 Searches</span>
+                    <span class="node-sub-note">Crawl audit, speed fixes, and baseline GMB verification.</span>
+                </div>
+                <div class="timeline-node-card">
+                    <span class="node-month-tag">Month 2: GMB Setup</span>
+                    <span class="node-val-text">780 (+143%)</span>
+                    <span class="node-sub-note">LocalBusiness JSON schema & geotagged updates.</span>
+                </div>
+                <div class="timeline-node-card">
+                    <span class="node-month-tag">Month 3: Silos</span>
+                    <span class="node-val-text">1,450 Searches</span>
+                    <span class="node-sub-note">Semantic keywords mapped to local landing pages.</span>
+                </div>
+                <div class="timeline-node-card">
+                    <span class="node-month-tag">Month 4: Citations</span>
+                    <span class="node-val-text">2,100 Searches</span>
+                    <span class="node-sub-note">50+ high-DA directory citations & review loops.</span>
+                </div>
+                <div class="timeline-node-card">
+                    <span class="node-month-tag">Month 5: AEO/GEO</span>
+                    <span class="node-val-text">2,750 Searches</span>
+                    <span class="node-sub-note">Infiltration into ChatGPT Search & Google Gemini.</span>
+                </div>
+                <div class="timeline-node-card">
+                    <span class="node-month-tag">Month 6: Dominance</span>
+                    <span class="node-val-text">3,500+ Searches</span>
+                    <span class="node-sub-note">#1-#3 rank locked with 140+ monthly phone calls.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ THE 4 TECHNICAL PILLARS ═══════════════════════ -->
+    <section class="pillars-section" id="maps-pack">
+        <span class="section-tag-neon">Comprehensive Methodology</span>
+        <h2 class="section-h2-center">The 4 Pillars of Fusion X Search Supremacy</h2>
+        <p class="section-lead-center">
+            Standard agency SEO relies on generic blog posts. We engineer technical, infrastructure-level search authority that Google's RankBrain and Helpful Content algorithms reward.
+        </p>
+
+        <div class="pillars-grid">
+            <!-- Pillar 1 -->
+            <div class="pillar-card">
+                <div>
+                    <div class="pillar-icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                    <h3 class="pillar-title">Google Maps 3-Pack Dominance</h3>
+                    <p class="pillar-desc">Locking your physical store or office inside the coveted top 3 Google Maps positions where 68% of local buyers click.</p>
+                    <ul class="pillar-checklist">
+                        <li>Primary category selection & secondary attribute audit.</li>
+                        <li>High-resolution geotagged image uploads with GPS metadata.</li>
+                        <li>Automated WhatsApp 5-star review collection loops.</li>
+                        <li>Call tracking and direction request conversion measurement.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="pillar-card">
+                <div>
+                    <div class="pillar-icon-box"><i class="fas fa-code-branch"></i></div>
+                    <h3 class="pillar-title">Technical Crawl & Speed Architecture</h3>
+                    <p class="pillar-desc">Fixing hidden crawl barriers, eliminating JavaScript bloat, and delivering instant sub-second page rendering.</p>
+                    <ul class="pillar-checklist">
+                        <li>Google PageSpeed 90+ Core Web Vitals optimization.</li>
+                        <li>Elimination of 404 dead ends, crawl loops, & orphan pages.</li>
+                        <li>Canonical URL architecture & clean XML sitemap structure.</li>
+                        <li>Hardened HTTPS SSL & robots.txt crawl directives.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="pillar-card">
+                <div>
+                    <div class="pillar-icon-box"><i class="fas fa-network-wired"></i></div>
+                    <h3 class="pillar-title">Semantic Keyword Silos & EEAT</h3>
+                    <p class="pillar-desc">Structuring content around transactional buyer intent so search engines recognize your site as the ultimate topical authority.</p>
+                    <ul class="pillar-checklist">
+                        <li>High-intent commercial query sourcing with zero fluff.</li>
+                        <li>Content siloing and strategic internal link networks.</li>
+                        <li>Verified author E-E-A-T credentials and schema tagging.</li>
+                        <li>Answer Engine Optimization (AEO) for featured snippets.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pillar 4 -->
+            <div class="pillar-card">
+                <div>
+                    <div class="pillar-icon-box"><i class="fas fa-robot"></i></div>
+                    <h3 class="pillar-title">GEO (Generative Engine Optimization)</h3>
+                    <p class="pillar-desc">Preparing your business for the future of search: ensuring ChatGPT, Perplexity AI, and Google Gemini cite your brand.</p>
+                    <ul class="pillar-checklist">
+                        <li>Deep structured JSON-LD entity graph integration.</li>
+                        <li>Direct answer formulation optimized for AI synthesizers.</li>
+                        <li>Brand knowledge graph verification across Wikidata & PR.</li>
+                        <li>High citation density across trusted authority directories.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ GOOGLE SEARCH SIMULATOR ═══════════════════════ -->
+    <section class="simulator-section">
+        <span class="section-tag-neon">Live Preview</span>
+        <h2 class="section-h2-center">What Top 3 Google Maps Dominance Looks Like</h2>
+        <p class="section-lead-center">When a potential customer in Chennai searches for your services, this is how your brand stands out above all competitors:</p>
+
+        <div class="simulator-box">
+            <!-- Simulated Search Bar -->
+            <div class="google-search-bar">
+                <i class="fas fa-search"></i>
+                <span>best digital marketing company in chennai</span>
+            </div>
+
+            <!-- Simulated Local 3-Pack -->
+            <div class="sim-maps-pack">
+                <div class="sim-maps-header">
+                    <span><i class="fas fa-map-marked-alt" style="color:#ff5722;"></i> Google Maps • Places in Chennai</span>
+                    <span style="color:#10b981;"><i class="fas fa-check-circle"></i> Open Now</span>
+                </div>
+
+                <!-- Rank 1: Fusion X / Client Profile -->
+                <div class="sim-business-item rank-1">
+                    <div class="biz-title-wrap">
+                        <h4>Fusion X Digital Marketing <span class="biz-rank-badge">#1 IN CHENNAI</span></h4>
+                        <div class="biz-stars">
+                            ★★★★★ 5.0 <span>(148 Reviews) • Digital Marketing Company</span>
+                        </div>
+                        <div class="biz-meta-details">
+                            RC Enclave, Ponniammanmedu, Chennai • Closes 8 PM • +91 9600096973<br>
+                            <span style="color:#15803d; font-weight:600;">✓ Verified Google Business Profile • Core Web Vitals 90+ Fast Site</span>
+                        </div>
+                    </div>
+                    <div class="sim-actions-group">
+                        <a href="tel:+919600096973" class="sim-btn-action highlight"><i class="fas fa-phone-alt"></i> Call</a>
+                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="sim-btn-action"><i class="fas fa-globe"></i> Website</a>
+                        <a href="https://maps.google.com" target="_blank" class="sim-btn-action"><i class="fas fa-directions"></i> Directions</a>
+                    </div>
+                </div>
+
+                <!-- Competitor 2 (Lower Rank) -->
+                <div class="sim-business-item" style="opacity: 0.65;">
+                    <div class="biz-title-wrap">
+                        <h4>Standard Agency Chennai</h4>
+                        <div class="biz-stars">
+                            ★★★☆☆ 3.8 <span>(19 Reviews) • Marketing Agency</span>
+                        </div>
+                        <div class="biz-meta-details">Mount Road, Chennai • Closes 6 PM</div>
+                    </div>
+                    <div class="sim-actions-group">
+                        <span class="sim-btn-action" style="cursor:not-allowed;"><i class="fas fa-globe"></i> Website</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ CHENNAI LOCALITIES MATRIX ═══════════════════════ -->
+    <section class="localities-matrix-section">
+        <span class="section-tag-neon">Hyper-Targeted Corridors</span>
+        <h2 class="section-h2-center">Dedicated Local Execution Across Chennai Localities</h2>
+        <p class="section-lead-center">Click any commercial neighborhood below to review targeted search trends, business clusters, and localized case studies:</p>
+
+        <div class="locality-tabs-row">
+            <button class="loc-tab-btn active" data-loc="vadapalani">Vadapalani</button>
+            <button class="loc-tab-btn" data-loc="porur">Porur</button>
+            <button class="loc-tab-btn" data-loc="kolathur">Kolathur</button>
+            <button class="loc-tab-btn" data-loc="anna-nagar">Anna Nagar</button>
+            <button class="loc-tab-btn" data-loc="t-nagar">T Nagar</button>
+            <button class="loc-tab-btn" data-loc="velachery">Velachery</button>
+            <button class="loc-tab-btn" data-loc="purasaiwakkam">Purasaiwakkam</button>
+        </div>
+
+        <div class="loc-details-display">
+            <!-- Vadapalani -->
+            <div class="loc-panel active" id="vadapalani">
+                <div class="loc-panel-grid">
+                    <div>
+                        <span style="color:var(--seo-orange); font-size:0.85rem; font-weight:700; text-transform:uppercase;">Commercial & Retail Belt</span>
+                        <h3 style="font-size:1.8rem; margin:6px 0 14px; color:#ffffff;">Vadapalani (Arcot Road Corridor)</h3>
+                        <p style="color:#cbd5e1; line-height:1.7;">
+                            Vadapalani is a hyper-dense retail and media crossroad near Nexus Vijaya Mall and Arcot Road. Local retail stores, healthcare clinics, and service hubs face intense geographic proximity competition.
+                        </p>
+                        <p style="color:#94a3b8; font-size:0.9rem; line-height:1.6;">
+                            <strong>Local SEO Playbook:</strong> Geotagged storefront imagery, Arcot Road landmark citations, and automated customer SMS review triggers to secure #1 Maps ranking within a 5km radius.
+                        </p>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:24px;">
+                        <h4 style="color:#ffffff; margin:0 0 10px; font-size:1.1rem;">Verified Case Study: Bikerz Module</h4>
+                        <span style="font-size:2rem; font-weight:900; color:#34d399; font-family:'Outfit',sans-serif; display:block; margin-bottom:8px;">+180% Inquiries</span>
+                        <p style="color:#cbd5e1; font-size:0.88rem; line-height:1.6; margin:0;">
+                            Achieved #1 local map ranking for motorcycle modifications and accessories in Vadapalani, driving 45+ organic walk-in customers weekly.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Porur -->
+            <div class="loc-panel" id="porur">
+                <div class="loc-panel-grid">
+                    <div>
+                        <span style="color:var(--seo-orange); font-size:0.85rem; font-weight:700; text-transform:uppercase;">DLF Cybercity & IT Hub</span>
+                        <h3 style="font-size:1.8rem; margin:6px 0 14px; color:#ffffff;">Porur & Mount-Poonamallee High Road</h3>
+                        <p style="color:#cbd5e1; line-height:1.7;">
+                            Home to DLF IT Park, luxury high-rises, and industrial zones. High-intent tech corporate employees and affluent residents actively search on mobile for clinics, gyms, catering, and B2B services.
+                        </p>
+                        <p style="color:#94a3b8; font-size:0.9rem; line-height:1.6;">
+                            <strong>Local SEO Playbook:</strong> Targeting high-income demographic keywords, DLF proximity silos, and mobile click-to-call optimization.
+                        </p>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:24px;">
+                        <h4 style="color:#ffffff; margin:0 0 10px; font-size:1.1rem;">Verified Case Study: TK Cinematic</h4>
+                        <span style="font-size:2rem; font-weight:900; color:#34d399; font-family:'Outfit',sans-serif; display:block; margin-bottom:8px;">4.2x ROAS</span>
+                        <p style="color:#cbd5e1; font-size:0.88rem; line-height:1.6; margin:0;">
+                            Combined local 3-Pack search dominance with targeted Meta ads in Porur, generating 65+ premium corporate client bookings.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolathur -->
+            <div class="loc-panel" id="kolathur">
+                <div class="loc-panel-grid">
+                    <div>
+                        <span style="color:var(--seo-orange); font-size:0.85rem; font-weight:700; text-transform:uppercase;">Wholesale & Dining Belt</span>
+                        <h3 style="font-size:1.8rem; margin:6px 0 14px; color:#ffffff;">Kolathur (North Chennai)</h3>
+                        <p style="color:#cbd5e1; line-height:1.7;">
+                            A powerhouse for wholesale trade, aquatics, and family restaurants. Ranking in Kolathur requires granular local keyword coverage that bridges North and Central Chennai search volume.
+                        </p>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:24px;">
+                        <h4 style="color:#ffffff; margin:0 0 10px; font-size:1.1rem;">Verified Case Study: Sridhar Food House</h4>
+                        <span style="font-size:2rem; font-weight:900; color:#34d399; font-family:'Outfit',sans-serif; display:block; margin-bottom:8px;">+240% Footfall</span>
+                        <p style="color:#cbd5e1; font-size:0.88rem; line-height:1.6; margin:0;">
+                            Secured #1 ranking in Google Maps local pack for family dining and takeaway, driving over 1,200 monthly direction requests.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anna Nagar -->
+            <div class="loc-panel" id="anna-nagar">
+                <div class="loc-panel-grid">
+                    <div>
+                        <span style="color:var(--seo-orange); font-size:0.85rem; font-weight:700; text-transform:uppercase;">Premium Commercial Avenues</span>
+                        <h3 style="font-size:1.8rem; margin:6px 0 14px; color:#ffffff;">Anna Nagar (2nd Avenue & Shanthi Colony)</h3>
+                        <p style="color:#cbd5e1; line-height:1.7;">
+                            The crown jewel of North-Central Chennai with high consumer spending power. Aesthetic clinics, luxury salons, and high-end cafes compete fiercely for search supremacy.
+                        </p>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:24px;">
+                        <h4 style="color:#ffffff; margin:0 0 10px; font-size:1.1rem;">Verified Case Study: Skincare & Aesthetics</h4>
+                        <span style="font-size:2rem; font-weight:900; color:#34d399; font-family:'Outfit',sans-serif; display:block; margin-bottom:8px;">110+ Leads / Mo</span>
+                        <p style="color:#cbd5e1; font-size:0.88rem; line-height:1.6; margin:0;">
+                            Targeted laser skincare keywords on Google Maps and organic SERPs, maintaining #1 ranking for 14 straight months.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- T Nagar -->
+            <div class="loc-panel" id="t-nagar">
+                <div class="loc-panel-grid">
+                    <div>
+                        <span style="color:var(--seo-orange); font-size:0.85rem; font-weight:700; text-transform:uppercase;">Pondy Bazaar Retail Core</span>
+                        <h3 style="font-size:1.8rem; margin:6px 0 14px; color:#ffffff;">T Nagar (India's Highest Footfall Market)</h3>
+                        <p style="color:#cbd5e1; line-height:1.7;">
+                            With millions of shoppers visiting Pondy Bazaar, Osman Road, and Ranganathan Street, local SEO directs buyers straight to your shop door before they buy elsewhere.
+                        </p>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:24px;">
+                        <h4 style="color:#ffffff; margin:0 0 10px; font-size:1.1rem;">Verified Case Study: Bhawani Corner</h4>
+                        <span style="font-size:2rem; font-weight:900; color:#34d399; font-family:'Outfit',sans-serif; display:block; margin-bottom:8px;">900+ Calls</span>
+                        <p style="color:#cbd5e1; font-size:0.88rem; line-height:1.6; margin:0;">
+                            Generated 900+ direct phone calls and a +180% visibility surge in retail glassware within just 3 months.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Velachery -->
+            <div class="loc-panel" id="velachery">
+                <div class="loc-panel-grid">
+                    <div>
+                        <span style="color:var(--seo-orange); font-size:0.85rem; font-weight:700; text-transform:uppercase;">Tech & Urban Growth Nucleus</span>
+                        <h3 style="font-size:1.8rem; margin:6px 0 14px; color:#ffffff;">Velachery (OMR Gateway & Grand Square)</h3>
+                        <p style="color:#cbd5e1; line-height:1.7;">
+                            Connecting South Chennai IT corridors (OMR) to the central city. Tech startups, D2C brands, and co-working spaces dominate this young, mobile-first search market.
+                        </p>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:24px;">
+                        <h4 style="color:#ffffff; margin:0 0 10px; font-size:1.1rem;">Verified Case Study: D2C Tech Brands</h4>
+                        <span style="font-size:2rem; font-weight:900; color:#34d399; font-family:'Outfit',sans-serif; display:block; margin-bottom:8px;">+310% Traffic</span>
+                        <p style="color:#cbd5e1; font-size:0.88rem; line-height:1.6; margin:0;">
+                            Structured semantic search silos ranking nationwide and captured over 300% growth in organic orders.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purasaiwakkam -->
+            <div class="loc-panel" id="purasaiwakkam">
+                <div class="loc-panel-grid">
+                    <div>
+                        <span style="color:var(--seo-orange); font-size:0.85rem; font-weight:700; text-transform:uppercase;">Textile & Trade Center</span>
+                        <h3 style="font-size:1.8rem; margin:6px 0 14px; color:#ffffff;">Purasaiwakkam (High Road Textile Belt)</h3>
+                        <p style="color:#cbd5e1; line-height:1.7;">
+                            Famous for textiles, jewelry, and wholesale trade. High local query volume for manufacturer outlets and specialty stores.
+                        </p>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:24px;">
+                        <h4 style="color:#ffffff; margin:0 0 10px; font-size:1.1rem;">Verified Case Study: The Energy Bags</h4>
+                        <span style="font-size:2rem; font-weight:900; color:#34d399; font-family:'Outfit',sans-serif; display:block; margin-bottom:8px;">#1 Category Rank</span>
+                        <p style="color:#cbd5e1; font-size:0.88rem; line-height:1.6; margin:0;">
+                            Ranked #1 on Google for specialty travel luggage and lifestyle backpacks, scaling direct-to-consumer store sales.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ MEET THE SEO ARCHITECTS ═══════════════════════ -->
+    <section class="specialists-spotlight-section">
+        <span class="section-tag-neon">Verified In-House Specialists</span>
+        <h2 class="section-h2-center">Meet the SEO Engineers Behind Your Growth</h2>
+        <p class="section-lead-center">
+            You work directly with engineers who previously worked in IT companies in their same respective fields: custom web development, crawl audits, and search algorithms without account managers in between.
+        </p>
+
+        <div class="specialists-grid-2">
+            <!-- Saravana Sanjhay M -->
+            <div class="architect-card">
+                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/team/saravana-sanjhay-m-seo-expert.webp" alt="Saravana Sanjhay M - Senior SEO Strategist" class="architect-photo">
+                <div>
+                    <h3 class="architect-name">Saravana Sanjhay M</h3>
+                    <span class="architect-exp">Senior SEO Strategist • 2 Years Experience</span>
+                    <p class="architect-bio">
+                        With 2 years of technical search experience, Saravana worked in IT companies in search engine optimization and digital visibility before uniting with Fusion X. He executes high-impact on-page SEO (semantic schema markup, intent-based keyword silos) and technical off-page SEO (Google Search Console crawl cleanup, local citations, and Google Maps 3-Pack rank acceleration).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Kannan S -->
+            <div class="architect-card">
+                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/team/kannan-s-web-developer.webp" alt="Kannan S - Web Architect" class="architect-photo">
+                <div>
+                    <h3 class="architect-name">Kannan S</h3>
+                    <span class="architect-exp">Lead Web Architect • 2 Years Experience</span>
+                    <p class="architect-bio">
+                        With 2 years of specialized experience, Kannan worked in IT companies in custom web development and frontend engineering before joining Fusion X. He custom-codes responsive web pages and digital storefronts from scratch without bloated page builders, optimizing UI and UX architecture for effortless navigation, sub-second load times, and 90+ Core Web Vitals scores.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ INSTANT SEO AUDIT TOOL / FORM ═══════════════════════ -->
+    <section class="audit-form-section" id="audit-tool">
+        <div class="audit-form-card">
+            <span class="section-tag-neon" style="color:#ff8a65;">Zero Cost • 100% Actionable</span>
+            <h2 style="font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: #ffffff; margin: 8px 0 16px;">
+                Request Your Free 24-Hour Technical SEO Audit
+            </h2>
+            <p style="color: #cbd5e1; font-size: 1rem; line-height: 1.6; max-width: 650px; margin: 0 auto;">
+                Enter your website and target location. Saravana Sanjhay M will personally crawl your site, detect crawl blockers, identify keyword gaps, and send a custom action plan within 24 hours.
+            </p>
+
+            <form onsubmit="handleAuditSubmit(event)">
+                <div class="form-row-grid">
+                    <input type="url" id="audit-website" class="input-dark" placeholder="https://yourwebsite.com" required>
+                    <input type="text" id="audit-locality" class="input-dark" placeholder="Target Locality (e.g. Vadapalani, Chennai)" required>
+                    <input type="tel" id="audit-phone" class="input-dark" placeholder="Phone Number / WhatsApp" required>
+                </div>
+                <button type="submit" class="btn-seo-primary" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 16px;">
+                    <i class="fas fa-search-location"></i> Run Diagnostic Crawl Audit &rarr;
+                </button>
+            </form>
+            <div id="audit-success-msg" style="display:none; margin-top:20px; color:#34d399; font-weight:700; font-size:1.05rem;">
+                ✓ Audit Request Received! Saravana Sanjhay M will contact you on WhatsApp within 24 hours with your report.
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ SEMANTIC SEARCH SILOS & KEYWORD MATRIX ═══════════════════════ -->
+    <section class="seo-keywords-section">
+        <span class="section-tag-neon">Topical Salience & Silo Structure</span>
+        <h2 class="section-h2-center">Semantic Search Architecture & Keyword Silos</h2>
+        <p class="section-lead-center">
+            How Fusion X builds topical authority graphs connecting primary brand entities, algorithmic LSI clusters, and hyper-local secondary keywords to capture search share across both traditional Google SERPs and Generative AI engines (GEO).
+        </p>
+
+        <div class="seo-matrix-grid">
+            <!-- 1. Core Primary Entities -->
+            <div class="seo-matrix-card">
+                <span class="seo-card-badge badge-primary"><i class="fas fa-crown"></i> Core Search Entities</span>
+                <h3 class="seo-card-title">Primary Regional & National Entities</h3>
+                <p class="seo-card-desc">
+                    High-authority seed entities establishing entity salience across Google's Knowledge Graph and Generative Engine Optimization (GEO).
+                </p>
+                <div class="seo-pills-wrap">
+                    <span class="seo-pill-tag">Best SEO Company in Chennai</span>
+                    <span class="seo-pill-tag">SEO Optimization Chennai</span>
+                    <span class="seo-pill-tag">Best Digital Marketing Company in India</span>
+                    <span class="seo-pill-tag">Generative Engine Optimization (GEO)</span>
+                    <span class="seo-pill-tag">Technical SEO Consultant Chennai</span>
+                </div>
+            </div>
+
+            <!-- 2. Semantic Clusters (LSI & GEO) -->
+            <div class="seo-matrix-card">
+                <span class="seo-card-badge badge-semantic"><i class="fas fa-network-wired"></i> Algorithmic LSI & GEO Clusters</span>
+                <h3 class="seo-card-title">Topical Authority & Knowledge Graph</h3>
+                <p class="seo-card-desc">
+                    Semantic entity ontologies powering citations in Google AI Overviews, Perplexity AI, ChatGPT Search, and Copilot.
+                </p>
+                <div class="seo-pills-wrap">
+                    <span class="seo-pill-tag">Answer Engine Optimization (AEO)</span>
+                    <span class="seo-pill-tag">Google SGE & AI Overviews Snippets</span>
+                    <span class="seo-pill-tag">Core Web Vitals (INP, LCP, CLS)</span>
+                    <span class="seo-pill-tag">Schema.org JSON-LD Entity Injection</span>
+                    <span class="seo-pill-tag">Topical Content Silo Architecture</span>
+                    <span class="seo-pill-tag">Crawl Budget Optimization</span>
+                    <span class="seo-pill-tag">EEAT Trust Signals (Google Guidelines)</span>
+                </div>
+            </div>
+
+            <!-- 3. Secondary & Hyper-Local Keywords -->
+            <div class="seo-matrix-card">
+                <span class="seo-card-badge badge-secondary"><i class="fas fa-map-marked-alt"></i> Secondary & Local Silos</span>
+                <h3 class="seo-card-title">Hyper-Local Intent & Commercial Variants</h3>
+                <p class="seo-card-desc">
+                    Locality-specific search terms capturing high-intent nearby buyers across Chennai's commercial hubs and business districts.
+                </p>
+                <div class="seo-pills-wrap">
+                    <a href="#vadapalani" class="seo-pill-tag">Vadapalani Local SEO &rarr;</a>
+                    <a href="#anna-nagar" class="seo-pill-tag">Anna Nagar SEO Services &rarr;</a>
+                    <a href="#t-nagar" class="seo-pill-tag">T Nagar Retail SEO &rarr;</a>
+                    <a href="#porur" class="seo-pill-tag">Porur Business SEO &rarr;</a>
+                    <a href="#velachery" class="seo-pill-tag">Velachery IT SEO &rarr;</a>
+                    <a href="#purasaiwakkam" class="seo-pill-tag">Purasaiwakkam Trade SEO &rarr;</a>
+                    <span class="seo-pill-tag">Google Maps 3-Pack Ranking Chennai</span>
+                    <span class="seo-pill-tag">NAP Consistency Citation Building</span>
+                    <span class="seo-pill-tag">B2B Organic Lead Generation Chennai</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cross-Link Highway Banner back to services.html -->
+        <div class="seo-link-highway">
+            <div class="highway-text-wrap">
+                <h4 style="color:#ffffff; margin:0 0 6px; font-size:1.15rem;">Need More Than Just SEO Dominance?</h4>
+                <p style="color:#cbd5e1; margin:0; font-size:0.95rem; line-height:1.5;">
+                    Explore our full suite of digital solutions on our main <a href="<?php echo esc_url( home_url( '/digital-marketing-services/' ) ); ?>" style="color:var(--seo-orange); font-weight:700; text-decoration:underline;">Digital Marketing Services Page</a> - custom high-speed web builds, Meta/Google performance ads, and 4K commercial video production.
+                </p>
+            </div>
+            <a href="<?php echo esc_url( home_url( '/digital-marketing-services/' ) ); ?>" class="btn-seo-primary" style="white-space:nowrap; padding:12px 24px;">
+                <span>View All Services</span> &rarr;
+            </a>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ FAQ SECTION (AI & LOCAL VISIBILITY) ═══════════════════════ -->
+    <section class="seo-faq-section">
+        <span class="section-tag-neon">Common Inquiries</span>
+        <h2 class="section-h2-center">Frequently Asked Questions About Chennai SEO & AI Search</h2>
+
+        <div class="seo-faq-accordion">
+            <!-- Q1 -->
+            <div class="seo-faq-item active">
+                <button class="seo-faq-btn">
+                    <span>What is Local SEO and how does the Google Maps 3-Pack work in Chennai?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="seo-faq-panel" style="display:block;">
+                    <p>Local SEO optimizes your Google Business Profile and website for high-intent geographic search queries. The Google Maps 3-Pack is the top section displaying the 3 most relevant, authoritative local businesses on Google Search when nearby buyers search for services in Chennai.</p>
+                </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="seo-faq-item">
+                <button class="seo-faq-btn">
+                    <span>What is Generative Engine Optimization (GEO) and how does Fusion X optimize for AI Search (ChatGPT, Perplexity, Google AI Overviews)?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="seo-faq-panel">
+                    <p>Generative Engine Optimization (GEO) and Answer Engine Optimization (AEO) prepare your digital brand for AI search engines like ChatGPT Search, Perplexity AI, Google Gemini, and Google AI Overviews. Fusion X optimizes your entity graph, embeds nested Schema.org microdata (LocalBusiness, Organization, Service, FAQPage), structures direct semantic answers, and secures authoritative NAP directory citations so AI engines quote Fusion X clients as primary authorities.</p>
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="seo-faq-item">
+                <button class="seo-faq-btn">
+                    <span>How long does it take for competitive keywords to reach Page 1 and Map 3-Pack rankings on Google?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="seo-faq-panel">
+                    <p>Local citation mapping and initial crawl movements begin within 4 weeks. High-intent local keywords and Google Maps 3-Pack rankings typically stabilize on the top positions within 8 to 12 weeks of continuous optimization.</p>
+                </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="seo-faq-item">
+                <button class="seo-faq-btn">
+                    <span>How does semantic keyword clustering and secondary long-tail keyword targeting accelerate organic traffic?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="seo-faq-panel">
+                    <p>Rather than targeting isolated keywords, Fusion X builds topical authority silos. Primary semantic keywords establish domain-wide relevance, while intent-driven secondary and long-tail keywords target immediate conversion queries (e.g., 'vadapalani local seo', 'technical seo audit chennai', 'google maps 3-pack rank acceleration'). This strategy prevents keyword cannibalization and expands total organic impressions exponentially.</p>
+                </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="seo-faq-item">
+                <button class="seo-faq-btn">
+                    <span>Who directly executes the technical SEO and crawl audits at Fusion X?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="seo-faq-panel">
+                    <p>All SEO work is personally executed in-house by Senior SEO Strategist Saravana Sanjhay M (2 Years Exp in Technical SEO & Crawl Audits) and Web Architect Kannan S (2 Years Exp in Core Web Vitals & Speed Optimization). We never outsource to third-party freelancers.</p>
+                </div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="seo-faq-item">
+                <button class="seo-faq-btn">
+                    <span>What proven ROI and client results has Fusion X delivered across Chennai localities?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="seo-faq-panel">
+                    <p>For Bhawani Corner in T Nagar, we achieved a +180% organic search visibility surge and generated 900+ inbound calls in 3 months. For Sridhar Food House in Kolathur, we drove a +240% increase in local footfall through Maps 3-Pack dominance. For skincare clinics in Anna Nagar, we maintain 110+ monthly qualified inquiries.</p>
+                </div>
+            </div>
+
+            <!-- Q7 -->
+            <div class="seo-faq-item">
+                <button class="seo-faq-btn">
+                    <span>Why is custom web architecture critical for SEO and Core Web Vitals compared to generic CMS builders?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="seo-faq-panel">
+                    <p>Google evaluates Core Web Vitals (Largest Contentful Paint, Interaction to Next Paint, Cumulative Layout Shift) as primary ranking signals. Bloated page builders like Elementor or Divi inject megabytes of unused scripts that ruin mobile crawlability. Our custom HTML5/CSS/JavaScript builds deliver sub-second speeds and 90+ PageSpeed scores, giving you a decisive edge on SERPs.</p>
+                </div>
+            </div>
+
+            <!-- Q8 -->
+            <div class="seo-faq-item">
+                <button class="seo-faq-btn">
+                    <span>How does Fusion X track, verify, and report monthly SEO performance and conversions?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="seo-faq-panel">
+                    <p>We provide transparent live tracking: Google Search Console organic click volume, Google Business Profile direct phone calls and direction requests, organic keyword rank tracking across desktop & mobile, and conversion goal tracking via Google Analytics 4.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ UNIVERSAL FOOTER ═══════════════════════ -->
+        
+    <!-- ═══════════════════════ TEAM SPECIALIST SPOTLIGHT ═══════════════════════ -->
+    <section class="expert-spotlight-section">
+        <div class="expert-spotlight-card">
+            <div class="expert-avatar-wrap">
+                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/team/saravana-sanjhay-m-seo-expert.webp" alt="Saravana Sanjhay M - Best SEO Expert" class="expert-avatar-img">
+                <div class="expert-verified-badge"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="expert-content">
+                <div class="expert-domain-pill"><i class="fa-solid fa-magnifying-glass-chart"></i> Technical SEO & AI Search Lead</div>
+                <h3 class="expert-name">Saravana Sanjhay M</h3>
+                <div class="expert-headline">
+                    <i class="fa-solid fa-award" style="color: #ff5722;"></i>
+                    <strong>best seo expert our company Saravana Sanjhay.M</strong>
+                </div>
+                <p class="expert-bio">
+                    Recognized among the <strong>top 10 seo ai experts</strong> in India, Saravana Sanjhay M leads Fusion X with deep mastery of <strong>technical seo vs on page seo</strong>. His proprietary systems are engineered to <strong>bring your brand in google search</strong> and sustainably <strong>bring organic traffic</strong> that accelerates client revenue. When ambitious brands choose to <strong>hire seo expert in india</strong>, Saravana ensures cutting-edge <strong>ai seo done to bring in ai search</strong> (ChatGPT Search, Perplexity AI, Google Gemini, and AI Overviews), alongside delivering the <strong>best ecommerce seo services in india</strong> for high-converting stores.
+                </p>
+                <div class="expert-stats-row">
+                    <div class="expert-stat-item">
+                        <span class="expert-stat-val">+280%</span>
+                        <span class="expert-stat-lbl">Avg Organic Traffic Lift</span>
+                    </div>
+                    <div class="expert-stat-item">
+                        <span class="expert-stat-val">Top 3</span>
+                        <span class="expert-stat-lbl">Maps 3-Pack Rate</span>
+                    </div>
+                    <div class="expert-stat-item">
+                        <span class="expert-stat-val">100%</span>
+                        <span class="expert-stat-lbl">White-Hat & AI Entity SEO</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<?php
+get_footer();

@@ -1,0 +1,1535 @@
+<?php
+/**
+ * Template Name: Meeras Beauty Parlour Case Study
+ *
+ * @package Fusion_X
+ */
+
+get_header();
+?>
+
+<style>
+        :root {
+            --brand-orange: #ff5722;
+            --brand-orange-light: #ff7043;
+            --brand-orange-glow: rgba(255, 87, 34, 0.45);
+            --brand-pink: #ec4899;
+            --brand-pink-glow: rgba(236, 72, 153, 0.4);
+            --brand-emerald: #10b981;
+            --bg-dark: #080808;
+            --bg-card: #111111;
+            --bg-card-hover: #181818;
+            --border-dark: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(255, 87, 34, 0.35);
+            --text-white: #ffffff;
+            --text-muted: #94a3b8;
+        }
+
+        html, body {
+            overflow-x: hidden !important;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ── HERO SECTION ── */
+        .case-hero {
+            position: relative;
+            padding: 150px 24px 80px;
+            background: radial-gradient(circle at 50% 12%, rgba(255, 87, 34, 0.14) 0%, rgba(8, 8, 8, 0.98) 70%), var(--bg-dark);
+            border-bottom: 1px solid var(--border-dark);
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-text-col {
+            position: relative;
+            z-index: 2;
+        }
+
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb-nav a:hover {
+            color: var(--brand-orange);
+        }
+
+        .breadcrumb-nav span {
+            color: var(--brand-orange);
+        }
+
+        .hero-badge-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .flagship-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 87, 34, 0.15);
+            border: 1px solid rgba(255, 87, 34, 0.4);
+            color: var(--brand-orange-light);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .heritage-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dark);
+            color: #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .hero-headline {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.2rem, 4.2vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.12;
+            letter-spacing: -1.2px;
+            color: #ffffff !important;
+            margin: 0 0 18px;
+        }
+
+        .hero-headline .highlight {
+            background: linear-gradient(135deg, #ff5722 0%, #ff8a50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-headline .highlight-pink {
+            background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subhead {
+            font-size: clamp(1rem, 1.6vw, 1.2rem);
+            line-height: 1.68;
+            color: #cbd5e1;
+            margin: 0 0 30px;
+            max-width: 660px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .btn-primary-orange {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #ffffff !important;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 13px 26px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 25px var(--brand-orange-glow);
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary-orange:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(255, 87, 34, 0.65);
+        }
+
+        .btn-secondary-dark {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff !important;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            border: 1px solid var(--border-dark);
+            transition: all 0.25s ease;
+        }
+
+        .btn-secondary-dark:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 87, 34, 0.4);
+            transform: translateY(-2px);
+            color: var(--brand-orange) !important;
+        }
+
+        /* 3D Showcase Stage */
+        .stage-3d-wrapper {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            background: radial-gradient(circle at center, rgba(236, 72, 153, 0.15) 0%, rgba(255, 87, 34, 0.1) 40%, rgba(18, 18, 18, 0.65) 75%);
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(236, 72, 153, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #three-canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: grab;
+        }
+
+        #three-canvas-container:active {
+            cursor: grabbing;
+        }
+
+        .stage-hint-pill {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(14, 14, 14, 0.88);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 87, 34, 0.4);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 0.74rem;
+            color: var(--brand-orange-light);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .stage-overlay-card {
+            position: absolute;
+            bottom: 14px;
+            left: 14px;
+            right: 14px;
+            background: rgba(12, 12, 12, 0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            border-radius: 14px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 5;
+            pointer-events: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .stage-client-logo {
+            height: 38px;
+            background: #ffffff;
+            padding: 4px 10px;
+            border-radius: 8px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .stage-client-text {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .stage-client-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.92rem;
+            color: #ffffff;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stage-client-sub {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ── STATS COUNTER STRIP ── */
+        .stats-strip {
+            background: #0d0d0d;
+            border-bottom: 1px solid var(--border-dark);
+            padding: 40px 24px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .stats-grid {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .stat-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-dark);
+            border-radius: 18px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-block:hover {
+            border-color: var(--brand-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(255, 87, 34, 0.15);
+        }
+
+        .stat-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.2rem, 3.6vw, 3rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-num span {
+            color: var(--brand-orange);
+        }
+
+        .stat-num span.pink {
+            color: var(--brand-pink);
+        }
+
+        .stat-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .stat-subtext {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        /* ── SECTION COMMON ── */
+        .case-section {
+            padding: 80px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-wrap {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 820px;
+            margin: 0 auto 50px;
+        }
+
+        .section-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-orange);
+            background: rgba(255, 87, 34, 0.08);
+            border: 1px solid rgba(255, 87, 34, 0.25);
+            padding: 6px 18px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.1rem, 3.6vw, 3.1rem);
+            font-weight: 900;
+            line-height: 1.15;
+            color: #ffffff !important;
+            margin: 0 0 16px;
+        }
+
+        .section-title span {
+            color: var(--brand-orange);
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* ── INTERACTIVE ELEVATION GRAPH ── */
+        .graph-card {
+            background: #0f0f0f;
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            padding: 36px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            margin-bottom: 45px;
+            position: relative;
+        }
+
+        .graph-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .graph-metric-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .metric-tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dark);
+            color: #94a3b8;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .metric-tab-btn:hover {
+            color: #ffffff;
+            border-color: rgba(255, 87, 34, 0.3);
+        }
+
+        .metric-tab-btn.active {
+            background: var(--brand-orange);
+            color: #ffffff;
+            border-color: var(--brand-orange);
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+        }
+
+        .graph-source-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .graph-source-note i {
+            color: #22c55e;
+        }
+
+        /* SVG Graph Canvas */
+        .chart-svg-container {
+            width: 100%;
+            height: 380px;
+            position: relative;
+            overflow: visible;
+        }
+
+        .chart-svg-container svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .chart-grid-line {
+            stroke: rgba(255, 255, 255, 0.06);
+            stroke-width: 1;
+            stroke-dasharray: 4 4;
+        }
+
+        .chart-axis-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            fill: #64748b;
+        }
+
+        .chart-area-fill {
+            fill: url(#orangeAreaGrad);
+            transition: d 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chart-path-line {
+            fill: none;
+            stroke: var(--brand-orange);
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 4px 10px rgba(255, 87, 34, 0.6));
+            transition: d 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chart-data-node {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .chart-data-node:hover circle {
+            r: 7;
+            stroke-width: 3;
+            stroke: #ffffff;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid var(--brand-orange);
+            backdrop-filter: blur(10px);
+            padding: 10px 16px;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 0.85rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            z-index: 50;
+            white-space: nowrap;
+        }
+
+        /* Checkpoint Cards Timeline */
+        .checkpoints-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 40px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .checkpoints-header i {
+            color: var(--brand-orange);
+        }
+
+        .checkpoints-timeline {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        .checkpoint-card {
+            background: #141414;
+            border: 1px solid var(--border-dark);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .checkpoint-card:hover, .checkpoint-card.active {
+            border-color: var(--brand-orange);
+            background: #1a1a1a;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(255, 87, 34, 0.15);
+        }
+
+        .checkpoint-card.active::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--brand-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--brand-orange);
+        }
+
+        .cp-month {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--brand-orange);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .cp-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .cp-metric {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+
+        .cp-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ── PERFORMANCE COMPARISON TABLES ── */
+        .table-card {
+            background: #111111;
+            border: 1px solid var(--border-dark);
+            border-radius: 24px;
+            padding: 32px;
+            margin-top: 36px;
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 600px;
+        }
+
+        .custom-table th {
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 2px solid var(--border-dark);
+            color: #94a3b8;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .custom-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            font-size: 0.92rem;
+        }
+
+        .custom-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .table-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .table-pill.green {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .table-pill.orange {
+            background: rgba(255, 87, 34, 0.15);
+            color: #ff7043;
+            border: 1px solid rgba(255, 87, 34, 0.35);
+        }
+
+        .table-pill.pink {
+            background: rgba(236, 72, 153, 0.15);
+            color: #f472b6;
+            border: 1px solid rgba(236, 72, 153, 0.35);
+        }
+
+        /* ── DELIVERABLES / WHAT WE BUILT ── */
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .deliverable-card {
+            background: #111111;
+            border: 1px solid var(--border-dark);
+            border-radius: 22px;
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .deliverable-card:hover {
+            border-color: rgba(255, 87, 34, 0.45);
+            background: #161616;
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .deliverable-icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: rgba(255, 87, 34, 0.1);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--brand-orange);
+            margin-bottom: 22px;
+        }
+
+        .deliverable-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 12px;
+        }
+
+        .deliverable-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin: 0 0 20px;
+        }
+
+        .deliverable-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .deliv-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* ── TESTIMONIAL SECTION ── */
+        .testimonial-box {
+            background: linear-gradient(135deg, #0e0e0e 0%, #171717 100%);
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            border-radius: 28px;
+            padding: 48px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .quote-icon-box {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: rgba(255, 87, 34, 0.12);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: var(--brand-orange);
+            flex-shrink: 0;
+        }
+
+        .quote-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+            font-weight: 700;
+            line-height: 1.45;
+            color: #ffffff;
+            margin: 0 0 18px;
+            font-style: italic;
+        }
+
+        .quote-author-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .quote-author-name {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #ffffff;
+        }
+
+        .quote-author-role {
+            font-size: 0.85rem;
+            color: var(--brand-orange-light);
+        }
+
+        /* ── BRAND VERIFICATION / CONTACT FOOTER CARD ── */
+        .client-info-banner {
+            background: linear-gradient(135deg, #121212 0%, #1c1c1c 100%);
+            border: 2px solid rgba(255, 87, 34, 0.35);
+            border-radius: 28px;
+            padding: 48px;
+            box-shadow: 0 20px 60px rgba(255, 87, 34, 0.12);
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .client-meta-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 0 14px;
+        }
+
+        .client-meta-title span {
+            color: var(--brand-orange);
+        }
+
+        .client-meta-desc {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin: 0 0 24px;
+        }
+
+        .client-details-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .client-details-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .client-details-list li i {
+            color: var(--brand-orange);
+            font-size: 1.1rem;
+            margin-top: 3px;
+        }
+
+        .client-action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* ── RESPONSIVE RULES ── */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+            .stage-3d-wrapper {
+                height: 380px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .deliverables-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .checkpoints-timeline {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .client-info-banner {
+                grid-template-columns: 1fr;
+            }
+            .testimonial-box {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .case-hero {
+                padding: 110px 18px 50px;
+                overflow: hidden;
+            }
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            .flagship-badge, .heritage-pill {
+                white-space: normal;
+                text-align: center;
+                max-width: 100%;
+                box-sizing: border-box;
+                line-height: 1.35;
+                font-size: 0.72rem;
+            }
+            .hero-headline {
+                font-size: clamp(1.65rem, 6.2vw, 2.2rem) !important;
+                letter-spacing: -0.5px;
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+            .hero-cta-group a {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+            .stage-3d-wrapper {
+                height: 385px;
+            }
+            .stage-hint-pill {
+                top: 10px;
+                right: 10px;
+                padding: 4px 10px;
+                font-size: 0.68rem;
+            }
+            .stage-overlay-card {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                padding: 8px 12px;
+                gap: 10px;
+            }
+            .stage-client-logo {
+                height: 30px;
+                padding: 3px 8px;
+            }
+            .stage-client-title {
+                font-size: 0.82rem;
+            }
+            .stage-client-sub {
+                font-size: 0.68rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .stats-strip {
+                padding: 28px 16px;
+            }
+            .case-section {
+                padding: 55px 16px;
+            }
+            .section-header {
+                margin-bottom: 35px;
+            }
+            .table-card {
+                padding: 20px 12px;
+                border-radius: 16px;
+            }
+            .deliverables-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+            .checkpoints-timeline {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .graph-card {
+                padding: 20px 14px;
+            }
+            .chart-svg-container {
+                height: 260px;
+            }
+            .client-info-banner {
+                padding: 26px 18px;
+            }
+            .client-action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            .client-action-buttons a {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+    <header class="case-hero">
+        <div class="hero-container">
+            <div class="hero-text-col">
+                <div class="breadcrumb-nav">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <a href="<?php echo esc_url( home_url( '/portfolio/' ) ); ?>">Portfolio</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <span>Meera's Beauty Parlour</span>
+                </div>
+
+                <div class="hero-badge-wrap">
+                    <div class="flagship-badge">
+                        <i class="fa-solid fa-star"></i> FLAGSHIP CLIENT CASE STUDY
+                    </div>
+                    <div class="heritage-pill">
+                        <i class="fa-solid fa-spa" style="color: #ec4899;"></i> Premier Bridal &amp; Salon Brand
+                    </div>
+                    <div class="heritage-pill">
+                        <i class="fa-solid fa-location-dot" style="color: #ff5722;"></i> Chennai, Tamil Nadu
+                    </div>
+                </div>
+
+                <h1 class="hero-headline">
+                    Meera's Beauty Parlour: <span class="highlight">+40% Surge in Bookings</span> &amp; <span class="highlight-pink">₹23.54 Meta Ads CPL</span>
+                </h1>
+
+                <p class="hero-subhead">
+                    How Fusion X revolutionized appointment bookings and bridal inquiries for Meera's Beauty Parlour through high-speed mobile web architecture, laser-targeted Meta Lead Ads driving direct WhatsApp bookings, Google Maps 3-Pack Local SEO, and an automated 5-star review engine.
+                </p>
+
+                <div class="hero-cta-group">
+                    <a href="#interactive-graph" class="btn-primary-orange">
+                        <span>Explore Growth Graph</span> <i class="fa-solid fa-chart-line"></i>
+                    </a>
+                    <a href="#campaign-audit" class="btn-secondary-dark">
+                        <i class="fa-solid fa-table"></i> View Campaign Audit
+                    </a>
+                    <a href="https://meerasbeautyparlour.in/" target="_blank" rel="noopener noreferrer" class="btn-secondary-dark">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Official Site
+                    </a>
+                    <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn-secondary-dark">
+                        <i class="fa-solid fa-calendar-check"></i> Book Strategy Call
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3D Interactive Stage -->
+            <div class="hero-visual-col">
+                <div class="stage-3d-wrapper">
+                    <div id="three-canvas-container"></div>
+                    <div class="stage-hint-pill">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>Drag 3D Beauty Crystal</span>
+                    </div>
+                    <div class="stage-overlay-card">
+                        <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/meeras/logo.webp" alt="Meera's Beauty Parlour Logo" class="stage-client-logo">
+                        <div class="stage-client-text">
+                            <div class="stage-client-title">Meera's Beauty Parlour</div>
+                            <div class="stage-client-sub">Chennai, Tamil Nadu &bull; Verified Salon Partner</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════ STATS COUNTER STRIP ═══════════════════════ -->
+    <section class="stats-strip">
+        <div class="stats-grid">
+            <div class="stat-block">
+                <div class="stat-num"><span>+40%</span></div>
+                <div class="stat-title">Appointment Bookings Surge</div>
+                <div class="stat-subtext">+185% increase in high-ticket bridal inquiries during wedding season</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-num"><span class="pink">₹23.54</span></div>
+                <div class="stat-title">Lowest Meta Ads CPL</div>
+                <div class="stat-subtext">Direct messaging leads on WhatsApp &amp; Messenger vs ₹120+ benchmark</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-num"><span>67</span></div>
+                <div class="stat-title">Messaging Leads Gained</div>
+                <div class="stat-subtext">Captured across ₹4,703 test ad spend with exceptional booking rate</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-num"><span>2,340</span></div>
+                <div class="stat-title">Monthly Web Visitors</div>
+                <div class="stat-subtext">1.4s ultra-fast mobile load time driving 92 online bookings &amp; 180+ calls</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ INTERACTIVE PERFORMANCE ELEVATION GRAPH ═══════════════════════ -->
+    <section class="case-section" id="interactive-graph">
+        <div class="section-wrap">
+            <div class="section-header">
+                <div class="section-pill"><i class="fa-solid fa-arrow-trend-up"></i> REAL PERFORMANCE AUDIT</div>
+                <h2 class="section-title">Verified Growth &amp; <span>Elevation Graph</span></h2>
+                <p class="section-desc">
+                    Examine verified multi-channel growth data across Google Analytics 4 and Meta Ads Manager. Tracking how Fusion X transitioned Meera's Beauty Parlour from walk-in dependence to predictable monthly digital bookings.
+                </p>
+            </div>
+
+            <div class="graph-card">
+                <div class="graph-controls">
+                    <div class="graph-metric-tabs">
+                        <button class="metric-tab-btn active" data-metric="visitors">
+                            <i class="fa-solid fa-users"></i> Monthly Web Visitors (GA4)
+                        </button>
+                        <button class="metric-tab-btn" data-metric="bookings">
+                            <i class="fa-solid fa-calendar-check"></i> Confirmed Bookings
+                        </button>
+                        <button class="metric-tab-btn" data-metric="leads">
+                            <i class="fa-brands fa-whatsapp"></i> Messaging Leads (Meta)
+                        </button>
+                    </div>
+                    <div class="graph-source-note">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Source: Verified Google Analytics 4 &amp; Meta Ads Manager Audit</span>
+                    </div>
+                </div>
+
+                <!-- SVG Interactive Chart Container -->
+                <div class="chart-svg-container" id="chart-container">
+                    <svg id="elevation-svg" viewBox="0 0 1000 360" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="orangeAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#ff5722" stop-opacity="0.55"/>
+                                <stop offset="60%" stop-color="#ff5722" stop-opacity="0.12"/>
+                                <stop offset="100%" stop-color="#ff5722" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Grid Lines -->
+                        <g id="chart-grid"></g>
+                        
+                        <!-- Area Fill -->
+                        <path id="chart-area" class="chart-area-fill" d=""></path>
+                        
+                        <!-- Main Stroke -->
+                        <path id="chart-line" class="chart-path-line" d=""></path>
+                        
+                        <!-- Data Nodes -->
+                        <g id="chart-nodes"></g>
+                    </svg>
+
+                    <!-- Floating Tooltip -->
+                    <div class="chart-tooltip" id="chart-tooltip">
+                        <div id="tooltip-month" style="font-weight: 700; color: #ff5722;"></div>
+                        <div id="tooltip-value" style="font-size: 1.1rem; font-weight: 900;"></div>
+                        <div id="tooltip-note" style="font-size: 0.75rem; color: #94a3b8;"></div>
+                    </div>
+                </div>
+
+                <!-- Clickable Checkpoint Milestones -->
+                <div class="checkpoints-header">
+                    <i class="fa-solid fa-flag-checkered"></i> Bridal Scaling Phases &amp; Campaign Milestones
+                </div>
+
+                <div class="checkpoints-timeline">
+                    <div class="checkpoint-card" data-index="0">
+                        <div>
+                            <div class="cp-month">MONTH 1 (NOV 2025)</div>
+                            <div class="cp-title">Initial Salon Audit &amp; Web Build</div>
+                            <div class="cp-metric">210 Visitors • 14 Bookings</div>
+                        </div>
+                        <div class="cp-desc">Legacy slow page replaced by a sub-1.4s mobile website with transparent service menus and one-tap WhatsApp booking.</div>
+                    </div>
+
+                    <div class="checkpoint-card" data-index="1">
+                        <div>
+                            <div class="cp-month">MONTH 2 (DEC 2025)</div>
+                            <div class="cp-title">Google Maps 3-Pack &amp; Reviews</div>
+                            <div class="cp-metric">620 Visitors • 32 Bookings</div>
+                        </div>
+                        <div class="cp-desc">Optimized GMB profile, added bridal makeover categories, and launched automated 5-star review collection from salon clients.</div>
+                    </div>
+
+                    <div class="checkpoint-card" data-index="2">
+                        <div>
+                            <div class="cp-month">MONTH 3 (JAN 2026)</div>
+                            <div class="cp-title">Meta Ads Kickoff (WhatsApp)</div>
+                            <div class="cp-metric">1,180 Visitors • 54 Bookings</div>
+                        </div>
+                        <div class="cp-desc">Targeted Instagram &amp; Facebook sponsored creatives to women aged 21-45 within a 5km radius, funneled to WhatsApp chat.</div>
+                    </div>
+
+                    <div class="checkpoint-card active" data-index="3">
+                        <div>
+                            <div class="cp-month">MONTH 4 (FEB 2026)</div>
+                            <div class="cp-title">Bridal Surge &amp; ₹23.54 CPL</div>
+                            <div class="cp-metric">1,650 Visitors • 72 Bookings</div>
+                        </div>
+                        <div class="cp-desc">High-ticket bridal makeover campaigns delivering ₹23.54 CPL and filling wedding season bridal slots weeks ahead.</div>
+                    </div>
+
+                    <div class="checkpoint-card" data-index="5">
+                        <div>
+                            <div class="cp-month">MONTH 6 (APR 2026)</div>
+                            <div class="cp-title">Sustained Market Dominance</div>
+                            <div class="cp-metric">2,340 Visitors • 92 Bookings</div>
+                        </div>
+                        <div class="cp-desc">290+ total active clients, 180+ monthly phone calls, and an undeniable localized brand moat across Chennai.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ DETAILED CAMPAIGN AUDIT & PERFORMANCE TABLES ═══════════════════════ -->
+    <section class="case-section" id="campaign-audit" style="background: #090909; padding-top: 40px;">
+        <div class="section-wrap">
+            <div class="section-header">
+                <div class="section-pill"><i class="fa-solid fa-table"></i> VERIFIED METRIC AUDIT</div>
+                <h2 class="section-title">Baseline vs. <span>Post-Optimization Result</span></h2>
+                <p class="section-desc">
+                    Comprehensive economics and conversion data showcasing how Fusion X cut cost per lead by 80% while scaling total monthly appointments.
+                </p>
+            </div>
+
+            <!-- Table 1: Salon Performance Economics -->
+            <div class="table-card">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; margin: 0 0 20px; color: #ffffff; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-chart-pie" style="color: #ff5722;"></i> Salon Growth Analytics: Pre-Campaign vs Post-Fusion X
+                </h3>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Salon Performance Metric</th>
+                            <th>Pre-Optimization Baseline</th>
+                            <th>Post-Fusion X Result</th>
+                            <th>Net Growth Achieved</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Monthly Appointment Bookings</strong></td>
+                            <td>14 Bookings / month</td>
+                            <td><span class="table-pill green">92 Bookings / month</span></td>
+                            <td><span class="table-pill orange">↑ +557% Bookings Lift</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>High-Ticket Bridal Packages</strong></td>
+                            <td>2–3 per season</td>
+                            <td><span class="table-pill green">18+ per season</span></td>
+                            <td><span class="table-pill pink">↑ +185% Bridal Surge</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Meta Ads Cost Per Lead (CPL)</strong></td>
+                            <td>₹120.00+ benchmark</td>
+                            <td><span class="table-pill green">₹23.54 (Lowest CPL)</span></td>
+                            <td><span class="table-pill orange">↓ 80.4% Lower CPL</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Direct Messaging Leads</strong></td>
+                            <td>8 Leads / month</td>
+                            <td><span class="table-pill green">67 Leads / cycle</span></td>
+                            <td><span class="table-pill green">↑ +737% Lead Flow</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monthly Website Traffic (GA4)</strong></td>
+                            <td>210 Visitors</td>
+                            <td><span class="table-pill green">2,340 Visitors</span></td>
+                            <td><span class="table-pill orange">↑ +1,014% Web Lift</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mobile Page Load Speed</strong></td>
+                            <td>5.8 seconds (Laggy)</td>
+                            <td><span class="table-pill green">1.4 seconds (Blazing)</span></td>
+                            <td><span class="table-pill green">75.8% Faster FCP</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table 2: Multi-Channel Marketing Architecture -->
+            <div class="table-card">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; margin: 0 0 20px; color: #ffffff; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-network-wired" style="color: #ec4899;"></i> Multi-Channel Architecture &amp; Deliverable Execution
+                </h3>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Digital Channel</th>
+                            <th>Deliverable Implemented</th>
+                            <th>Conversion Mechanism</th>
+                            <th>Measured Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: #ff7043;"><i class="fa-brands fa-meta"></i> Meta Lead Ads</strong></td>
+                            <td>WhatsApp &amp; Messenger click-to-chat ads targeted to local Chennai pin codes</td>
+                            <td>Pre-filled WhatsApp inquiries with instant service menu</td>
+                            <td><span class="table-pill orange">₹23.54 Lowest CPL • 67 Leads</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #10b981;"><i class="fa-solid fa-map-location-dot"></i> Google Maps 3-Pack SEO</strong></td>
+                            <td>GMB category optimization, localized keywords &amp; geotagged photo updates</td>
+                            <td>Direct click-to-call and Google direction routing</td>
+                            <td><span class="table-pill green">180+ Monthly Direct Calls</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #3b82f6;"><i class="fa-solid fa-bolt"></i> Custom Static Web Portal</strong></td>
+                            <td>Lightweight static WordPress architecture with 1.4s load speed</td>
+                            <td>Seamless bridal gallery, transparent rate card, one-tap booking</td>
+                            <td><span class="table-pill green">2,340 Visitors • 92 Web Bookings</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #ec4899;"><i class="fa-solid fa-star"></i> Review Pipeline</strong></td>
+                            <td>Automated post-appointment WhatsApp feedback trigger with Google review link</td>
+                            <td>Frictionless review funnel converting satisfied clients to reviewers</td>
+                            <td><span class="table-pink table-pill pink">4.8★ Rating • 290 Total Clients</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ WHAT FUSION X DELIVERED ═══════════════════════ -->
+    <section class="case-section" id="deliverables">
+        <div class="section-wrap">
+            <div class="section-header">
+                <div class="section-pill"><i class="fa-solid fa-screwdriver-wrench"></i> FULL-STACK DELIVERABLES</div>
+                <h2 class="section-title">What Fusion X <span>Engineered</span></h2>
+                <p class="section-desc">
+                    A cohesive, multi-touch digital ecosystem designed to turn local search intent and social browsing into filled salon appointment calendars.
+                </p>
+            </div>
+
+            <div class="deliverables-grid">
+                <!-- 1 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <h3 class="deliverable-title">1.4s Mobile Web Experience</h3>
+                    <p class="deliverable-desc">Engineered a custom static web portal (<a href="https://meerasbeautyparlour.in/" target="_blank" style="color: var(--brand-orange); text-decoration: none;">meerasbeautyparlour.in</a>) loading in just 1.4 seconds with interactive rate cards and portfolio showcases.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">1.4s FCP</span>
+                        <span class="deliv-pill">Mobile-First UI</span>
+                        <span class="deliv-pill">Bridal Portfolio</span>
+                    </div>
+                </div>
+
+                <!-- 2 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-brands fa-meta"></i></div>
+                    <h3 class="deliverable-title">High-ROAS Meta Lead Ads</h3>
+                    <p class="deliverable-desc">Designed and deployed laser-targeted Facebook &amp; Instagram video creatives driving direct WhatsApp conversations at a record ₹23.54 Cost Per Lead.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">WhatsApp Funnels</span>
+                        <span class="deliv-pill">₹23.54 CPL</span>
+                        <span class="deliv-pill">Radius Targeting</span>
+                    </div>
+                </div>
+
+                <!-- 3 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <h3 class="deliverable-title">Google Maps 3-Pack SEO</h3>
+                    <p class="deliverable-desc">Dominated localized searches for "Beauty parlour near me" and "Bridal makeup Chennai", generating over 180 direct customer phone inquiries each month.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">Google 3-Pack</span>
+                        <span class="deliv-pill">180+ Calls / Mo</span>
+                        <span class="deliv-pill">Local Citations</span>
+                    </div>
+                </div>
+
+                <!-- 4 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-brands fa-whatsapp"></i></div>
+                    <h3 class="deliverable-title">One-Tap WhatsApp Booking</h3>
+                    <p class="deliverable-desc">Integrated direct click-to-WhatsApp booking CTA buttons throughout the web platform, removing booking friction and allowing clients to reserve salon slots instantly.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">Instant Inquiries</span>
+                        <span class="deliv-pill">Zero Friction</span>
+                        <span class="deliv-pill">High Conversion</span>
+                    </div>
+                </div>
+
+                <!-- 5 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-solid fa-star"></i></div>
+                    <h3 class="deliverable-title">Automated Review Engine</h3>
+                    <p class="deliverable-desc">Implemented a post-service WhatsApp automation that invites delighted salon guests to leave authentic Google reviews, building an authoritative 4.8-star local reputation.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">4.8★ Rating</span>
+                        <span class="deliv-pill">Automated SMS/WA</span>
+                        <span class="deliv-pill">Social Proof Moat</span>
+                    </div>
+                </div>
+
+                <!-- 6 -->
+                <div class="deliverable-card">
+                    <div class="deliverable-icon-box"><i class="fa-solid fa-gem"></i></div>
+                    <h3 class="deliverable-title">Bridal Package Strategy</h3>
+                    <p class="deliverable-desc">Positioned high-ticket bridal makeovers and pre-wedding skin regimens, resulting in a +185% surge in seasonal bridal bookings with advance deposit commitments.</p>
+                    <div class="deliverable-tag-list">
+                        <span class="deliv-pill">+185% Bridal Lift</span>
+                        <span class="deliv-pill">High Ticket</span>
+                        <span class="deliv-pill">Advance Deposits</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ TESTIMONIAL ═══════════════════════ -->
+    <section class="case-section" id="testimonial" style="background: #0b0b0b; padding-top: 20px;">
+        <div class="section-wrap">
+            <div class="testimonial-box">
+                <div class="quote-icon-box">
+                    <i class="fa-solid fa-quote-left"></i>
+                </div>
+                <div>
+                    <p class="quote-text">
+                        "The bridal inquiries completely transformed our wedding season bookings. Getting direct WhatsApp leads daily changed how we fill our schedule."
+                    </p>
+                    <div class="quote-author-info">
+                        <div>
+                            <div class="quote-author-name">Meera</div>
+                            <div class="quote-author-role">Founder &amp; Lead Stylist, Meera's Beauty Parlour</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ CLIENT STORE VERIFICATION BAR ═══════════════════════ -->
+    <section class="case-section" style="padding-top: 20px;">
+        <div class="section-wrap">
+            <div class="client-info-banner">
+                <div>
+                    <h2 class="client-meta-title">Verified Partner: <span>Meera's Beauty Parlour</span></h2>
+                    <p class="client-meta-desc">
+                        A premier salon destination in Chennai providing specialized hair styling, skin rejuvenation, bridal makeovers, and luxury spa treatments. Experience their services online or book your consultation directly.
+                    </p>
+                    <ul class="client-details-list">
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div><strong>Salon Location:</strong> Chennai, Tamil Nadu, India</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-scissors"></i>
+                            <div><strong>Core Services:</strong> Bridal Makeovers, Hair Styling, Facial Rejuvenation, Spa &amp; Party Glow Packages</div>
+                        </li>
+                        <li>
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <div><strong>Direct WhatsApp Booking:</strong> Real-time appointment inquiries &amp; bridal slot reservations</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-globe"></i>
+                            <div><strong>Official Web Platform:</strong> <a href="https://meerasbeautyparlour.in/" target="_blank" style="color: var(--brand-orange); text-decoration: underline;">https://meerasbeautyparlour.in/</a></div>
+                        </li>
+                    </ul>
+                    <div class="client-action-buttons">
+                        <a href="https://meerasbeautyparlour.in/" target="_blank" rel="noopener noreferrer" class="btn-primary-orange">
+                            <span>Visit Official Website</span> <i class="fa-solid fa-external-link-alt"></i>
+                        </a>
+                        <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn-secondary-dark">
+                            <i class="fa-solid fa-calendar-check"></i> Book Strategy Session
+                        </a>
+                    </div>
+                </div>
+
+                <div style="text-align: center; background: rgba(0,0,0,0.4); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,87,34,0.25);">
+                    <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/meeras/logo.webp" alt="Meera's Beauty Parlour Logo" style="max-height: 80px; background: #fff; padding: 10px 20px; border-radius: 12px; margin-bottom: 20px; object-fit: contain;">
+                    <div style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 8px;">
+                        Ready to Fill Your Salon Schedule?
+                    </div>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px;">
+                        Let Fusion X engineer an undeniable local presence, high-ROAS paid media funnels, and sub-second web platforms for your brand.
+                    </p>
+                    <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn-primary-orange" style="width: 100%; box-sizing: border-box; justify-content: center;">
+                        <span>Book Strategy Call</span> <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+
+<?php
+get_footer();

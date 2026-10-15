@@ -1,0 +1,1634 @@
+<?php
+/**
+ * Template Name: Careers & Internship
+ *
+ * @package Fusion_X
+ */
+
+get_header();
+?>
+
+<style>
+        :root {
+            --car-orange: #ff5722;
+            --car-orange-hover: #e64a19;
+            --car-dark: #080808;
+            --car-card-bg: #111113;
+            --car-card-border: rgba(255, 255, 255, 0.08);
+            --car-text-primary: #ffffff;
+            --car-text-secondary: #94a3b8;
+            --car-text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #080808;
+            color: #cbd5e1;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* ── HERO ── */
+        .careers-hero {
+            padding: 160px 24px 80px;
+            background: radial-gradient(circle at 50% 20%, rgba(255, 87, 34, 0.12) 0%, transparent 60%),
+                        radial-gradient(circle at 85% 70%, rgba(255, 138, 80, 0.06) 0%, transparent 50%),
+                        #080808;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid var(--car-card-border);
+        }
+
+        .careers-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 24px;
+            background: rgba(255, 87, 34, 0.1);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--car-orange);
+            margin-bottom: 24px;
+        }
+
+        .careers-badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--car-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--car-orange);
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% { transform: scale(0.95); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+            100% { transform: scale(0.95); opacity: 1; }
+        }
+
+        .careers-hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            color: #ffffff;
+            max-width: 1000px;
+            margin: 0 auto 24px;
+        }
+
+        .careers-hero-title .gradient-text {
+            background: linear-gradient(135deg, #ff5722 20%, #ff8a50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .careers-hero-sub {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            line-height: 1.7;
+            color: #94a3b8;
+            max-width: 850px;
+            margin: 0 auto 40px;
+        }
+
+        .online-mode-banner {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 8px 20px;
+            border-radius: 50px;
+            color: #34d399;
+            font-size: 0.88rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-action-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .btn-car-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: var(--car-orange);
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 8px 24px rgba(255, 87, 34, 0.35);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-car-primary:hover {
+            background: var(--car-orange-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(255, 87, 34, 0.45);
+        }
+
+        .btn-car-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: #111113;
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .btn-car-secondary:hover {
+            border-color: var(--car-orange);
+            color: var(--car-orange);
+            transform: translateY(-2px);
+        }
+
+        /* ── STATS BAR ── */
+        .careers-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 40px;
+            background: #111113;
+            border: 1px solid var(--car-card-border);
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .stat-box {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-box:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-num span {
+            color: var(--car-orange);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── BRAND PORTFOLIO LIVE PROOF CALLOUT ── */
+        .live-brands-ticker-wrap {
+            padding: 30px 20px;
+            background: #0a0a0c;
+            border-bottom: 1px solid var(--car-card-border);
+            text-align: center;
+        }
+
+        .ticker-label {
+            font-size: 0.82rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .ticker-brands-list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .ticker-brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #141418;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .ticker-brand-pill i {
+            color: var(--car-orange);
+        }
+
+        /* ── SECTION COMMONS ── */
+        .careers-section {
+            padding: 100px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header-center {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+
+        .section-tag {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--car-orange);
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .section-heading {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        /* ── ACADEMY PILLARS GRID ── */
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .pillar-card {
+            background: #111113;
+            border: 1px solid var(--car-card-border);
+            border-radius: 20px;
+            padding: 36px 30px;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 87, 34, 0.4);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 87, 34, 0.15);
+        }
+
+        .pillar-icon-wrap {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: rgba(255, 87, 34, 0.12);
+            color: var(--car-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 22px;
+            transition: all 0.3s ease;
+        }
+
+        .pillar-card:hover .pillar-icon-wrap {
+            background: var(--car-orange);
+            color: #ffffff;
+            transform: scale(1.08);
+        }
+
+        .pillar-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .pillar-text {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        /* ── CERTIFICATE & TEST POLICY CALLOUT ── */
+        .policy-callout-box {
+            background: radial-gradient(circle at 10% 50%, rgba(255, 87, 34, 0.12) 0%, #111113 70%);
+            border: 1.5px solid rgba(255, 87, 34, 0.35);
+            border-radius: 24px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 30px;
+            align-items: center;
+            margin-bottom: 70px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .policy-seal-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 87, 34, 0.15);
+            border: 2px solid var(--car-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: var(--car-orange);
+            box-shadow: 0 0 25px rgba(255, 87, 34, 0.3);
+        }
+
+        .policy-text-wrap h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 8px 0;
+        }
+
+        .policy-text-wrap p {
+            color: #94a3b8;
+            font-size: 0.98rem;
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        .policy-badge-pill {
+            background: rgba(255, 87, 34, 0.15);
+            border: 1px solid var(--car-orange);
+            color: #ff8a50;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        /* ── PROGRAMS & TRACKS SECTION ── */
+        .programs-wrapper {
+            background: #0b0b0e;
+            padding: 100px 24px;
+            border-top: 1px solid var(--car-card-border);
+            border-bottom: 1px solid var(--car-card-border);
+        }
+
+        /* Dual Tabs: Courses vs Internships */
+        .type-toggle-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .type-toggle-btn {
+            background: #15151a;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .type-toggle-btn:hover, .type-toggle-btn.active {
+            background: var(--car-orange);
+            border-color: var(--car-orange);
+            color: #ffffff;
+            box-shadow: 0 8px 25px rgba(255, 87, 34, 0.35);
+        }
+
+        /* Category Filter Pills */
+        .filter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .filter-btn {
+            background: #111113;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: rgba(255, 87, 34, 0.15);
+            border-color: var(--car-orange);
+            color: #ff8a50;
+        }
+
+        /* Program Cards */
+        .program-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .program-card {
+            background: #111113;
+            border: 1px solid var(--car-card-border);
+            border-radius: 24px;
+            padding: 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--car-orange), transparent);
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+
+        .program-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 87, 34, 0.45);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 87, 34, 0.12);
+        }
+
+        .program-card:hover::before {
+            opacity: 1;
+        }
+
+        .program-top-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .program-badge {
+            background: rgba(255, 87, 34, 0.15);
+            color: #ff8a50;
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 87, 34, 0.3);
+        }
+
+        .duration-badge {
+            background: #1a1a20;
+            color: #cbd5e1;
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .duration-badge i {
+            color: var(--car-orange);
+        }
+
+        .duration-package-badge {
+            background: linear-gradient(135deg, rgba(255, 87, 34, 0.22), rgba(255, 138, 80, 0.12));
+            color: #ffab91;
+            border: 1px solid rgba(255, 87, 34, 0.45);
+            box-shadow: 0 0 14px rgba(255, 87, 34, 0.18);
+        }
+
+        .duration-package-badge i {
+            color: #ff5722;
+        }
+
+        .package-bonus-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 50px;
+            padding: 5px 12px;
+            margin: 12px 0 6px 0;
+        }
+
+        .package-bonus-pill i {
+            color: #4ade80;
+        }
+
+        .program-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 14px 0;
+            line-height: 1.25;
+        }
+
+        .program-desc {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            line-height: 1.65;
+            margin-bottom: 20px;
+        }
+
+        .program-curriculum-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .program-curriculum-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.45;
+        }
+
+        .program-curriculum-list li i {
+            color: var(--car-orange);
+            font-size: 0.95rem;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        .program-curriculum-list li strong {
+            color: #ffffff;
+        }
+
+        .program-brand-experience {
+            background: #0d0d10;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .program-brand-experience i {
+            color: var(--car-orange);
+            font-size: 1rem;
+        }
+
+        .program-bottom-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: auto;
+        }
+
+        .cert-info-tag {
+            font-size: 0.82rem;
+            color: #34d399;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-enroll-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 22px;
+            background: var(--car-orange);
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+        }
+
+        .btn-enroll-card:hover {
+            background: var(--car-orange-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 87, 34, 0.45);
+        }
+
+        /* ── INTERACTIVE APPLICATION SECTION & FORM ── */
+        .apply-section {
+            padding: 100px 24px;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .apply-card-container {
+            background: linear-gradient(135deg, rgba(20, 20, 25, 0.9) 0%, rgba(12, 12, 15, 0.95) 100%);
+            border: 1.5px solid rgba(255, 87, 34, 0.35);
+            border-radius: 32px;
+            padding: 50px 45px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 87, 34, 0.1);
+            position: relative;
+        }
+
+        .apply-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .apply-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 3.5vw, 2.7rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 0 10px 0;
+        }
+
+        .apply-header p {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: #09090c;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            color: #ffffff;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--car-orange);
+            box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.2);
+            background: #0e0e12;
+        }
+
+        .online-guarantee-pill {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: #34d399;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .online-guarantee-pill i {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .form-toast {
+            display: none;
+            padding: 18px;
+            border-radius: 14px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1.5px solid #10b981;
+            color: #6ee7b7;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+            font-size: 0.98rem;
+        }
+
+        /* ── FAQ SECTION ── */
+        .faq-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .car-faq-item {
+            background: #111113;
+            border: 1px solid var(--car-card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: border-color 0.25s ease;
+        }
+
+        .car-faq-item.active {
+            border-color: rgba(255, 87, 34, 0.5);
+        }
+
+        .car-faq-question {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 22px 26px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .car-faq-icon {
+            color: var(--car-orange);
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .car-faq-item.active .car-faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .car-faq-answer {
+            display: none;
+            padding: 0 26px 24px 26px;
+            color: #94a3b8;
+            font-size: 0.96rem;
+            line-height: 1.7;
+        }
+
+        .car-faq-answer strong {
+            color: #ffffff;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .careers-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+            .stat-box:nth-child(2)::after {
+                display: none;
+            }
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+            .program-cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .policy-callout-box {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .policy-seal-icon {
+                margin: 0 auto;
+            }
+            .policy-badge-pill {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .careers-hero {
+                padding: 130px 18px 60px;
+            }
+            .careers-hero-title {
+                font-size: 2.2rem;
+            }
+            .careers-stats-grid {
+                grid-template-columns: 1fr;
+                padding: 24px 20px;
+            }
+            .stat-box::after {
+                display: none !important;
+            }
+            .form-grid-2 {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .apply-card-container {
+                padding: 30px 20px;
+            }
+            .type-toggle-bar {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+<!-- ═══════════════════════ HERO SECTION ═══════════════════════ -->
+    <header class="careers-hero">
+        <div class="careers-badge">
+            <span class="careers-badge-dot"></span>
+            FUSION X ACADEMY · 100% ONLINE LIVE PROGRAMS
+        </div>
+        <h1 class="careers-hero-title">
+            Industry Courses & Live Internships with <span class="gradient-text">Real Brand Impact</span>
+        </h1>
+        <p class="careers-hero-sub">
+            Master the frontier of <strong>Digital Marketing</strong>, <strong>Performance Marketing (Google Ads & Meta Ads)</strong>, <strong>Shopify & WordPress Web Development</strong>, Technical SEO, and <strong>Reels & Shorts Video Editing</strong>. For our flagship <strong>3-Month Course Package</strong>, students receive <strong>3 Months of Intensive Live Training + 1 Month Guaranteed Agency Internship</strong> on real brand accounts. Physical certificates awarded exclusively upon passing our rigorous exit exam.
+        </p>
+
+        <div class="online-mode-banner">
+            <i class="fa-solid fa-gift" style="color: #4ade80;"></i> <strong>3-Month Course Package:</strong> 3 Months Live Training + 1 Month Guaranteed Agency Internship • 100% Online
+        </div>
+
+        <div class="hero-action-row">
+            <a href="#programs-section" class="btn-car-primary">
+                <i class="fa-solid fa-graduation-cap"></i> Explore Programs & Syllabus
+            </a>
+            <a href="#apply-form-section" class="btn-car-secondary">
+                <i class="fa-solid fa-paper-plane"></i> Apply Online Now
+            </a>
+        </div>
+
+        <!-- STATS BAR -->
+        <div class="careers-stats-grid">
+            <div class="stat-box">
+                <div class="stat-num">100<span>%</span></div>
+                <div class="stat-label">Live Online Remote</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">1 & 3<span> Mo</span></div>
+                <div class="stat-label">Specialized Tracks</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">Real<span> Brands</span></div>
+                <div class="stat-label">Client Portfolio Work</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">Strict<span> Test</span></div>
+                <div class="stat-label">Physical Certificate</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════ LIVE BRAND WORK TICKER ═══════════════════════ -->
+    <section class="live-brands-ticker-wrap">
+        <div class="ticker-label">Work On Real Live Accounts From Our Flagship Client Roster</div>
+        <div class="ticker-brands-list">
+            <span class="ticker-brand-pill"><i class="fa-solid fa-check-circle"></i> Bhawani Corner (+180% Organic SEO)</span>
+            <span class="ticker-brand-pill"><i class="fa-solid fa-check-circle"></i> Sridhar Food House (240% Footfall Growth)</span>
+            <span class="ticker-brand-pill"><i class="fa-solid fa-check-circle"></i> Dr. Madhavi Clinic (403 Paid Patient Leads)</span>
+            <span class="ticker-brand-pill"><i class="fa-solid fa-check-circle"></i> Off-Human (Shopify D2C Streetwear)</span>
+            <span class="ticker-brand-pill"><i class="fa-solid fa-check-circle"></i> Bikerz Module (Shopify Moto Gear)</span>
+            <span class="ticker-brand-pill"><i class="fa-solid fa-check-circle"></i> TK Cinematic Studio (4K Visual Showcase)</span>
+            <span class="ticker-brand-pill"><i class="fa-solid fa-check-circle"></i> Nilaro Artisan Coffee</span>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ WHY FUSION X ACADEMY PILLARS ═══════════════════════ -->
+    <section class="careers-section">
+        <div class="section-header-center">
+            <span class="section-tag">ENGINEERED FOR EXCELLENCE</span>
+            <h2 class="section-heading">Why Choose Fusion X for Your Course & Internship?</h2>
+            <p class="section-desc">We bridge the gap between academic theory and high-stakes agency execution. Here is why our online programs stand in a league of their own.</p>
+        </div>
+
+        <div class="pillars-grid">
+            <div class="pillar-card">
+                <div class="pillar-icon-wrap">
+                    <i class="fa-solid fa-laptop-file"></i>
+                </div>
+                <h3 class="pillar-title">100% Online Live Training</h3>
+                <p class="pillar-text">
+                    Zero rigid offline commute. Every lecture, code review, campaign teardown, and 1-on-1 mentorship session happens live online with real-time screen sharing and dedicated Discord channels.
+                </p>
+            </div>
+
+            <div class="pillar-card">
+                <div class="pillar-icon-wrap">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <h3 class="pillar-title">Real Brand Client Projects</h3>
+                <p class="pillar-text">
+                    You never work on made-up dummy websites. You analyze live Google Search Console data, audit live Shopify architectures, script real ad creatives, and edit retention reels for genuine brands.
+                </p>
+            </div>
+
+            <div class="pillar-card">
+                <div class="pillar-icon-wrap">
+                    <i class="fa-solid fa-users-gear"></i>
+                </div>
+                <h3 class="pillar-title">Direct Senior Mentorship</h3>
+                <p class="pillar-text">
+                    Learn directly from our domain leads: Saravana Sanjhay M (Technical & AI SEO), Kannan S (Web Development), Kamalesh J (Google & Meta Ads), Jai Haran (Social Media), and Jabakumar (Video Editing).
+                </p>
+            </div>
+        </div>
+
+        <!-- CERTIFICATE & EXAMINATION RIGOR CALLOUT -->
+        <div class="policy-callout-box">
+            <div class="policy-seal-icon">
+                <i class="fa-solid fa-award"></i>
+            </div>
+            <div class="policy-text-wrap">
+                <h3>Our Certification Benchmark: Tested Before Awarded</h3>
+                <p>
+                    Unlike generic institutes that sell automated PDF certificates for attendance, <strong>Fusion X awards physical and digital certificates only to candidates who pass our rigorous final exit exam and project defense</strong>. We conduct comprehensive practical tests for both courses and internships to guarantee that when you enter the market, you are 100% industry-ready with proven competence.
+                </p>
+            </div>
+            <div class="policy-badge-pill">
+                <i class="fa-solid fa-stamp"></i> Verifiable Physical Certificate
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ DETAILED PROGRAMS CATALOG ═══════════════════════ -->
+    <section id="programs-section" class="programs-wrapper">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="section-header-center">
+                <span class="section-tag">PROGRAM CURRICULUM</span>
+                <h2 class="section-heading">Available Courses & Internships</h2>
+                <p class="section-desc">Select whether you are seeking an intensive skill-building <strong>Course</strong> or a hands-on live agency <strong>Internship</strong> across 1-month and 3-month durations.</p>
+            </div>
+
+            <!-- Program Type Switcher -->
+            <div class="type-toggle-bar">
+                <button class="type-toggle-btn active" data-type="all">
+                    <i class="fa-solid fa-layer-group"></i> All Programs
+                </button>
+                <button class="type-toggle-btn" data-type="course">
+                    <i class="fa-solid fa-book-open"></i> Certification Courses (1 & 3 Months)
+                </button>
+                <button class="type-toggle-btn" data-type="internship">
+                    <i class="fa-solid fa-user-gear"></i> Live Project Internships (1 & 3 Months)
+                </button>
+            </div>
+
+            <!-- Department Category Pills -->
+            <div class="filter-nav">
+                <button class="filter-btn active" data-dept="all">All Departments</button>
+                <button class="filter-btn" data-dept="digital-marketing">Digital Marketing</button>
+                <button class="filter-btn" data-dept="performance-marketing">Performance Marketing (Google &amp; Meta Ads)</button>
+                <button class="filter-btn" data-dept="seo">SEO &amp; AI Search</button>
+                <button class="filter-btn" data-dept="web-dev">Shopify &amp; WordPress</button>
+                <button class="filter-btn" data-dept="social-media">Social Media</button>
+                <button class="filter-btn" data-dept="video-editing">Video Editing (Reels &amp; Shorts Only)</button>
+            </div>
+
+            <!-- Program Cards Grid -->
+            <div class="program-cards-grid">
+
+                <!-- 1. DIGITAL MARKETING FULL MASTERCOURSE (3 MONTHS + 1 MONTH INTERNSHIP) -->
+                <div class="program-card" data-type="course" data-dept="digital-marketing">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Full Mastercourse</span>
+                            <span class="duration-badge duration-package-badge"><i class="fa-regular fa-clock"></i> 3 Months Course + 1 Month Internship</span>
+                        </div>
+                        <h3 class="program-title">Digital Marketing Full Mastercourse (Omnichannel Growth &amp; Automation)</h3>
+                        <p class="program-desc">
+                            The definitive <strong>digital marketing course in chennai</strong>. An end-to-end 3-month curriculum covering 360° omnichannel marketing: search engine dominance, high-converting social funnels, email automation, content marketing, and conversion optimization, plus 1 month guaranteed internship.
+                        </p>
+                        <div class="package-bonus-pill">
+                            <i class="fa-solid fa-gift"></i> 3-Month Package: 3 Months Training + 1 Month Guaranteed Agency Internship
+                        </div>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>360° Digital Strategy:</strong> TOFU customer acquisition, MOFU nurture sequences, and BOFU high-intent conversions.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Omnichannel Funnels:</strong> Lead generation pipelines, email marketing (Klaviyo/Mailchimp), and WhatsApp API automations.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Content &amp; Brand Authority:</strong> Viral storytelling frameworks, conversion copywriting, and organic social growth playbooks.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Analytics &amp; CRO:</strong> Google Analytics 4 (GA4), heatmap user behavior, landing page CRO, and ROI attribution modeling.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-bullhorn"></i> Live Case Study: Omnichannel Scaling for D2C Brands &amp; Healthcare Clinics
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-certificate"></i> Exam + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('course', '3 Months Course + 1 Month Internship', 'Digital Marketing Mastercourse')">
+                            Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. DIGITAL MARKETING CRASH COURSE (1 MONTH) -->
+                <div class="program-card" data-type="course" data-dept="digital-marketing">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Foundation Course</span>
+                            <span class="duration-badge"><i class="fa-regular fa-clock"></i> 1 Month Online</span>
+                        </div>
+                        <h3 class="program-title">Digital Marketing Fundamentals (1 Month Fast-Track Crash Course)</h3>
+                        <p class="program-desc">
+                            Accelerate your career with our foundational <strong>digital marketing course in chennai</strong>. Built for college students, founders, and marketers needing immediate actionable clarity on digital brand presence and lead acquisition.
+                        </p>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Digital Marketing Core:</strong> Customer avatars, buyer personas, value propositions &amp; multichannel marketing touchpoints.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Organic &amp; Paid Channels:</strong> Foundational mechanics of SEO, paid ads, social media algorithms, and content marketing.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Lead Gen &amp; Email Nurture:</strong> Designing high-converting lead magnets, landing pages, and email welcome automations.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Metrics &amp; ROI Dashboards:</strong> Decoding CTR, CPA, CAC, conversion rates, and client dashboard reporting.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-chart-line"></i> Practical Blueprint: 30-Day Multi-Channel Digital Launch Campaign
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-certificate"></i> Exam + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('course', '1 Month Fast-Track Course', 'Digital Marketing Mastercourse')">
+                            Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. DIGITAL MARKETING LIVE PROJECT INTERNSHIP (1 & 3 MONTHS) -->
+                <div class="program-card" data-type="internship" data-dept="digital-marketing">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Live Project Internship</span>
+                            <span class="duration-badge"><i class="fa-regular fa-clock"></i> 1 Mo / 3 Mo Online</span>
+                        </div>
+                        <h3 class="program-title">Digital Marketing Omnichannel Live Project Internship</h3>
+                        <p class="program-desc">
+                            Secure an elite <strong>digital marketing internship in chennai</strong>. Execute real multichannel marketing deliverables: managing live campaigns, email drip automations, and weekly conversion reviews under senior agency directors.
+                        </p>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Live Multichannel Campaigns:</strong> Deploy and manage live organic and paid marketing deliverables on active client accounts.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Lead Nurture Pipelines:</strong> Build email and WhatsApp automation workflows that convert inbound inquiries into qualified leads.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Live Conversion Tracking:</strong> Set up GA4 custom event tracking, evaluate traffic quality, and optimize user drop-offs.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Weekly Executive Reports:</strong> Deliver client performance reports evaluating blended acquisition costs and channel returns.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-briefcase"></i> Work with Real Agency Retainers across D2C, Retail &amp; Healthcare
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-stamp"></i> Test + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('internship', '3 Months Internship', 'Digital Marketing Mastercourse')">
+                            Apply Internship <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. PERFORMANCE MARKETING FULL MASTERCOURSE (3 MONTHS + 1 MONTH INTERNSHIP) -->
+                <div class="program-card" data-type="course" data-dept="performance-marketing">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Full Mastercourse</span>
+                            <span class="duration-badge duration-package-badge"><i class="fa-regular fa-clock"></i> 3 Months Course + 1 Month Internship</span>
+                        </div>
+                        <h3 class="program-title">Performance Marketing Mastercourse (Google Ads &amp; Meta Ads)</h3>
+                        <p class="program-desc">
+                            The premier <strong>performance marketing course in chennai</strong>. A rigorous 3-month curriculum mastering high-ROAS paid media buying across Google Ads and Meta Ads, server-side tracking, and conversion scaling.
+                        </p>
+                        <div class="package-bonus-pill">
+                            <i class="fa-solid fa-gift"></i> 3-Month Package: 3 Months Training + 1 Month Guaranteed Agency Internship
+                        </div>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Google Ads Mastery:</strong> High-intent Search, Performance Max (PMax), Display, YouTube In-Stream Ads &amp; Smart Bidding.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Meta Ads Dominance:</strong> Advantage+ Shopping Campaigns (ASC), Facebook/Instagram dynamic catalogs, creative testing &amp; hook rate analysis.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Server-Side Tracking &amp; CAPI:</strong> Meta Conversions API, Google Tag Manager (GTM), GA4 event architectures &amp; offline conversion imports.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>ROAS &amp; Budget Scaling:</strong> Horizontal/vertical ad scaling, audience lookalikes, retargeting funnels &amp; client dashboard reporting.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-bullhorn"></i> Live Case Study: Dr. Madhavi Lead Funnels &amp; Off-Human E-Commerce Scaling
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-certificate"></i> Exam + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('course', '3 Months Course + 1 Month Internship', 'Performance Marketing (Google Ads & Meta Ads)')">
+                            Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. PERFORMANCE MARKETING CRASH COURSE (1 MONTH) -->
+                <div class="program-card" data-type="course" data-dept="performance-marketing">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Foundation Course</span>
+                            <span class="duration-badge"><i class="fa-regular fa-clock"></i> 1 Month Online</span>
+                        </div>
+                        <h3 class="program-title">Performance Marketing Fundamentals (Google &amp; Meta Ads Crash Course)</h3>
+                        <p class="program-desc">
+                            Fast-track your career with our foundational <strong>google ads &amp; meta ads course in chennai</strong>. Designed for college students and marketers who need immediate practical clarity on modern paid ad platforms.
+                        </p>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Paid Funnel Core:</strong> Cold audience prospecting vs warm retargeting, ad copy frameworks &amp; conversion landing pages.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Meta Ads Manager Essentials:</strong> Campaign budget optimization (CBO), ad set audience targeting, placement controls.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Google Ads Search Setup:</strong> Keyword match types, negative keywords, Quality Score optimization &amp; ad extensions.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Metrics &amp; Teardowns:</strong> Decoding ROAS, CTR, CPC, CPA, and evaluating winning vs losing ad creatives.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-chart-line"></i> Real Brand Teardowns &amp; Live Account Audits
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-certificate"></i> Exam + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('course', '1 Month Fast-Track Course', 'Performance Marketing (Google Ads & Meta Ads)')">
+                            Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. PERFORMANCE MARKETING LIVE INTERNSHIP (1 & 3 MONTHS) -->
+                <div class="program-card" data-type="internship" data-dept="performance-marketing">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Live Project Internship</span>
+                            <span class="duration-badge"><i class="fa-regular fa-clock"></i> 1 Mo / 3 Mo Online</span>
+                        </div>
+                        <h3 class="program-title">Performance Marketing (Google Ads &amp; Meta Ads) Live Project Internship</h3>
+                        <p class="program-desc">
+                            Looking for a high-impact <strong>performance marketing internship near me</strong>? Manage real advertising budgets alongside Google &amp; Meta Ads lead Kamalesh J across active client ad accounts.
+                        </p>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Live Ad Account Management:</strong> Daily bid optimization, budget pacing, and search term audits on live client spend.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Creative Testing Sprint:</strong> Deploy dynamic creative variations and analyze hook rate, hold rate &amp; cost-per-lead.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Pixel &amp; CAPI Diagnostics:</strong> Audit event match quality, deduplicate browser/server events, and verify purchase values.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Executive Client Reporting:</strong> Build automated Looker Studio dashboards tracking blended ROAS and cost-per-acquisition.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-briefcase"></i> Work with Dr. Madhavi Skin Clinic &amp; Sridhar Food House Funnels
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-stamp"></i> Test + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('internship', '3 Months Internship', 'Performance Marketing (Google Ads & Meta Ads)')">
+                            Apply Internship <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. ADVANCED TECHNICAL & AI SEO MASTERCOURSE (3 MONTHS + 1 MONTH INTERNSHIP) -->
+                <div class="program-card" data-type="course" data-dept="seo">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">SEO Mastercourse</span>
+                            <span class="duration-badge duration-package-badge"><i class="fa-regular fa-clock"></i> 3 Months Course + 1 Month Internship</span>
+                        </div>
+                        <h3 class="program-title">Advanced Technical &amp; AI SEO Mastercourse</h3>
+                        <p class="program-desc">
+                            Exhaustive <strong>seo course syllabus</strong> taught directly by top 10 SEO AI expert Saravana Sanjhay M. Master the vital distinction of <strong>technical seo vs on page seo</strong> and dominate Google &amp; AI Search (ChatGPT, Perplexity, Gemini).
+                        </p>
+                        <div class="package-bonus-pill">
+                            <i class="fa-solid fa-gift"></i> 3-Month Package: 3 Months Training + 1 Month Guaranteed Agency Internship
+                        </div>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Technical SEO Architecture:</strong> Crawl budgets, log file analysis, indexation cleanup.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Generative Engine Optimization (GEO):</strong> Entity search, Schema.org microdata, Knowledge Graph.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Topical Authority Silos:</strong> Semantic keyword clustering, search intent mapping.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Authority Link Building:</strong> High-DA digital PR outreach and white-hat contextual links.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-magnifying-glass"></i> Live Case Study: Bhawani Corner (+180% SEO Surge) &amp; Nilaro Coffee
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-certificate"></i> Audit Exam + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('course', '3 Months Course + 1 Month Internship', 'Technical & AI SEO')">
+                            Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5. SEO LIVE PROJECT INTERNSHIP (1 & 3 MONTHS) -->
+                <div class="program-card" data-type="internship" data-dept="seo">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Live SEO Internship</span>
+                            <span class="duration-badge"><i class="fa-regular fa-clock"></i> 1 Mo / 3 Mo Online</span>
+                        </div>
+                        <h3 class="program-title">Technical SEO &amp; Local Search Internship</h3>
+                        <p class="program-desc">
+                            Secure an elite <strong>seo internship near me</strong>. Execute hands-on <strong>seo internship</strong> deliverables: live Google Search Console audits, schema injection, and Google Maps 3-Pack rank acceleration.
+                        </p>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Live GSC &amp; Crawl Fixes:</strong> Resolve 404s, redirect chains, and mobile usability flags.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Google Maps 3-Pack Growth:</strong> Geo-tagging, NAP citation sync, and local review velocity.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Competitor Gap Extraction:</strong> Reverse-engineer top ranking keywords using Ahrefs/Semrush.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>On-Page Content Optimization:</strong> Header hierarchies, semantic LSI keywords, meta architecture.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-map-location-dot"></i> Live Ranking on Sridhar Food House &amp; Bhawani Corner GMB
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-stamp"></i> Test + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('internship', '3 Months Internship', 'Technical & AI SEO')">
+                            Apply Internship <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 6. SHOPIFY & WORDPRESS WEB DEVELOPMENT COURSE (3 MONTHS + 1 MONTH INTERNSHIP) -->
+                <div class="program-card" data-type="course" data-dept="web-dev">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">E-Commerce &amp; CMS Course</span>
+                            <span class="duration-badge duration-package-badge"><i class="fa-regular fa-clock"></i> 3 Months Course + 1 Month Internship</span>
+                        </div>
+                        <h3 class="program-title">Shopify &amp; WordPress Web Development Course</h3>
+                        <p class="program-desc">
+                            We focus strictly on the two dominant e-commerce and CMS engines powering 70%+ of the internet: <strong>Shopify</strong> and <strong>WordPress</strong>. Guided by lead architect Kannan S, learn to engineer conversion-first online stores, custom Liquid sections, WooCommerce architectures, and sub-second Core Web Vitals.
+                        </p>
+                        <div class="package-bonus-pill">
+                            <i class="fa-solid fa-gift"></i> 3-Month Package: 3 Months Training + 1 Month Guaranteed Agency Internship
+                        </div>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Shopify Store Architecture:</strong> Custom sections, Liquid templating, schema customization, product variants &amp; conversion optimization (CRO).</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>WordPress &amp; WooCommerce:</strong> Bespoke theme setup, WooCommerce checkout flows, payment gateways, custom post types &amp; ACF.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Sub-Second Speed &amp; CWV:</strong> Core Web Vitals optimization (LCP, CLS, INP), asset minification, image pipelines &amp; caching architecture.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Production Launch:</strong> Domain routing, SSL/DNS setup, Google Merchant Center sync &amp; Shopify App Store integrations.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-code"></i> Live Storefront Code: Off-Human (Shopify D2C), Bikerz Module, and Sridhar Food House (WordPress)
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-certificate"></i> Code Defense + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('course', '3 Months Course + 1 Month Internship', 'Shopify & WordPress Web Development')">
+                            Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 7. SHOPIFY & WORDPRESS LIVE PROJECT INTERNSHIP (1 & 3 MONTHS) -->
+                <div class="program-card" data-type="internship" data-dept="web-dev">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Live CMS Internship</span>
+                            <span class="duration-badge"><i class="fa-regular fa-clock"></i> 1 Mo / 3 Mo Online</span>
+                        </div>
+                        <h3 class="program-title">Shopify &amp; WordPress Live Project Internship</h3>
+                        <p class="program-desc">
+                            Join our specialized <strong>shopify and wordpress internship near me</strong>. Deploy production code on live agency client stores, build custom Liquid modules, configure WooCommerce payment gateways, resolve Core Web Vitals, and maintain real client catalogs.
+                        </p>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Shopify Section Coding:</strong> Write clean Liquid sections, dynamic collection filters, and 1-click upsell product modules.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>WordPress Store Deployment:</strong> Build responsive corporate landing pages, configure shipping plugins &amp; optimize database queries.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Speed &amp; PageSpeed 95+ Tuning:</strong> Eliminate render-blocking assets, convert media to next-gen WebP, and tune Redis/WP Rocket.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Live Production QA:</strong> Cross-browser testing across mobile devices and resolving client change requests on real sites.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-laptop-code"></i> Real Deployment on Fusion X Client Codebases (Off-Human &amp; Bikerz Module)
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-stamp"></i> Test + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('internship', '3 Months Internship', 'Shopify & WordPress Web Development')">
+                            Apply Internship <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 8. REELS & SHORTS VIDEO EDITING COURSE (3 MONTHS + 1 MONTH INTERNSHIP) -->
+                <div class="program-card" data-type="course" data-dept="video-editing">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Reels &amp; Shorts Mastercourse</span>
+                            <span class="duration-badge duration-package-badge"><i class="fa-regular fa-clock"></i> 3 Months Course + 1 Month Internship</span>
+                        </div>
+                        <h3 class="program-title">Instagram Reels &amp; YouTube Shorts Video Editing Mastercourse (Reels &amp; Shorts Only)</h3>
+                        <p class="program-desc">
+                            We specialize strictly and exclusively in vertical short-form video — <strong>we do only Instagram Reels &amp; YouTube Shorts</strong>. Guided by master editor Jabakumar, learn how to engineer viral 3-second visual hooks, retention pacing, kinetic subtitles, and sound design for viral short-form content.
+                        </p>
+                        <div class="package-bonus-pill">
+                            <i class="fa-solid fa-gift"></i> 3-Month Package: 3 Months Training + 1 Month Guaranteed Agency Internship (Reels &amp; Shorts Only)
+                        </div>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>3-Second Visual Hooks &amp; Pacing:</strong> Micro-jump cuts, punch zooms every 2s, zero dead air for maximum short-form retention.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Kinetic Typography &amp; Captions:</strong> Animated karaoke captions, word-by-word highlight effects, emojis &amp; sound-synced text.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Short-Form Foley Sound Design:</strong> Custom SFX risers, whooshes, typing hits, beat-synced cuts, and audio mastering.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>9:16 Vertical Dominance:</strong> Safe-zone composition, high-contrast color grading, viral audio matching &amp; thumbnail cover styling.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-video"></i> Edit Real Viral Reels for Sridhar Food House (240% Footfall Lift) &amp; High-ROAS Ad Creatives
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-certificate"></i> Reel Exam + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('course', '3 Months Course + 1 Month Internship', 'Video Editing (Reels & Shorts Only)')">
+                            Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 9. REELS & SHORTS LIVE INTERNSHIP (1 & 3 MONTHS) -->
+                <div class="program-card" data-type="internship" data-dept="video-editing">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Live Reels &amp; Shorts Internship</span>
+                            <span class="duration-badge"><i class="fa-regular fa-clock"></i> 1 Mo / 3 Mo Online</span>
+                        </div>
+                        <h3 class="program-title">Instagram Reels &amp; YouTube Shorts Video Editing Live Internship</h3>
+                        <p class="program-desc">
+                            Fast-track your short-form post-production career. <strong>We edit only Instagram Reels and YouTube Shorts</strong>. Receive raw footage from active agency client shoots and cut thumb-stopping, high-retention 9:16 vertical reels under senior editor Jabakumar.
+                        </p>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Raw Shoot Ingestion:</strong> Turn unedited phone or mirrorless footage into dynamic 30s-60s vertical storyboards.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>3-Second Hook Crafting:</strong> Test visual and auditory hooks that achieve &gt;35% initial view rate on Reels and Shorts.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Kinetic Text &amp; B-Roll Overlays:</strong> Inject punchy subtitle animations, zooms, stickers, and sound effects to prevent scroll-away.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Commercial Showreel:</strong> Graduate with a verified portfolio of viral short-form reels edited for active agency clients.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-film"></i> Live Reel Edits for Sridhar Food House, Dr. Madhavi Clinic &amp; Client Socials
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-stamp"></i> Test + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('internship', '3 Months Internship', 'Video Editing (Reels & Shorts Only)')">
+                            Apply Internship <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 10. SOCIAL MEDIA MANAGEMENT INTERNSHIP & COURSE -->
+                <div class="program-card" data-type="internship" data-dept="social-media">
+                    <div>
+                        <div class="program-top-meta">
+                            <span class="program-badge">Social Media Track</span>
+                            <span class="duration-badge"><i class="fa-regular fa-clock"></i> 1 Mo / 3 Mo Online</span>
+                        </div>
+                        <h3 class="program-title">Social Media Management Live Internship</h3>
+                        <p class="program-desc">
+                            Looking for an elite <strong>social media marketing course in chennai</strong> or hands-on <strong>social media management internship</strong>? Direct community growth, draft scroll-stopping copy, and orchestrate content calendars under viral strategist Jai Haran.
+                        </p>
+                        <ul class="program-curriculum-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Content Calendars:</strong> Schedule strategic multi-week grids across Instagram &amp; LinkedIn.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Direct-Response Copy:</strong> Write hooks, carousel scripts, and value-packed captions.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Community Moderation:</strong> Engage with audience DMs, comments, and collaborative brand tags.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Trend Adaptation:</strong> Spot viral audio trends and translate them into brand relevance.</li>
+                        </ul>
+                        <div class="program-brand-experience">
+                            <i class="fa-solid fa-share-nodes"></i> Work with Real Brand Communities &amp; Influencer Campaigns
+                        </div>
+                    </div>
+                    <div class="program-bottom-bar">
+                        <span class="cert-info-tag"><i class="fa-solid fa-stamp"></i> Test + Physical Certificate</span>
+                        <button class="btn-enroll-card" onclick="selectProgram('internship', '3 Months Internship', 'Social Media Management')">
+                            Apply Internship <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ APPLICATION FORM SECTION ═══════════════════════ -->
+    <section id="apply-form-section" class="apply-section">
+        <div class="apply-card-container">
+            <div class="apply-header">
+                <span class="section-tag">ONLINE ADMISSION FORM</span>
+                <h2>Apply for Course or Internship</h2>
+                <p>Fill out your details below. Our academic admissions coordinator will review your background and schedule your online orientation.</p>
+            </div>
+
+            <div class="online-guarantee-pill">
+                <i class="fa-solid fa-laptop-code"></i>
+                <div>
+                    <strong>100% Online Remote Program:</strong> All classes, tasks, and project mentorship are conducted live online. Physical certificates are couriered to your address after passing the final industry readiness test.
+                </div>
+            </div>
+
+            <div id="applicationToast" class="form-toast">
+                <i class="fa-solid fa-circle-check"></i> Application received successfully! Our program coordinator will reach out via WhatsApp/Email within 24 hours.
+            </div>
+
+            <form id="onlineApplicationForm" onsubmit="handleApplicationSubmit(event)">
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="applicantName">Full Name *</label>
+                        <input type="text" id="applicantName" class="form-input" placeholder="e.g. Saravanan Kumar" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="applicantEmail">Email Address *</label>
+                        <input type="email" id="applicantEmail" class="form-input" placeholder="e.g. saravanan@gmail.com" required>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="applicantPhone">Phone / WhatsApp Number *</label>
+                        <input type="tel" id="applicantPhone" class="form-input" placeholder="e.g. +91 98765 43210" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="applicantCollege">College / University / Workplace *</label>
+                        <input type="text" id="applicantCollege" class="form-input" placeholder="e.g. Anna University / Loyola College / Professional" required>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="programType">Program Type *</label>
+                        <select id="programType" class="form-select" required onchange="handleProgramChange()">
+                            <option value="">Select Category...</option>
+                            <option value="course">Certification Course</option>
+                            <option value="internship">Live Project Internship</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="programDuration">Duration *</label>
+                        <select id="programDuration" class="form-select" required>
+                            <option value="">Select Duration...</option>
+                            <option value="3 Months Course + 1 Month Internship">3 Months Course Package (3 Months Training + 1 Month Guaranteed Internship)</option>
+                            <option value="1 Month Fast-Track Course">1 Month Fast-Track Foundation Course</option>
+                            <option value="1 Month Internship">1 Month Live Project Internship</option>
+                            <option value="3 Months Internship">3 Months Advanced Project Internship</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="specializationTrack">Department Specialization Track *</label>
+                    <select id="specializationTrack" class="form-select" required>
+                        <option value="">Select Specialization...</option>
+                        <option value="Digital Marketing Mastercourse">Digital Marketing (Omnichannel Funnels, Content &amp; Automation)</option>
+                        <option value="Performance Marketing (Google Ads &amp; Meta Ads)">Performance Marketing (Google Ads, Meta Ads &amp; PMax Scaling)</option>
+                        <option value="Technical &amp; AI SEO">SEO &amp; AI Search (Technical Crawl, Schema &amp; GEO)</option>
+                        <option value="Shopify &amp; WordPress Web Development">Shopify &amp; WordPress Development (Liquid, WooCommerce &amp; Speed)</option>
+                        <option value="Social Media Management">Social Media Management (Content Writing &amp; Viral Growth)</option>
+                        <option value="Video Editing (Reels & Shorts Only)">Video Editing (Reels &amp; Shorts Only)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="applicantNotes">Why do you want to join Fusion X Academy? (Goals, prior skills or portfolio link)</label>
+                    <textarea id="applicantNotes" class="form-textarea" rows="3" placeholder="Tell us about your career goals, any prior tools you know, or link your portfolio/GitHub/LinkedIn..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-car-primary" style="width: 100%; justify-content: center; padding: 18px;">
+                    Submit Online Application <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ FREQUENTLY ASKED QUESTIONS ═══════════════════════ -->
+    <section class="careers-section" style="padding-top: 0;">
+        <div class="section-header-center">
+            <span class="section-tag">COMMON QUERIES</span>
+            <h2 class="section-heading">Frequently Asked Questions</h2>
+            <p class="section-desc">Everything you need to know about our online programs, exams, physical certification, and brand projects.</p>
+        </div>
+
+        <div class="faq-wrap">
+            <div class="car-faq-item active">
+                <button class="car-faq-question">
+                    Are the courses and internships conducted online or offline?
+                    <i class="fa-solid fa-chevron-down car-faq-icon"></i>
+                </button>
+                <div class="car-faq-answer" style="display: block;">
+                    All programs at Fusion X Academy are <strong>100% live interactive online programs (zero offline classes)</strong>. You participate via live video workshops, screen-sharing problem solving, code reviews, and dedicated private Discord channels with senior mentors. You can join from Chennai, anywhere in India, or globally with zero commuting friction.
+                </div>
+            </div>
+
+            <div class="car-faq-item">
+                <button class="car-faq-question">
+                    What is the 3-Month Course Package (3 Months + 1 Month Internship)?
+                    <i class="fa-solid fa-chevron-down car-faq-icon"></i>
+                </button>
+                <div class="car-faq-answer">
+                    Our flagship <strong>3-Month Course Package</strong> is designed for total career transformation: it includes <strong>3 months of intensive live interactive skill training</strong> followed by <strong>1 month of guaranteed live agency project internship</strong> (total 4 months). During the internship month, you work hands-on on active client accounts across Digital Marketing, Performance Marketing (Google &amp; Meta Ads), live Shopify Liquid stores, and WordPress production setups under senior domain mentors.
+                </div>
+            </div>
+
+            <div class="car-faq-item">
+                <button class="car-faq-question">
+                    Why do you focus strictly on Shopify &amp; WordPress for Web Development?
+                    <i class="fa-solid fa-chevron-down car-faq-icon"></i>
+                </button>
+                <div class="car-faq-answer">
+                    Rather than teaching generic theoretical programming, we focus 100% on <strong>Shopify and WordPress</strong> because they power over 70% of global commercial e-commerce and business websites. By mastering custom Shopify Liquid sections, app integrations, WooCommerce architectures, and sub-second Core Web Vitals, you acquire the exact, high-demand skills agency clients hire and pay top dollar for immediately.
+                </div>
+            </div>
+
+            <div class="car-faq-item">
+                <button class="car-faq-question">
+                    Why do you conduct an exam before issuing the certificate?
+                    <i class="fa-solid fa-chevron-down car-faq-icon"></i>
+                </button>
+                <div class="car-faq-answer">
+                    We maintain an uncompromising quality standard: <strong>we give certificates only if students pass our comprehensive practical test</strong>. This ensures that every Fusion X alumni is genuinely industry-ready and capable of delivering real business ROI. Once you pass, you receive a verifiable <strong>Physical Hard-Copy Certificate</strong> delivered to your doorstep, as well as an official digital credential.
+                </div>
+            </div>
+
+            <div class="car-faq-item">
+                <button class="car-faq-question">
+                    What real brands will I work on during the internship?
+                    <i class="fa-solid fa-chevron-down car-faq-icon"></i>
+                </button>
+                <div class="car-faq-answer">
+                    You work directly on live deliverables from our verified agency portfolio: including <strong>Bhawani Corner</strong> (hyperlocal SEO), <strong>Sridhar Food House</strong> (viral footfall reels & Maps 3-Pack), <strong>Dr. Madhavi Skin Clinic</strong> (Meta high-ROAS lead funnels), <strong>Off-Human</strong> (Shopify D2C streetwear), and <strong>Bikerz Module</strong> (e-commerce catalog).
+                </div>
+            </div>
+
+            <div class="car-faq-item">
+                <button class="car-faq-question">
+                    Can college students from any department or year apply?
+                    <i class="fa-solid fa-chevron-down car-faq-icon"></i>
+                </button>
+                <div class="car-faq-answer">
+                    Yes! We welcome motivated students from engineering, arts, science, and commerce, as well as recent graduates and career-transitioning professionals. Since all instruction is live online, you can balance your university schedule with evening cohorts and weekend project sprints.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+
+<?php
+get_footer();

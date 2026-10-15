@@ -1,0 +1,2380 @@
+<?php
+/**
+ * Template Name: Portfolio
+ *
+ * @package Fusion_X
+ */
+
+get_header();
+?>
+
+<style>
+
+        :root {
+
+            --dev-orange: #ff5722;
+
+            --dev-orange-dark: #e64a19;
+
+            --dev-dark: #080808;
+
+            --dev-slate: #141414;
+
+            --dev-muted: #64748b;
+
+            --dev-bg-light: #f8fafc;
+
+            --dev-border: rgba(226, 232, 240, 0.9);
+
+        }
+
+
+
+        body {
+
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+            background-color: #ffffff;
+
+            color: #1e293b;
+
+            margin: 0;
+
+            padding: 0;
+
+            overflow-x: hidden;
+
+        }
+
+
+
+        /* ── HERO ── */
+
+        .page-hero {
+
+            padding: 150px 24px 70px;
+
+            background: radial-gradient(circle at 50% 20%, rgba(255, 87, 34, 0.08) 0%, transparent 60%), #ffffff;
+
+            text-align: center;
+
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+        }
+
+
+
+        .badge-pill {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 8px 24px;
+
+            background: rgba(255, 87, 34, 0.08);
+
+            border: 1px solid rgba(255, 87, 34, 0.25);
+
+            border-radius: 50px;
+
+            font-size: 0.82rem;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+
+            color: var(--dev-orange);
+
+            margin-bottom: 24px;
+
+        }
+
+
+
+        .hero-title {
+
+            font-family: 'Outfit', sans-serif;
+
+            font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+
+            font-weight: 900;
+
+            line-height: 1.08;
+
+            letter-spacing: -1.5px;
+
+            color: #0f172a;
+
+            max-width: 980px;
+
+            margin: 0 auto 24px;
+
+        }
+
+
+
+        .hero-title span {
+
+            background: linear-gradient(135deg, #ff5722 20%, #ff8a50 100%);
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+        }
+
+
+
+        .hero-desc {
+
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+
+            line-height: 1.7;
+
+            color: var(--dev-muted);
+
+            max-width: 820px;
+
+            margin: 0 auto 40px;
+
+        }
+
+
+
+        /* ── FILTER BUTTONS ── */
+
+        .portfolio-filters {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 40px;
+
+        }
+
+
+
+        .filter-btn {
+
+            background: #ffffff;
+
+            border: 1px solid #e2e8f0;
+
+            color: #475569;
+
+            font-family: 'Space Grotesk', sans-serif;
+
+            font-size: 0.92rem;
+
+            font-weight: 600;
+
+            padding: 10px 22px;
+
+            border-radius: 50px;
+
+            cursor: pointer;
+
+            transition: all 0.25s ease;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+
+        }
+
+
+
+        .filter-btn:hover {
+
+            border-color: #ff5722;
+
+            color: #ff5722;
+
+            transform: translateY(-2px);
+
+        }
+
+
+
+        .filter-btn.active {
+
+            background: #ff5722;
+
+            border-color: #ff5722;
+
+            color: #ffffff;
+
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.35);
+
+        }
+
+
+
+        @keyframes fadeInCard {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── FEATURED FLAGSHIP CLIENT CARDS ── */
+        .featured-client-card {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #0c0c0c 0%, #151515 100%) !important;
+            border: 2px solid rgba(255, 87, 34, 0.45) !important;
+            color: #ffffff !important;
+            box-shadow: 0 16px 50px rgba(255, 87, 34, 0.12) !important;
+            border-radius: 26px !important;
+            padding: 38px !important;
+            position: relative !important;
+            overflow: hidden;
+        }
+
+        .featured-client-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .featured-brand-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .featured-brand-logo {
+            height: 48px;
+            background: #ffffff;
+            padding: 6px 14px;
+            border-radius: 10px;
+            object-fit: contain;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+            display: block;
+        }
+
+        .featured-brand-logo.dark-bg {
+            background: #0c0c0c;
+            border: 1px solid rgba(255, 87, 34, 0.3);
+        }
+
+        .featured-brand-pill {
+            background: rgba(255, 87, 34, 0.15);
+            color: #ff7043;
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        .featured-meta-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .featured-badge-pill {
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .featured-badge-pill.orange-tone {
+            color: #ff7043;
+            background: rgba(255, 87, 34, 0.1);
+            border-color: rgba(255, 87, 34, 0.25);
+        }
+
+        .featured-card-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .featured-card-title {
+            font-family: 'Outfit', sans-serif;
+            color: #ffffff;
+            font-size: clamp(1.65rem, 2.8vw, 2.25rem);
+            font-weight: 900;
+            line-height: 1.22;
+            margin: 0 0 14px 0;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .featured-title-gradient {
+            background: linear-gradient(135deg, #ff5722 0%, #ff8a50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .featured-card-desc {
+            color: #cbd5e1;
+            font-size: 0.98rem;
+            line-height: 1.68;
+            margin-bottom: 22px;
+        }
+
+        .featured-tags-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .featured-pill-accent {
+            background: rgba(255, 87, 34, 0.14) !important;
+            color: #ff8a50 !important;
+            border: 1px solid rgba(255, 87, 34, 0.3) !important;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 6px;
+        }
+
+        .featured-pill-subtle {
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: #e2e8f0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 6px;
+        }
+
+        .featured-actions-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .featured-btn-primary {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #ffffff !important;
+            font-weight: 800;
+            padding: 13px 26px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 18px rgba(255, 87, 34, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .featured-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 87, 34, 0.6);
+        }
+
+        .featured-btn-outline {
+            background: rgba(255, 255, 255, 0.07);
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            font-weight: 600;
+            padding: 13px 22px;
+            border-radius: 50px;
+            font-size: 0.92rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .featured-btn-outline:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 87, 34, 0.4);
+            color: #ffffff !important;
+        }
+
+        .featured-side-panel {
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(255, 87, 34, 0.22);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .featured-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .featured-metrics-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .featured-stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 14px 10px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .featured-stat-box.orange-bg {
+            background: rgba(255, 87, 34, 0.08);
+            border-color: rgba(255, 87, 34, 0.25);
+        }
+
+        .featured-stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.85rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 4px;
+        }
+
+        .featured-stat-number.orange {
+            color: #ff5722;
+        }
+
+        .featured-stat-label {
+            font-size: 0.74rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+        }
+
+        .featured-sub-strip {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* ── STRICT MOBILE RESPONSIVE OVERRIDES ── */
+        @media (max-width: 900px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            .featured-card-grid {
+                grid-template-columns: 1fr !important;
+                gap: 24px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-section {
+                padding: 20px 14px 60px !important;
+            }
+            .portfolio-card {
+                padding: 24px 16px !important;
+                border-radius: 20px !important;
+            }
+            .featured-client-card {
+                padding: 20px 14px !important;
+                border-radius: 20px !important;
+            }
+            .featured-client-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 12px !important;
+                margin-bottom: 16px !important;
+                padding-bottom: 14px !important;
+            }
+            .featured-brand-left {
+                width: 100% !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 12px !important;
+            }
+            .featured-brand-logo {
+                height: 38px !important;
+                padding: 4px 10px !important;
+                flex-shrink: 0 !important;
+            }
+            .featured-brand-pill {
+                font-size: 0.68rem !important;
+                letter-spacing: 0.5px !important;
+                padding: 5px 10px !important;
+                line-height: 1.35 !important;
+                word-break: break-word !important;
+                flex: 1 !important;
+            }
+            .featured-meta-badges {
+                width: 100% !important;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 6px !important;
+            }
+            .featured-badge-pill {
+                font-size: 0.72rem !important;
+                padding: 4px 10px !important;
+            }
+            .featured-card-title,
+            .project-title {
+                font-size: clamp(1.3rem, 5.2vw, 1.65rem) !important;
+                line-height: 1.25 !important;
+                margin-bottom: 12px !important;
+                word-break: break-word !important;
+                overflow-wrap: break-word !important;
+                hyphens: auto !important;
+            }
+            .featured-card-desc,
+            .project-desc {
+                font-size: 0.9rem !important;
+                line-height: 1.6 !important;
+                margin-bottom: 16px !important;
+            }
+            .featured-tags-wrap,
+            .tags-container {
+                gap: 6px !important;
+                margin-bottom: 18px !important;
+            }
+            .featured-pill-accent,
+            .featured-pill-subtle,
+            .tech-pill {
+                font-size: 0.72rem !important;
+                padding: 4px 9px !important;
+            }
+            .featured-actions-row {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 10px !important;
+                width: 100% !important;
+            }
+            .featured-btn-primary,
+            .featured-btn-outline,
+            .card-action-btn {
+                width: 100% !important;
+                justify-content: center !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+                padding: 12px 16px !important;
+                font-size: 0.88rem !important;
+            }
+            .featured-side-panel {
+                padding: 16px 12px !important;
+                border-radius: 16px !important;
+            }
+            .featured-metrics-grid {
+                gap: 8px !important;
+            }
+            .featured-metrics-grid.cols-3 {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+            .featured-stat-box {
+                padding: 10px 6px !important;
+            }
+            .featured-stat-number {
+                font-size: 1.35rem !important;
+            }
+            .featured-stat-label {
+                font-size: 0.65rem !important;
+                line-height: 1.2 !important;
+            }
+            .featured-sub-strip {
+                padding: 10px 10px !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 8px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .portfolio-section {
+                padding: 16px 8px 45px !important;
+            }
+            .featured-client-card {
+                padding: 16px 10px !important;
+                border-radius: 16px !important;
+            }
+            .featured-card-title,
+            .project-title {
+                font-size: 1.3rem !important;
+            }
+            .featured-metrics-grid.cols-3 {
+                grid-template-columns: 1fr 1fr 1fr !important;
+                gap: 6px !important;
+            }
+            .featured-stat-number {
+                font-size: 1.15rem !important;
+            }
+            .featured-stat-label {
+                font-size: 0.6rem !important;
+            }
+        }
+
+        
+        /* ── PORTFOLIO GRID ── */
+
+        .portfolio-section {
+
+            padding: 40px 24px 90px;
+
+            max-width: 1240px;
+
+            margin: 0 auto;
+
+        }
+
+
+
+        .portfolio-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 40px;
+
+        }
+
+
+
+        .portfolio-card {
+
+            background: #ffffff;
+
+            border: 1px solid var(--dev-border);
+
+            border-radius: 24px;
+
+            padding: 40px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
+
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+
+        .portfolio-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.07);
+
+            border-color: rgba(255, 87, 34, 0.4);
+
+        }
+
+
+
+        .card-top {
+
+            margin-bottom: 24px;
+
+        }
+
+
+
+        .client-tag {
+
+            display: inline-block;
+
+            font-size: 0.78rem;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+
+            color: var(--dev-orange);
+
+            margin-bottom: 12px;
+
+        }
+
+
+
+        .project-title {
+
+            font-family: 'Outfit', sans-serif;
+
+            font-size: 1.85rem;
+
+            font-weight: 800;
+
+            line-height: 1.2;
+
+            color: #0f172a;
+
+            margin-bottom: 14px;
+
+        }
+
+
+
+        .project-desc {
+
+            font-size: 1rem;
+
+            line-height: 1.65;
+
+            color: var(--dev-muted);
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        .highlight-stat-box {
+
+            background: linear-gradient(135deg, rgba(255,87,34,0.06) 0%, rgba(255,138,80,0.04) 100%);
+
+            border: 1px solid rgba(255, 87, 34, 0.2);
+
+            border-radius: 14px;
+
+            padding: 16px 20px;
+
+            margin-bottom: 24px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+        }
+
+
+
+        .stat-icon {
+
+            font-size: 2rem;
+
+            color: var(--dev-orange);
+
+        }
+
+
+
+        .stat-val {
+
+            font-family: 'Outfit', sans-serif;
+
+            font-size: 1.4rem;
+
+            font-weight: 900;
+
+            color: #0f172a;
+
+            line-height: 1.1;
+
+        }
+
+
+
+        .stat-label {
+
+            font-size: 0.82rem;
+
+            font-weight: 600;
+
+            color: #64748b;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
+
+        }
+
+
+
+        .tags-container {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 24px;
+
+        }
+
+
+
+        .tech-pill {
+
+            background: #f1f5f9;
+
+            color: #475569;
+
+            font-size: 0.8rem;
+
+            font-weight: 700;
+
+            padding: 5px 12px;
+
+            border-radius: 6px;
+
+        }
+
+
+
+        .card-action-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #ff5722;
+
+            font-family: 'Space Grotesk', sans-serif;
+
+            font-weight: 700;
+
+            font-size: 0.95rem;
+
+            text-decoration: none;
+
+            transition: transform 0.2s ease, color 0.2s ease;
+
+        }
+
+
+
+        .card-action-btn:hover {
+
+            color: #e64a19;
+
+            transform: translateX(4px);
+
+        }
+
+
+
+        /* ── STATS HERO BAR ── */
+
+        .stats-bar-section {
+
+            background: #f8fafc;
+
+            border-top: 1px solid #e2e8f0;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            padding: 50px 24px;
+
+            margin-bottom: 70px;
+
+        }
+
+
+
+        .stats-bar-inner {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 30px;
+
+            text-align: center;
+
+        }
+
+
+
+        .stat-capsule-num {
+
+            font-family: 'Outfit', sans-serif;
+
+            font-size: clamp(2.4rem, 4vw, 3.2rem);
+
+            font-weight: 900;
+
+            color: #0f172a;
+
+            line-height: 1;
+
+            margin-bottom: 8px;
+
+        }
+
+
+
+        .stat-capsule-num span {
+
+            color: var(--dev-orange);
+
+        }
+
+
+
+        .stat-capsule-label {
+
+            font-size: 0.92rem;
+
+            font-weight: 600;
+
+            color: #64748b;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+        }
+
+
+
+        @media (max-width: 900px) {
+
+            .portfolio-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .stats-bar-inner {
+
+                grid-template-columns: repeat(2, 1fr);
+
+                gap: 30px 20px;
+
+            }
+
+            .portfolio-card {
+
+                padding: 30px 20px;
+
+            }
+
+            .featured-card-grid {
+
+                grid-template-columns: 1fr !important;
+
+                gap: 24px !important;
+
+            }
+
+        }
+
+
+
+        @media (max-width: 550px) {
+
+            .stats-bar-inner {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+        /* ── TOUCH-TO-ZOOM LIGHTBOX MODAL WITH CROSS BUTTON (MOBILE OPTIMIZED) ── */
+        .ai-zoomable-img-wrap {
+            cursor: zoom-in;
+            position: relative;
+        }
+
+        .ai-zoom-hint-pill {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 87, 34, 0.45);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            pointer-events: none;
+            z-index: 5;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .ai-zoomable-img-wrap:hover .ai-zoom-hint-pill {
+            background: #ff5722;
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .ai-lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 8, 15, 0.95);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 999999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .ai-lightbox-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .ai-lightbox-close-btn {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            font-size: 2.2rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 87, 34, 0.6), 0 4px 12px rgba(0, 0, 0, 0.7);
+            transition: transform 0.25s ease, background 0.25s ease;
+            z-index: 1000000000;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ai-lightbox-close-btn:hover,
+        .ai-lightbox-close-btn:active {
+            transform: scale(1.12) rotate(90deg);
+            background: #ff3d00;
+        }
+
+        .ai-lightbox-scroll-area {
+            max-width: 98vw;
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .ai-lightbox-img-el {
+            max-width: 100%;
+            max-height: 82vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 87, 34, 0.45);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 87, 34, 0.3);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: zoom-in;
+        }
+
+        .ai-lightbox-img-el.is-zoomed {
+            max-width: none;
+            max-height: none;
+            width: 160%;
+            cursor: zoom-out;
+        }
+
+        .ai-lightbox-caption-text {
+            margin-top: 14px;
+            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid rgba(255, 87, 34, 0.35);
+            padding: 8px 22px;
+            border-radius: 50px;
+            color: #ffffff;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-align: center;
+            max-width: 90vw;
+            letter-spacing: 0.3px;
+        }
+
+        .ai-lightbox-zoom-hint {
+            margin-top: 6px;
+            font-size: 0.72rem;
+            color: #94a3b8;
+            letter-spacing: 0.4px;
+        }
+
+        @media (max-width: 768px) {
+            .ai-lightbox-modal {
+                padding: 12px;
+            }
+            .ai-lightbox-close-btn {
+                top: 16px;
+                right: 16px;
+                width: 48px;
+                height: 48px;
+                font-size: 2rem;
+            }
+            .ai-lightbox-scroll-area {
+                padding-top: 64px;
+                max-height: 94vh;
+            }
+            .ai-lightbox-img-el {
+                max-height: 75vh;
+                width: 100%;
+                border-radius: 12px;
+            }
+            .ai-lightbox-img-el.is-zoomed {
+                width: 220%;
+                max-width: none;
+                max-height: none;
+            }
+            .ai-lightbox-caption-text {
+                font-size: 0.8rem;
+                padding: 6px 16px;
+            }
+            .ai-zoom-hint-pill {
+                top: 8px;
+                right: 8px;
+                font-size: 0.68rem;
+                padding: 3px 8px;
+            }
+        }
+
+    </style>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+
+    <header class="page-hero">
+
+        <div class="badge-pill">
+
+            <i class="fa-solid fa-trophy"></i> 100% VERIFIED CLIENT RESULTS
+
+        </div>
+
+        <h1 class="hero-title">
+
+            Engineered for Growth: <span>Fusion X Client Portfolio</span> &amp; Case Studies
+
+        </h1>
+
+        <p class="hero-desc">
+
+            Every transformation below documents verified engineering, high-ROAS ad funnels, and real client growth. Explore how Fusion X scales brands across high-converting Shopify &amp; D2C architecture, Meta Ads lead generation, Generative Engine Optimization (GEO/AEO), and viral local acquisition.
+
+        </p>
+
+
+
+        <!-- Filter Tabs -->
+
+        <div class="portfolio-filters">
+
+            <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-border-all"></i> All Brands (10)</button>
+
+            <button class="filter-btn" data-filter="ai-geo"><i class="fa-solid fa-microchip"></i> ChatGPT, Gemini &amp; AI Search (AEO)</button>
+
+            <button class="filter-btn" data-filter="ecommerce"><i class="fa-solid fa-bag-shopping"></i> D2C &amp; E-Commerce (6)</button>
+
+            <button class="filter-btn" data-filter="ads"><i class="fa-solid fa-bullseye"></i> Paid Ads &amp; Leads (6)</button>
+
+            <button class="filter-btn" data-filter="seo"><i class="fa-solid fa-magnifying-glass-chart"></i> SEO &amp; AI Search (7)</button>
+
+            <button class="filter-btn" data-filter="video"><i class="fa-solid fa-film"></i> Video &amp; Creatives (5)</button>
+
+            <button class="filter-btn" data-filter="local"><i class="fa-solid fa-location-dot"></i> Local &amp; Retail (4)</button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ═══════════════════════ STATS BAR (100% VERIFIED CLIENT DATA) ═══════════════════════ -->
+
+    <section class="stats-bar-section">
+
+        <div class="stats-bar-inner">
+
+            <div class="stat-capsule">
+
+                <div class="stat-capsule-num"><span>10</span></div>
+
+                <div class="stat-capsule-label">Flagship Brands Transformed</div>
+
+            </div>
+
+            <div class="stat-capsule">
+
+                <div class="stat-capsule-num"><span>1.4M+</span></div>
+
+                <div class="stat-capsule-label">Verified Audience Impressions</div>
+
+            </div>
+
+            <div class="stat-capsule">
+
+                <div class="stat-capsule-num"><span>4.8x</span></div>
+
+                <div class="stat-capsule-label">Peak Campaign ROAS</div>
+
+            </div>
+
+            <div class="stat-capsule">
+
+                <div class="stat-capsule-num">₹<span>23.54</span></div>
+
+                <div class="stat-capsule-label">Lowest Cost Per Lead (CPL)</div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ═══════════════════════ PORTFOLIO GRID ═══════════════════════ -->
+
+    <main class="portfolio-section">
+
+                <div class="portfolio-grid">
+
+
+
+            <!-- ═════════ DEDICATED FLAGSHIP CHATGPT, GEMINI & AI SEARCH PROOF SHOWCASE ═════════ -->
+            <div id="ai-geo-proof" class="portfolio-card featured-client-card" data-category="ai-geo seo all" style="background: linear-gradient(135deg, #0a0e17 0%, #161b26 100%) !important; border: 2px solid #ff5722 !important; box-shadow: 0 20px 60px rgba(255, 87, 34, 0.2) !important;">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/nilaro/logo.webp" alt="Nilaro Logo" class="featured-brand-logo" style="height: 42px; background: #fff; padding: 4px; border-radius: 8px;">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/bhawani/logo.png" alt="Bhawani Logo" class="featured-brand-logo" style="height: 42px; background: #fff; padding: 4px; border-radius: 8px;">
+                        </div>
+                        <span class="featured-brand-pill" style="background: rgba(255, 87, 34, 0.2); color: #ff8a50; border: 1px solid rgba(255, 87, 34, 0.45);">
+                            ★ 100% PROVEN AI DOMINANCE • OPENAI CHATGPT, GOOGLE GEMINI &amp; AI OVERVIEWS
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill" style="color: #34d399; background: rgba(16, 163, 127, 0.2); border-color: rgba(16, 163, 127, 0.5);">
+                            <i class="fa-solid fa-robot"></i> ChatGPT Search #1
+                        </span>
+                        <span class="featured-badge-pill" style="color: #34d399; background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4);">
+                            <i class="fa-solid fa-circle-check"></i> Gemini AI #1
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-fire"></i> 900+ Monthly Inbound Calls Record
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            Ranked In ChatGPT &amp; AI Search: <span class="featured-title-gradient">Nilaro Coffee &amp; Bhawani Corner</span> Dominate Generative AI
+                        </h2>
+                        <p class="featured-card-desc">
+                            We bring our client brands and blogs directly into generative AI search recommendations. By conducting precision prompt research, authoring authoritative EEAT blogs structured for AI extraction across ChatGPT and Gemini, and constructing high-trust contextual backlinks, we do all possible ways to ensure AI tools cite and recommend our clients.
+                        </p>
+
+                        <!-- Key Proof Points -->
+                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 18px 20px; margin-bottom: 22px;">
+                            <div style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
+                                <i class="fa-solid fa-check" style="color: #ff5722; margin-top: 4px;"></i>
+                                <div style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.5;">
+                                    <strong style="color: #ffffff;">OpenAI ChatGPT Search:</strong> Bhawani Corner ranked #1 for <em>"Best Crockery Shops in Chennai"</em> in ChatGPT Search &amp; interactive Map Search, citing our blog and store data.
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
+                                <i class="fa-solid fa-check" style="color: #ff5722; margin-top: 4px;"></i>
+                                <div style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.5;">
+                                    <strong style="color: #ffffff;">Google AI Overviews &amp; Maps:</strong> Bhawani Corner ranked #1 retail favorite, driving over <strong>900 inbound direct calls in a single month record</strong> — 3 months of SEO delivered <strong>4x the investment</strong>!
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <i class="fa-solid fa-check" style="color: #ff5722; margin-top: 4px;"></i>
+                                <div style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.5;">
+                                    <strong style="color: #ffffff;">Google Gemini AI:</strong> Ranked Nilaro Coffee #1 for <em>"Best Chicory Coffee"</em> and cited Bhawani's ranking blog for <em>"Best Kitchenware Shops in Chennai"</em>.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">OpenAI ChatGPT #1</span>
+                            <span class="featured-pill-accent">Google Gemini AI #1</span>
+                            <span class="featured-pill-accent">Google AI Overviews</span>
+                            <span class="featured-pill-accent">Ranking Blog Citations</span>
+                            <span class="featured-pill-accent">900+ Calls/Mo Record</span>
+                            <span class="featured-pill-accent">4x Investment ROI</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/ai-search-results/' ) ); ?>" class="featured-btn-primary" style="background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);">
+                                <span>Explore All 10 Detailed AI &amp; ChatGPT Results</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: AI Proof Images -->
+                    <div style="display: flex; flex-direction: column; gap: 14px;">
+                        <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(16, 163, 127, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
+                            <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
+                            <picture>
+                                <source srcset="ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.webp" type="image/webp">
+                                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.png" alt="OpenAI ChatGPT Search Bhawani Corner Ranking #1" style="width: 100%; height: auto; display: block;" loading="lazy">
+                            </picture>
+                            <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 14px; border: 1px solid rgba(16, 163, 127, 0.45); font-size: 0.72rem; font-weight: 700; color: #34d399;">
+                                <i class="fa-solid fa-robot"></i> ChatGPT: Bhawani Corner Ranked #1
+                            </div>
+                        </div>
+
+                        <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 87, 34, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
+                            <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
+                            <picture>
+                                <source srcset="ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.webp" type="image/webp">
+                                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.png" alt="Google Gemini Nilaro Coffee Ranking #1" style="width: 100%; height: auto; display: block;" loading="lazy">
+                            </picture>
+                            <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 14px; border: 1px solid rgba(255, 87, 34, 0.4); font-size: 0.72rem; font-weight: 700; color: #ff7043;">
+                                <i class="fa-solid fa-sparkles"></i> Google Gemini: Nilaro Ranked #1
+                            </div>
+                        </div>
+
+                        <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 87, 34, 0.4); background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
+                            <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big map</span>
+                            <picture>
+                                <source srcset="ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.webp" type="image/webp">
+                                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.png" alt="Google AI Overviews Bhawani Corner 900+ Calls Record" style="width: 100%; height: auto; display: block;" loading="lazy">
+                            </picture>
+                            <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 14px; border: 1px solid rgba(255, 87, 34, 0.4); font-size: 0.72rem; font-weight: 700; color: #ff7043;">
+                                <i class="fa-solid fa-phone-volume"></i> AI Overviews: 900+ Calls/Mo Record
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═════════ FLAGSHIP CLIENT: BHAWANI CORNER GLASSWARE PVT LTD ═════════ -->
+            <div class="portfolio-card featured-client-card" data-category="ecommerce seo video local web marketing all">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <a href="<?php echo esc_url( home_url( '/bhawani-corner/' ) ); ?>">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/bhawani/logo.png" alt="Bhawani Corner Glassware Pvt Ltd Logo" class="featured-brand-logo">
+                        </a>
+                        <span class="featured-brand-pill">
+                            ★ FLAGSHIP CASE STUDY &bull; INDIA'S NO. 1 GLASSWARE BRAND
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill">
+                            <i class="fa-solid fa-crown" style="color: #f59e0b;"></i> 40+ Years Heritage
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-location-dot"></i> T. Nagar, Chennai
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            Bhawani Corner Glassware: <span class="featured-title-gradient">10x Search Surge, Viral Video Shoots</span> &amp; 900+ Monthly Inquiries
+                        </h2>
+                        <p class="featured-card-desc">
+                            Engineered an end-to-end digital transformation for India's premier 40-year glassware authority: custom e-commerce web platform, on-site high-quality video shoots &amp; editing for Instagram/YouTube, Generative Engine Optimization (GEO/AEO) for Google Gemini &amp; ChatGPT, and a 24/7 AI WhatsApp Chatbot driving 900+ calls/month.
+                        </p>
+
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">Custom E-Commerce</span>
+                            <span class="featured-pill-accent">On-Site Video Shoots</span>
+                            <span class="featured-pill-accent">YouTube &amp; Insta SEO</span>
+                            <span class="featured-pill-accent">AEO &amp; GEO (AI Search)</span>
+                            <span class="featured-pill-accent">AI WhatsApp Chatbot</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/bhawani-corner/' ) ); ?>" class="featured-btn-primary">
+                                <span>View Case Study &amp; Live Graph</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="https://bhawanicorner.com/" target="_blank" rel="noopener noreferrer" class="featured-btn-outline">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Store
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Metrics Box & Video Links -->
+                    <div class="featured-side-panel">
+                        <div class="featured-metrics-grid">
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">+1,050%</div>
+                                <div class="featured-stat-label">Search Impressions</div>
+                            </div>
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">900+</div>
+                                <div class="featured-stat-label">Monthly Phone Calls</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">37,519</div>
+                                <div class="featured-stat-label">Monthly Organic Reach</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">#1 Rank</div>
+                                <div class="featured-stat-label">Gemini &amp; ChatGPT</div>
+                            </div>
+                        </div>
+
+                        <!-- Social Channels Pill Strip -->
+                        <div class="featured-sub-strip">
+                            <span style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;"><i class="fa-solid fa-clapperboard" style="color: #ff5722;"></i> Video Channels:</span>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <a href="https://www.instagram.com/bhawani_corner/?hl=en" target="_blank" rel="noopener noreferrer" style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 50px; font-size: 0.78rem; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                                    <i class="fa-brands fa-instagram" style="color: #e1306c;"></i> @bhawani_corner
+                                </a>
+                                <a href="https://www.youtube.com/@bhawanicorner" target="_blank" rel="noopener noreferrer" style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 50px; font-size: 0.78rem; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                                    <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> @bhawanicorner
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═════════ FLAGSHIP CLIENT: NILARO FILTER COFFEE ═════════ -->
+            <div class="portfolio-card featured-client-card" data-category="ecommerce seo video web brand all">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <a href="<?php echo esc_url( home_url( '/nilaro/' ) ); ?>">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/nilaro/logo.webp" alt="Nilaro Filter Coffee Logo" class="featured-brand-logo dark-bg">
+                        </a>
+                        <span class="featured-brand-pill">
+                            ★ D2C ZERO-TO-ONE SCALE &bull; 100% PURE SOUTH INDIAN FILTER COFFEE
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill">
+                            <i class="fa-solid fa-user-tie" style="color: #ff7043;"></i> Founded by Mr. Nilakshan
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-mug-hot"></i> D2C E-Commerce
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            Nilaro Coffee: <span class="featured-title-gradient">Building an Authentic D2C Heritage Brand</span> From Scratch
+                        </h2>
+                        <p class="featured-card-desc">
+                            Partnering with founder Mr. Nilakshan to bring traditional South Indian filter coffee to the modern digital era. Fusion X engineered the storytelling storefront, interactive bean roastery gears, AEO &amp; GEO generative AI visibility (Gemini &amp; ChatGPT), conversational WhatsApp AI chatbot, high-impact video shoots, and targeted Meta ad acquisition.
+                        </p>
+                        
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">Custom D2C E-Commerce</span>
+                            <span class="featured-pill-subtle">AEO &amp; GEO AI Optimization</span>
+                            <span class="featured-pill-subtle">WhatsApp AI Bot</span>
+                            <span class="featured-pill-subtle">Video Production &amp; SEO</span>
+                            <span class="featured-pill-subtle">Meta Ads</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/nilaro/' ) ); ?>" class="featured-btn-primary">
+                                <span>Read Full Case Study</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="https://nilaro.in/" target="_blank" rel="noopener noreferrer" class="featured-btn-outline">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit nilaro.in
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="featured-side-panel">
+                        <div class="featured-metrics-grid cols-3">
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">210+</div>
+                                <div class="featured-stat-label">Daily Impressions</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">Top 7</div>
+                                <div class="featured-stat-label">Avg SERP Rank</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">100%</div>
+                                <div class="featured-stat-label">AI Search Citation</div>
+                            </div>
+                        </div>
+
+                        <!-- Social Channels Pill Strip -->
+                        <div class="featured-sub-strip">
+                            <span style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;"><i class="fa-solid fa-share-nodes" style="color: #ff5722;"></i> Social Channels:</span>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <a href="https://www.instagram.com/nilarocoffee?igsh=MXVrYzZyYmRwYXR1OA%3D%3D" target="_blank" rel="noopener noreferrer" style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 50px; font-size: 0.78rem; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                                    <i class="fa-brands fa-instagram" style="color: #e1306c;"></i> @nilarocoffee
+                                </a>
+                                <a href="https://www.youtube.com/@Nilarocoffee" target="_blank" rel="noopener noreferrer" style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 50px; font-size: 0.78rem; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                                    <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> @Nilarocoffee
+                                </a>
+                                <a href="https://www.facebook.com/people/Nilaro-Coffee/pfbid025qkjWu5jygqXSe37GNPZVDGwqymwuTxjf7h8ZXoSwNvvCTYJBZmqYuvSuBp5EPusl/" target="_blank" rel="noopener noreferrer" style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 50px; font-size: 0.78rem; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                                    <i class="fa-brands fa-facebook" style="color: #1877f2;"></i> Nilaro
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═════════ FLAGSHIP CLIENT: THE ENERGY BAGS ═════════ -->
+            <div class="portfolio-card featured-client-card" data-category="ecommerce ads seo web brand marketing all">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <a href="<?php echo esc_url( home_url( '/energy-bags/' ) ); ?>">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/energy-bags/logo.png" alt="The Energy Bags Logo" class="featured-brand-logo">
+                        </a>
+                        <span class="featured-brand-pill">
+                            ★ E-COMMERCE HYBRID SCALE &bull; KIDS, OFFICE &amp; LADYBEE BAGS
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill">
+                            <i class="fa-solid fa-code-fork" style="color: #ff7043;"></i> Shopify Hybrid
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-bullseye"></i> 4.2x Meta Ads ROAS
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            The Energy Bags: <span class="featured-title-gradient">398K Search Impressions, 4.2x ROAS</span> &amp; 12x Revenue Surge
+                        </h2>
+                        <p class="featured-card-desc">
+                            Scaling an omnichannel bag manufacturing powerhouse across Kids/School, Office/Laptop, and LadyBee women's handbag categories. Fusion X architected a hybrid Shopify Liquid storefront, high-converting product photoshoots, AEO/GEO/E-E-A-T ranking blog dominance (&ldquo;Best School Bag Company&rdquo;), and high-octane Meta Ad acquisition that multiplied monthly revenue from ₹24K to ₹289K+.
+                        </p>
+                        
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">Shopify Hybrid Liquid</span>
+                            <span class="featured-pill-subtle">4.2x Meta Ads ROAS</span>
+                            <span class="featured-pill-subtle">AEO &amp; GEO AI Search</span>
+                            <span class="featured-pill-subtle">E-E-A-T Ranking Blogs</span>
+                            <span class="featured-pill-subtle">Product Photoshoots</span>
+                            <span class="featured-pill-subtle">Kids, Office &amp; LadyBee</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/energy-bags/' ) ); ?>" class="featured-btn-primary">
+                                <span>Read Full Case Study &amp; Live Graph</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="https://theenergybags.com/" target="_blank" rel="noopener noreferrer" class="featured-btn-outline">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit theenergybags.com
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="featured-side-panel">
+                        <div class="featured-metrics-grid">
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">398K</div>
+                                <div class="featured-stat-label">Search Impressions</div>
+                            </div>
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">4.2x</div>
+                                <div class="featured-stat-label">Meta Ads ROAS</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">5.19K</div>
+                                <div class="featured-stat-label">Organic Clicks (5.1)</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">12x Rev</div>
+                                <div class="featured-stat-label">₹24K &rarr; ₹289K / Mo</div>
+                            </div>
+                        </div>
+
+                        <!-- Highlights Banner -->
+                        <div class="featured-sub-strip">
+                            <span style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;"><i class="fa-solid fa-bag-shopping" style="color: #ff5722;"></i> Product Breadth:</span>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-graduation-cap" style="color: #ff7043;"></i> Kids / School
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-laptop" style="color: #ff7043;"></i> Office / Laptop
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-gem" style="color: #ff7043;"></i> LadyBee Luxury
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═════════ FLAGSHIP CLIENT: TRULY YOURS SKINCARE ═════════ -->
+            <div class="portfolio-card featured-client-card" data-category="ecommerce ads seo web brand marketing all">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <a href="<?php echo esc_url( home_url( '/truly-yours/' ) ); ?>">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/truly-yours/logo.jpg" alt="Truly Yours Logo" class="featured-brand-logo">
+                        </a>
+                        <span class="featured-brand-pill">
+                            ★ D2C ORGANIC SKINCARE &bull; DERMATOLOGY E-E-A-T &amp; AEO/GEO
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill">
+                            <i class="fa-brands fa-shopify" style="color: #95bf47;"></i> Shopify Beauty
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-trophy"></i> +1,900% Revenue Lift
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            Truly Yours: <span class="featured-title-gradient">+471% Organic Traffic</span>, ₹21.8K Sales &amp; 2.77% Conv. Rate
+                        </h2>
+                        <p class="featured-card-desc">
+                            Scaling an organic skincare cosmetics brand founded by Sharmitha. Fusion X deployed a custom Shopify storefront with slide-out cart and wishlist architecture, dermatology-aligned E-E-A-T and AEO/GEO active ingredient ranking blogs, high-converting product PDP optimization, and social video SEO on Instagram and YouTube — driving 1,803 sessions, 51 orders, and 4.8x peak ROAS.
+                        </p>
+                        
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">Shopify Beauty Dev</span>
+                            <span class="featured-pill-subtle">Dermatology E-E-A-T</span>
+                            <span class="featured-pill-subtle">AEO &amp; GEO AI Search</span>
+                            <span class="featured-pill-subtle">+1,900% Revenue Lift</span>
+                            <span class="featured-pill-subtle">Social Video SEO</span>
+                            <span class="featured-pill-subtle">Organic Skincare PDP</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/truly-yours/' ) ); ?>" class="featured-btn-primary">
+                                <span>Read Full Case Study &amp; Live Graph</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="https://www.trulyyoursstore.com/" target="_blank" rel="noopener noreferrer" class="featured-btn-outline">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit trulyyoursstore.com
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="featured-side-panel">
+                        <div class="featured-metrics-grid">
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">+471%</div>
+                                <div class="featured-stat-label">Organic Traffic (1,803)</div>
+                            </div>
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">1,900%</div>
+                                <div class="featured-stat-label">Revenue Lift (₹21.8K)</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">1,600%</div>
+                                <div class="featured-stat-label">Direct Orders (51)</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">2.77%</div>
+                                <div class="featured-stat-label">Conv. Rate (↑ 192%)</div>
+                            </div>
+                        </div>
+
+                        <!-- Highlights Banner -->
+                        <div class="featured-sub-strip">
+                            <span style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;"><i class="fa-solid fa-leaf" style="color: #ff5722;"></i> Strategic Highlights:</span>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-user" style="color: #ff7043;"></i> Founder: Sharmitha
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-gauge-high" style="color: #ff7043;"></i> 1.5s Mobile Speed
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-rotate" style="color: #ff7043;"></i> 28% Repeat Buyers
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═════════ FLAGSHIP CLIENT: MEERA'S BEAUTY PARLOUR ═════════ -->
+            <div class="portfolio-card featured-client-card" data-category="ads seo local web marketing brand all">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <a href="<?php echo esc_url( home_url( '/meeras-beauty-parlour/' ) ); ?>">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/meeras/logo.webp" alt="Meera's Beauty Parlour Logo" class="featured-brand-logo">
+                        </a>
+                        <span class="featured-brand-pill">
+                            ★ SALON &amp; BRIDAL CASE STUDY &bull; LOCAL SEO &amp; META ADS FUNNELS
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill">
+                            <i class="fa-solid fa-spa" style="color: #ec4899;"></i> Bridal &amp; Salon Specialist
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-location-dot"></i> Chennai, Tamil Nadu
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            Meera's Beauty Parlour: <span class="featured-title-gradient">+40% Bookings Surge</span>, ₹23.54 CPL &amp; 2,340 Monthly Visitors
+                        </h2>
+                        <p class="featured-card-desc">
+                            Transforming a neighborhood salon into an in-demand bridal and beauty authority across Chennai. Fusion X built a lightning-fast 1.4s static web portal, targeted Meta Lead Ads funnels driving direct WhatsApp and Messenger booking conversations, Google Maps 3-Pack Local SEO generating 180+ monthly phone calls, and an automated 5-star review engine.
+                        </p>
+                        
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">1.4s Static Web Architecture</span>
+                            <span class="featured-pill-subtle">Meta Ads WhatsApp Funnels</span>
+                            <span class="featured-pill-subtle">₹23.54 Lowest CPL</span>
+                            <span class="featured-pill-subtle">Google Maps 3-Pack SEO</span>
+                            <span class="featured-pill-subtle">+185% Bridal Surge</span>
+                            <span class="featured-pill-subtle">Review Pipeline Automation</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/meeras-beauty-parlour/' ) ); ?>" class="featured-btn-primary">
+                                <span>Read Full Case Study &amp; Live Graph</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="https://meerasbeautyparlour.in/" target="_blank" rel="noopener noreferrer" class="featured-btn-outline">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit meerasbeautyparlour.in
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="featured-side-panel">
+                        <div class="featured-metrics-grid">
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">+40%</div>
+                                <div class="featured-stat-label">Appointment Bookings Surge</div>
+                            </div>
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">₹23.54</div>
+                                <div class="featured-stat-label">Lowest Cost Per Lead</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">67 Leads</div>
+                                <div class="featured-stat-label">Direct WhatsApp Inquiries</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">2,340</div>
+                                <div class="featured-stat-label">Monthly Web Visitors</div>
+                            </div>
+                        </div>
+
+                        <!-- Highlights Banner -->
+                        <div class="featured-sub-strip">
+                            <span style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;"><i class="fa-solid fa-star" style="color: #ff5722;"></i> Campaign Highlights:</span>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-brands fa-whatsapp" style="color: #22c55e;"></i> WhatsApp Booking UX
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-bolt" style="color: #ff7043;"></i> 1.4s Load Speed
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-phone" style="color: #ff7043;"></i> 180+ Monthly Calls
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═════════ FLAGSHIP CLIENT: OFF HUMAN APPAREL ═════════ -->
+            <div class="portfolio-card featured-client-card" data-category="ecommerce ads web marketing brand all">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <a href="<?php echo esc_url( home_url( '/off-human/' ) ); ?>">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/off-human/logo.jpg" alt="Off Human Apparel Logo" class="featured-brand-logo" style="border-radius: 50%;">
+                        </a>
+                        <span class="featured-brand-pill">
+                            ★ STREETWEAR &amp; D2C SCALE &bull; EDITORIAL LOOKBOOK &amp; META CAPI
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill">
+                            <i class="fa-solid fa-shirt" style="color: #818cf8;"></i> D2C Urban Fashion
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-bolt"></i> 4.2x Drop-Day Conversion
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            Off Human Apparel: <span class="featured-title-gradient">4.2x Drop ROAS</span>, 2.0s Mobile Speed &amp; +50% Inquiries
+                        </h2>
+                        <p class="featured-card-desc">
+                            Scaling an avant-garde D2C streetwear label into sold-out drop cycles. Fusion X architected a brutalist minimalist editorial lookbook, a frictionless sub-second AJAX slide-out drawer cart, viral TikTok &amp; Reels hype video creatives, and server-side Meta Conversions API (CAPI) telemetry delivering 4.2x ROAS and a 45% repeat buyer rate.
+                        </p>
+                        
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">Editorial Lookbook Architecture</span>
+                            <span class="featured-pill-subtle">Sub-Second AJAX Drawer Cart</span>
+                            <span class="featured-pill-subtle">Meta Conversions API (CAPI)</span>
+                            <span class="featured-pill-subtle">4.2x Drop-Day Conversion</span>
+                            <span class="featured-pill-subtle">TikTok &amp; Reels Hype Creatives</span>
+                            <span class="featured-pill-subtle">Edge CDN Flash-Drop Scale</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/off-human/' ) ); ?>" class="featured-btn-primary">
+                                <span>Read Full Case Study &amp; Live Graph</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="https://offhuman.com/" target="_blank" rel="noopener noreferrer" class="featured-btn-outline">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit offhuman.com
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="featured-side-panel">
+                        <div class="featured-metrics-grid">
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">4.2x</div>
+                                <div class="featured-stat-label">Drop-Day Meta ROAS</div>
+                            </div>
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">+50%</div>
+                                <div class="featured-stat-label">Lookbook Inquiries Boost</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">2.0s</div>
+                                <div class="featured-stat-label">Mobile Load Speed</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">45%</div>
+                                <div class="featured-stat-label">Repeat Streetwear Buyers</div>
+                            </div>
+                        </div>
+
+                        <!-- Highlights Banner -->
+                        <div class="featured-sub-strip">
+                            <span style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;"><i class="fa-solid fa-fire" style="color: #ff5722;"></i> Capsule Highlights:</span>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-user" style="color: #ff7043;"></i> Founder: Abishek
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-cart-shopping" style="color: #ff7043;"></i> Drawer Cart AJAX
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-clock" style="color: #ff7043;"></i> Sold Out in 48h
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═════════ FLAGSHIP CLIENT: SRIDHAR FOOD HOUSE ═════════ -->
+            <div class="portfolio-card featured-client-card" data-category="ads video local marketing brand all">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <a href="<?php echo esc_url( home_url( '/sridhar-food-house/' ) ); ?>">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/sridhar/logo.jpg" alt="Sridhar Food House Logo" class="featured-brand-logo" style="border-radius: 10px;">
+                        </a>
+                        <span class="featured-brand-pill">
+                            ★ HYPER-LOCAL F&amp;B ACQUISITION &bull; META ADS &amp; WHATSAPP FUNNELS
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill">
+                            <i class="fa-solid fa-utensils" style="color: #f59e0b;"></i> Chaat &amp; Street Food Shop
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-bullhorn"></i> 40.6K+ Hyper-Local Reached
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            Sridhar Food House: <span class="featured-title-gradient">40.6K+ Reached</span>, &#8377;0.11 Interaction &amp; 120 Direct Messaging Leads
+                        </h2>
+                        <p class="featured-card-desc">
+                            Hyper-local street food customer acquisition for Chennai's premier chaat house in Anna Nagar. Fusion X architected high-converting Meta Ads campaigns, authentic recipe &amp; preparation reels, dynamic WhatsApp/Instagram DM inquiry funnels, and precision radius targeting—driving 40,600+ accounts reached at an ultra-low &#8377;8.34 CPM and &#8377;0.11 cost per interaction.
+                        </p>
+                        
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">40.6K+ Hyper-Local Reached</span>
+                            <span class="featured-pill-subtle">120 Direct WhatsApp/IG Leads</span>
+                            <span class="featured-pill-subtle">&#8377;0.11 Cost Per Interaction</span>
+                            <span class="featured-pill-subtle">&#8377;8.34 CPM Delivery</span>
+                            <span class="featured-pill-subtle">Anna Nagar Geo-Fenced Radius</span>
+                            <span class="featured-pill-subtle">Signature Thenga Paal &amp; Pav Bhaji</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/sridhar-food-house/' ) ); ?>" class="featured-btn-primary">
+                                <span>Read Full Case Study &amp; Live Graph</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@sridhar_food_house" target="_blank" rel="noopener noreferrer" class="featured-btn-outline">
+                                <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> YouTube @sridhar_food_house
+                            </a>
+                            <a href="https://www.instagram.com/sridhar_food_house/" target="_blank" rel="noopener noreferrer" class="featured-btn-outline">
+                                <i class="fa-brands fa-instagram" style="color: #e1306c;"></i> Instagram @sridhar_food_house
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="featured-side-panel">
+                        <div class="featured-metrics-grid">
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">40.6K+</div>
+                                <div class="featured-stat-label">Hyper-Local Reached</div>
+                            </div>
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">120+</div>
+                                <div class="featured-stat-label">Direct Messaging Leads</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">&#8377;0.11</div>
+                                <div class="featured-stat-label">Cost Per Interaction</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">&#8377;8.34</div>
+                                <div class="featured-stat-label">Meta CPM (per 1K)</div>
+                            </div>
+                        </div>
+
+                        <!-- Highlights Banner -->
+                        <div class="featured-sub-strip">
+                            <span style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;"><i class="fa-solid fa-fire" style="color: #ff5722;"></i> Campaign Highlights:</span>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-user" style="color: #ff7043;"></i> Founder: Sridhar
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-bowl-rice" style="color: #ff7043;"></i> Thenga Paal Specialty
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-eye" style="color: #ff7043;"></i> 450K+ Video Impressions
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═════════ FLAGSHIP CLIENT: BIKERZ MODULE ═════════ -->
+            <div class="portfolio-card featured-client-card" data-category="ecommerce seo web brand all">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <a href="<?php echo esc_url( home_url( '/bikerz-module/' ) ); ?>">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/bikerz/logo.jpg" alt="Bikerz Module Logo" class="featured-brand-logo" style="border-radius: 10px;">
+                        </a>
+                        <span class="featured-brand-pill">
+                            ★ HIGH-PERFORMANCE SHOPIFY E-COMMERCE &bull; 96/100 SPEED INDEX &bull; 1,000+ SKUs
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill">
+                            <i class="fa-brands fa-shopify" style="color: #95bf47;"></i> Shopify Liquid Theme
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-bolt"></i> 1.8s Mobile Speed
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            Bikerz Module: <span class="featured-title-gradient">96/100 Mobile Speed</span>, 1,000+ SKUs &amp; +40% Conversion Lift
+                        </h2>
+                        <p class="featured-card-desc">
+                            High-performance e-commerce transformation for India's premier motorcycle riding gear and precision vehicle accessories retailer. Fusion X engineered a bespoke Shopify Liquid architecture from scratch—slashing mobile load times to 1.8s, eliminating 45+ bloated script dependencies, and automating next-gen WebP image compression across 1,000+ SKUs with +40% checkout conversion gains.
+                        </p>
+                        
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">96/100 Mobile Speed Index</span>
+                            <span class="featured-pill-subtle">1.8s Page Load Time</span>
+                            <span class="featured-pill-subtle">1,000+ Motorcycle Gear SKUs</span>
+                            <span class="featured-pill-subtle">+40% Checkout Conversion Lift</span>
+                            <span class="featured-pill-subtle">64% Image Weight Reduction</span>
+                            <span class="featured-pill-subtle">JSON-LD Google Shopping Schema</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/bikerz-module/' ) ); ?>" class="featured-btn-primary">
+                                <span>Read Full Case Study &amp; Live Graph</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="https://bikerzmodule.in/" target="_blank" rel="noopener noreferrer" class="featured-btn-outline">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit bikerzmodule.in
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="featured-side-panel">
+                        <div class="featured-metrics-grid">
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">96/100</div>
+                                <div class="featured-stat-label">Mobile Speed Score</div>
+                            </div>
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">1.8s</div>
+                                <div class="featured-stat-label">Mobile Page Load Time</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">+40%</div>
+                                <div class="featured-stat-label">Checkout Conversion Lift</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">1,000+</div>
+                                <div class="featured-stat-label">Motorcycle Gear SKUs</div>
+                            </div>
+                        </div>
+
+                        <!-- Highlights Banner -->
+                        <div class="featured-sub-strip">
+                            <span style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;"><i class="fa-solid fa-fire" style="color: #ff5722;"></i> Technical Highlights:</span>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-laptop-code" style="color: #ff7043;"></i> Lead: Kannan &amp; Sanjhay
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-brands fa-shopify" style="color: #95bf47;"></i> Custom Liquid Core
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-cart-shopping" style="color: #ff7043;"></i> AJAX Drawer Cart
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═════════ FLAGSHIP CLIENT: TK CINEMATIC STUDIO ═════════ -->
+            <div class="portfolio-card featured-client-card" data-category="video seo web brand all">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <a href="<?php echo esc_url( home_url( '/tk-cinematic-studio/' ) ); ?>">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/tk/logo.png" alt="TK Cinematic Studio Logo" class="featured-brand-logo" style="border-radius: 10px;">
+                        </a>
+                        <span class="featured-brand-pill">
+                            ★ COMMERCIAL FILM &amp; PRODUCTION PORTFOLIO &bull; 6.3 GOOGLE RANK &bull; 7.9% CTR
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill">
+                            <i class="fa-solid fa-video" style="color: #a5b4fc;"></i> 4K Video Streaming
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-bolt"></i> 0s Buffer Latency
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            TK Cinematic Studio: <span class="featured-title-gradient">1K Search Impressions</span>, 79 Clicks (7.9% CTR) &amp; 6.3 Google Position
+                        </h2>
+                        <p class="featured-card-desc">
+                            High-fidelity dark-mode screening room architecture and commercial search engine acceleration for Chennai's premier film and creator facility. Fusion X deployed zero-buffer 4K video delivery, structured VideoObject schema, and precision local SERP targeting—delivering Page 1 dominance for commercial ad production and high-converting direct client booking workflows.
+                        </p>
+                        
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">1K Search Console Impressions</span>
+                            <span class="featured-pill-subtle">79 Direct Commercial Clicks</span>
+                            <span class="featured-pill-subtle">7.9% Average Search CTR</span>
+                            <span class="featured-pill-subtle">6.3 Average Google Rank</span>
+                            <span class="featured-pill-subtle">0s Playback Buffering</span>
+                            <span class="featured-pill-subtle">Structured VideoObject Schema</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/tk-cinematic-studio/' ) ); ?>" class="featured-btn-primary">
+                                <span>Read Full Case Study &amp; Live Graph</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="https://tkcinematicstudio.in/" target="_blank" rel="noopener noreferrer" class="featured-btn-outline">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit tkcinematicstudio.in
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="featured-side-panel">
+                        <div class="featured-metrics-grid">
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">1K</div>
+                                <div class="featured-stat-label">Search Impressions</div>
+                            </div>
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">79</div>
+                                <div class="featured-stat-label">Direct Search Clicks</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">7.9%</div>
+                                <div class="featured-stat-label">Average Search CTR</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">6.3</div>
+                                <div class="featured-stat-label">Average Google Position</div>
+                            </div>
+                        </div>
+
+                        <!-- Highlights Banner -->
+                        <div class="featured-sub-strip">
+                            <span style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;"><i class="fa-solid fa-fire" style="color: #6366f1;"></i> Production Highlights:</span>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-users" style="color: #a5b4fc;"></i> Team: Jabakumar, Kannan, Sanjhay, Jaiharan
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-film" style="color: #38bdf8;"></i> 4K Streaming UX
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-location-dot" style="color: #34d399;"></i> Porur Creator Studio
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═════════ FLAGSHIP CLIENT: DR. MADHAVI ANJIMATI ═════════ -->
+            <div class="portfolio-card featured-client-card" data-category="ads video local marketing brand all">
+                <div class="featured-client-header">
+                    <div class="featured-brand-left">
+                        <a href="<?php echo esc_url( home_url( '/dr-madhavi/' ) ); ?>">
+                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/brands/dr-madhavi/logo.svg" alt="Dr. Madhavi Anjimati Logo" class="featured-brand-logo dark-bg" style="height: 48px; border-radius: 10px;">
+                        </a>
+                        <span class="featured-brand-pill">
+                            ★ CLINICAL LEAD GEN &bull; META ADS &bull; 403 LEADS &bull; ₹47.17 CPL
+                        </span>
+                    </div>
+                    <div class="featured-meta-badges">
+                        <span class="featured-badge-pill">
+                            <i class="fa-solid fa-heart-pulse" style="color: #06b6d4;"></i> Aesthetic Healthcare
+                        </span>
+                        <span class="featured-badge-pill orange-tone">
+                            <i class="fa-solid fa-location-dot"></i> Chandragiri, AP
+                        </span>
+                    </div>
+                </div>
+
+                <div class="featured-card-grid">
+                    <div>
+                        <h2 class="featured-card-title">
+                            Dr. Madhavi Anjimati: <span class="featured-title-gradient">403 Patient Leads</span>, ₹47.17 CPL &amp; ₹28.79 Video Winner
+                        </h2>
+                        <p class="featured-card-desc">
+                            High-intent clinical patient acquisition engine for Dr. Madhavi Anjimati's women's aesthetic wellness and healthcare clinic. Fusion X deployed friction-free Meta Instant Lead Forms, hyper-targeted geo-radius parameters across Chandragiri circles, and scroll-stopping clinical short-form video hooks—generating 403 patient leads at ₹47.17 average CPL (2x to 3x cheaper than the ₹120 industry benchmark) with a record ₹28.79 winning video CPL.
+                        </p>
+                        
+                        <div class="featured-tags-wrap">
+                            <span class="featured-pill-accent">403 Total Patient Leads</span>
+                            <span class="featured-pill-subtle">₹47.17 Average Cost Per Lead</span>
+                            <span class="featured-pill-subtle">₹28.79 Record Winning Video CPL</span>
+                            <span class="featured-pill-subtle">Meta Instant Lead Forms</span>
+                            <span class="featured-pill-subtle">5.5L+ Local Ad Impressions</span>
+                            <span class="featured-pill-subtle">Chandragiri Micro-Radius Geo</span>
+                        </div>
+
+                        <div class="featured-actions-row">
+                            <a href="<?php echo esc_url( home_url( '/dr-madhavi/' ) ); ?>" class="featured-btn-primary">
+                                <span>Read Full Case Study &amp; Live Graph</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="featured-btn-outline">
+                                <i class="fa-solid fa-calendar-check"></i> Schedule Strategy Call
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="featured-side-panel">
+                        <div class="featured-metrics-grid">
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">403</div>
+                                <div class="featured-stat-label">Total Patient Leads</div>
+                            </div>
+                            <div class="featured-stat-box orange-bg">
+                                <div class="featured-stat-number orange">₹47.17</div>
+                                <div class="featured-stat-label">Average Cost Per Lead</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">₹28.79</div>
+                                <div class="featured-stat-label">Winning Video CPL</div>
+                            </div>
+                            <div class="featured-stat-box">
+                                <div class="featured-stat-number">5.5L+</div>
+                                <div class="featured-stat-label">Total Ad Impressions</div>
+                            </div>
+                        </div>
+
+                        <!-- Highlights Banner -->
+                        <div class="featured-sub-strip">
+                            <span style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;"><i class="fa-solid fa-fire" style="color: #ff5722;"></i> Funnel Highlights:</span>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-video" style="color: #38bdf8;"></i> 89% Leads via Video
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-chart-pie" style="color: #ff7043;"></i> 2.32x Ad Frequency
+                                </span>
+                                <span style="color: #ffffff; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 50px; font-size: 0.74rem;">
+                                    <i class="fa-solid fa-wallet" style="color: #34d399;"></i> ₹19,009.16 Spend
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ═══════════════════════ PROCESS SECTION ═══════════════════════ -->
+
+    <section class="process-section fx-has-orange-dots">
+
+        <div class="process-header">
+
+            <span class="badge-pill" style="background: rgba(255,87,34,0.15); border-color: rgba(255,87,34,0.35);">
+
+                EXECUTION PROTOCOL
+
+            </span>
+
+            <h2>Our 4-Step Production Protocol</h2>
+
+            <p style="color: #94a3b8; font-size: 1.05rem;">Battle-tested workflows engineered for flawless delivery, maximum ROI, and rapid scale.</p>
+
+        </div>
+
+        <div class="process-grid">
+
+            <div class="process-card">
+
+                <div class="step-num">01</div>
+
+                <h3 class="step-title">Discovery & Strategic Audit</h3>
+
+                <p class="step-desc">In-depth analysis of existing unit economics, asset telemetry, competitor positioning, and market opportunity.</p>
+
+            </div>
+
+            <div class="process-card">
+
+                <div class="step-num">02</div>
+
+                <h3 class="step-title">Agile Sprint Execution</h3>
+
+                <p class="step-desc">Rapid deployment of high-converting creative assets, technical web architecture, and targeted ad funnels.</p>
+
+            </div>
+
+            <div class="process-card">
+
+                <div class="step-num">03</div>
+
+                <h3 class="step-title">Data Calibration & Scaling</h3>
+
+                <p class="step-desc">Continuous A/B testing, bid sculpting, conversion rate optimization, and budget expansion onto verified winners.</p>
+
+            </div>
+
+            <div class="process-card">
+
+                <div class="step-num">04</div>
+
+                <h3 class="step-title">Moat Building & Compounding</h3>
+
+                <p class="step-desc">Cementing market leadership, increasing customer lifetime value (LTV), and defending organic market dominance.</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ═══════════════════════ CTA BANNER ═══════════════════════ -->
+
+    <div class="content-section" style="padding-top: 0; max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px;">
+
+        <div class="cta-banner fx-has-orange-dots">
+
+            <h2>Ready to Build Your Next Big Case Study With Us?</h2>
+
+            <p>Schedule a 30-minute discovery call with our growth specialists. We'll examine your current bottlenecks and present a tailored 90-day scaling roadmap.</p>
+
+            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn-primary-hero" style="display:inline-flex; align-items:center; gap:12px; padding:16px 36px; background:#ff5722; color:#fff; border-radius:50px; text-decoration:none; font-weight:700;">Claim Your Strategy Session <i class="fa-solid fa-arrow-right"></i></a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+
+<?php
+get_footer();

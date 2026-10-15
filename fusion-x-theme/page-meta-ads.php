@@ -1,0 +1,512 @@
+<?php
+/**
+ * Template Name: Meta Ads
+ *
+ * @package Fusion_X
+ */
+
+get_header();
+?>
+
+<style>
+        :root {
+            --dev-orange: #ff5722;
+            --dev-orange-dark: #e64a19;
+            --dev-dark: #080808;
+            --dev-slate: #141414;
+            --dev-muted: #64748b;
+            --dev-bg-light: #f8fafc;
+            --dev-border: rgba(226, 232, 240, 0.9);
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* ── HERO ── */
+        .page-hero {
+            padding: 150px 24px 80px;
+            background: radial-gradient(circle at 50% 20%, rgba(255, 87, 34, 0.08) 0%, transparent 60%), #ffffff;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 24px;
+            background: rgba(255, 87, 34, 0.08);
+            border: 1px solid rgba(255, 87, 34, 0.25);
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--dev-orange);
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -1.5px;
+            color: #0f172a;
+            max-width: 980px;
+            margin: 0 auto 24px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #ff5722 20%, #ff8a50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            line-height: 1.7;
+            color: var(--dev-muted);
+            max-width: 820px;
+            margin: 0 auto 40px;
+        }
+
+        .tech-chips {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .tech-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #334155;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .tech-chip i {
+            color: var(--dev-orange);
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 36px;
+            background: #ff5722;
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(255, 87, 34, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-hero:hover {
+            background: #e64a19;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(255, 87, 34, 0.45);
+        }
+
+        .btn-secondary-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 36px;
+            background: #ffffff;
+            color: #0f172a;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary-hero:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+        }
+
+        /* ── ARCHITECTURAL SERVICE CARDS ── */
+        .content-section {
+            padding: 90px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card-block {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 90px;
+            padding: 50px;
+            background: #ffffff;
+            border: 1px solid var(--dev-border);
+            border-radius: 28px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card-block:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.06);
+        }
+
+        .service-card-block:nth-child(even) {
+            grid-template-columns: 0.85fr 1.15fr;
+        }
+
+        .service-card-block:nth-child(even) .card-content-box {
+            order: 2;
+        }
+
+        .service-card-block:nth-child(even) .card-visual-box {
+            order: 1;
+        }
+
+        .card-tag {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--dev-orange);
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+            font-weight: 800;
+            line-height: 1.15;
+            color: #0f172a;
+            margin-bottom: 16px;
+        }
+
+        .card-desc {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--dev-muted);
+            margin-bottom: 24px;
+        }
+
+        .card-feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .card-feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        .card-feature-list li i {
+            color: var(--dev-orange);
+            margin-top: 3px;
+        }
+
+        .card-tech-tag {
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #475569;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .card-visual-box {
+            background: radial-gradient(circle at center, rgba(255, 87, 34, 0.08) 0%, rgba(248, 250, 252, 0.8) 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 320px;
+        }
+
+        .card-visual-icon {
+            font-size: 3.5rem;
+            color: var(--dev-orange);
+            margin-bottom: 18px;
+            filter: drop-shadow(0 4px 12px rgba(255,87,34,0.3));
+        }
+
+        .card-visual-stat {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #0f172a;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .card-visual-sub {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--dev-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        @media (max-width: 900px) {
+            .service-card-block {
+                grid-template-columns: 1fr !important;
+                padding: 30px 20px;
+                gap: 30px;
+            }
+            .service-card-block:nth-child(even) .card-content-box {
+                order: 1;
+            }
+            .service-card-block:nth-child(even) .card-visual-box {
+                order: 2;
+            }
+        }
+    </style>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+    <header class="page-hero">
+        <div class="badge-pill">
+            <i class="fa-brands fa-meta"></i> META PERFORMANCE MARKETING
+        </div>
+        <h1 class="hero-title">
+            Scale Revenue with <span>High-ROAS Meta Ads</span> on Facebook & Instagram
+        </h1>
+        <p class="hero-desc">
+            Stop burning ad spend on vanity impressions. We deploy full-funnel Facebook and Instagram advertising architectures driven by Advantage+ machine learning, server-side Conversions API (CAPI), and hyper-converting direct-response creatives that maximize ROAS.
+        </p>
+
+        <div class="tech-chips">
+            <div class="tech-chip"><i class="fa-brands fa-meta"></i> Meta CAPI 10/10 Score</div>
+            <div class="tech-chip"><i class="fa-solid fa-bolt"></i> Advantage+ Shopping AI</div>
+            <div class="tech-chip"><i class="fa-solid fa-chart-line"></i> 4.5x–7.8x Scaled ROAS</div>
+            <div class="tech-chip"><i class="fa-solid fa-cart-shopping"></i> Dynamic Catalog Ads</div>
+            <div class="tech-chip"><i class="fa-solid fa-shield-halved"></i> Signal Loss Protection</div>
+        </div>
+
+        <div class="hero-ctas">
+            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn-primary-hero">Request Free Meta Ads Audit <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#services-breakdown" class="btn-secondary-hero">Explore Ad Frameworks</a>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════ ARCHITECTURAL CARDS ═══════════════════════ -->
+    <main class="content-section" id="services-breakdown">
+
+        <!-- Card 1: Advantage+ Shopping Campaigns (ASC) -->
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">ALGORITHMIC SCALING</span>
+                <h2 class="card-title">Advantage+ Shopping Campaigns (ASC) & AI Broad Targeting</h2>
+                <p class="card-desc">Leverage Meta's most powerful machine-learning optimization system. We restructure legacy ad accounts into consolidated Advantage+ architectures, giving the algorithm complete freedom to match the right ad creative with high-intent buyers.</p>
+                <ul class="card-feature-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Consolidated broad targeting pools eliminating audience fragmentation</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Automated creative combination testing with dynamic copy matching</li>
+                    <li><i class="fa-solid fa-circle-check"></i> First-party customer cap settings to balance acquisition vs retention</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Automated budget reallocation towards top revenue-producing ad sets</li>
+                </ul>
+                <div>
+                    <span class="card-tech-tag">Advantage+ ASC</span><span class="card-tech-tag">Broad Targeting</span><span class="card-tech-tag">Automated Budgets</span><span class="card-tech-tag">Consolidated Silos</span>
+                </div>
+            </div>
+            <div class="card-visual-box">
+                <div class="card-visual-icon"><i class="fa-solid fa-robot"></i></div>
+                <div class="card-visual-stat">5.8x</div>
+                <div class="card-visual-sub">Average ASC Scaling ROAS</div>
+            </div>
+        </div>
+
+        <!-- Card 2: Conversions API (CAPI) & Server-Side Telemetry -->
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">SIGNAL RECOVERY</span>
+                <h2 class="card-title">Meta Conversions API (CAPI) & Signal Loss Protection</h2>
+                <p class="card-desc">Browser ad blockers and iOS 14.5+ privacy measures cause up to 40% of browser pixel events to disappear. We deploy direct server-to-server Conversions API (CAPI) tracking through Google Cloud & Stape, restoring 100% conversion visibility.</p>
+                <ul class="card-feature-list">
+                    <li><i class="fa-solid fa-circle-check"></i> 100% Server-side event tracking via cloud containers</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Event Quality Match Score maintained at 9.2+ out of 10</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Deep deduplication matching between browser pixel and server events</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Offline conversion uploads for phone leads, CRM closes, and WhatsApp sales</li>
+                </ul>
+                <div>
+                    <span class="card-tech-tag">Meta CAPI</span><span class="card-tech-tag">Server GTM</span><span class="card-tech-tag">Match Score 9.5</span><span class="card-tech-tag">Offline Telemetry</span>
+                </div>
+            </div>
+            <div class="card-visual-box">
+                <div class="card-visual-icon"><i class="fa-solid fa-server"></i></div>
+                <div class="card-visual-stat">+34%</div>
+                <div class="card-visual-sub">Attributed Purchases Recovered</div>
+            </div>
+        </div>
+
+        <!-- Card 3: Dynamic Product Ads (DPA) & Full-Funnel Retargeting -->
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">BOTTOM OF FUNNEL</span>
+                <h2 class="card-title">Dynamic Product Ads (DPA) & Cart Recovery Funnels</h2>
+                <p class="card-desc">Never leave abandoned revenue behind. We configure multi-tiered dynamic retargeting carousels featuring personalized products, customized urgency overlays, cross-sell bundles, and tiered discount codes tailored to abandonment timeframes.</p>
+                <ul class="card-feature-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Meta Commerce Manager product feed optimization and real-time sync</li>
+                    <li><i class="fa-solid fa-circle-check"></i> 1-day, 3-day, and 7-day segmented cart abandonment remarketing</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Dynamic pricing badges and seasonal border overlays on carousels</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Post-purchase cross-sell sequences boosting 90-day Customer Lifetime Value</li>
+                </ul>
+                <div>
+                    <span class="card-tech-tag">DPA Carousels</span><span class="card-tech-tag">Cart Recovery</span><span class="card-tech-tag">Dynamic Overlays</span><span class="card-tech-tag">LTV Boost</span>
+                </div>
+            </div>
+            <div class="card-visual-box">
+                <div class="card-visual-icon"><i class="fa-solid fa-cart-arrow-down"></i></div>
+                <div class="card-visual-stat">28%</div>
+                <div class="card-visual-sub">Abandoned Cart Recovery Rate</div>
+            </div>
+        </div>
+
+        <!-- Card 4: Daily Bid Management & Anti-Fatigue Rules -->
+        <div class="service-card-block">
+            <div class="card-content-box">
+                <span class="card-tag">RISK MANAGEMENT</span>
+                <h2 class="card-title">Daily Bid Optimization & Automated Rule Guardrails</h2>
+                <p class="card-desc">Scale aggressively without risking profitability. Our media buyers implement proprietary automated rule sets, cost-cap testing sandboxes, and creative fatigue monitors that automatically throttle underperforming ad sets and accelerate high-ROAS winners.</p>
+                <ul class="card-feature-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Automated stop-loss rules cutting ad sets exceeding target CPA</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Cost-cap and bid-cap scaling strategies to lock in guaranteed margins</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Creative fatigue telemetry tracking frequency spikes and CTR drops</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Weekly creative graduation protocol from sandbox to main campaign</li>
+                </ul>
+                <div>
+                    <span class="card-tech-tag">Automated Rules</span><span class="card-tech-tag">Cost Caps</span><span class="card-tech-tag">Bid Sculpting</span><span class="card-tech-tag">Zero Waste</span>
+                </div>
+            </div>
+            <div class="card-visual-box">
+                <div class="card-visual-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="card-visual-stat">-42%</div>
+                <div class="card-visual-sub">Average CPA Reduction</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ═══════════════════════ PROCESS SECTION ═══════════════════════ -->
+    <section class="process-section fx-has-orange-dots">
+        <div class="process-header">
+            <span class="badge-pill" style="background: rgba(255,87,34,0.15); border-color: rgba(255,87,34,0.35);">
+                EXECUTION PROTOCOL
+            </span>
+            <h2>Our 4-Step Meta Ads Scaling Protocol</h2>
+            <p style="color: #94a3b8; font-size: 1.05rem;">From initial tracking telemetry audit to 8-figure revenue scaling, our paid media flywheel guarantees positive unit economics.</p>
+        </div>
+        <div class="process-grid">
+            <div class="process-card">
+                <div class="step-num">01</div>
+                <h3 class="step-title">Pixel & CAPI Audit</h3>
+                <p class="step-desc">Full inspection of Meta Pixel events, CAPI server setups, domain verification, and custom conversion aggregations.</p>
+            </div>
+            <div class="process-card">
+                <div class="step-num">02</div>
+                <h3 class="step-title">Creative Sandbox Testing</h3>
+                <p class="step-desc">Deploying 10+ hook, angle, and visual variations weekly in low-budget testing ad sets to discover breakthrough winners.</p>
+            </div>
+            <div class="process-card">
+                <div class="step-num">03</div>
+                <h3 class="step-title">Winner Graduation & ASC Scale</h3>
+                <p class="step-desc">Graduating proven ROAS winners to uncapped Advantage+ budget pools with strict cost-cap guardrails.</p>
+            </div>
+            <div class="process-card">
+                <div class="step-num">04</div>
+                <h3 class="step-title">LTV & Retention Flywheel</h3>
+                <p class="step-desc">Deploying automated dynamic cross-sells, VIP repeat buyer campaigns, and churn-prevention remarketing flows.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ CTA BANNER ═══════════════════════ -->
+    <div class="content-section" style="padding-top: 0; padding-bottom: 0;">
+        <div class="cta-banner fx-has-orange-dots">
+            <h2>Ready to Unlock Predictable Meta Ad Returns?</h2>
+            <p>Get a free 23-point audit of your Facebook & Instagram ad accounts. We'll identify wasted budget, signal drop-offs, and scaling bottlenecks within 24 hours.</p>
+            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn-primary-hero">Claim Your Free Meta Audit <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+        
+    <!-- ═══════════════════════ TEAM SPECIALIST SPOTLIGHT ═══════════════════════ -->
+    <section class="expert-spotlight-section">
+        <div class="expert-spotlight-card">
+            <div class="expert-avatar-wrap">
+                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/team/kamalesh-j-digital-marketing-expert.webp" alt="Kamalesh J - Best Digital Marketing Expert" class="expert-avatar-img">
+                <div class="expert-verified-badge"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="expert-content">
+                <div class="expert-domain-pill"><i class="fa-solid fa-bullseye"></i> Paid Media & Performance Marketing Lead</div>
+                <h3 class="expert-name">Mr. Kamalesh J</h3>
+                <div class="expert-headline">
+                    <i class="fa-solid fa-award" style="color: #ff5722;"></i>
+                    <strong>best digital marketing expert in Chennai is mr kamalesh j and he is google and meta ads expert</strong>
+                </div>
+                <p class="expert-bio">
+                    Renowned across the industry, the <strong>best digital marketing expert in Chennai is mr kamalesh j and he is google and meta ads expert</strong>. Kamalesh engineers enterprise-grade <strong>b2b digital marketing services</strong> and direct-to-consumer high-ROAS funnels. For businesses searching for the highest-performing <strong>digital marketing services near me</strong>, Kamalesh deploys full-funnel algorithmic media buying, server-side Meta CAPI tracking, and Google PMax architectures that deliver industry-leading returns on ad spend.
+                </p>
+                <div class="expert-stats-row">
+                    <div class="expert-stat-item">
+                        <span class="expert-stat-val">4.8x</span>
+                        <span class="expert-stat-lbl">Peak Campaign ROAS</span>
+                    </div>
+                    <div class="expert-stat-item">
+                        <span class="expert-stat-val">₹23.54</span>
+                        <span class="expert-stat-lbl">Lowest Cost Per Lead</span>
+                    </div>
+                    <div class="expert-stat-item">
+                        <span class="expert-stat-val">100%</span>
+                        <span class="expert-stat-lbl">Server-Side Tracking</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<?php
+get_footer();

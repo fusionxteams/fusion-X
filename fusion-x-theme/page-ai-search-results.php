@@ -880,7 +880,7 @@ get_header();
                 <div class="proof-image-wrapper ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.png" alt="OpenAI ChatGPT ranking Bhawani Corner Glassware #1 Best Crockery Shop in Chennai" loading="lazy">
                     </picture>
                     <span class="proof-image-badge" style="border-color: rgba(16, 163, 127, 0.6);"><i class="fa-solid fa-robot" style="color: #10a37f;"></i> OpenAI ChatGPT Search</span>
@@ -912,7 +912,7 @@ get_header();
                 <div class="proof-image-wrapper ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big map</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-bhawani-corner-chatgpt-map-search-ranking.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-map-search-ranking.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-map-search-ranking.png" alt="ChatGPT Map Search ranking Bhawani Corner #1 ahead of corporate retail stores" loading="lazy">
                     </picture>
                     <span class="proof-image-badge" style="border-color: rgba(16, 163, 127, 0.6);"><i class="fa-solid fa-map-location-dot" style="color: #10a37f;"></i> ChatGPT Interactive Map</span>
@@ -944,7 +944,7 @@ get_header();
                 <div class="proof-image-wrapper ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-bhawani-corner-gemini-blog-citation.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-gemini-blog-citation.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-gemini-blog-citation.png" alt="Google Gemini citing Bhawani Corner ranking blog for Best Kitchenware Shops in Chennai" loading="lazy">
                     </picture>
                     <span class="proof-image-badge" style="border-color: rgba(56, 189, 248, 0.6);"><i class="fa-solid fa-sparkles" style="color: #38bdf8;"></i> Google Gemini Blog Citation</span>
@@ -976,7 +976,7 @@ get_header();
                 <div class="proof-image-wrapper ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big map</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-bhawani-corner-google-ai-mode-tableware-ranking.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-google-ai-mode-tableware-ranking.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-google-ai-mode-tableware-ranking.png" alt="Google AI Mode ranking Bhawani Corner #1 for Best Tableware shops in chennai" loading="lazy">
                     </picture>
                     <span class="proof-image-badge"><i class="fa-solid fa-robot"></i> Google AI Mode</span>
@@ -1008,7 +1008,7 @@ get_header();
                 <div class="proof-image-wrapper ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-bhawani-corner-gemini-crockery-shops-chennai.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-gemini-crockery-shops-chennai.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-gemini-crockery-shops-chennai.png" alt="Google Gemini Knowledge Card ranking Bhawani Corner Glassware" loading="lazy">
                     </picture>
                     <span class="proof-image-badge" style="border-color: rgba(56, 189, 248, 0.6);"><i class="fa-solid fa-sparkles" style="color: #38bdf8;"></i> Gemini Knowledge Card</span>
@@ -1040,7 +1040,7 @@ get_header();
                 <div class="proof-image-wrapper ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big map</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.png" alt="Bhawani Corner Glassware Ranked #1 in Google AI Overviews with 900+ Calls" loading="lazy">
                     </picture>
                     <span class="proof-image-badge"><i class="fa-solid fa-location-dot"></i> Google AI Overviews Map Pack</span>
@@ -1072,7 +1072,7 @@ get_header();
                 <div class="proof-image-wrapper ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.png" alt="Google Gemini ranking Nilaro Coffee #1 for Best Chicory Coffee" loading="lazy">
                     </picture>
                     <span class="proof-image-badge" style="border-color: rgba(56, 189, 248, 0.6);"><i class="fa-solid fa-sparkles" style="color: #38bdf8;"></i> Google Gemini AI</span>
@@ -1104,7 +1104,7 @@ get_header();
                 <div class="proof-image-wrapper ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-nilaro-google-ai-coffee-brands-chennai.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-ai-coffee-brands-chennai.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-ai-coffee-brands-chennai.png" alt="Google AI Overviews ranking Nilaro Coffee among Top Coffee Brands in Chennai" loading="lazy">
                     </picture>
                     <span class="proof-image-badge"><i class="fa-solid fa-sparkles"></i> Google AI Overview</span>
@@ -1136,7 +1136,7 @@ get_header();
                 <div class="proof-image-wrapper ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-nilaro-best-filter-coffee-powder-ai-overview.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-best-filter-coffee-powder-ai-overview.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-best-filter-coffee-powder-ai-overview.png" alt="Google AI Overview recommending Nilaro Coffee for Best Filter Coffee Powder" loading="lazy">
                     </picture>
                     <span class="proof-image-badge"><i class="fa-solid fa-sparkles"></i> Google AI Overview</span>
@@ -1168,7 +1168,7 @@ get_header();
                 <div class="proof-image-wrapper ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-nilaro-best-chicory-coffee-google-ai.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-best-chicory-coffee-google-ai.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-best-chicory-coffee-google-ai.png" alt="Google AI Overviews Best Chicory Coffee Nilaro Filter Coffee" loading="lazy">
                     </picture>
                     <span class="proof-image-badge"><i class="fa-solid fa-sparkles"></i> Google AI Overview</span>
@@ -1284,7 +1284,7 @@ get_header();
                 <div class="spotlight-visual ai-zoomable-img-wrap">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.png" alt="Bhawani Corner ChatGPT Search Ranking #1">
                     </picture>
                 </div>
@@ -1320,7 +1320,7 @@ get_header();
                 <div class="spotlight-visual ai-zoomable-img-wrap" style="direction: ltr;">
                     <span class="ai-zoom-hint-pill"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to view big</span>
                     <picture>
-                        <source srcset="ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.webp" type="image/webp">
+                        <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.webp" type="image/webp">
                         <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.png" alt="Nilaro Google Gemini AI Proof Showcase">
                     </picture>
                 </div>

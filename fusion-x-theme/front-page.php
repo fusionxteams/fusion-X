@@ -681,7 +681,7 @@ get_header();
                             <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(16, 163, 127, 0.4); background: #000; box-shadow: 0 12px 30px rgba(0,0,0,0.6);">
                                 <span class="ai-zoom-hint-pill"><i class="fas fa-search-plus"></i> Tap to view big</span>
                                 <picture>
-                                    <source srcset="ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.webp" type="image/webp">
+                                    <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.webp" type="image/webp">
                                     <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-chatgpt-search-ranking.png" alt="ChatGPT Search: Bhawani Corner Ranked #1 Best Crockery Shop in Chennai" style="width: 100%; height: auto; display: block; transition: transform 0.4s ease;" loading="lazy">
                                 </picture>
                                 <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(8px); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(16, 163, 127, 0.45); font-size: 0.72rem; font-weight: 700; color: #34d399;">
@@ -713,7 +713,7 @@ get_header();
                             <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 87, 34, 0.35); background: #000; box-shadow: 0 12px 30px rgba(0,0,0,0.6);">
                                 <span class="ai-zoom-hint-pill"><i class="fas fa-search-plus"></i> Tap to view big</span>
                                 <picture>
-                                    <source srcset="ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.webp" type="image/webp">
+                                    <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.webp" type="image/webp">
                                     <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-nilaro-google-gemini-ai-ranking.png" alt="Google Gemini: Nilaro Coffee Recommending #1 Best Chicory Coffee Brand" style="width: 100%; height: auto; display: block; transition: transform 0.4s ease;" loading="lazy">
                                 </picture>
                                 <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(8px); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255, 87, 34, 0.4); font-size: 0.72rem; font-weight: 700; color: #ff7043;">
@@ -745,7 +745,7 @@ get_header();
                             <div class="ai-zoomable-img-wrap" style="position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 87, 34, 0.35); background: #000; box-shadow: 0 12px 30px rgba(0,0,0,0.6);">
                                 <span class="ai-zoom-hint-pill"><i class="fas fa-search-plus"></i> Tap to view big</span>
                                 <picture>
-                                    <source srcset="ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.webp" type="image/webp">
+                                    <source srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.webp" type="image/webp">
                                     <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/ai-proof/fusion-x-bhawani-corner-google-ai-overview-ranking.png" alt="Google AI Overviews Map Pack: Bhawani Corner Ranked #1 with 900+ Inbound Calls Record" style="width: 100%; height: auto; display: block; transition: transform 0.4s ease;" loading="lazy">
                                 </picture>
                                 <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(8px); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255, 87, 34, 0.4); font-size: 0.72rem; font-weight: 700; color: #ff7043;">

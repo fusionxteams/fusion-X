@@ -30,7 +30,7 @@ get_header();
             overflow-x: hidden;
         }
 
-        /* ΓöÇΓöÇ HERO SECTION ΓöÇΓöÇ */
+        /* ── HERO SECTION ── */
         .brands-hero {
             position: relative;
             padding: 160px 24px 75px;
@@ -94,7 +94,7 @@ get_header();
             margin: 0 auto 45px;
         }
 
-        /* ΓöÇΓöÇ LIVE TRUST METRICS STRIP ΓöÇΓöÇ */
+        /* ── LIVE TRUST METRICS STRIP ── */
         .hero-metrics-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -140,7 +140,7 @@ get_header();
             letter-spacing: 0.8px;
         }
 
-        /* ΓöÇΓöÇ INFINITE LOGO MARQUEE RIBBON ΓöÇΓöÇ */
+        /* ── INFINITE LOGO MARQUEE RIBBON ── */
         .marquee-ribbon {
             background: #ffffff;
             border-bottom: 1px solid var(--border-subtle);
@@ -201,7 +201,7 @@ get_header();
             white-space: nowrap;
         }
 
-        /* ΓöÇΓöÇ THEATRE SECTION: INTERACTIVE CINEMATIC DOSSIER ΓöÇΓöÇ */
+        /* ── THEATRE SECTION: INTERACTIVE CINEMATIC DOSSIER ── */
         .theatre-section {
             max-width: 1360px;
             margin: 0 auto;
@@ -653,7 +653,7 @@ get_header();
             border-color: rgba(255, 87, 34, 0.35);
         }
 
-        /* ΓöÇΓöÇ SECTION 2: EXECUTIVE COMPARISON MATRIX (TABLE VIEW, NOT CARDS) ΓöÇΓöÇ */
+        /* ── SECTION 2: EXECUTIVE COMPARISON MATRIX (TABLE VIEW, NOT CARDS) ── */
         .matrix-section {
             max-width: 1360px;
             margin: 0 auto;
@@ -900,7 +900,7 @@ get_header();
             transform: translateX(3px);
         }
 
-        /* ΓöÇΓöÇ STRATEGIC FRAMEWORK SECTION ΓöÇΓöÇ */
+        /* ── STRATEGIC FRAMEWORK SECTION ── */
         .framework-section {
             background: #ffffff;
             border-top: 1px solid var(--border-subtle);
@@ -981,7 +981,7 @@ get_header();
             margin: 0;
         }
 
-        /* ΓöÇΓöÇ HIGH CONVERTING CTA ΓöÇΓöÇ */
+        /* ── HIGH CONVERTING CTA ── */
         .bottom-cta-banner {
             padding: 90px 24px;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -1056,7 +1056,7 @@ get_header();
             box-shadow: 0 16px 40px rgba(255, 87, 34, 0.65);
         }
 
-        /* ΓöÇΓöÇ RESPONSIVE RULES ΓöÇΓöÇ */
+        /* ── RESPONSIVE RULES ── */
         @media (max-width: 1024px) {
             .hero-metrics-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1108,7 +1108,7 @@ get_header();
         }
     </style>
 
-<!-- ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ HERO SECTION ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ -->
+<!-- ═══════════════════════ HERO SECTION ═══════════════════════ -->
     <header class="brands-hero">
         <div class="hero-badge-pill">
             <span class="hero-badge-dot"></span>
@@ -1118,7 +1118,7 @@ get_header();
             The Iconic Brands We've <span>Scaled &amp; Transformed</span>
         </h1>
         <p class="hero-subline">
-            From high-fashion D2C powerhouses and single-origin artisanal coffee to commercial cinema studios, multi-crore glassware enterprises, and clinical dermatology leaders ΓÇö explore the quantifiable revenue, search dominance, and digital ecosystems engineered by Fusion X.
+            From high-fashion D2C powerhouses and single-origin artisanal coffee to commercial cinema studios, multi-crore glassware enterprises, and clinical dermatology leaders — explore the quantifiable revenue, search dominance, and digital ecosystems engineered by Fusion X.
         </p>
 
         <!-- Live Trust Telemetry -->
@@ -1142,7 +1142,7 @@ get_header();
         </div>
     </header>
 
-    <!-- ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ INFINITE LOGO MARQUEE ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ -->
+    <!-- ═══════════════════════ INFINITE LOGO MARQUEE ═══════════════════════ -->
     <section class="marquee-ribbon" aria-label="Partner Brand Marquee">
         <div class="marquee-track">
             <!-- Set 1 -->
@@ -1231,7 +1231,7 @@ get_header();
         </div>
     </section>
 
-    <!-- ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ THEATRE SECTION: KINETIC BRAND STAGE ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ -->
+    <!-- ═══════════════════════ THEATRE SECTION: KINETIC BRAND STAGE ═══════════════════════ -->
     <section class="theatre-section">
         <div class="theatre-section-header">
             <h2>Interactive <span>Brand Showcase Theatre</span></h2>
@@ -1325,7 +1325,7 @@ get_header();
         </div>
     </section>
 
-    <!-- ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ SECTION 2: EXECUTIVE COMPARISON MATRIX (TABLE, NOT CARDS) ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ -->
+    <!-- ═══════════════════════ SECTION 2: EXECUTIVE COMPARISON MATRIX (TABLE, NOT CARDS) ═══════════════════════ -->
     <section class="matrix-section">
         <div class="matrix-header">
             <h2>Complete Client <span>Portfolio Matrix</span></h2>
@@ -1367,7 +1367,7 @@ get_header();
         </div>
     </section>
 
-    <!-- ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ STRATEGIC TRANSFORMATION FRAMEWORK ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ -->
+    <!-- ═══════════════════════ STRATEGIC TRANSFORMATION FRAMEWORK ═══════════════════════ -->
     <section class="framework-section" aria-label="Transformation Methodology">
         <div class="section-header-centered">
             <h2>How Fusion X <span>Engineers Brand Growth</span></h2>
@@ -1392,7 +1392,7 @@ get_header();
         </div>
     </section>
 
-    <!-- ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ HIGH-CONVERTING BOTTOM CTA ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ -->
+    <!-- ═══════════════════════ HIGH-CONVERTING BOTTOM CTA ═══════════════════════ -->
     <section style="padding: 0 24px;">
         <div class="bottom-cta-banner">
             <div class="cta-inner-content">
@@ -1408,7 +1408,7 @@ get_header();
         </div>
     </section>
 
-    <!-- ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ EXACT UNIVERSAL SITE FOOTER ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ -->
+    <!-- ═══════════════════════ EXACT UNIVERSAL SITE FOOTER ═══════════════════════ -->
 
 <script>
         // Full 10 Client Brands Dataset
@@ -1418,8 +1418,8 @@ get_header();
                 name: 'Off Human',
                 category: 'ecommerce',
                 sector: 'D2C Luxury Streetwear',
-                logo: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/off-human/logo.jpg' : 'brands/off-human/logo.jpg'),
-                visual: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/off-human.webp' : 'brands/off-human.webp'),
+                logo: '<?php echo esc_url( get_template_directory_uri() . '/brands/off-human/logo.jpg' ); ?>',
+                visual: '<?php echo esc_url( get_template_directory_uri() . '/brands/off-human.webp' ); ?>',
                 metric: '4.8x Meta ROAS',
                 metricSub: 'Instant Flash-Drop Sellout Rate',
                 lead: 'Engineering Flash-Drop E-Commerce & 4.8x Meta ROAS for Luxury Streetwear',
@@ -1428,15 +1428,15 @@ get_header();
                 tech: ['Shopify Plus', 'Meta CAPI Tracking', 'Drop-Gating Funnels', 'Mobile CRO'],
                 quote: 'Our streetwear drop sold out in record time. The custom checkout speed combined with their Server-Side CAPI tracking delivered a consistent 4.8x ROAS.',
                 author: 'Off Human Creative Director',
-                link: (window.FUSION_X_HOME_URL ? window.FUSION_X_HOME_URL + 'off-human/' : '/off-human/')
+                link: '<?php echo esc_url( home_url( '/off-human/' ) ); ?>'
             },
             {
                 id: 'energy-bags',
                 name: 'The Energy Bags',
                 category: 'ecommerce',
                 sector: 'Eco Luggage & Backpacks',
-                logo: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/energy-bags/logo.png' : 'brands/energy-bags/logo.png'),
-                visual: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/energy-bags/home-banner.png' : 'brands/energy-bags/home-banner.png'),
+                logo: '<?php echo esc_url( get_template_directory_uri() . '/brands/energy-bags/logo.png' ); ?>',
+                visual: '<?php echo esc_url( get_template_directory_uri() . '/brands/energy-bags/home-banner.png' ); ?>',
                 metric: '+320% Orders',
                 metricSub: 'Sustained 4-Month Growth Run',
                 lead: 'Scaling Multi-Tier Luggage Bundles & Increasing Orders by 320%',
@@ -1445,15 +1445,15 @@ get_header();
                 tech: ['Shopify Plus', 'Bundle Architecture', 'Meta Catalog Ads', 'Mobile Checkout'],
                 quote: 'Fusion X restructured our product collection funnels and checkout experience. Our overall order volume increased by 320% within four months.',
                 author: 'The Energy Bags Operations',
-                link: (window.FUSION_X_HOME_URL ? window.FUSION_X_HOME_URL + 'energy-bags/' : '/energy-bags/')
+                link: '<?php echo esc_url( home_url( '/energy-bags/' ) ); ?>'
             },
             {
                 id: 'nilaro',
                 name: 'Nilaro Coffee',
                 category: 'fnb',
                 sector: 'Single-Origin Filter Coffee',
-                logo: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/nilaro/logo.webp' : 'brands/nilaro/logo.webp'),
-                visual: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/nilaro/home-banner.png' : 'brands/nilaro/home-banner.png'),
+                logo: '<?php echo esc_url( get_template_directory_uri() . '/brands/nilaro/logo.webp' ); ?>',
+                visual: '<?php echo esc_url( get_template_directory_uri() . '/brands/nilaro/home-banner.png' ); ?>',
                 metric: '+220% Subs',
                 metricSub: 'Monthly Recurring Revenue Surge',
                 lead: 'Crafting a Sensory D2C Brand Identity & Scaling Subscriptions by 220%',
@@ -1462,15 +1462,15 @@ get_header();
                 tech: ['Brand Identity', 'Pouch Packaging', 'Shopify Subscriptions', 'Visual Reels'],
                 quote: 'From brand identity to packaging design and recurring Shopify subscription setup, Fusion X handled every piece seamlessly. Monthly subscriptions grew by 220%.',
                 author: 'Nilaro Coffee Founding Team',
-                link: (window.FUSION_X_HOME_URL ? window.FUSION_X_HOME_URL + 'nilaro/' : '/nilaro/')
+                link: '<?php echo esc_url( home_url( '/nilaro/' ) ); ?>'
             },
             {
                 id: 'bhawani',
                 name: 'Bhawani Glassware',
                 category: 'retail',
                 sector: 'Architectural & Table Glassware',
-                logo: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/bhawani/logo.png' : 'brands/bhawani/logo.png'),
-                visual: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/bhawani/homepage.png' : 'brands/bhawani/homepage.png'),
+                logo: '<?php echo esc_url( get_template_directory_uri() . '/brands/bhawani/logo.png' ); ?>',
+                visual: '<?php echo esc_url( get_template_directory_uri() . '/brands/bhawani/homepage.png' ); ?>',
                 metric: '900+ Calls',
                 metricSub: 'Generated in 3 Months Exclusively',
                 lead: 'Capturing Local Search Monopoly & Driving 900+ Direct Showroom Calls',
@@ -1479,32 +1479,32 @@ get_header();
                 tech: ['Local GMB SEO', 'Entity Linkages', 'Call-Only Funnels', 'Review Strategy'],
                 quote: 'Fusion X completely transformed our local inbound acquisition. Over 900+ phone calls came directly to our showroom in just 3 months.',
                 author: 'Managing Director, Bhawani Corner',
-                link: (window.FUSION_X_HOME_URL ? window.FUSION_X_HOME_URL + 'bhawani-corner/' : '/bhawani-corner/')
+                link: '<?php echo esc_url( home_url( '/bhawani-corner/' ) ); ?>'
             },
             {
                 id: 'dr-madhavi',
                 name: 'Dr. Madhavi Clinic',
                 category: 'healthcare',
                 sector: 'Clinical Aesthetics & Dermatology',
-                logo: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/dr-madhavi/logo.svg' : 'brands/dr-madhavi/logo.svg'),
-                visual: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/dr-madhavi/banner.svg' : 'brands/dr-madhavi/banner.svg'),
+                logo: '<?php echo esc_url( get_template_directory_uri() . '/brands/dr-madhavi/logo.svg' ); ?>',
+                visual: '<?php echo esc_url( get_template_directory_uri() . '/brands/dr-madhavi/banner.svg' ); ?>',
                 metric: '3.8x Bookings',
                 metricSub: 'Verified In-Clinic Consultations',
-                lead: 'Positioning ChennaiΓÇÖs Premier Clinical Aesthetics & 3.8x Patient Bookings',
+                lead: 'Positioning Chennai's Premier Clinical Aesthetics & 3.8x Patient Bookings',
                 challenge: 'Crowded local clinic competition and low conversion on generic social leads.',
                 solution: 'Trust-first medical authority architecture with Google Search Ads, AI Overviews citation strategy (GEO), and friction-free appointment scheduling.',
                 tech: ['Google Search Ads', 'AEO/GEO Optimization', 'Local Clinic SEO', 'Patient Funnels'],
                 quote: 'Fusion X built an authoritative digital presence for our clinic that attracts genuine, high-trust aesthetic dermatology patients consistently.',
                 author: 'Dr. Madhavi Anjimati',
-                link: (window.FUSION_X_HOME_URL ? window.FUSION_X_HOME_URL + 'dr-madhavi/' : '/dr-madhavi/')
+                link: '<?php echo esc_url( home_url( '/dr-madhavi/' ) ); ?>'
             },
             {
                 id: 'bikerz',
                 name: 'Bikerz Module',
                 category: 'retail',
                 sector: 'Superbike Gear & Custom Parts',
-                logo: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/bikerz/logo.jpg' : 'brands/bikerz/logo.jpg'),
-                visual: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/bikerz-module.jpg' : 'brands/bikerz-module.jpg'),
+                logo: '<?php echo esc_url( get_template_directory_uri() . '/brands/bikerz/logo.jpg' ); ?>',
+                visual: '<?php echo esc_url( get_template_directory_uri() . '/brands/bikerz-module.jpg' ); ?>',
                 metric: '5.2x Meta ROAS',
                 metricSub: 'High-Ticket Riding Gear Sales',
                 lead: 'Dominating Superbike Accessories with High-Velocity Meta Ads at 5.2x ROAS',
@@ -1513,15 +1513,15 @@ get_header();
                 tech: ['Meta Dynamic Ads', 'Speed Optimization', 'Vehicle Filter Flow', 'Enthusiast CRO'],
                 quote: 'Our riding gear and custom accessories require targeted targeting. Fusion X delivered a record 5.2x ROAS and flawless mobile speed.',
                 author: 'Bikerz Module Management',
-                link: (window.FUSION_X_HOME_URL ? window.FUSION_X_HOME_URL + 'bikerz-module/' : '/bikerz-module/')
+                link: '<?php echo esc_url( home_url( '/bikerz-module/' ) ); ?>'
             },
             {
                 id: 'sridhar',
                 name: 'Sridhar Food House',
                 category: 'fnb',
                 sector: 'Heritage Sweets & Catering',
-                logo: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/sridhar/logo.jpg' : 'brands/sridhar/logo.jpg'),
-                visual: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/sridhar/cart-showcase.jpg' : 'brands/sridhar/cart-showcase.jpg'),
+                logo: '<?php echo esc_url( get_template_directory_uri() . '/brands/sridhar/logo.jpg' ); ?>',
+                visual: '<?php echo esc_url( get_template_directory_uri() . '/brands/sridhar/cart-showcase.jpg' ); ?>',
                 metric: '+410% Inquiries',
                 metricSub: 'Wedding & Corporate Bulk Inquiries',
                 lead: 'Re-energizing a Heritage Food Icon & Driving +410% Bulk Catering Growth',
@@ -1530,15 +1530,15 @@ get_header();
                 tech: ['Hyperlocal GMB SEO', 'Festive Funnels', 'Food Reels & Shorts', 'Bulk Catering Lead Gen'],
                 quote: 'During festive seasons and wedding months, our bulk catering orders increased dramatically. Their local SEO and food reels made all the difference.',
                 author: 'Sridhar Food House Leadership',
-                link: (window.FUSION_X_HOME_URL ? window.FUSION_X_HOME_URL + 'sridhar-food-house/' : '/sridhar-food-house/')
+                link: '<?php echo esc_url( home_url( '/sridhar-food-house/' ) ); ?>'
             },
             {
                 id: 'meeras',
                 name: "Meera's Beauty",
                 category: 'healthcare',
                 sector: 'Luxury Bridal Makeup & Hair',
-                logo: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/meeras/logo.webp' : 'brands/meeras/logo.webp'),
-                visual: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/meeras-beauty-parlour.webp' : 'brands/meeras-beauty-parlour.webp'),
+                logo: '<?php echo esc_url( get_template_directory_uri() . '/brands/meeras/logo.webp' ); ?>',
+                visual: '<?php echo esc_url( get_template_directory_uri() . '/brands/meeras-beauty-parlour.webp' ); ?>',
                 metric: '150+ Brides',
                 metricSub: 'Pre-Booked High-Ticket Packages',
                 lead: 'Scaling High-Ticket Bridal Makeup Inquiries with Instagram Reels & WhatsApp Automation',
@@ -1547,15 +1547,15 @@ get_header();
                 tech: ['Instagram Reels SEO', 'WhatsApp API Funnel', 'Meta Lead Ads', 'Bridal Packages'],
                 quote: 'We are booked out months in advance for bridal makeovers. The automated WhatsApp booking funnel connects directly with high-intent brides.',
                 author: "Meera's Beauty Creative Director",
-                link: (window.FUSION_X_HOME_URL ? window.FUSION_X_HOME_URL + 'meeras-beauty-parlour/' : '/meeras-beauty-parlour/')
+                link: '<?php echo esc_url( home_url( '/meeras-beauty-parlour/' ) ); ?>'
             },
             {
                 id: 'tk',
                 name: 'TK Cinematic Studio',
                 category: 'media',
                 sector: 'Cinema & Commercial Film',
-                logo: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/tk/logo.webp' : 'brands/tk/logo.webp'),
-                visual: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/tk-cinematic-studio.webp' : 'brands/tk-cinematic-studio.webp'),
+                logo: '<?php echo esc_url( get_template_directory_uri() . '/brands/tk/logo.webp' ); ?>',
+                visual: '<?php echo esc_url( get_template_directory_uri() . '/brands/tk-cinematic-studio.webp' ); ?>',
                 metric: '12M+ Views',
                 metricSub: 'Organic Commercial Impressions',
                 lead: 'Positioning a Commercial Cinema Studio & Generating 12M+ Organic Impressions',
@@ -1564,15 +1564,15 @@ get_header();
                 tech: ['Video SEO & Algorithms', 'Cinema Showreel Site', 'B2B Brand Outreach', 'Digital PR'],
                 quote: 'Fusion X brought our cinema production capabilities to national brands. Our video impressions crossed 12 million with high-ticket commercial contracts.',
                 author: 'TK Cinematic Studio Director',
-                link: (window.FUSION_X_HOME_URL ? window.FUSION_X_HOME_URL + 'tk-cinematic-studio/' : '/tk-cinematic-studio/')
+                link: '<?php echo esc_url( home_url( '/tk-cinematic-studio/' ) ); ?>'
             },
             {
                 id: 'truly-yours',
                 name: 'Truly Yours',
                 category: 'ecommerce',
                 sector: 'Bespoke Wedding Keepsakes',
-                logo: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/truly-yours/logo.jpg' : 'brands/truly-yours/logo.jpg'),
-                visual: (window.FUSION_X_THEME_URI ? window.FUSION_X_THEME_URI + '/brands/truly-yours.jpg' : 'brands/truly-yours.jpg'),
+                logo: '<?php echo esc_url( get_template_directory_uri() . '/brands/truly-yours/logo.jpg' ); ?>',
+                visual: '<?php echo esc_url( get_template_directory_uri() . '/brands/truly-yours.jpg' ); ?>',
                 metric: '350+ Orders',
                 metricSub: 'High-Margin Bespoke Bridal Keepsakes',
                 lead: 'Architecting Interactive Wedding Invites & Generating 350+ Luxury Commissions',
@@ -1581,7 +1581,7 @@ get_header();
                 tech: ['Interactive E-Invites', 'Meta Carousel Ads', 'Luxury Branding', 'Bridal CRO'],
                 quote: 'Our custom wedding invitation commissions skyrocketed. Fusion X understood our aesthetic vision and built an experience brides adore.',
                 author: 'Truly Yours Founder',
-                link: (window.FUSION_X_HOME_URL ? window.FUSION_X_HOME_URL + 'truly-yours/' : '/truly-yours/')
+                link: '<?php echo esc_url( home_url( '/truly-yours/' ) ); ?>'
             }
         ];
 
@@ -1656,7 +1656,7 @@ get_header();
             setTimeout(() => {
                 visualImg.src = b.visual;
                 visualImg.alt = `${b.name} Visual Showcase`;
-                document.getElementById('stageHudMetric').innerHTML = `${b.metric} <span>ΓÇó ${b.metricSub}</span>`;
+                document.getElementById('stageHudMetric').innerHTML = `${b.metric} <span>• ${b.metricSub}</span>`;
                 document.getElementById('stageLogoImg').src = b.logo;
                 document.getElementById('stageLogoImg').alt = `${b.name} Logo`;
                 document.getElementById('stageBrandTitle').innerText = b.name;

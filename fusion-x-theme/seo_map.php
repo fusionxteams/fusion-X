@@ -17,7 +17,7 @@ function fusion_x_get_seo_map() {
         ),
         'ai-search-results' => array(
             'title' => 'AI Search Ranking Proof | ChatGPT & Gemini | Fusion X',
-            'desc'  => 'Verified proof of how Fusion X ranks client brands directly in ChatGPT, Google Gemini, and AI Overviews. Discover how Bhawani Corner gained 900+ monthly calls.',
+            'desc'  => 'See verified proof of how Fusion X ranks brands in ChatGPT, Google Gemini, and AI Overviews. Discover how Bhawani Corner gained 900+ monthly calls.',
             'keywords' => 'ChatGPT SEO, ChatGPT search ranking, rank blogs in ChatGPT, Google Gemini SEO, Google AI Overviews ranking, GEO Generative Engine Optimization, AEO Answer Engine Optimization, Nilaro Coffee AI, Bhawani Corner AI search, digital marketing Chennai',
         ),
         'backlinks-guest-blogs' => array(
@@ -27,7 +27,7 @@ function fusion_x_get_seo_map() {
         ),
         'basic-website' => array(
             'title' => 'Business Website Development in Chennai | Fusion X',
-            'desc'  => 'Fast, modern business websites engineered by web developer Kannan S. Custom WordPress and HTML5 web platforms optimized for speed, mobile, and high conversions.',
+            'desc'  => 'Fast business websites engineered by web developer Kannan S. Custom WordPress and HTML5 platforms optimized for speed, mobile, and high conversions.',
             'keywords' => 'business website development Chennai, WordPress web design Chennai, corporate website developer, fast loading business sites, mobile responsive web design, HTML5 web development, Kannan S web developer',
         ),
         'bhawani-corner' => array(
@@ -52,27 +52,27 @@ function fusion_x_get_seo_map() {
         ),
         'brand-analysis' => array(
             'title' => 'Brand EEAT & Search Gap Analysis Audit | Fusion X',
-            'desc'  => 'Comprehensive brand EEAT and search gap audit led by Saravana Sanjhay M. Discover technical crawl leaks, AI citation readiness, and competitor vulnerabilities.',
+            'desc'  => 'Brand EEAT and search gap audit led by Saravana Sanjhay M. Uncover technical crawl leaks, AI citation readiness, and competitor vulnerabilities.',
             'keywords' => 'brand EEAT audit, search gap analysis, competitor brand audit, technical crawl audit, AI citation readiness, digital brand positioning, Saravana Sanjhay M brand audit',
         ),
         'brand-strategy' => array(
             'title' => 'Brand Strategy & Market Positioning | Fusion X Chennai',
-            'desc'  => 'Craft an unshakable brand moat and market positioning with Fusion X. Strategic brand narratives, visual identity, and messaging designed to dominate competitors.',
+            'desc'  => 'Build an unshakable brand moat and market positioning with Fusion X. Strategic brand narratives and messaging designed to dominate competitors.',
             'keywords' => 'brand strategy Chennai, brand positioning consultant, market moat strategy, customer psychology messaging, corporate identity design, brand storytelling, Kamalesh J brand strategist',
         ),
         'brands' => array(
             'title' => 'Brands We Worked With | Client Case Studies | Fusion X',
-            'desc'  => 'Explore verified client case studies across D2C, Healthcare, F&B, and Retail scaled by Fusion X Chennai through high-ROAS ads, custom web, and top SEO rankings.',
+            'desc'  => 'Explore verified client case studies across D2C, Healthcare, and Retail scaled by Fusion X Chennai through high-ROAS ads, custom web, and SEO.',
             'keywords' => 'Fusion X client brands, digital marketing portfolio Chennai, brands we worked with, case studies, D2C brands, healthcare digital marketing, e-commerce growth, client success stories, ROI case studies',
         ),
         'careers' => array(
             'title' => 'Digital Marketing Course & Internship in Chennai | Fusion X',
-            'desc'  => 'Master Digital Marketing, Meta & Google Ads, and Web Development with Fusion X Chennai. 3-month practical course plus guaranteed agency internship & certificate.',
+            'desc'  => 'Master Digital Marketing, Meta & Google Ads, and Web Development at Fusion X Chennai. 3-month practical course with guaranteed agency internship.',
             'keywords' => 'digital marketing course in chennai, digital marketing internship in chennai, performance marketing course, google ads course, meta ads course, performance marketing internship, shopify course in chennai, wordpress course in chennai, shopify internship, wordpress internship, digital marketing course with internship, seo internship near me',
         ),
         'competitor-analysis' => array(
             'title' => 'Competitor Analysis & Search Audit | Fusion X Chennai',
-            'desc'  => 'Reverse-engineer competitor funnels, paid ad creatives, and search gaps with deep market intelligence audits led by Kamalesh J and Saravana Sanjhay M at Fusion X.',
+            'desc'  => 'Reverse-engineer competitor funnels, ad creatives, and search gaps with deep market audits led by Kamalesh J and Saravana Sanjhay M at Fusion X.',
             'keywords' => 'competitor analysis digital marketing, SEO competitor audit, paid ads intelligence, market share audit, SERP competitor gap analysis, competitive intelligence agency Chennai',
         ),
         'contact' => array(
@@ -82,12 +82,12 @@ function fusion_x_get_seo_map() {
         ),
         'content-blogs' => array(
             'title' => 'SEO Content Writing & Ranking Blogs | Fusion X Chennai',
-            'desc'  => 'High-ranking SEO content writing and topical authority blogs produced by Saravana Sanjhay M. Target semantic keywords and dominate Google and AI search results.',
+            'desc'  => 'High-ranking SEO blogs and topical authority content by Saravana Sanjhay M. Target semantic keywords and dominate Google and AI search results.',
             'keywords' => 'SEO blog writing, ranking content production, topical authority content, blog SEO strategy, semantic keyword blogging, content marketing agency Chennai, Saravana Sanjhay M',
         ),
         'content-creation' => array(
             'title' => 'Social Media Content Creation & Graphics | Fusion X',
-            'desc'  => 'Thumb-stopping social media creatives, branded graphics, and visual storytelling engineered by Jai Haran and Jabakumar to elevate brand reach and engagement.',
+            'desc'  => 'Engaging social media creatives, branded graphics, and visual storytelling crafted by Jai Haran and Jabakumar to boost brand reach and engagement.',
             'keywords' => 'digital content creation Chennai, social media visual design, infographic design, brand feed aesthetics, video reels content, creative agency Chennai, brand content engine',
         ),
         'content-writing' => array(
@@ -97,7 +97,7 @@ function fusion_x_get_seo_map() {
         ),
         'digital-marketing-services' => array(
             'title' => 'Digital Marketing Services in Chennai | Fusion X Agency',
-            'desc'  => 'Explore high-performance digital marketing services by Fusion X Chennai: custom web development, Google Maps 3-Pack SEO, high-ROAS Meta Ads, and brand strategy.',
+            'desc'  => 'Explore digital marketing services by Fusion X Chennai: custom web development, Google Maps 3-Pack SEO, high-ROAS Meta Ads, and brand strategy.',
             'keywords' => 'digital marketing services chennai, website design chennai, seo services chennai, ecommerce development, performance marketing, social media ads chennai, meta ads expert, google ads agency chennai',
         ),
         'dr-madhavi' => array(
@@ -107,12 +107,12 @@ function fusion_x_get_seo_map() {
         ),
         'ecommerce-website' => array(
             'title' => 'E-Commerce Website Development & SEO | Fusion X Chennai',
-            'desc'  => 'High-performance Shopify and WooCommerce e-commerce stores developed by Kannan S. Fast page load speeds, seamless mobile checkout, and high conversion rates.',
+            'desc'  => 'High-performance Shopify and WooCommerce stores developed by Kannan S. Fast load speeds, seamless mobile checkout, and high conversion rates.',
             'keywords' => 'ecommerce website development Chennai, custom Shopify development, WooCommerce store designer, headless commerce, high conversion checkout design, online store developer Chennai',
         ),
         'email-marketing' => array(
             'title' => 'Email Marketing Automation & Drip Funnels | Kamalesh J | Fusion X',
-            'desc'  => 'High-converting email marketing automations, lifecycle flows, and list segmentation engineered by Kamalesh J at Fusion X to maximize customer lifetime value.',
+            'desc'  => 'High-converting email automations, lifecycle flows, and segmentation engineered by Kamalesh J at Fusion X to maximize customer lifetime value.',
             'keywords' => 'email marketing services Chennai, Klaviyo email marketing, automated drip funnels, abandoned cart recovery, newsletter marketing, customer retention marketing, email automation flows',
         ),
         'energy-bags' => array(
@@ -122,7 +122,7 @@ function fusion_x_get_seo_map() {
         ),
         'google-ads' => array(
             'title' => 'Google Ads & PMax Agency India | Fusion X Chennai',
-            'desc'  => 'Scale high-intent conversions with precision Google Search, Shopping, and Performance Max campaigns managed by Google Ads specialist Kamalesh J at Fusion X.',
+            'desc'  => 'Scale high-intent conversions with Google Search, Shopping, and Performance Max campaigns managed by Google Ads specialist Kamalesh J at Fusion X.',
             'keywords' => 'Google Ads agency Chennai, PPC management company, Google Search Ads, Performance Max campaigns, Google Shopping Ads, high ROAS PPC expert, certified Google Partner Chennai',
         ),
         'index' => array(
@@ -137,7 +137,7 @@ function fusion_x_get_seo_map() {
         ),
         'local-seo' => array(
             'title' => 'Local SEO & Google Maps 3-Pack Rankings | Fusion X',
-            'desc'  => 'Dominate local search and Google Maps 3-Pack rankings with GMB optimization, review funnels, and geo-targeted citations led by SEO expert Saravana Sanjhay M.',
+            'desc'  => 'Dominate local search and Google Maps 3-Pack rankings with GMB optimization, review funnels, and geo-citations led by SEO expert Saravana Sanjhay M.',
             'keywords' => 'local SEO services Chennai, Google My Business optimization, GMB 3-pack ranking, local map pack SEO, near me search optimization, local citation building Chennai',
         ),
         'marketing-brand-consultation' => array(
@@ -147,12 +147,12 @@ function fusion_x_get_seo_map() {
         ),
         'marketing-consultation' => array(
             'title' => '1-on-1 Marketing Consultation in Chennai | Fusion X',
-            'desc'  => 'Book a 1-on-1 strategic marketing consultation with Kamalesh J. Audit your paid ads, conversion funnel, and growth roadmap for predictable business scaling.',
+            'desc'  => 'Book a 1-on-1 marketing consultation with Kamalesh J. Audit your paid ads, conversion funnel, and growth roadmap for predictable business scaling.',
             'keywords' => 'marketing consultation chennai, marketing consultant in chennai, kamalesh j digital marketing expert, best digital marketing expert in chennai, performance marketing consultation, b2b marketing consultant, google ads expert chennai, meta ads expert chennai, cac reduction audit',
         ),
         'marketing-services' => array(
             'title' => 'Performance Marketing & Automation Services | Fusion X',
-            'desc'  => 'Enterprise marketing automation, WhatsApp CRM bots, and email drip funnels engineered by Kamalesh J at Fusion X to turn traffic into repeat loyal customers.',
+            'desc'  => 'Marketing automation, WhatsApp CRM bots, and email drip funnels engineered by Kamalesh J at Fusion X to turn traffic into repeat loyal customers.',
             'keywords' => 'full funnel marketing services, omnichannel digital marketing, B2B lead generation, growth marketing agency Chennai, digital customer acquisition, brand marketing solutions',
         ),
         'meeras-beauty-parlour' => array(
@@ -162,12 +162,12 @@ function fusion_x_get_seo_map() {
         ),
         'meta-ads' => array(
             'title' => 'Meta Ads Agency India | Facebook & Instagram | Fusion X',
-            'desc'  => 'Scale profitable Meta ad funnels across Facebook and Instagram with high-ROAS creative testing, CAPI tracking, and scaling frameworks managed by Kamalesh J.',
+            'desc'  => 'Scale profitable Meta ad funnels on Facebook and Instagram with high-ROAS creative testing, CAPI tracking, and frameworks managed by Kamalesh J.',
             'keywords' => 'Meta Ads expert Chennai, Facebook advertising agency, Instagram ads management, Meta CAPI tracking, high ROAS Facebook campaigns, Advantage Plus shopping campaigns',
         ),
         'meta-google-ads' => array(
             'title' => 'Google & Meta Ads Expert in Chennai | Fusion X',
-            'desc'  => 'Unified Google & Meta advertising strategies engineered by Kamalesh J. Maximize cross-channel ROAS through intent capture and aggressive retargeting funnels.',
+            'desc'  => 'Unified Google & Meta ad strategies engineered by Kamalesh J. Maximize cross-channel ROAS through intent capture and aggressive retargeting funnels.',
             'keywords' => 'Meta and Google Ads agency Chennai, omnichannel paid media, cross platform ad attribution, blended ROAS scaling, performance marketing agency Chennai',
         ),
         'nilaro' => array(
@@ -187,7 +187,7 @@ function fusion_x_get_seo_map() {
         ),
         'portfolio-website' => array(
             'title' => 'Portfolio Website Design | Best Web Developer Kannan S | Fusion X',
-            'desc'  => 'Custom portfolio websites engineered by Kannan S. Fast page loads, mobile responsiveness, and dark-mode aesthetic designs that convert visitors into clients.',
+            'desc'  => 'Custom portfolio websites engineered by Kannan S. Fast page loads, mobile responsiveness, and dark-mode designs that convert visitors into clients.',
             'keywords' => 'portfolio website development, personal brand website, showcase web design, creative portfolio developer Chennai, bespoke WordPress portfolio',
         ),
         'portfolio' => array(
@@ -212,7 +212,7 @@ function fusion_x_get_seo_map() {
         ),
         'social-video-seo' => array(
             'title' => 'YouTube & Instagram Video SEO Services | Fusion X',
-            'desc'  => 'Rank your videos on YouTube search and Instagram Explore with strategic keyword tagging, retention editing, and metadata optimization by Saravana Sanjhay M.',
+            'desc'  => 'Rank videos on YouTube search and Instagram Explore with keyword tagging, retention editing, and metadata optimization by Saravana Sanjhay M.',
             'keywords' => 'YouTube SEO services, Instagram video algorithm optimization, video search engine optimization, YouTube Shorts ranking, video retention hooks, digital video SEO Chennai',
         ),
         'sridhar-food-house' => array(
@@ -237,7 +237,7 @@ function fusion_x_get_seo_map() {
         ),
         'website-development' => array(
             'title' => 'Best Web Development Company in India | Fusion X',
-            'desc'  => 'Bespoke web applications, custom WordPress portals, and fast landing pages engineered by Kannan S at Fusion X for maximum conversion speed and search rankings.',
+            'desc'  => 'Bespoke web apps, custom WordPress portals, and fast landing pages engineered by Kannan S at Fusion X for maximum speed and search rankings.',
             'keywords' => 'custom web development Chennai, full stack web development, responsive web design, Next.js WordPress web development, high performance web engineering Chennai',
         ),
         'wedding-invitation' => array(
@@ -247,7 +247,7 @@ function fusion_x_get_seo_map() {
         ),
         'whatsapp-marketing' => array(
             'title' => 'WhatsApp Business API & Chatbot Marketing | Fusion X',
-            'desc'  => 'Drive direct sales and customer retention with official WhatsApp Business API broadcasts, automated chatbots, and CRM drip campaigns engineered by Kamalesh J.',
+            'desc'  => 'Drive sales and customer retention with WhatsApp Business API broadcasts, automated chatbots, and CRM drip campaigns engineered by Kamalesh J.',
             'keywords' => 'WhatsApp marketing agency Chennai, official WhatsApp Business API, automated WhatsApp broadcast, WhatsApp chatbot integration, click-to-WhatsApp ad funnels',
         ),
         'youtube-ads' => array(

@@ -1413,7 +1413,210 @@ get_header();
             <h2 class="brands-main-title">Our Trusted <span class="brands-orange-gradient">Brands & Products</span></h2>
             <p class="brands-subtitle">Accelerating market leaders, high-growth startups & visionary product brands with proven ROI</p>
         </div>
-        <div id="brands-3d-container"></div>
+        <style>
+            .brands-roster-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+                gap: 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+                position: relative;
+                z-index: 2;
+            }
+            .brand-roster-card {
+                background: #ffffff;
+                border: 1px solid rgba(226, 232, 240, 0.9);
+                border-radius: 16px;
+                padding: 24px 20px;
+                text-align: center;
+                text-decoration: none;
+                color: inherit;
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            }
+            .brand-roster-card:hover {
+                transform: translateY(-5px);
+                border-color: rgba(255, 87, 34, 0.4);
+                box-shadow: 0 16px 35px rgba(255, 87, 34, 0.12);
+            }
+            .brand-roster-logo-wrap {
+                width: 72px;
+                height: 72px;
+                border-radius: 50%;
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 14px;
+                overflow: hidden;
+                padding: 8px;
+            }
+            .brand-roster-logo-wrap img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+            }
+            .brand-roster-info h4 {
+                font-family: 'Outfit', sans-serif;
+                font-size: 1.05rem;
+                font-weight: 700;
+                color: #0f172a;
+                margin: 0 0 4px 0;
+            }
+            .brand-roster-sector {
+                display: block;
+                font-size: 0.78rem;
+                color: #64748b;
+                margin-bottom: 10px;
+            }
+            .brand-roster-metric {
+                display: inline-block;
+                background: rgba(255, 87, 34, 0.1);
+                color: #ff5722;
+                border: 1px solid rgba(255, 87, 34, 0.25);
+                border-radius: 50px;
+                padding: 4px 12px;
+                font-size: 0.75rem;
+                font-weight: 700;
+                letter-spacing: 0.3px;
+            }
+            @media (max-width: 600px) {
+                .brands-roster-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 12px;
+                }
+                .brand-roster-card {
+                    padding: 18px 12px;
+                }
+                .brand-roster-logo-wrap {
+                    width: 58px;
+                    height: 58px;
+                }
+            }
+        </style>
+
+        <div class="brands-roster-grid">
+            <a href="<?php echo esc_url( home_url( '/off-human/' ) ); ?>" class="brand-roster-card">
+                <div class="brand-roster-logo-wrap">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/brands/off-human/logo.jpg' ); ?>" alt="Off Human" loading="lazy">
+                </div>
+                <div class="brand-roster-info">
+                    <h4>Off Human</h4>
+                    <span class="brand-roster-sector">D2C Streetwear</span>
+                    <span class="brand-roster-metric">4.8x Meta ROAS</span>
+                </div>
+            </a>
+
+            <a href="<?php echo esc_url( home_url( '/energy-bags/' ) ); ?>" class="brand-roster-card">
+                <div class="brand-roster-logo-wrap">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/brands/energy-bags/logo.png' ); ?>" alt="The Energy Bags" loading="lazy">
+                </div>
+                <div class="brand-roster-info">
+                    <h4>The Energy Bags</h4>
+                    <span class="brand-roster-sector">Eco Luggage</span>
+                    <span class="brand-roster-metric">+320% Orders</span>
+                </div>
+            </a>
+
+            <a href="<?php echo esc_url( home_url( '/nilaro/' ) ); ?>" class="brand-roster-card">
+                <div class="brand-roster-logo-wrap">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/brands/nilaro/logo.webp' ); ?>" alt="Nilaro Coffee" loading="lazy">
+                </div>
+                <div class="brand-roster-info">
+                    <h4>Nilaro Coffee</h4>
+                    <span class="brand-roster-sector">Artisanal Coffee</span>
+                    <span class="brand-roster-metric">+220% Subs</span>
+                </div>
+            </a>
+
+            <a href="<?php echo esc_url( home_url( '/bhawani-corner/' ) ); ?>" class="brand-roster-card">
+                <div class="brand-roster-logo-wrap">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/brands/bhawani/logo.png' ); ?>" alt="Bhawani Glassware" loading="lazy">
+                </div>
+                <div class="brand-roster-info">
+                    <h4>Bhawani Corner</h4>
+                    <span class="brand-roster-sector">Table Glassware</span>
+                    <span class="brand-roster-metric">900+ Calls/mo</span>
+                </div>
+            </a>
+
+            <a href="<?php echo esc_url( home_url( '/dr-madhavi/' ) ); ?>" class="brand-roster-card">
+                <div class="brand-roster-logo-wrap">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/brands/dr-madhavi/logo.svg' ); ?>" alt="Dr. Madhavi Clinic" loading="lazy">
+                </div>
+                <div class="brand-roster-info">
+                    <h4>Dr. Madhavi Clinic</h4>
+                    <span class="brand-roster-sector">Clinical Aesthetics</span>
+                    <span class="brand-roster-metric">3.8x Bookings</span>
+                </div>
+            </a>
+
+            <a href="<?php echo esc_url( home_url( '/bikerz-module/' ) ); ?>" class="brand-roster-card">
+                <div class="brand-roster-logo-wrap">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/brands/bikerz/logo.jpg' ); ?>" alt="Bikerz Module" loading="lazy">
+                </div>
+                <div class="brand-roster-info">
+                    <h4>Bikerz Module</h4>
+                    <span class="brand-roster-sector">Superbike Gear</span>
+                    <span class="brand-roster-metric">5.2x Meta ROAS</span>
+                </div>
+            </a>
+
+            <a href="<?php echo esc_url( home_url( '/sridhar-food-house/' ) ); ?>" class="brand-roster-card">
+                <div class="brand-roster-logo-wrap">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/brands/sridhar/logo.jpg' ); ?>" alt="Sridhar Food House" loading="lazy">
+                </div>
+                <div class="brand-roster-info">
+                    <h4>Sridhar Food House</h4>
+                    <span class="brand-roster-sector">Heritage Sweets</span>
+                    <span class="brand-roster-metric">+410% Inquiries</span>
+                </div>
+            </a>
+
+            <a href="<?php echo esc_url( home_url( '/meeras-beauty-parlour/' ) ); ?>" class="brand-roster-card">
+                <div class="brand-roster-logo-wrap">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/brands/meeras/logo.webp' ); ?>" alt="Meera's Beauty" loading="lazy">
+                </div>
+                <div class="brand-roster-info">
+                    <h4>Meera's Beauty</h4>
+                    <span class="brand-roster-sector">Bridal Studio</span>
+                    <span class="brand-roster-metric">150+ Brides</span>
+                </div>
+            </a>
+
+            <a href="<?php echo esc_url( home_url( '/tk-cinematic-studio/' ) ); ?>" class="brand-roster-card">
+                <div class="brand-roster-logo-wrap">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/brands/tk/logo.webp' ); ?>" alt="TK Cinematic Studio" loading="lazy">
+                </div>
+                <div class="brand-roster-info">
+                    <h4>TK Studio</h4>
+                    <span class="brand-roster-sector">Cinema & Film</span>
+                    <span class="brand-roster-metric">12M+ Views</span>
+                </div>
+            </a>
+
+            <a href="<?php echo esc_url( home_url( '/truly-yours/' ) ); ?>" class="brand-roster-card">
+                <div class="brand-roster-logo-wrap">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/brands/truly-yours/logo.jpg' ); ?>" alt="Truly Yours" loading="lazy">
+                </div>
+                <div class="brand-roster-info">
+                    <h4>Truly Yours</h4>
+                    <span class="brand-roster-sector">Luxury Keepsakes</span>
+                    <span class="brand-roster-metric">350+ Orders</span>
+                </div>
+            </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 45px;">
+            <a href="<?php echo esc_url( home_url( '/brands/' ) ); ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 34px;">
+                <span>Explore All Client Case Studies</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
     </section>
 
     <!-- FAQ SECTION WITH SCHEMA -->

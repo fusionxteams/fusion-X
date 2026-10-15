@@ -1343,15 +1343,14 @@ get_header();
             // Adjust main group offset based on text alignment
             const isWide = window.innerWidth >= 1024;
             const offsetX = isWide ? 9.6 : 0;
-            const offsetY = isWide ? 0 : 5.5;
 
             if (index === 0) { gsap.to(mainGroup.position, {x: 0, y: 0, duration: 1.2, overwrite: true}); } 
-            else if (index === 1) { gsap.to(mainGroup.position, {x: offsetX, y: offsetY, duration: 1.2, overwrite: true}); } 
-            else if (index === 2) { gsap.to(mainGroup.position, {x: -offsetX, y: offsetY, duration: 1.2, overwrite: true}); } 
-            else if (index === 3) { gsap.to(mainGroup.position, {x: offsetX, y: offsetY, duration: 1.2, overwrite: true}); } 
-            else if (index === 4) { gsap.to(mainGroup.position, {x: -offsetX, y: offsetY, duration: 1.2, overwrite: true}); } 
-            else if (index === 5) { gsap.to(mainGroup.position, {x: offsetX, y: offsetY, duration: 1.2, overwrite: true}); }
-            else if (index === 6) { gsap.to(mainGroup.position, {x: isWide ? -9.6 : 0, y: isWide ? 1 : 6, duration: 1.2, overwrite: true}); }
+            else if (index === 1) { gsap.to(mainGroup.position, {x: offsetX, y: 0, duration: 1.2, overwrite: true}); } 
+            else if (index === 2) { gsap.to(mainGroup.position, {x: -offsetX, y: 0, duration: 1.2, overwrite: true}); } 
+            else if (index === 3) { gsap.to(mainGroup.position, {x: offsetX, y: 0, duration: 1.2, overwrite: true}); } 
+            else if (index === 4) { gsap.to(mainGroup.position, {x: -offsetX, y: 0, duration: 1.2, overwrite: true}); } 
+            else if (index === 5) { gsap.to(mainGroup.position, {x: offsetX, y: 0, duration: 1.2, overwrite: true}); }
+            else if (index === 6) { gsap.to(mainGroup.position, {x: isWide ? -9.6 : 0, y: 0, duration: 1.2, overwrite: true}); }
         }
 
         // --- STOP MODEL FROM HITTING FOOTER ---
@@ -1361,7 +1360,9 @@ get_header();
             end: "bottom bottom", 
             scrub: true,
             onUpdate: (self) => {
-                gsap.to(mainGroup.position, {y: self.progress * 15, duration: 0.1});
+                if (renderer && renderer.domElement) {
+                    renderer.domElement.style.opacity = String(Math.max(0, 1 - self.progress * 1.5));
+                }
                 gsap.to(themeConfig, {pOpacity: 0.8 * (1 - self.progress), duration: 0.1});
             }
         });
